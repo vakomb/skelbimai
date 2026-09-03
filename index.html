@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#ffffff">
-  <meta name="description" content="Ukmergės ratas – vietiniai pirkimo, pardavimo ir paslaugų skelbimai vienoje patogioje programėlėje.">
-  <title>Ukmergės ratas · Vietiniai skelbimai</title>
+  <meta name="description" content="Ukm.lt – Ukmergės bendruomenė, miesto naujienos ir vietiniai skelbimai vienoje patogioje programėlėje.">
+  <title>Ukm.lt · Ukmergiškių bendruomenė</title>
   <style>
     :root {
       --bg: #f4f6fa;
@@ -1024,6 +1024,434 @@
       .filter-chip { padding-inline: 9px; }
     }
 
+    /* V4 — Ukm.lt bendruomenės aplikacija */
+    :root {
+      --gift: #db6b22;
+      --gift-soft: #fff0e6;
+      --community-blue: #1265d6;
+      --community-ink: #172130;
+      --community-bg: #f3f5f7;
+    }
+
+    .topbar { position: sticky; justify-content: flex-start; }
+    .topbar .mobile-brand {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+      z-index: 2;
+      gap: 8px;
+    }
+    .topbar .brand-mark {
+      width: 31px;
+      height: 31px;
+      border: 2px solid var(--community-blue);
+      border-radius: 50%;
+      color: var(--community-blue);
+      background: #fff;
+      font-size: 15px;
+      font-weight: 900;
+      box-shadow: none;
+    }
+    .topbar .brand-mark::after {
+      width: 6px;
+      height: 6px;
+      right: -1px;
+      bottom: 0;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      background: #18a977;
+    }
+    .topbar .brand-copy strong { font-size: 18px; line-height: 1; letter-spacing: -.035em; }
+    .topbar .brand-copy span { display: none; }
+    .topbar .tablet-tabs { order: 1; margin: 0; }
+    .topbar .tablet-tab {
+      height: 38px;
+      padding: 0 13px;
+      border-radius: 999px;
+      color: #687487;
+      background: transparent;
+      transition: color .16s ease, background .16s ease;
+    }
+    .topbar .tablet-tab:nth-child(3),
+    .topbar .tablet-tab:nth-child(3):hover,
+    .topbar .tablet-tab:nth-child(3).active { color: #687487; background: transparent; }
+    .topbar .tablet-tab:hover { color: var(--community-ink); background: #f0f3f6; }
+    .topbar .tablet-tab.active { color: var(--community-blue); background: #eaf3ff; }
+    .topbar .top-actions { order: 3; margin-left: auto; }
+    .listings-search {
+      display: block;
+      width: 100%;
+      max-width: none;
+      margin: 0 0 13px;
+    }
+    .listings-search input {
+      height: 52px;
+      padding: 0 48px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: #fff;
+      font-size: 15px;
+      box-shadow: 0 3px 12px rgba(25,37,56,.035);
+    }
+    .listings-search .search-shortcut { display: block; }
+    .listings-search + .feed-toolbar { margin-top: 0; }
+
+    .type-badge.gift { color: var(--gift); }
+    .type-option.active[data-type="gift"] { color: var(--gift); border-color: #f1bd9a; background: var(--gift-soft); }
+    .type-selector { grid-template-columns: repeat(4,1fr); }
+
+    .community-area { margin-top: 18px; }
+    .community-layout {
+      display: grid;
+      grid-template-columns: minmax(0,720px) 300px;
+      justify-content: center;
+      gap: 20px;
+      align-items: start;
+    }
+    .community-main { min-width: 0; }
+    .community-composer,
+    .community-post,
+    .community-side-card {
+      border: 1px solid #e1e5ea;
+      background: #fff;
+      box-shadow: 0 4px 18px rgba(24,35,52,.045);
+    }
+    .community-composer { border-radius: 18px; overflow: hidden; }
+    .composer-bar { display: flex; align-items: center; gap: 10px; padding: 13px; }
+    .post-avatar {
+      width: 44px;
+      height: 44px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      color: #fff;
+      background: #2c3e57;
+      font-size: 13px;
+      font-weight: 850;
+      letter-spacing: .01em;
+    }
+    .post-avatar.small { width: 34px; height: 34px; border-radius: 11px; font-size: 11px; }
+    .avatar-you { background: linear-gradient(145deg,#1769d2,#6557ce); }
+    .avatar-0 { background: #6c55c5; }
+    .avatar-1 { background: #157b71; }
+    .avatar-2 { background: #bc6432; }
+    .avatar-3 { background: #2e6bb5; }
+    .avatar-4 { background: #a34367; }
+    .composer-prompt {
+      min-width: 0;
+      height: 44px;
+      flex: 1;
+      padding: 0 15px;
+      border: 0;
+      border-radius: 999px;
+      background: #f1f3f6;
+      color: #6a7586;
+      cursor: text;
+      text-align: left;
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: background .16s ease, box-shadow .16s ease;
+    }
+    .composer-prompt:hover { background: #e9edf1; }
+    .composer-open {
+      height: 42px;
+      padding: 0 14px;
+      border: 0;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #fff;
+      background: var(--community-blue);
+      font-size: 13px;
+      font-weight: 780;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: background .16s ease, transform .16s ease;
+    }
+    .composer-open:hover { background: #0e55b5; }
+    .composer-open:active { transform: scale(.98); }
+    .community-editor { padding: 17px; }
+    .composer-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 15px; }
+    .composer-heading strong { display: block; font-size: 18px; }
+    .composer-heading span { display: block; margin-top: 2px; color: var(--muted); font-size: 13px; }
+    .composer-close {
+      width: 34px;
+      height: 34px;
+      border: 0;
+      border-radius: 50%;
+      color: #667184;
+      background: #f0f2f5;
+      font-size: 23px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .post-category-picker, .post-filter-scroll { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+    .post-category-picker::-webkit-scrollbar, .post-filter-scroll::-webkit-scrollbar { display: none; }
+    .post-category-picker { padding-bottom: 14px; }
+    .post-category, .post-filter {
+      min-height: 34px;
+      padding: 0 12px;
+      border: 1px solid #e0e4e9;
+      border-radius: 999px;
+      color: #5e6a7d;
+      background: #fff;
+      font-size: 12px;
+      font-weight: 720;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: color .16s ease, border-color .16s ease, background .16s ease;
+    }
+    .post-category:hover, .post-filter:hover { color: var(--community-blue); border-color: #b8cfec; }
+    .post-category.active, .post-filter.active { color: #fff; border-color: var(--community-ink); background: var(--community-ink); }
+    .community-field { display: grid; gap: 6px; margin-top: 12px; }
+    .community-field > span { color: #4f5c6e; font-size: 13px; font-weight: 720; }
+    .community-field input, .community-field textarea {
+      width: 100%;
+      min-height: 44px;
+      padding: 11px 13px;
+      border: 1px solid #dce1e7;
+      border-radius: 11px;
+      color: var(--community-ink);
+      background: #fff;
+    }
+    .community-field textarea { min-height: 112px; resize: vertical; }
+    .community-field input:focus, .community-field textarea:focus { border-color: #9fc0ea; box-shadow: 0 0 0 4px #edf5ff; outline: none; }
+    .post-event-fields { display: grid; grid-template-columns: 180px 1fr; gap: 10px; }
+    .composer-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; padding-top: 14px; border-top: 1px solid #edf0f3; }
+    .composer-privacy { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 12px; }
+    .composer-actions .primary-button { min-width: 120px; }
+
+    .community-feed-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin: 24px 2px 10px; }
+    .community-feed-head h2 { margin: 0; font-size: 22px; letter-spacing: -.025em; }
+    .community-feed-head p { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
+    .live-label { display: inline-flex; align-items: center; gap: 7px; color: #697486; font-size: 12px; white-space: nowrap; }
+    .live-label i { width: 7px; height: 7px; border-radius: 50%; background: #16a874; box-shadow: 0 0 0 4px #e7f7f1; }
+    .post-filter-scroll { margin-bottom: 10px; padding: 2px; }
+    .post-filter { min-height: 36px; padding-inline: 13px; background: #fff; }
+    .community-feed { display: grid; gap: 11px; }
+    .community-post { border-radius: 18px; overflow: hidden; }
+    .post-header { min-width: 0; padding: 15px 16px 0; display: flex; align-items: center; gap: 10px; }
+    .post-author { min-width: 0; }
+    .post-author strong { display: block; color: var(--community-ink); font-size: 14px; font-weight: 800; }
+    .post-author span { display: block; margin-top: 2px; color: #7a8494; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .post-kind {
+      margin-left: auto;
+      min-height: 28px;
+      padding: 0 9px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: #566377;
+      background: #f1f3f6;
+      font-size: 11px;
+      font-weight: 760;
+      white-space: nowrap;
+    }
+    .post-kind b { font-size: 12px; }
+    .kind-traffic { color: #a44f12; background: #fff2e8; }
+    .kind-event { color: #6540a5; background: #f3edfc; }
+    .kind-recommendation { color: #0d7660; background: #eaf7f3; }
+    .kind-lost { color: #ad4053; background: #fff0f2; }
+    .kind-question { color: #1762bd; background: #ebf3ff; }
+    .post-more {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 auto;
+      border: 0;
+      border-radius: 50%;
+      color: #7b8492;
+      background: transparent;
+      font-size: 16px;
+      letter-spacing: 1px;
+      cursor: pointer;
+    }
+    .post-more:hover { background: #f0f2f5; }
+    .post-content { padding: 15px 16px 14px; }
+    .post-content h3 { margin: 0; color: var(--community-ink); font-size: 19px; line-height: 1.3; letter-spacing: -.018em; }
+    .post-content p { margin: 8px 0 0; color: #3f4b5d; font-size: 15px; line-height: 1.55; }
+    .post-event-card { margin-top: 14px; padding: 11px; border: 1px solid #e3e7ec; border-radius: 14px; display: flex; align-items: center; gap: 12px; background: #f8f9fb; }
+    .post-event-date { width: 48px; height: 48px; flex: 0 0 auto; border-radius: 12px; display: grid; place-items: center; align-content: center; color: #fff; background: var(--community-blue); }
+    .post-event-date strong { font-size: 19px; line-height: 1; }
+    .post-event-date span { margin-top: 2px; font-size: 9px; font-weight: 850; letter-spacing: .08em; }
+    .post-event-card > div:last-child span { display: block; color: var(--muted); font-size: 11px; }
+    .post-event-card > div:last-child strong { display: block; margin-top: 3px; font-size: 13px; }
+    .post-summary { min-height: 35px; margin: 0 16px; border-bottom: 1px solid #edf0f3; display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #788293; font-size: 12px; }
+    .post-summary button { border: 0; padding: 4px 0; color: inherit; background: transparent; cursor: pointer; }
+    .post-summary button:hover { text-decoration: underline; }
+    .post-actions { display: grid; grid-template-columns: repeat(3,1fr); gap: 4px; padding: 6px 10px 8px; }
+    .post-actions button {
+      min-height: 38px;
+      border: 0;
+      border-radius: 9px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      color: #687386;
+      background: transparent;
+      font-size: 12px;
+      font-weight: 720;
+      cursor: pointer;
+      transition: color .15s ease, background .15s ease;
+    }
+    .post-actions button:hover { color: var(--community-ink); background: #f1f3f6; }
+    .post-actions button.liked { color: #d54058; background: #fff1f3; }
+    .post-actions .icon { width: 17px; height: 17px; }
+    .post-actions button.liked .icon { fill: currentColor; }
+    .comment-composer { padding: 10px 14px 14px; border-top: 1px solid #edf0f3; display: flex; align-items: center; gap: 8px; }
+    .comment-composer input { min-width: 0; height: 38px; flex: 1; padding: 0 13px; border: 1px solid transparent; border-radius: 999px; background: #f1f3f6; }
+    .comment-composer input:focus { border-color: #a9c5e8; background: #fff; outline: none; }
+    .comment-composer button { height: 36px; padding: 0 12px; border: 0; border-radius: 10px; color: #fff; background: var(--community-blue); font-size: 12px; font-weight: 760; cursor: pointer; }
+    .community-empty { padding: 38px 20px; border: 1px dashed #cfd6df; border-radius: 16px; display: grid; justify-items: center; text-align: center; background: #fff; }
+    .community-empty strong { font-size: 17px; }
+    .community-empty span { margin-top: 4px; color: var(--muted); font-size: 13px; }
+    .community-empty button { margin-top: 13px; padding: 9px 13px; border: 0; border-radius: 10px; color: #fff; background: var(--community-blue); font-weight: 750; cursor: pointer; }
+
+    .community-side { position: sticky; top: 90px; display: grid; gap: 11px; }
+    .community-side-card { padding: 17px; border-radius: 17px; }
+    .community-side-card h3 { margin: 0; font-size: 16px; letter-spacing: -.015em; }
+    .community-side-card p { margin: 7px 0 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .side-card-kicker { display: block; margin-bottom: 5px; color: var(--community-blue); font-size: 10px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+    .welcome-card { border-color: #d9e8fb; background: linear-gradient(145deg,#fff,#f1f7ff); }
+    .community-counts { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 14px; }
+    .community-counts div { padding: 10px; border: 1px solid rgba(23,105,210,.09); border-radius: 11px; background: rgba(255,255,255,.75); }
+    .community-counts strong { display: block; font-size: 16px; }
+    .community-counts span { display: block; margin-top: 2px; color: var(--muted); font-size: 10px; }
+    .side-card-title { display: flex; align-items: start; justify-content: space-between; gap: 8px; }
+    .side-card-title > span { color: var(--community-blue); font-size: 10px; font-weight: 800; text-transform: uppercase; }
+    .mini-event { display: flex; align-items: center; gap: 10px; margin-top: 13px; }
+    .mini-date { width: 42px; height: 45px; flex: 0 0 auto; border-radius: 11px; display: grid; place-items: center; align-content: center; color: #fff; background: #694db6; }
+    .mini-date strong { font-size: 17px; line-height: 1; }
+    .mini-date span { margin-top: 2px; font-size: 8px; font-weight: 850; }
+    .mini-event > div:last-child strong { display: block; font-size: 12px; }
+    .mini-event > div:last-child span { display: block; margin-top: 3px; color: var(--muted); font-size: 10px; }
+    .rules-card { border-left: 3px solid #18a977; }
+
+    @media (max-width: 1000px) {
+      .topbar .tablet-tab { padding-inline: 10px; }
+      .community-layout { grid-template-columns: minmax(0,650px) 260px; gap: 15px; }
+    }
+
+    @media (max-width: 1050px) {
+      .topbar { height: 58px; min-height: 58px; flex-wrap: nowrap; padding: 8px 16px; }
+      .topbar .tablet-tabs { display: none !important; }
+      .topbar .top-actions { margin-left: auto; }
+      .topbar .location-pill { display: inline-flex; padding-inline: 10px; font-size: 12px; }
+      .topbar .avatar-button { display: none; }
+      .bottom-nav {
+        position: fixed;
+        left: 50%;
+        right: auto;
+        bottom: 12px;
+        z-index: 60;
+        width: min(560px, calc(100% - 24px));
+        min-height: 66px;
+        padding: 6px;
+        display: grid;
+        grid-template-columns: repeat(5,1fr);
+        align-items: end;
+        transform: translateX(-50%);
+        border: 1px solid rgba(216,222,230,.95);
+        border-radius: 20px;
+        background: rgba(255,255,255,.94);
+        box-shadow: 0 15px 35px rgba(20,31,47,.16);
+        backdrop-filter: blur(18px);
+      }
+      .bottom-button { min-width: 0; height: 52px; border: 0; border-radius: 13px; background: transparent; color: #778295; display: grid; place-items: center; align-content: center; gap: 3px; font-size: 10px; font-weight: 750; cursor: pointer; }
+      .bottom-button.active { color: var(--community-blue); background: #edf5ff; }
+      .bottom-button.add-button { width: 50px; height: 50px; margin: 0 auto; border-radius: 16px; color: #fff; background: var(--community-blue); box-shadow: 0 7px 18px rgba(18,101,214,.24); }
+      .bottom-button.add-button span { position: static; transform: none; color: #fff; }
+      .content-wrap { padding-bottom: 96px; }
+      .community-layout { grid-template-columns: minmax(0,680px); }
+      .community-side { display: none; }
+    }
+
+    @media (max-width: 640px) {
+      body { background: var(--community-bg); }
+      .topbar { height: calc(54px + env(safe-area-inset-top)); min-height: calc(54px + env(safe-area-inset-top)); padding: calc(7px + env(safe-area-inset-top)) 10px 7px; }
+      .topbar .mobile-brand { gap: 7px; }
+      .topbar .brand-mark { width: 29px; height: 29px; font-size: 14px; }
+      .topbar .brand-copy strong { font-size: 17px; }
+      .topbar .location-pill { width: 36px; height: 36px; padding: 0; justify-content: center; font-size: 0; }
+      .topbar .location-pill .icon { width: 18px; height: 18px; }
+      .topbar .icon-button { width: 36px; height: 36px; }
+      .content-wrap { padding: 8px 8px calc(79px + env(safe-area-inset-bottom)); }
+      .city-hero { height: 142px; min-height: 142px; margin: -8px -8px 0; padding: 17px 18px; border-radius: 0 0 22px 22px; box-shadow: none; }
+      .city-hero::before { background: linear-gradient(90deg,rgba(8,20,36,.84),rgba(8,20,36,.48) 72%,rgba(8,20,36,.12)); }
+      .city-hero h1 { font-size: 25px; }
+      .city-hero p { font-size: 13px; }
+      .city-hero .intro-actions { display: none; }
+      .community-area { margin-top: 10px; }
+      .community-layout { display: block; }
+      .community-composer { border-radius: 16px; box-shadow: none; }
+      .composer-bar { gap: 8px; padding: 10px; }
+      .post-avatar { width: 39px; height: 39px; border-radius: 13px; font-size: 12px; }
+      .composer-prompt { height: 40px; padding-inline: 12px; font-size: 13px; }
+      .composer-open { height: 38px; padding-inline: 10px; font-size: 11px; border-radius: 10px; }
+      .composer-open .icon { display: none; }
+      .community-editor { padding: 14px 12px; }
+      .composer-heading { margin-bottom: 12px; }
+      .post-category-picker { margin: 0 -12px; padding: 0 12px 12px; }
+      .post-category { min-height: 33px; }
+      .post-event-fields { grid-template-columns: 1fr; gap: 0; }
+      .composer-actions { align-items: stretch; }
+      .composer-privacy { max-width: 145px; }
+      .community-feed-head { margin: 17px 4px 8px; }
+      .community-feed-head h2 { font-size: 20px; }
+      .community-feed-head p { font-size: 12px; }
+      .live-label { display: none; }
+      .post-filter-scroll {
+        position: sticky;
+        top: calc(54px + env(safe-area-inset-top));
+        z-index: 12;
+        margin: 0 -8px 8px;
+        padding: 7px 10px;
+        border-top: 1px solid rgba(225,229,234,.9);
+        border-bottom: 1px solid rgba(225,229,234,.9);
+        background: rgba(243,245,247,.94);
+        backdrop-filter: blur(16px);
+      }
+      .post-filter { min-height: 34px; padding-inline: 12px; background: #fff; }
+      .community-feed { gap: 8px; }
+      .community-post { border-radius: 16px; box-shadow: none; }
+      .post-header { padding: 13px 13px 0; gap: 9px; }
+      .post-author { flex: 1; }
+      .post-author strong { font-size: 13px; }
+      .post-author span { font-size: 11px; }
+      .post-kind { margin-left: 0; min-height: 26px; padding-inline: 8px; font-size: 10px; }
+      .post-more { width: 30px; height: 30px; }
+      .post-content { padding: 13px 14px 12px; }
+      .post-content h3 { font-size: 18px; }
+      .post-content p { margin-top: 7px; font-size: 14px; line-height: 1.5; }
+      .post-summary { min-height: 32px; margin-inline: 14px; font-size: 11px; }
+      .post-actions { padding: 5px 7px 7px; }
+      .post-actions button { min-height: 37px; padding: 0 5px; gap: 5px; font-size: 11px; }
+      .post-actions .icon { width: 16px; height: 16px; }
+      .comment-composer { padding-inline: 11px; }
+      .listings-search { margin-bottom: 10px; }
+      .listings-search input { height: 46px; border-radius: 13px; box-shadow: none; }
+      .listings-search .search-shortcut { display: none; }
+      #view-listings .feed-toolbar { position: sticky; top: calc(54px + env(safe-area-inset-top)); }
+      .type-selector { grid-template-columns: repeat(2,1fr); }
+      .bottom-nav { left: 0; right: 0; bottom: 0; width: auto; min-height: calc(66px + env(safe-area-inset-bottom)); padding: 5px 6px calc(5px + env(safe-area-inset-bottom)); transform: none; border-width: 1px 0 0; border-radius: 0; box-shadow: 0 -5px 22px rgba(20,31,47,.07); }
+      .bottom-button { height: 51px; }
+      .bottom-button.add-button { width: 49px; height: 49px; }
+      .bottom-button.add-button span { color: #fff; }
+    }
+
+    @media (max-width: 380px) {
+      .composer-open { width: 74px; justify-content: center; padding: 0; }
+      .composer-prompt { padding-inline: 10px; }
+      .post-kind { max-width: 78px; overflow: hidden; text-overflow: ellipsis; }
+      .post-actions button { font-size: 10px; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
     }
@@ -1061,10 +1489,10 @@
     <aside class="sidebar" aria-label="Pagrindinis meniu">
       <div class="brand">
         <div class="brand-mark" aria-hidden="true">U</div>
-        <div class="brand-copy"><strong>Ukmergės ratas</strong><span>Skelbimai savame mieste</span></div>
+        <div class="brand-copy"><strong>Ukm.lt</strong><span>Ukmergiškių bendruomenė</span></div>
       </div>
       <nav class="side-nav">
-        <button class="nav-button active" data-view-target="home"><svg class="icon"><use href="#i-home"/></svg><span>Pradžia</span></button>
+        <button class="nav-button active" data-view-target="home"><svg class="icon"><use href="#i-home"/></svg><span>Bendruomenė</span></button>
         <button class="nav-button" data-view-target="listings"><svg class="icon"><use href="#i-grid"/></svg><span>Skelbimai</span></button>
         <button class="nav-button" data-view-target="saved"><svg class="icon"><use href="#i-heart"/></svg><span>Išsaugoti</span></button>
         <button class="nav-button" data-view-target="profile"><svg class="icon"><use href="#i-user"/></svg><span>Mano paskyra</span></button>
@@ -1077,21 +1505,15 @@
       <header class="topbar">
         <div class="mobile-brand brand">
           <div class="brand-mark" aria-hidden="true">U</div>
-          <div class="brand-copy"><strong>Ukmergės ratas</strong><span>Savas miestas · savi žmonės</span></div>
+          <div class="brand-copy"><strong>Ukm.lt</strong><span>Ukmergiškių bendruomenė</span></div>
         </div>
-        <label class="global-search">
-          <span class="sr-only">Ieškoti skelbimų</span>
-          <svg class="icon"><use href="#i-search"/></svg>
-          <input id="globalSearch" type="search" placeholder="Ko ieškote Ukmergėje?" autocomplete="off">
-          <span class="search-shortcut">Ctrl K</span>
-        </label>
         <div class="top-actions">
           <button class="location-pill" type="button"><svg class="icon sm"><use href="#i-pin"/></svg>Ukmergė</button>
           <button class="icon-button" id="notificationButton" type="button" aria-label="Pranešimai"><svg class="icon"><use href="#i-bell"/></svg><span class="dot"></span></button>
           <button class="avatar-button" data-view-target="profile" type="button" aria-label="Mano paskyra">VM</button>
         </div>
         <nav class="tablet-tabs" aria-label="Planšetės meniu">
-          <button class="tablet-tab active" data-view-target="home">Pradžia</button>
+          <button class="tablet-tab active" data-view-target="home">Bendruomenė</button>
           <button class="tablet-tab" data-view-target="listings">Skelbimai</button>
           <button class="tablet-tab" data-view-target="create">Įdėti skelbimą</button>
           <button class="tablet-tab" data-view-target="saved">Išsaugoti</button>
@@ -1106,44 +1528,64 @@
               <article class="intro-card city-hero">
                 <img class="hero-photo" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/2020._Ukmerg%C4%97s_senamiestis_nuo_piliakalnio.JPG/1920px-2020._Ukmerg%C4%97s_senamiestis_nuo_piliakalnio.JPG" alt="Ukmergės senamiestis nuo piliakalnio" fetchpriority="high">
                 <div class="intro-copy">
-                  <div class="eyebrow">Tik Ukmergė ir rajonas</div>
-                  <h1 id="home-title">Ukmergė susitaria čia.</h1>
-                  <p>Pirk, parduok ar rask pagalbą netoliese.</p>
+                  <div class="eyebrow">Ukmergės bendruomenė</div>
+                  <h1 id="home-title">Kas vyksta mieste?</h1>
+                  <p>Klausk, pasidalink ir sužinok pirmas.</p>
                 </div>
                 <div class="intro-actions">
-                  <button class="intro-btn" data-view-target="create">Įdėti skelbimą</button>
-                  <button class="intro-btn secondary" data-view-target="listings">Žiūrėti visus</button>
+                  <button class="intro-btn" data-open-composer>Pridėti įrašą</button>
+                  <button class="intro-btn secondary" data-view-target="listings">Skelbimai</button>
                 </div>
                 <a class="hero-credit" href="https://commons.wikimedia.org/wiki/File:2020._Ukmerg%C4%97s_senamiestis_nuo_piliakalnio.JPG" target="_blank" rel="noreferrer">Nuotr. Vilensija · CC BY-SA 3.0</a>
               </article>
 
-              <section class="section quick-types" aria-labelledby="choose-title">
-                <div class="section-heading"><div><h2 id="choose-title">Ko šiandien reikia?</h2><p>Pasirinkite skelbimo kryptį.</p></div></div>
-                <div class="type-grid">
-                  <button class="type-card active" data-type="all"><span class="type-icon" style="color:var(--brand);background:var(--brand-soft)"><svg class="icon lg"><use href="#i-grid"/></svg></span><span><strong>Visi skelbimai</strong><span id="allCount">8 aktyvūs</span></span></button>
-                  <button class="type-card" data-type="buy"><span class="type-icon"><svg class="icon lg"><use href="#i-bag"/></svg></span><span><strong>Perku</strong><span>Ko ieško kaimynai</span></span></button>
-                  <button class="type-card" data-type="sell"><span class="type-icon"><svg class="icon lg"><use href="#i-tag"/></svg></span><span><strong>Parduodu</strong><span>Daiktai netoliese</span></span></button>
-                  <button class="type-card" data-type="service"><span class="type-icon"><svg class="icon lg"><use href="#i-tool"/></svg></span><span><strong>Paslaugos</strong><span>Siūlau arba ieškau</span></span></button>
-                </div>
-              </section>
+              <section class="community-area" aria-labelledby="community-title">
+                <div class="community-layout">
+                  <div class="community-main">
+                    <article class="community-composer">
+                      <div class="composer-bar">
+                        <div class="post-avatar avatar-you">VM</div>
+                        <button class="composer-prompt" type="button" data-open-composer>Kuo norite pasidalinti su ukmergiškiais?</button>
+                        <button class="composer-open" type="button" data-open-composer><svg class="icon sm"><use href="#i-plus"/></svg>Pridėti įrašą</button>
+                      </div>
+                      <form class="community-editor hidden" id="communityForm">
+                        <div class="composer-heading"><div><strong>Naujas įrašas</strong><span>Pasirinkite temą ir parašykite aiškiai.</span></div><button type="button" class="composer-close" id="closeComposer" aria-label="Uždaryti">×</button></div>
+                        <div class="post-category-picker" role="group" aria-label="Įrašo kategorija">
+                          <button type="button" class="post-category active" data-post-category="general">Bendra</button>
+                          <button type="button" class="post-category" data-post-category="question">Klausimas</button>
+                          <button type="button" class="post-category" data-post-category="traffic">Eismas</button>
+                          <button type="button" class="post-category" data-post-category="event">Renginys</button>
+                          <button type="button" class="post-category" data-post-category="recommendation">Rekomendacija</button>
+                          <button type="button" class="post-category" data-post-category="lost">Radau / pamečiau</button>
+                        </div>
+                        <label class="community-field"><span id="postTitleLabel">Įrašo antraštė</span><input id="postTitle" maxlength="90" placeholder="Trumpai – apie ką jūsų įrašas?" required></label>
+                        <label class="community-field"><span>Plačiau</span><textarea id="postBody" maxlength="900" placeholder="Parašykite daugiau informacijos..." required></textarea></label>
+                        <div class="post-event-fields hidden" id="postEventFields">
+                          <label class="community-field"><span>Data</span><input id="postEventDate" type="date"></label>
+                          <label class="community-field"><span>Vieta</span><input id="postEventPlace" placeholder="Pvz., Pilies parkas"></label>
+                        </div>
+                        <div class="composer-actions"><span class="composer-privacy"><svg class="icon sm"><use href="#i-user"/></svg>Matys visa bendruomenė</span><button type="submit" class="primary-button">Paskelbti</button></div>
+                      </form>
+                    </article>
 
-              <section class="section compact-categories" aria-labelledby="categories-title">
-                <div class="section-heading"><div><h2 id="categories-title">Kategorijos</h2><p>Populiariausios Ukmergėje.</p></div><button class="text-button" data-view-target="listings">Visos kategorijos</button></div>
-                <div class="category-row" id="categoryRow"></div>
-              </section>
-
-              <section class="section" aria-labelledby="fresh-title">
-                <div class="section-heading"><div><h2 id="fresh-title">Naujausi skelbimai</h2><p>Atnaujinta ką tik.</p></div><button class="text-button" data-view-target="listings">Rodyti visus</button></div>
-                <div class="feed-toolbar">
-                  <div class="filter-scroll" role="group" aria-label="Skelbimų tipas">
-                    <button class="filter-chip active" data-filter="all">Visi</button>
-                    <button class="filter-chip" data-filter="buy">Perku</button>
-                    <button class="filter-chip" data-filter="sell">Parduodu</button>
-                    <button class="filter-chip" data-filter="service">Paslaugos</button>
+                    <div class="community-feed-head"><div><h2 id="community-title">Bendruomenės srautas</h2><p>Naujausi pokalbiai Ukmergėje</p></div><span class="live-label"><i></i>Naujausi viršuje</span></div>
+                    <div class="post-filter-scroll" role="group" aria-label="Bendruomenės įrašų kategorijos">
+                      <button class="post-filter active" data-post-filter="all">Visi</button>
+                      <button class="post-filter" data-post-filter="question">Klausimai</button>
+                      <button class="post-filter" data-post-filter="traffic">Eismas</button>
+                      <button class="post-filter" data-post-filter="event">Renginiai</button>
+                      <button class="post-filter" data-post-filter="recommendation">Rekomendacijos</button>
+                      <button class="post-filter" data-post-filter="lost">Radau / pamečiau</button>
+                    </div>
+                    <div class="community-feed" id="communityFeed"></div>
                   </div>
-                  <select class="sort-select" data-sort aria-label="Rikiuoti skelbimus"><option value="new">Naujausi</option><option value="low">Kaina nuo mažiausios</option><option value="high">Kaina nuo didžiausios</option></select>
+
+                  <aside class="community-side">
+                    <article class="community-side-card welcome-card"><span class="side-card-kicker">Ukmergiškiai</span><h3>Miestas arčiau</h3><p>Vieta kasdieniams klausimams, naujienoms ir kaimyniškiems susitarimams.</p><div class="community-counts"><div><strong>8,4 tūkst.</strong><span>narių</span></div><div><strong>127</strong><span>šiandien prisijungė</span></div></div></article>
+                    <article class="community-side-card"><div class="side-card-title"><h3>Artimiausia bendruomenėje</h3><span>Šeštadienį</span></div><div class="mini-event"><div class="mini-date"><strong>12</strong><span>RGS</span></div><div><strong>Šventosios pakrantės talka</strong><span>10:00 · prie pėsčiųjų tilto</span></div></div></article>
+                    <article class="community-side-card rules-card"><h3>Gera kaimynystė</h3><p>Būkime pagarbūs, dalinkimės patikrinta informacija ir neviešinkime kitų žmonių duomenų.</p></article>
+                  </aside>
                 </div>
-                <div class="listing-grid" id="homeListings"></div>
               </section>
             </div>
 
@@ -1164,7 +1606,7 @@
                 </div>
               </article>
               <article class="rail-card">
-                <h3>Ukmergės ratas šiandien</h3>
+                <h3>Ukm.lt šiandien</h3>
                 <div class="local-stat"><div><strong>28</strong><span>nauji skelbimai</span></div><div><strong>6</strong><span>susitarimai</span></div></div>
               </article>
             </aside>
@@ -1173,15 +1615,22 @@
 
         <section class="view" id="view-listings" aria-labelledby="listings-title">
           <div class="page-title">
-            <div><h1 id="listings-title">Visi skelbimai</h1><p>Pirkimas, pardavimas ir paslaugos Ukmergėje bei rajone.</p></div>
+            <div><h1 id="listings-title">Skelbimai</h1><p>Pirkite, parduokite, dovanokite ar raskite paslaugą Ukmergėje.</p></div>
             <button class="primary-button" data-view-target="create"><svg class="icon"><use href="#i-plus"/></svg>Įdėti skelbimą</button>
           </div>
+          <label class="global-search listings-search">
+            <span class="sr-only">Ieškoti skelbimų</span>
+            <svg class="icon"><use href="#i-search"/></svg>
+            <input id="globalSearch" type="search" placeholder="Ieškoti skelbimų Ukmergėje..." autocomplete="off">
+            <span class="search-shortcut">Ctrl K</span>
+          </label>
           <div class="feed-toolbar">
             <div class="filter-scroll" role="group" aria-label="Skelbimų tipas">
               <button class="filter-chip active" data-filter="all">Visi</button>
               <button class="filter-chip" data-filter="buy">Perku</button>
               <button class="filter-chip" data-filter="sell">Parduodu</button>
               <button class="filter-chip" data-filter="service">Paslaugos</button>
+              <button class="filter-chip" data-filter="gift">Dovanoju</button>
             </div>
             <select class="sort-select" data-sort aria-label="Rikiuoti skelbimus"><option value="new">Naujausi</option><option value="low">Kaina nuo mažiausios</option><option value="high">Kaina nuo didžiausios</option></select>
           </div>
@@ -1200,6 +1649,7 @@
                   <button type="button" class="type-option active" data-form-type="sell" data-type="sell"><svg class="icon"><use href="#i-tag"/></svg><span>Parduodu</span></button>
                   <button type="button" class="type-option" data-form-type="buy" data-type="buy"><svg class="icon"><use href="#i-bag"/></svg><span>Perku</span></button>
                   <button type="button" class="type-option" data-form-type="service" data-type="service"><svg class="icon"><use href="#i-tool"/></svg><span>Paslaugos</span></button>
+                  <button type="button" class="type-option" data-form-type="gift" data-type="gift"><svg class="icon"><use href="#i-heart"/></svg><span>Dovanoju</span></button>
                 </div>
               </div>
               <div class="form-body">
@@ -1286,7 +1736,7 @@
   </div>
 
   <nav class="bottom-nav" aria-label="Mobilusis meniu">
-    <button class="bottom-button active" data-view-target="home"><svg class="icon"><use href="#i-home"/></svg><span>Pradžia</span></button>
+    <button class="bottom-button active" data-view-target="home"><svg class="icon"><use href="#i-home"/></svg><span>Bendruomenė</span></button>
     <button class="bottom-button" data-view-target="listings"><svg class="icon"><use href="#i-grid"/></svg><span>Skelbimai</span></button>
     <button class="bottom-button add-button" data-view-target="create"><svg class="icon lg"><use href="#i-plus"/></svg><span>Įdėti</span></button>
     <button class="bottom-button" data-view-target="saved"><svg class="icon"><use href="#i-heart"/></svg><span>Išsaugoti</span></button>
@@ -1301,6 +1751,7 @@
   <script>
     (() => {
       const listings = [
+        { id: 9, type: 'gift', title: 'Dovanoju vaikiškų knygelių rinkinį', price: 0, priceText: 'Dovanoju', category: 'Vaikams', area: 'Dukstyna', time: 'prieš 8 min.', emoji: '📚', media: 'media-orange', condition: 'Gera', seller: 'Laura P.', initials: 'LP', rating: '5,0', description: 'Dovanoju apie 20 tvarkingų vaikiškų knygelių 3–7 metų vaikams. Norėčiau atiduoti visas kartu žmogui, kuriam tikrai pravers.', specs: [['Kaina','Nemokamai'],['Būklė','Gera'],['Kiekis','Apie 20 knygelių'],['Atsiėmimas','Dukstynoje']] },
         { id: 1, type: 'sell', title: 'iPhone 14 Pro, 256 GB', price: 540, priceText: '540 €', category: 'Elektronika', area: 'Pivonija', time: 'prieš 14 min.', emoji: '📱', media: 'media-sky', condition: 'Labai gera', seller: 'Mantas K.', initials: 'MK', rating: '5,0', description: 'Tvarkingas, kasdien saugotas dėkle. Baterijos būklė 89 %. Komplekte dėžutė, laidas ir du dėklai. Galima ramiai apžiūrėti bei išbandyti vietoje.', specs: [['Atmintis','256 GB'],['Spalva','Tamsiai violetinė'],['Garantija','Iki lapkričio'],['Perdavimas','Gyvai Ukmergėje']] },
         { id: 2, type: 'buy', title: 'Ieškau 2 kambarių buto nuomai', price: 420, priceText: 'Iki 420 €/mėn.', category: 'Būstas', area: 'Centras / Dukstyna', time: 'prieš 31 min.', emoji: '🏠', media: 'media-green', condition: 'Tvarkingas', seller: 'Aistė V.', initials: 'AV', rating: '4,9', description: 'Dirbanti pora ieško tvarkingo 2 kambarių buto ilgesniam laikui. Be augintinių, nerūkome. Galime įsikelti nuo spalio pradžios.', specs: [['Biudžetas','Iki 420 €/mėn.'],['Kambariai','2'],['Terminas','Nuo spalio'],['Laikotarpis','Bent 12 mėn.']] },
         { id: 3, type: 'service', direction: 'offer', title: 'Pjaunu žolę ir tvarkau aplinką', price: 20, priceText: 'Nuo 20 €', category: 'Aplinkos darbai', area: 'Ukmergė + 20 km', time: 'prieš 46 min.', emoji: '🌿', media: 'media-violet', condition: 'Siūlau', seller: 'Tomas B.', initials: 'TB', rating: '5,0', description: 'Pjaunu žolę, krūmapjove sutvarkau pakraščius, surenku nupjautą žolę. Atvykstu savo transportu ir su visa įranga. Kaina priklauso nuo ploto.', specs: [['Kaina','Nuo 20 €'],['Atvykimas','Iki 20 km'],['Patirtis','6 metai'],['Laikas','I–VI, 8–19 val.']] },
@@ -1311,15 +1762,34 @@
         { id: 8, type: 'service', direction: 'offer', title: 'Matematikos pamokos 5–12 kl.', price: 15, priceText: '15 €/val.', category: 'Mokymas', area: 'Centras / nuotoliu', time: 'vakar', emoji: '📐', media: 'media-green', condition: 'Siūlau', seller: 'Gabija N.', initials: 'GN', rating: '5,0', description: 'Padedu suprasti matematiką, pasiruošti kontroliniams ir egzaminams. Mokau ramiai, aiškiai ir pagal mokinio tempą. Galimos pamokos gyvai arba nuotoliu.', specs: [['Kaina','15 €/val.'],['Klasės','5–12'],['Vieta','Gyvai / nuotoliu'],['Laikas','Darbo dienomis']] }
       ];
 
+      const communityPosts = [
+        { id: 101, category: 'traffic', author: 'Monika J.', initials: 'MJ', area: 'Centras', time: 'prieš 12 min.', title: 'Matėt, pradėjo remontuoti tiltą?', body: 'Ryte jau buvo pastatyti ženklai ir viena juosta uždaryta. Gal kas žinote, kiek laiko truks darbai? Važiuojantiems į centrą dabar geriau rinktis kitą kelią.', likes: 24, comments: 11 },
+        { id: 102, category: 'event', author: 'Ukmergės bendruomenė', initials: 'UB', area: 'Šventosios pakrantė', time: 'prieš 38 min.', title: 'Šeštadienį tvarkome Šventosios pakrantę', body: 'Susitinkame 10:00 prie pėsčiųjų tilto. Pirštinėmis ir maišais pasirūpinsime – atsineškite tik gerą nuotaiką. Laukiami ir vaikai!', likes: 63, comments: 8, eventDate: '12', eventMonth: 'RGS', eventPlace: 'Prie pėsčiųjų tilto · 10:00' },
+        { id: 103, category: 'recommendation', author: 'Andrius K.', initials: 'AK', area: 'Pivonija', time: 'prieš 1 val.', title: 'Rekomenduokite gerą dviračių meistrą', body: 'Reikia sutvarkyti galinį ratą ir perjungėją. Svarbiausia, kad galėtų priimti šią savaitę. Kur Ukmergėje kreipiatės jūs?', likes: 7, comments: 16 },
+        { id: 104, category: 'lost', author: 'Eglė S.', initials: 'ES', area: 'Pilies parkas', time: 'prieš 2 val.', title: 'Rasti raktai prie piliakalnio', body: 'Ant suoliuko radau raktų ryšulį su mėlynu pakabuku. Palikau saugoti netoliese esančioje kavinėje – savininkas atpažins pagal dar vieną pakabuką.', likes: 31, comments: 5 },
+        { id: 105, category: 'question', author: 'Rokas V.', initials: 'RV', area: 'Dukstyna', time: 'prieš 3 val.', title: 'Kur priduodate seną buitinę techniką?', body: 'Turime neveikiančią skalbyklę. Ar Ukmergėje kas nors paima iš namų, ar reikia vežti patiems?', likes: 5, comments: 13 },
+        { id: 106, category: 'general', author: 'Irena B.', initials: 'IB', area: 'Senamiestis', time: 'vakar, 19:42', title: 'Ačiū padėjusiems kaimynams', body: 'Vakar prie turgaus užgeso automobilis. Du nepažįstami vaikinai sustojo ir padėjo nustumti bei užvesti. Nežinau jūsų vardų, bet labai ačiū – gera gyventi tarp tokių žmonių.', likes: 118, comments: 9 }
+      ];
+
+      const postCategoryMeta = {
+        general: { label: 'Bendra', icon: '●', placeholder: 'Trumpai – kuo norite pasidalinti?' },
+        question: { label: 'Klausimas', icon: '?', placeholder: 'Kokį klausimą norite užduoti?' },
+        traffic: { label: 'Eismas', icon: '↗', placeholder: 'Kas pasikeitė kelyje ar mieste?' },
+        event: { label: 'Renginys', icon: '□', placeholder: 'Koks renginys vyks?' },
+        recommendation: { label: 'Rekomendacija', icon: '★', placeholder: 'Ko norite paprašyti rekomenduoti?' },
+        lost: { label: 'Radau / pamečiau', icon: '!', placeholder: 'Ką radote arba pametėte?' }
+      };
+
       const categories = [
         ['📱','Elektronika'],['🚗','Transportas'],['🏠','Būstas'],['🪑','Namai'],['🧸','Vaikams'],['🛠️','Paslaugos']
       ];
       const categoryOptions = {
         sell: ['Elektronika','Transportas','Būstas','Namai','Vaikams','Sportas','Laisvalaikis','Kita'],
         buy: ['Elektronika','Transportas','Būstas','Namai','Vaikams','Sportas','Kolekcionavimas','Kita'],
-        service: ['Remontas','Aplinkos darbai','Grožis','Transportas','Mokymas','Renginiai','IT paslaugos','Kita']
+        service: ['Remontas','Aplinkos darbai','Grožis','Transportas','Mokymas','Renginiai','IT paslaugos','Kita'],
+        gift: ['Vaikams','Namai','Elektronika','Drabužiai','Knygos','Sportas','Maistas','Kita']
       };
-      const typeLabels = { all: 'Visi', sell: 'Parduodu', buy: 'Perku', service: 'Paslaugos' };
+      const typeLabels = { all: 'Visi', sell: 'Parduodu', buy: 'Perku', service: 'Paslaugos', gift: 'Dovanoju' };
       let currentFilter = 'all';
       let currentSort = 'new';
       let currentView = 'home';
@@ -1327,6 +1797,10 @@
       let lastListView = 'home';
       let formType = 'sell';
       let serviceDirection = 'offer';
+      let currentPostFilter = 'all';
+      let activePostCategory = 'general';
+      let openCommentPost = null;
+      const likedPosts = new Set();
       let saved = new Set();
       try { saved = new Set(JSON.parse(localStorage.getItem('ukmergesRatasSaved') || '[]').map(Number)); } catch (_) {}
       let searchTerm = '';
@@ -1337,7 +1811,8 @@
       const icon = (name, cls = 'sm') => `<svg class="icon ${cls}"><use href="#i-${name}"/></svg>`;
 
       function categoryMarkup() {
-        $('#categoryRow').innerHTML = categories.map(([emoji, name]) => `<button class="category-card" data-category="${name}"><span class="category-emoji">${emoji}</span><strong>${name}</strong></button>`).join('');
+        const row = $('#categoryRow');
+        if (row) row.innerHTML = categories.map(([emoji, name]) => `<button class="category-card" data-category="${name}"><span class="category-emoji">${emoji}</span><strong>${name}</strong></button>`).join('');
       }
 
       function listingCard(item) {
@@ -1350,6 +1825,72 @@
           </div>
           <div class="listing-body"><div class="listing-price">${escapeHtml(item.priceText)}</div><h3>${escapeHtml(item.title)}</h3><div class="listing-meta"><span>${icon('pin')} ${escapeHtml(item.area)}</span><span>${icon('clock')} ${escapeHtml(item.time)}</span></div></div>
         </article>`;
+      }
+
+      function communityPostMarkup(post) {
+        const meta = postCategoryMeta[post.category] || postCategoryMeta.general;
+        const liked = likedPosts.has(post.id);
+        const likes = post.likes + (liked ? 1 : 0);
+        const eventBlock = post.category === 'event' ? `<div class="post-event-card"><div class="post-event-date"><strong>${escapeHtml(post.eventDate || '—')}</strong><span>${escapeHtml(post.eventMonth || 'RGS')}</span></div><div><span>Susitikimo vieta</span><strong>${escapeHtml(post.eventPlace || 'Vieta tikslinama')}</strong></div></div>` : '';
+        const commentBlock = openCommentPost === post.id ? `<div class="comment-composer"><div class="post-avatar avatar-you small">VM</div><input data-comment-input="${post.id}" placeholder="Parašykite komentarą..." aria-label="Komentaras"><button type="button" data-send-comment="${post.id}">Siųsti</button></div>` : '';
+        return `<article class="community-post" data-post-id="${post.id}">
+          <header class="post-header"><div class="post-avatar avatar-${post.id % 5}">${escapeHtml(post.initials)}</div><div class="post-author"><strong>${escapeHtml(post.author)}</strong><span>${escapeHtml(post.area)} · ${escapeHtml(post.time)}</span></div><span class="post-kind kind-${post.category}"><b>${escapeHtml(meta.icon)}</b>${escapeHtml(meta.label)}</span><button class="post-more" type="button" aria-label="Daugiau veiksmų">•••</button></header>
+          <div class="post-content"><h3>${escapeHtml(post.title)}</h3><p>${escapeHtml(post.body)}</p>${eventBlock}</div>
+          <div class="post-summary"><span>${likes ? `👍 ${likes}` : 'Būkite pirmi sureagavę'}</span><button type="button" data-comment-post="${post.id}">${post.comments} komentar${post.comments === 1 ? 'as' : post.comments > 9 && post.comments < 20 ? 'ų' : 'ai'}</button></div>
+          <div class="post-actions"><button type="button" class="${liked ? 'liked' : ''}" data-like-post="${post.id}">${icon('heart')} ${liked ? 'Patinka' : 'Patinka'}</button><button type="button" data-comment-post="${post.id}">${icon('message')} Komentuoti</button><button type="button" data-share-post="${post.id}">${icon('arrow-right')} Dalintis</button></div>
+          ${commentBlock}
+        </article>`;
+      }
+
+      function renderCommunity() {
+        const root = $('#communityFeed');
+        if (!root) return;
+        const items = communityPosts.filter(post => currentPostFilter === 'all' || post.category === currentPostFilter);
+        root.innerHTML = items.length ? items.map(communityPostMarkup).join('') : `<div class="community-empty"><strong>Šioje kategorijoje dar tylu</strong><span>Būkite pirmi ir parašykite įrašą.</span><button type="button" data-open-composer>Pridėti įrašą</button></div>`;
+        $$('.post-filter').forEach(btn => btn.classList.toggle('active', btn.dataset.postFilter === currentPostFilter));
+      }
+
+      function openCommunityComposer() {
+        const editor = $('#communityForm');
+        editor.classList.remove('hidden');
+        $('.composer-bar').classList.add('hidden');
+        setTimeout(() => $('#postTitle').focus(), 50);
+      }
+
+      function closeCommunityComposer() {
+        $('#communityForm').classList.add('hidden');
+        $('.composer-bar').classList.remove('hidden');
+      }
+
+      function selectPostCategory(category) {
+        activePostCategory = category;
+        $$('.post-category').forEach(btn => btn.classList.toggle('active', btn.dataset.postCategory === category));
+        const meta = postCategoryMeta[category];
+        $('#postTitleLabel').textContent = meta.label === 'Bendra' ? 'Įrašo antraštė' : meta.label;
+        $('#postTitle').placeholder = meta.placeholder;
+        $('#postEventFields').classList.toggle('hidden', category !== 'event');
+      }
+
+      function publishCommunityPost(event) {
+        event.preventDefault();
+        const title = $('#postTitle').value.trim();
+        const body = $('#postBody').value.trim();
+        if (!title || !body) { toast('Parašykite įrašo antraštę ir tekstą'); (!title ? $('#postTitle') : $('#postBody')).focus(); return; }
+        const post = { id: Date.now(), category: activePostCategory, author: 'Vaida M.', initials: 'VM', area: 'Ukmergė', time: 'ką tik', title, body, likes: 0, comments: 0 };
+        if (activePostCategory === 'event') {
+          const rawDate = $('#postEventDate').value;
+          post.eventDate = rawDate ? String(Number(rawDate.split('-')[2])) : '—';
+          post.eventMonth = rawDate ? ['SAU','VAS','KOV','BAL','GEG','BIR','LIE','RGP','RGS','SPA','LAP','GRU'][Number(rawDate.split('-')[1]) - 1] : 'DATA';
+          post.eventPlace = $('#postEventPlace').value.trim() || 'Vieta tikslinama';
+        }
+        communityPosts.unshift(post);
+        currentPostFilter = 'all';
+        $('#communityForm').reset();
+        selectPostCategory('general');
+        closeCommunityComposer();
+        renderCommunity();
+        toast('Įrašas paskelbtas bendruomenėje');
+        $('#community-title').scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
 
       function filteredItems() {
@@ -1366,10 +1907,10 @@
       function renderListings() {
         const items = filteredItems();
         const empty = `<div class="empty-state"><div class="empty-icon">${icon('search','lg')}</div><h3>Skelbimų nerasta</h3><p>Pabandykite kitą paiešką arba pasirinkite visus skelbimus.</p></div>`;
-        $('#homeListings').innerHTML = items.length ? items.slice(0,6).map(listingCard).join('') : empty;
+        if ($('#homeListings')) $('#homeListings').innerHTML = items.length ? items.slice(0,6).map(listingCard).join('') : empty;
         $('#allListings').innerHTML = items.length ? items.map(listingCard).join('') : empty;
         $('#resultsCount').textContent = items.length;
-        $('#allCount').textContent = `${listings.length} aktyvūs`;
+        if ($('#allCount')) $('#allCount').textContent = `${listings.length} aktyvūs`;
         renderSaved();
         $$('.filter-chip').forEach(btn => btn.classList.toggle('active', btn.dataset.filter === currentFilter));
         $$('.type-card').forEach(btn => btn.classList.toggle('active', btn.dataset.type === currentFilter));
@@ -1404,16 +1945,16 @@
         if (currentView !== 'detail') lastListView = currentView === 'saved' ? 'saved' : (currentView === 'listings' ? 'listings' : 'home');
         currentDetailId = item.id;
         const label = item.type === 'service' ? (item.direction === 'offer' ? 'Siūlau paslaugą' : 'Ieškau paslaugos') : typeLabels[item.type];
-        const action = item.type === 'buy' ? 'Pasiūlyti' : item.type === 'service' && item.direction === 'seek' ? 'Pasiūlyti pagalbą' : 'Parašyti';
-        const heading = item.type === 'buy' ? 'Ko ieškoma' : item.type === 'service' ? (item.direction === 'offer' ? 'Apie paslaugą' : 'Kokios pagalbos reikia') : 'Aprašymas';
+        const action = item.type === 'buy' ? 'Pasiūlyti' : item.type === 'gift' ? 'Noriu šios dovanos' : item.type === 'service' && item.direction === 'seek' ? 'Pasiūlyti pagalbą' : 'Parašyti';
+        const heading = item.type === 'buy' ? 'Ko ieškoma' : item.type === 'gift' ? 'Apie dovanojamą daiktą' : item.type === 'service' ? (item.direction === 'offer' ? 'Apie paslaugą' : 'Kokios pagalbos reikia') : 'Aprašymas';
         $('#detailContent').innerHTML = `<div class="detail-shell">
           <article class="detail-card detail-main">
             <div class="detail-visual ${item.media}"><span class="type-badge ${item.type}">${label}</span><button class="favorite-button ${saved.has(item.id) ? 'saved' : ''}" data-save-id="${item.id}" aria-label="Išsaugoti skelbimą">${icon('heart')}</button>${item.photo ? `<img class="detail-photo" src="${item.photo}" alt="${escapeHtml(item.title)}">` : `<span class="big-emoji" aria-hidden="true">${item.emoji}</span>`}</div>
-            <div class="detail-content"><div class="detail-topline"><span class="type-badge ${item.type}" style="position:static;box-shadow:none;background:${item.type === 'sell' ? 'var(--sell-soft)' : item.type === 'buy' ? 'var(--buy-soft)' : 'var(--service-soft)'}">${label}</span><span style="color:var(--muted);font-size:13px">Skelbimo nr. ${String(item.id).padStart(4,'0')}</span></div>
+            <div class="detail-content"><div class="detail-topline"><span class="type-badge ${item.type}" style="position:static;box-shadow:none;background:${item.type === 'sell' ? 'var(--sell-soft)' : item.type === 'buy' ? 'var(--buy-soft)' : item.type === 'gift' ? 'var(--gift-soft)' : 'var(--service-soft)'}">${label}</span><span style="color:var(--muted);font-size:13px">Skelbimo nr. ${String(item.id).padStart(4,'0')}</span></div>
               <h1>${escapeHtml(item.title)}</h1><div class="detail-price">${escapeHtml(item.priceText)}</div>
               <div class="detail-meta"><span>${icon('pin')} ${escapeHtml(item.area)}</span><span>${icon('clock')} ${escapeHtml(item.time)}</span><span>${icon('tag')} ${escapeHtml(item.category)}</span></div>
               <section class="detail-section"><h2>${heading}</h2><p>${escapeHtml(item.description)}</p></section>
-              <section class="detail-section"><h2>${item.type === 'buy' ? 'Pageidavimai' : item.type === 'service' ? 'Paslaugos informacija' : 'Prekės informacija'}</h2><div class="spec-grid">${item.specs.map(([k,v]) => `<div class="spec-item"><span>${escapeHtml(k)}</span><strong>${escapeHtml(v)}</strong></div>`).join('')}</div></section>
+              <section class="detail-section"><h2>${item.type === 'buy' ? 'Pageidavimai' : item.type === 'gift' ? 'Dovanojimo informacija' : item.type === 'service' ? 'Paslaugos informacija' : 'Prekės informacija'}</h2><div class="spec-grid">${item.specs.map(([k,v]) => `<div class="spec-item"><span>${escapeHtml(k)}</span><strong>${escapeHtml(v)}</strong></div>`).join('')}</div></section>
             </div>
           </article>
           <aside class="contact-card"><div class="seller"><div class="seller-avatar">${escapeHtml(item.initials)}</div><div><strong>${escapeHtml(item.seller)}</strong><span>${icon('shield')} Patvirtintas · ★ ${escapeHtml(item.rating)}</span></div></div><div class="contact-actions"><button class="primary-button contact-action">${icon('message')} ${action}</button><button class="secondary-button phone-action">${icon('phone')} Rodyti numerį</button></div><div class="trust-line">${icon('shield')}<span>Susitikdami gyvai patikrinkite prekę ar aiškiai sutarkite paslaugos apimtį.</span></div></aside>
@@ -1452,6 +1993,10 @@
           service: {
             mainTitle: serviceDirection === 'offer' ? 'Apie jūsų paslaugą' : 'Kokios paslaugos ieškote', title: serviceDirection === 'offer' ? 'Paslaugos pavadinimas' : 'Kokio darbo reikia?', titlePlaceholder: serviceDirection === 'offer' ? 'Pvz., pjaunu žolę ir tvarkau aplinką' : 'Pvz., ieškau plytelių meistro', price: serviceDirection === 'offer' ? 'Kaina / įkainis' : 'Numatomas biudžetas', extraTitle: serviceDirection === 'offer' ? 'Paslaugos informacija' : 'Darbo informacija', emoji: serviceDirection === 'offer' ? '🛠️' : '🤝', desc: serviceDirection === 'offer' ? 'Aprašykite, ką atliekate, kur atvykstate ir kas įeina į kainą.' : 'Aprašykite darbų apimtį, terminą ir svarbias sąlygas.',
             extra: serviceDirection === 'offer' ? `<div class="field"><label for="experienceInput">Patirtis</label><input id="experienceInput" placeholder="Pvz., 5 metai"></div><div class="field"><label for="availabilityInput">Kada dirbate?</label><input id="availabilityInput" placeholder="Pvz., I–VI, 8–18 val."></div><div class="field full"><label for="radiusInput">Kur atvykstate?</label><select id="radiusInput"><option>Tik Ukmergėje</option><option>Ukmergė + 20 km</option><option>Visame Ukmergės rajone</option></select></div>` : `<div class="field"><label for="startInput">Pageidaujama pradžia</label><input id="startInput" type="date"></div><div class="field"><label for="scopeInput">Darbų apimtis</label><input id="scopeInput" placeholder="Pvz., apie 18 m²"></div>`
+          },
+          gift: {
+            mainTitle: 'Ką dovanojate', title: 'Dovanos pavadinimas', titlePlaceholder: 'Pvz., dovanoju vaikiškų knygelių', price: 'Kaina', extraTitle: 'Atsiėmimo informacija', emoji: '🎁', desc: 'Aprašykite dovanojamą daiktą, jo būklę ir kam jis galėtų praversti.',
+            extra: `<div class="field"><label for="giftDeliveryInput">Atsiėmimas</label><select id="giftDeliveryInput"><option>Atsiimti vietoje</option><option>Galiu atvežti Ukmergėje</option><option>Susitarsime žinute</option></select></div><div class="field"><label for="reserveInput">Rezervuoju</label><select id="reserveInput"><option>Pirmajam parašiusiam</option><option>Iki dienos pabaigos</option><option>Nerezervuoju</option></select></div>`
           }
         };
         return cfg[formType];
@@ -1469,12 +2014,13 @@
         $('#dynamicFields').innerHTML = cfg.extra;
         $('#listingCategory').innerHTML = categoryOptions[formType].map(x => `<option>${x}</option>`).join('');
         $('#conditionField').classList.toggle('hidden', formType === 'service');
-        $('#negotiableField').classList.toggle('hidden', formType === 'service');
+        $('#priceField').classList.toggle('hidden', formType === 'gift');
+        $('#negotiableField').classList.toggle('hidden', formType === 'service' || formType === 'gift');
         $('#photoSection').classList.toggle('hidden', formType === 'buy' || (formType === 'service' && serviceDirection === 'seek'));
-        $('#priceModeField').classList.toggle('hidden', formType === 'buy');
+        $('#priceModeField').classList.toggle('hidden', formType === 'buy' || formType === 'gift');
         $('#previewKind').textContent = formType === 'service' ? (serviceDirection === 'offer' ? 'Siūlau paslaugą' : 'Ieškau paslaugos') : typeLabels[formType];
-        $('#previewKind').style.color = formType === 'sell' ? 'var(--sell)' : formType === 'buy' ? 'var(--buy)' : 'var(--service)';
-        const supportsPhoto = formType === 'sell' || (formType === 'service' && serviceDirection === 'offer');
+        $('#previewKind').style.color = formType === 'sell' ? 'var(--sell)' : formType === 'buy' ? 'var(--buy)' : formType === 'gift' ? 'var(--gift)' : 'var(--service)';
+        const supportsPhoto = formType === 'sell' || formType === 'gift' || (formType === 'service' && serviceDirection === 'offer');
         if (uploadedPhoto && supportsPhoto) $('#previewMedia').innerHTML = `<img src="${uploadedPhoto}" alt="Skelbimo nuotrauka">`;
         else $('#previewMedia').textContent = cfg.emoji;
         updatePreview();
@@ -1482,10 +2028,11 @@
 
       function updatePreview() {
         const title = $('#listingTitle').value.trim();
-        const price = Number($('#listingPrice').value || 0);
+        const price = formType === 'gift' ? 0 : Number($('#listingPrice').value || 0);
         const mode = $('#priceMode').value;
         $('#previewTitle').textContent = title || 'Jūsų skelbimo pavadinimas';
         let priceText = price ? `${price.toLocaleString('lt-LT')} €` : 'Kaina nenurodyta';
+        if (formType === 'gift') priceText = 'Dovanoju';
         if (formType === 'buy' && price) priceText = `Iki ${price.toLocaleString('lt-LT')} €`;
         if (formType === 'service') {
           if (mode === 'agreement') priceText = 'Sutartinė';
@@ -1513,9 +2060,10 @@
         const description = $('#listingDescription').value.trim();
         if (!title || !description) { $('#formError').classList.add('show'); (!title ? $('#listingTitle') : $('#listingDescription')).focus(); return; }
         $('#formError').classList.remove('show');
-        const price = Number($('#listingPrice').value || 0);
+        const price = formType === 'gift' ? 0 : Number($('#listingPrice').value || 0);
         const mode = $('#priceMode').value;
         let priceText = price ? `${price.toLocaleString('lt-LT')} €` : 'Sutartinė';
+        if (formType === 'gift') priceText = 'Dovanoju';
         if (formType === 'buy' && price) priceText = `Iki ${price.toLocaleString('lt-LT')} €`;
         if (formType === 'service' && mode === 'from' && price) priceText = `Nuo ${price.toLocaleString('lt-LT')} €`;
         if (formType === 'service' && mode === 'hour' && price) priceText = `${price.toLocaleString('lt-LT')} €/val.`;
@@ -1523,9 +2071,9 @@
         const item = {
           id: Math.max(...listings.map(x => x.id)) + 1, type: formType, direction: formType === 'service' ? serviceDirection : undefined,
           title, description, price, priceText, category: $('#listingCategory').value, area: $('#listingArea').value, time: 'ką tik',
-          emoji: formConfig().emoji, photo: (formType === 'sell' || (formType === 'service' && serviceDirection === 'offer')) ? uploadedPhoto : '', media: formType === 'sell' ? 'media-sky' : formType === 'buy' ? 'media-green' : 'media-violet',
+          emoji: formConfig().emoji, photo: (formType === 'sell' || formType === 'gift' || (formType === 'service' && serviceDirection === 'offer')) ? uploadedPhoto : '', media: formType === 'sell' ? 'media-sky' : formType === 'buy' ? 'media-green' : formType === 'gift' ? 'media-orange' : 'media-violet',
           condition: formType === 'service' ? (serviceDirection === 'offer' ? 'Siūlau' : 'Ieškau') : $('#listingCondition').value,
-          seller: 'Vaida M.', initials: 'VM', rating: '4,9', specs: formType === 'sell' ? [['Būklė',$('#listingCondition').value],['Kategorija',$('#listingCategory').value],['Perdavimas',$('#deliveryInput')?.value || 'Susitarus'],['Kaina',priceText]] : formType === 'buy' ? [['Biudžetas',priceText],['Kategorija',$('#listingCategory').value],['Atstumas',$('#pickupInput')?.value || 'Ukmergė'],['Terminas','Susitarus']] : [['Kaina',priceText],['Kategorija',$('#listingCategory').value],['Vieta',$('#listingArea').value],['Laikas','Susitarus']]
+          seller: 'Vaida M.', initials: 'VM', rating: '4,9', specs: formType === 'sell' ? [['Būklė',$('#listingCondition').value],['Kategorija',$('#listingCategory').value],['Perdavimas',$('#deliveryInput')?.value || 'Susitarus'],['Kaina',priceText]] : formType === 'buy' ? [['Biudžetas',priceText],['Kategorija',$('#listingCategory').value],['Atstumas',$('#pickupInput')?.value || 'Ukmergė'],['Terminas','Susitarus']] : formType === 'gift' ? [['Kaina','Nemokamai'],['Būklė',$('#listingCondition').value],['Kategorija',$('#listingCategory').value],['Atsiėmimas',$('#giftDeliveryInput')?.value || 'Susitarus']] : [['Kaina',priceText],['Kategorija',$('#listingCategory').value],['Vieta',$('#listingArea').value],['Laikas','Susitarus']]
         };
         listings.unshift(item); currentDetailId = item.id; $('#profileActiveCount').textContent = Number($('#profileActiveCount').textContent) + 1; renderListings(); $('#successModal').classList.add('show');
       }
@@ -1535,6 +2083,18 @@
       }
 
       document.addEventListener('click', event => {
+        if (event.target.closest('[data-open-composer]')) { openCommunityComposer(); return; }
+        const postCategory = event.target.closest('[data-post-category]');
+        if (postCategory) { selectPostCategory(postCategory.dataset.postCategory); return; }
+        const postFilter = event.target.closest('[data-post-filter]');
+        if (postFilter) { currentPostFilter = postFilter.dataset.postFilter; renderCommunity(); return; }
+        const likePost = event.target.closest('[data-like-post]');
+        if (likePost) { const id = Number(likePost.dataset.likePost); likedPosts.has(id) ? likedPosts.delete(id) : likedPosts.add(id); renderCommunity(); return; }
+        const commentPost = event.target.closest('[data-comment-post]');
+        if (commentPost) { const id = Number(commentPost.dataset.commentPost); openCommentPost = openCommentPost === id ? null : id; renderCommunity(); setTimeout(() => $(`[data-comment-input="${id}"]`)?.focus(), 30); return; }
+        const sendComment = event.target.closest('[data-send-comment]');
+        if (sendComment) { const id = Number(sendComment.dataset.sendComment), input = $(`[data-comment-input="${id}"]`); if (!input?.value.trim()) { input?.focus(); return; } const post = communityPosts.find(x => x.id === id); if (post) post.comments += 1; openCommentPost = null; renderCommunity(); toast('Komentaras paskelbtas'); return; }
+        if (event.target.closest('[data-share-post]')) { toast('Įrašo nuoroda nukopijuota'); return; }
         const nav = event.target.closest('[data-view-target]');
         if (nav) { showView(nav.dataset.viewTarget); return; }
         const filter = event.target.closest('[data-filter]');
@@ -1558,7 +2118,7 @@
       document.addEventListener('keydown', event => {
         const card = event.target.closest('[data-listing-id]');
         if (card && !event.target.closest('button') && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); showDetail(card.dataset.listingId); }
-        if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); $('#globalSearch').focus(); }
+        if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); showView('listings'); setTimeout(() => $('#globalSearch').focus(), 50); }
         if (event.key === 'Escape' && $('#successModal').classList.contains('show')) $('#successModal').classList.remove('show');
       });
 
@@ -1566,6 +2126,8 @@
       $$('[data-sort]').forEach(select => select.addEventListener('change', event => { currentSort = event.target.value; renderListings(); }));
       $('#backFromDetail').addEventListener('click', () => showView(lastListView));
       $('#listingForm').addEventListener('submit', publishListing);
+      $('#communityForm').addEventListener('submit', publishCommunityPost);
+      $('#closeComposer').addEventListener('click', closeCommunityComposer);
       $('#clearForm').addEventListener('click', clearForm);
       $('#listingTitle').addEventListener('input', updatePreview);
       $('#listingPrice').addEventListener('input', updatePreview);
@@ -1589,10 +2151,9 @@
         else showView(['home','listings','create','saved','profile'].includes(hash) ? hash : 'home', update);
       }
 
-      categoryMarkup(); updateForm(); renderListings();
+      categoryMarkup(); updateForm(); renderListings(); renderCommunity();
       if (location.hash) routeFromHash(false);
     })();
   </script>
 </body>
 </html>
-
