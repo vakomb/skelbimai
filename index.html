@@ -464,6 +464,57 @@
     .create-choice:hover{background:#f7f9ff;border-color:#cad6fb;transform:translateY(-1px)}
     .tag.general{background:#eef1f6;color:#526078}
 
+    /* simplified classifieds feed */
+    .market-compose-tools button:first-child svg{color:#3f5fb3}
+    .market-compose-tools button:nth-child(2) svg{color:#596db6}
+    .market-feed{display:grid;gap:14px}
+    .market-post{
+      padding:0;overflow:hidden;border-radius:20px;
+      background:#fff;border:1px solid #e5e9f0;
+      box-shadow:0 5px 22px rgba(17,40,80,.055);
+    }
+    .market-post-head{
+      display:flex;align-items:center;gap:10px;
+      padding:14px 16px 10px;
+    }
+    .market-post-head .post-meta{min-width:0}
+    .market-post-head .post-author{font-size:13.5px}
+    .market-post-copy{padding:2px 16px 14px}
+    .market-post-title{
+      font-size:18px;line-height:1.28;
+      letter-spacing:-.025em;font-weight:870;
+      margin:5px 0 6px;
+    }
+    .market-post-desc{
+      margin:0;color:#4f5a70;font-size:14px;line-height:1.55;
+      display:block;overflow:visible;
+    }
+    .market-post-image{
+      width:100%;height:auto;max-height:540px;object-fit:cover;
+      border-top:1px solid #edf0f4;border-bottom:1px solid #edf0f4;
+      background:#eef1f6;
+    }
+    .market-post-bottom{
+      padding:10px 14px 12px;
+      display:flex;align-items:center;gap:8px;
+    }
+    .market-post-bottom .market-price{display:none}
+    .market-actions{
+      width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:5px;
+    }
+    .market-actions button{
+      min-height:39px;border:0;background:transparent;border-radius:10px;
+      padding:8px 7px;color:#667187;font-size:11.5px;font-weight:800;
+    }
+    .market-actions button:hover{background:#f4f6f9;color:var(--navy)}
+    .market-label{
+      display:inline-flex;align-items:center;gap:5px;
+      padding:4px 7px;border-radius:999px;
+      background:#eef3ff;color:#405da9;
+      font-size:9.5px;font-weight:850;
+      letter-spacing:.02em;
+    }
+
     /* events / news */
     .h-scroll{display:flex;gap:12px;overflow:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
     .h-scroll::-webkit-scrollbar{display:none}
@@ -753,7 +804,7 @@
             </div>
             <div class="composer-tools">
               <button data-open-composer><i data-lucide="square-pen" width="16"></i> Įrašas</button>
-              <button data-open-listing-chooser><i data-lucide="tag" width="16"></i> Skelbimas</button>
+              <button data-open-listing-post><i data-lucide="tag" width="16"></i> Skelbimas</button>
               <button data-open-question><i data-lucide="circle-help" width="16"></i> Klausimas</button>
             </div>
           </div>
@@ -827,7 +878,7 @@
             <div class="composer-tools">
               <button data-open-composer><i data-lucide="square-pen" width="16"></i> Įrašas</button>
               <button data-open-question><i data-lucide="circle-help" width="16"></i> Klausimas</button>
-              <button data-open-listing-chooser><i data-lucide="tag" width="16"></i> Skelbimas</button>
+              <button data-open-listing-post><i data-lucide="tag" width="16"></i> Skelbimas</button>
             </div>
           </div>
           <div class="filters" style="margin-bottom:13px">
@@ -841,30 +892,19 @@
         <section class="page" id="page-classifieds">
           <div class="page-hero">
             <div><h1>Skelbimai</h1></div>
-            <button class="primary-btn" data-open-listing-chooser><i data-lucide="plus" width="17"></i><span class="hide-mobile">Paskelbti</span></button>
+            <button class="primary-btn" data-open-listing-post><i data-lucide="plus" width="17"></i><span class="hide-mobile">Paskelbti</span></button>
           </div>
 
-          <div class="market-composer card">
+          <div class="composer market-composer card">
             <div class="composer-row">
               <img class="avatar round" src="https://i.pravatar.cc/120?img=12" alt="">
-              <button class="composer-trigger" data-open-listing-chooser>Ką nori paskelbti?</button>
+              <button class="composer-trigger" data-open-listing-post>Parašyk skelbimą…</button>
             </div>
-            <div class="market-quick">
-              <button data-quick-listing-type="Parduodu"><i data-lucide="badge-euro" width="14"></i>Parduodu</button>
-              <button data-quick-listing-type="Perku"><i data-lucide="search" width="14"></i>Perku</button>
-              <button data-quick-listing-type="Paslaugos"><i data-lucide="wrench" width="14"></i>Paslaugos</button>
-              <button data-quick-listing-type="Dovanoju"><i data-lucide="gift" width="14"></i>Dovanoju</button>
-              <button data-quick-listing-type="Bendras"><i data-lucide="messages-square" width="14"></i>Bendras</button>
+            <div class="composer-tools market-compose-tools">
+              <button data-open-listing-post><i data-lucide="square-pen" width="16"></i> Skelbimas</button>
+              <button data-open-listing-post data-listing-photo><i data-lucide="image-plus" width="16"></i> Nuotraukos</button>
+              <button data-route="saved"><i data-lucide="bookmark" width="16"></i> Išsaugoti</button>
             </div>
-          </div>
-
-          <div class="market-filter-row">
-            <button class="chip active listing-cat" data-category="Visi">Visi</button>
-            <button class="chip listing-cat" data-category="Parduodu">Parduodu</button>
-            <button class="chip listing-cat" data-category="Perku">Perku</button>
-            <button class="chip listing-cat" data-category="Paslaugos">Paslaugos</button>
-            <button class="chip listing-cat" data-category="Dovanoju">Dovanoju</button>
-            <button class="chip listing-cat" data-category="Bendras">Bendri</button>
           </div>
 
           <div class="market-feed" id="classifiedsFeed"></div>
@@ -874,55 +914,6 @@
         <section class="page" id="page-listing-detail">
           <button class="link-btn" data-route="classifieds" style="margin-bottom:8px"><i data-lucide="arrow-left" width="16"></i> Grįžti į skelbimus</button>
           <div id="listingDetail"></div>
-        </section>
-
-        <!-- CREATE LISTING -->
-        <section class="page" id="page-create-listing">
-          <div class="page-hero">
-            <div><h1>Naujas skelbimas</h1></div>
-          </div>
-          <form class="card form-card" id="listingForm">
-            <div class="field">
-              <label>Tipas</label>
-              <div class="category-pills" id="listingTypePills">
-                <button type="button" class="category-radio active" data-type="Parduodu"><i data-lucide="badge-euro" width="18"></i>Parduodu</button>
-                <button type="button" class="category-radio" data-type="Perku"><i data-lucide="search" width="18"></i>Perku</button>
-                <button type="button" class="category-radio" data-type="Paslaugos"><i data-lucide="wrench" width="18"></i>Paslaugos</button>
-                <button type="button" class="category-radio" data-type="Dovanoju"><i data-lucide="gift" width="18"></i>Dovanoju</button>
-                <button type="button" class="category-radio" data-type="Bendras"><i data-lucide="messages-square" width="18"></i>Bendras</button>
-              </div>
-            </div>
-
-            <div class="form-grid two" style="margin-top:17px">
-              <div class="field"><label id="titleLabel">Pavadinimas</label><input required id="listingTitle" placeholder="Pvz. Trek Marlin 6 dviratis"></div>
-              <div class="field" id="categoryField"><label>Kategorija</label><select id="listingCategoryInput"><option>Transportas</option><option>Namai ir buitis</option><option>Elektronika</option><option>Laisvalaikis</option><option>Drabužiai</option><option>Kita</option></select></div>
-              <div class="field" id="conditionField"><label>Būklė</label><select id="listingConditionInput"><option>Kaip naujas</option><option>Labai gera</option><option>Gera</option><option>Naudota</option></select></div>
-              <div class="field" id="priceField"><label id="priceLabel">Kaina, €</label><input id="listingPriceInput" type="number" min="0" placeholder="0"></div>
-              <div class="field" id="zoneField" style="display:none"><label>Darbo zona</label><input id="listingZoneInput" placeholder="Ukmergė ir rajonas"></div>
-              <div class="field"><label>Vieta</label><select id="listingLocationInput"><option>Ukmergė</option><option>Centras</option><option>Pivonija</option><option>Pašilė</option><option>Dukstyna</option><option>Deltuva</option><option>Ukmergės rajonas</option></select></div>
-              <div class="field" id="contactField"><label>Kontaktas</label><input id="listingContactInput" placeholder="+370 6XX XXXXX"></div>
-            </div>
-
-            <div class="field" style="margin-top:14px">
-              <label>Aprašymas</label>
-              <textarea required id="listingDesc" placeholder="Trumpai ir aiškiai aprašyk skelbimą..."></textarea>
-            </div>
-
-            <div class="field" style="margin-top:14px">
-              <label>Nuotraukos</label>
-              <label class="photo-drop" for="listingImagesInput">
-                <input class="sr-only" id="listingImagesInput" type="file" accept="image/*" multiple>
-                <i data-lucide="image-plus" width="25"></i>
-                <strong>Pridėti nuotraukas</strong>
-              </label>
-              <div class="upload-preview-grid" id="listingImagePreview"></div>
-            </div>
-
-            <div class="form-actions">
-              <button type="button" class="secondary-btn" data-route="classifieds">Atšaukti</button>
-              <button class="primary-btn" type="submit"><i data-lucide="send" width="16"></i>Paskelbti</button>
-            </div>
-          </form>
         </section>
 
         <!-- EVENTS -->
@@ -1151,20 +1142,35 @@
   </div>
 
 
-  <!-- Listing type chooser -->
-  <div class="modal-backdrop" id="listingChoiceModal">
+  <!-- Listing post modal -->
+  <div class="modal-backdrop" id="listingPostModal">
     <div class="modal">
       <div class="modal-head">
-        <h2>Skelbimo tipas</h2>
-        <button class="icon-btn" data-close-listing-chooser><i data-lucide="x" width="18"></i></button>
+        <h2>Naujas skelbimas</h2>
+        <button class="icon-btn" data-close-listing-post><i data-lucide="x" width="18"></i></button>
       </div>
-      <div class="listing-choice-grid">
-        <button class="listing-choice" data-choice-listing-type="Parduodu"><span class="listing-choice-icon"><i data-lucide="badge-euro" width="18"></i></span><span>Parduodu</span></button>
-        <button class="listing-choice" data-choice-listing-type="Perku"><span class="listing-choice-icon"><i data-lucide="search" width="18"></i></span><span>Perku</span></button>
-        <button class="listing-choice" data-choice-listing-type="Paslaugos"><span class="listing-choice-icon"><i data-lucide="wrench" width="18"></i></span><span>Paslaugos</span></button>
-        <button class="listing-choice" data-choice-listing-type="Dovanoju"><span class="listing-choice-icon"><i data-lucide="gift" width="18"></i></span><span>Dovanoju</span></button>
-        <button class="listing-choice" data-choice-listing-type="Bendras"><span class="listing-choice-icon"><i data-lucide="messages-square" width="18"></i></span><span>Bendras</span></button>
-      </div>
+      <form id="listingPostForm">
+        <div class="compose-user">
+          <img class="avatar round" src="https://i.pravatar.cc/120?img=12" alt="">
+          <strong>Mantas Žukauskas</strong>
+        </div>
+
+        <div class="field">
+          <textarea class="compose-text" id="listingPostText" placeholder="Ką parduodi, perki, dovanoji ar ko ieškai?"></textarea>
+        </div>
+
+        <div class="upload-preview-grid" id="listingPostImagePreview"></div>
+
+        <div class="compose-upload-toolbar">
+          <label class="upload-action" for="listingPostImagesInput">
+            <i data-lucide="image-plus" width="16"></i> Nuotraukos
+          </label>
+          <input class="sr-only" id="listingPostImagesInput" type="file" accept="image/*" multiple>
+          <span class="upload-count" id="listingPostPhotoCount"></span>
+        </div>
+
+        <button class="primary-btn" type="submit" style="width:100%;margin-top:14px">Paskelbti</button>
+      </form>
     </div>
   </div>
 
@@ -1198,7 +1204,7 @@
       <div class="create-choice-grid">
         <button class="create-choice" data-create-post><i data-lucide="square-pen" width="21"></i><span>Įrašas</span></button>
         <button class="create-choice" data-create-question><i data-lucide="circle-help" width="21"></i><span>Klausimas</span></button>
-        <button class="create-choice" data-create-listing><i data-lucide="tag" width="21"></i><span>Skelbimas</span></button>
+        <button class="create-choice" data-create-listing-simple><i data-lucide="tag" width="21"></i><span>Skelbimas</span></button>
       </div>
     </div>
   </div>
@@ -1302,7 +1308,7 @@
       replyingTo:null,
       postKind:'Įrašas',
       postDraftImages:[],
-      listingDraftImages:[]
+      listingPostDraftImages:[]
     };
 
     const commentAuthors = [
@@ -1412,17 +1418,6 @@
       refreshIcons();
     }
 
-    function renderListingImagePreview(){
-      const box=$('#listingImagePreview');
-      if(!box)return;
-      box.innerHTML=state.listingDraftImages.map((src,i)=>`
-        <div class="upload-preview-item">
-          <img src="${src}" alt="Skelbimo nuotrauka">
-          <button type="button" class="upload-remove" data-remove-listing-image="${i}" aria-label="Pašalinti">${icon('x',14)}</button>
-        </div>`).join('');
-      refreshIcons();
-    }
-
 
     function postTemplate(p){
       const imgs = p.images?.length ? `<div class="post-images ${p.images.length>1?'two':''}">${p.images.map(x=>`<img src="${x}" alt="Įrašo nuotrauka">`).join('')}</div>` : '';
@@ -1470,31 +1465,34 @@
 
     function listingFeedTemplate(l){
       const person = listingPeople[(Number(l.id)-1) % listingPeople.length] || listingPeople[0];
-      return `<article class="market-post card" data-listing="${l.id}">
+      const bodyText = [l.title, l.desc].filter(Boolean).join(l.title && l.desc ? '\n\n' : '');
+      return `<article class="market-post" data-listing="${l.id}">
         <div class="market-post-head">
           <img class="avatar round" src="${person[1]}" alt="">
           <div class="post-meta">
             <div class="post-author">${esc(person[0])}</div>
-            <div class="post-sub">${esc(l.time)} · ${icon('map-pin',12)} ${esc(l.loc)}</div>
+            <div class="post-sub">${esc(l.time)} · Ukmergė</div>
           </div>
-          <span class="tag ${typeClass(l.type)}">${l.type}</span>
-          <button class="more-btn" onclick="event.stopPropagation();showToast('Skelbimo veiksmai (demo)')" aria-label="Daugiau">${icon('more-horizontal',19)}</button>
+          <span class="market-label">${icon('tag',11)} Skelbimas</span>
+          <button class="more-btn" onclick="event.stopPropagation();showToast('Skelbimo veiksmai')" aria-label="Daugiau">${icon('more-horizontal',19)}</button>
         </div>
+
         <div class="market-post-copy">
-          <div class="market-post-title">${esc(l.title)}</div>
-          <p class="market-post-desc">${esc(l.desc)}</p>
+          <p class="market-post-desc">${esc(bodyText)}</p>
         </div>
-        ${l.img?`<img class="market-post-image" src="${l.img}" alt="${esc(l.title)}">`:''}
+
+        ${l.img?`<img class="market-post-image" src="${l.img}" alt="Skelbimo nuotrauka">`:''}
+
         <div class="market-post-bottom">
-          <div class="market-price">${listingPriceText(l)}</div>
           <div class="market-actions">
             <button data-fav="${l.id}" class="${l.fav?'active':''}">${icon('heart',15)} <span>Išsaugoti</span></button>
             <button data-route="chat">${icon('message-circle',15)} <span>Parašyti</span></button>
-            <button type="button" onclick="event.stopPropagation();renderListingDetail(${l.id});route('listing-detail')">${icon('arrow-up-right',15)} <span>Peržiūrėti</span></button>
+            <button type="button" onclick="event.stopPropagation();showToast('Nuoroda nukopijuota')">${icon('share-2',15)} <span>Dalintis</span></button>
           </div>
         </div>
       </article>`;
     }
+
 
     function renderHome(){
       $('#homeFeed').innerHTML = posts.slice(0,4).map(postTemplate).join('');
@@ -1509,12 +1507,11 @@
     }
 
     function renderListings(){
-      let arr = listings.filter(l => state.listingCategory==='Visi' || l.type===state.listingCategory);
       const target=$('#classifiedsFeed');
       if(!target)return;
-      target.innerHTML = arr.length
-        ? arr.map(listingFeedTemplate).join('')
-        : `<div class="empty card">${icon('package-search',34)}Šio tipo skelbimų kol kas nėra.</div>`;
+      target.innerHTML = listings.length
+        ? listings.map(listingFeedTemplate).join('')
+        : `<div class="empty card">${icon('tag',34)}Skelbimų dar nėra.</div>`;
       refreshIcons();
     }
 
@@ -1581,7 +1578,7 @@
       $$('.page').forEach(p=>p.classList.remove('active'));
       const page = $('#page-'+name);
       (page || $('#page-home')).classList.add('active');
-      $$('.nav-item,.bottom-nav button').forEach(b=>b.classList.toggle('active', b.dataset.route===name || (name==='listing-detail'&&b.dataset.route==='classifieds') || (name==='create-listing'&&b.dataset.route==='classifieds')));
+      $$('.nav-item,.bottom-nav button').forEach(b=>b.classList.toggle('active', b.dataset.route===name || (name==='listing-detail'&&b.dataset.route==='classifieds')));
       window.scrollTo({top:0,behavior:'auto'});
       if(push) location.hash = name;
       if(name==='feed') renderFeed();
@@ -1617,6 +1614,13 @@
       const commentBtn=e.target.closest('[data-comment]'); if(commentBtn){ openComments(commentBtn.dataset.comment); return; }
       if(e.target.closest('[data-share]')){ showToast('Nuoroda į įrašą nukopijuota'); return; }
 
+      const removeListingPostImage=e.target.closest('[data-remove-listing-post-image]');
+      if(removeListingPostImage){
+        state.listingPostDraftImages.splice(Number(removeListingPostImage.dataset.removeListingPostImage),1);
+        renderListingPostImagePreview();
+        return;
+      }
+
       const removePostImage=e.target.closest('[data-remove-post-image]');
       if(removePostImage){
         state.postDraftImages.splice(Number(removePostImage.dataset.removePostImage),1);
@@ -1631,19 +1635,30 @@
       const reply=e.target.closest('[data-reply-to]');
       if(reply){ state.replyingTo=reply.dataset.replyTo; $('#commentInput').placeholder='Atsakymas @'+state.replyingTo+'...'; $('#commentInput').focus(); return; }
       if(e.target.closest('[data-close-comments]')) closeComments();
-      if(e.target.closest('[data-open-listing-chooser]')){ openListingChooser(); return; }
-      const quickListing=e.target.closest('[data-quick-listing-type]');
-      if(quickListing){ startListingType(quickListing.dataset.quickListingType); return; }
-      const choiceListing=e.target.closest('[data-choice-listing-type]');
-      if(choiceListing){ startListingType(choiceListing.dataset.choiceListingType); return; }
-      if(e.target.closest('[data-close-listing-chooser]')){ closeListingChooser(); return; }
+
+      const simpleCreateListing=e.target.closest('[data-create-listing-simple]');
+      if(simpleCreateListing){
+        closeCreate();
+        openListingPost();
+        return;
+      }
+
+      const listingPostOpen=e.target.closest('[data-open-listing-post]');
+      if(listingPostOpen){
+        openListingPost(Boolean(listingPostOpen.dataset.listingPhoto!==undefined));
+        return;
+      }
+      if(e.target.closest('[data-close-listing-post]')){
+        closeListingPost();
+        return;
+      }
       if(e.target.closest('[data-open-question]')){ openComposer(false,'Klausimas'); return; }
       if(e.target.closest('[data-open-composer]')){ openComposer(false,'Įrašas'); return; }
       if(e.target.closest('[data-close-modal]')) closeComposer();
       if(e.target.closest('[data-close-create]')) closeCreate();
       if(e.target.closest('[data-create-question]')){ closeCreate(); openComposer(false,'Klausimas'); return; }
       if(e.target.closest('[data-create-post]')){ closeCreate(); openComposer(false,'Įrašas'); return; }
-      if(e.target.closest('[data-create-listing]')){ closeCreate(); openListingChooser(); return; }
+      if(e.target.closest('[data-open-listing-post]')){ closeCreate(); openListingPost(); return; }
     });
 
     $('#desktopCreate').addEventListener('click', openCreate);
@@ -1651,14 +1666,33 @@
 
     function openCreate(){ $('#createModal').classList.add('open'); refreshIcons(); }
     function closeCreate(){ $('#createModal').classList.remove('open'); }
-    function openListingChooser(){ $('#listingChoiceModal').classList.add('open'); refreshIcons(); }
-    function closeListingChooser(){ $('#listingChoiceModal').classList.remove('open'); }
-    function startListingType(type){
-      state.listingType=type;
-      $$('#listingTypePills .category-radio').forEach(b=>b.classList.toggle('active',b.dataset.type===type));
-      updateListingForm();
-      closeListingChooser();
-      route('create-listing');
+
+    function renderListingPostImagePreview(){
+      const box=$('#listingPostImagePreview');
+      if(!box)return;
+      box.innerHTML=state.listingPostDraftImages.map((src,i)=>`
+        <div class="upload-preview-item">
+          <img src="${src}" alt="Skelbimo nuotrauka">
+          <button type="button" class="upload-remove" data-remove-listing-post-image="${i}" aria-label="Pašalinti">${icon('x',14)}</button>
+        </div>`).join('');
+      $('#listingPostPhotoCount').textContent=state.listingPostDraftImages.length?`${state.listingPostDraftImages.length}/8`:'';
+      refreshIcons();
+    }
+
+    function openListingPost(photoFirst=false){
+      state.listingPostDraftImages=[];
+      $('#listingPostText').value='';
+      renderListingPostImagePreview();
+      $('#listingPostModal').classList.add('open');
+      setTimeout(()=>{
+        if(photoFirst) $('#listingPostImagesInput').click();
+        else $('#listingPostText').focus();
+      },100);
+      refreshIcons();
+    }
+
+    function closeListingPost(){
+      $('#listingPostModal').classList.remove('open');
     }
     function openComposer(editing=false,kind='Įrašas'){
       if(!editing){
@@ -1703,20 +1737,52 @@
     $('#composerModal').addEventListener('click', e=>{ if(e.target.id==='composerModal') closeComposer(); });
     $('#createModal').addEventListener('click', e=>{ if(e.target.id==='createModal') closeCreate(); });
     $('#commentsModal').addEventListener('click', e=>{ if(e.target.id==='commentsModal') closeComments(); });
-    $('#listingChoiceModal').addEventListener('click', e=>{ if(e.target.id==='listingChoiceModal') closeListingChooser(); });
+    $('#listingPostModal').addEventListener('click', e=>{ if(e.target.id==='listingPostModal') closeListingPost(); });
+
+    $('#listingPostImagesInput').addEventListener('change', async e=>{
+      const incoming=await imageFilesToDataUrls(e.target.files,8-state.listingPostDraftImages.length);
+      state.listingPostDraftImages=[...state.listingPostDraftImages,...incoming].slice(0,8);
+      e.target.value='';
+      renderListingPostImagePreview();
+    });
+
+    $('#listingPostForm').addEventListener('submit', e=>{
+      e.preventDefault();
+      const text=$('#listingPostText').value.trim();
+      if(!text && !state.listingPostDraftImages.length){
+        showToast('Parašyk skelbimą arba pridėk nuotrauką');
+        return;
+      }
+
+      const firstLine=text.split(/\n+/).find(Boolean)||'Skelbimas';
+      const desc=text;
+      listings.unshift({
+        id:Date.now(),
+        type:'Skelbimas',
+        title:firstLine,
+        price:0,
+        loc:'Ukmergė',
+        time:'ką tik',
+        img:state.listingPostDraftImages[0]||'',
+        gallery:[...state.listingPostDraftImages],
+        fav:false,
+        condition:'',
+        desc
+      });
+
+      state.listingPostDraftImages=[];
+      $('#listingPostText').value='';
+      closeListingPost();
+      route('classifieds');
+      renderListings();
+      showToast('Skelbimas paskelbtas');
+    });
 
     $('#postImagesInput').addEventListener('change', async e=>{
       const incoming=await imageFilesToDataUrls(e.target.files,6-state.postDraftImages.length);
       state.postDraftImages=[...state.postDraftImages,...incoming].slice(0,6);
       e.target.value='';
       renderPostImagePreview();
-    });
-
-    $('#listingImagesInput').addEventListener('change', async e=>{
-      const incoming=await imageFilesToDataUrls(e.target.files,10-state.listingDraftImages.length);
-      state.listingDraftImages=[...state.listingDraftImages,...incoming].slice(0,10);
-      e.target.value='';
-      renderListingImagePreview();
     });
 
     $('#postForm').addEventListener('submit', e=>{
@@ -1782,63 +1848,6 @@
     });
 
     $('#loadMorePosts').addEventListener('click', ()=>{ state.feedCount=Math.min(posts.length,state.feedCount+2); renderFeed(); });
-
-    $$('.listing-cat').forEach(btn=>btn.addEventListener('click',()=>{
-      state.listingCategory=btn.dataset.category;
-      $$('.listing-cat').forEach(b=>b.classList.toggle('active',b===btn));
-      renderListings();
-    }));
-
-    $$('#listingTypePills .category-radio').forEach(btn=>btn.addEventListener('click',()=>{
-      state.listingType=btn.dataset.type;
-      $$('#listingTypePills .category-radio').forEach(b=>b.classList.toggle('active',b===btn));
-      updateListingForm();
-    }));
-
-    function updateListingForm(){
-      const t=state.listingType;
-      $('#categoryField').style.display = (t==='Parduodu')?'grid':'none';
-      $('#conditionField').style.display = (t==='Parduodu'||t==='Dovanoju')?'grid':'none';
-      $('#zoneField').style.display = t==='Paslaugos'?'grid':'none';
-      $('#contactField').style.display = 'grid';
-      $('#titleLabel').textContent = t==='Perku'?'Ko ieškai?':t==='Paslaugos'?'Paslaugos pavadinimas':t==='Dovanoju'?'Ką dovanoji?':t==='Bendras'?'Tema':'Pavadinimas';
-      $('#priceLabel').textContent = t==='Perku'?'Biudžetas, €':t==='Paslaugos'?'Kaina nuo, €':'Kaina, €';
-      $('#priceField').style.display = (t==='Dovanoju'||t==='Bendras')?'none':'grid';
-    }
-
-    $('#listingForm').addEventListener('submit', e=>{
-      e.preventDefault();
-      const title=$('#listingTitle').value.trim()||'Naujas skelbimas';
-      const price=Number($('#listingPriceInput').value||0);
-      const loc=$('#listingLocationInput').value||'Ukmergė';
-      const condition=$('#listingConditionInput').value||state.listingType;
-      const desc=$('#listingDesc').value.trim();
-      const fallback='https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=82';
-
-      listings.unshift({
-        id:Date.now(),
-        type:state.listingType,
-        title,
-        price,
-        loc,
-        time:'ką tik',
-        img:state.listingDraftImages[0]||fallback,
-        gallery:[...state.listingDraftImages],
-        fav:false,
-        condition:state.listingType==='Bendras'?'Bendras':condition,
-        desc
-      });
-
-      e.target.reset();
-      state.listingDraftImages=[];
-      renderListingImagePreview();
-      state.listingType='Parduodu';
-      $$('#listingTypePills .category-radio').forEach(b=>b.classList.toggle('active',b.dataset.type==='Parduodu'));
-      updateListingForm();
-      route('classifieds');
-      renderListings();
-      showToast('Skelbimas paskelbtas');
-    });
 
     $('#chatForm').addEventListener('submit', e=>{
       e.preventDefault(); const val=$('#chatInput').value.trim(); if(!val)return;
@@ -1936,7 +1945,7 @@
     }
 
     // Demo navigation / initial render
-    renderHome(); renderFeed(); renderListings(); renderNotifications(); renderConversations(); renderEvents(); renderProfile(); renderOtherUser(); renderSaved(); updateListingForm();
+    renderHome(); renderFeed(); renderListings(); renderNotifications(); renderConversations(); renderEvents(); renderProfile(); renderOtherUser(); renderSaved();
     const initial = location.hash.replace('#','');
     if(initial && $('#page-'+initial)) route(initial,false);
     refreshIcons();
