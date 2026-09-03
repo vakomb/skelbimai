@@ -729,7 +729,324 @@
       :root{--sidebar-w:252px;--right-w:294px}
       .main{max-width:940px}
     }
-  </style>
+  
+    /* v6 — unified, flatter interface */
+    .card{
+      border-radius:12px;
+      box-shadow:none;
+      border-color:#e6eaf0;
+    }
+    .post.card,
+    .composer.card,
+    .market-post{
+      border-radius:0;
+      box-shadow:none;
+      border-left:0;
+      border-right:0;
+    }
+    .post.card{border-top:0}
+    .listing-card{
+      border-radius:8px;
+      box-shadow:none;
+    }
+    .story-card{
+      border:0;
+      border-radius:0;
+      background:transparent;
+    }
+    .story-card img{border-radius:8px}
+    .primary-btn,.secondary-btn,.soft-btn,.danger-btn{border-radius:9px}
+    .icon-btn{border-radius:9px}
+    .composer-trigger{border-radius:10px}
+    .composer-tools button{border-radius:7px}
+    .page-hero{padding:0 2px}
+    .market-post{border-top:1px solid #e6eaf0;border-bottom:1px solid #e6eaf0}
+    .market-label{border-radius:5px}
+    .post-kind{border-radius:5px}
+    .comment-preview{border-radius:8px;background:#f7f8fa}
+
+    /* professional media manager */
+    .compose-upload-toolbar{
+      justify-content:center;
+      position:relative;
+      min-height:48px;
+      border-top:1px solid #e8ebf0;
+      padding-top:12px;
+      margin-top:12px;
+    }
+    .upload-action{
+      border:0;
+      background:#f2f5fa;
+      border-radius:8px;
+      min-height:42px;
+      padding:10px 15px;
+      color:#334566;
+      font-size:12px;
+      font-weight:850;
+    }
+    .upload-action:hover{background:#e9eef7}
+    .upload-count{
+      position:absolute;
+      right:2px;
+      top:22px;
+      margin:0;
+      font-size:10px;
+    }
+    .upload-preview-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:6px;
+      margin-top:12px;
+    }
+    .upload-preview-item{
+      position:relative;
+      overflow:hidden;
+      border-radius:7px;
+      background:#eef1f5;
+      aspect-ratio:1/1;
+      border:0;
+      cursor:grab;
+    }
+    .upload-preview-item:active{cursor:grabbing}
+    .upload-preview-item.dragging{opacity:.46}
+    .upload-preview-item.drag-over{outline:2px solid #6780d9;outline-offset:2px}
+    .upload-preview-item img{width:100%;height:100%;object-fit:cover}
+    .main-photo-badge{
+      position:absolute;
+      left:7px;top:7px;
+      display:inline-flex;align-items:center;gap:4px;
+      padding:5px 7px;
+      background:rgba(8,25,54,.82);
+      color:#fff;
+      border-radius:5px;
+      font-size:9px;
+      font-weight:850;
+      backdrop-filter:blur(8px);
+    }
+    .photo-controls{
+      position:absolute;
+      left:6px;right:6px;bottom:6px;
+      display:flex;align-items:center;justify-content:center;gap:4px;
+      opacity:0;
+      transform:translateY(3px);
+      transition:.15s ease;
+    }
+    .upload-preview-item:hover .photo-controls,
+    .upload-preview-item:focus-within .photo-controls{opacity:1;transform:none}
+    .photo-control{
+      width:30px;height:30px;border:0;border-radius:6px;
+      display:grid;place-items:center;
+      color:#fff;background:rgba(8,25,54,.78);
+      backdrop-filter:blur(8px);
+    }
+    .photo-control:hover{background:rgba(8,25,54,.94)}
+    .photo-control.main-active{background:#4169e1}
+    .photo-control:disabled{opacity:.35;cursor:not-allowed}
+    .media-gallery{display:grid;gap:2px;overflow:hidden;background:#eef1f5}
+    .media-gallery.one{grid-template-columns:1fr}
+    .media-gallery.two{grid-template-columns:1fr 1fr}
+    .media-gallery.multi{grid-template-columns:1.45fr .9fr;grid-template-rows:1fr 1fr}
+    .media-gallery img{width:100%;height:100%;object-fit:cover;min-height:0}
+    .media-gallery.one img{max-height:620px;object-fit:cover}
+    .media-gallery.two img{height:360px}
+    .media-gallery.multi .media-main{grid-row:1/3;height:430px}
+    .media-gallery.multi .media-side{height:214px}
+    .media-more{position:relative}
+    .media-more::after{
+      content:attr(data-more);
+      position:absolute;inset:0;
+      display:grid;place-items:center;
+      background:rgba(9,24,51,.52);color:#fff;
+      font-size:22px;font-weight:900;
+    }
+
+    .event-fields{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+      padding:12px 0 2px;
+      border-top:1px solid #e8ebf0;
+    }
+    .event-fields .field:last-child{grid-column:1/-1}
+    .event-fields input{
+      border-radius:8px!important;
+      background:#fafbfc!important;
+    }
+
+    .classifieds-nav-row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      margin-top:9px;
+      padding-top:8px;
+      border-top:1px solid #e8ebf0;
+    }
+    .classifieds-nav-row button{
+      border:0;background:transparent;
+      min-height:42px;
+      color:#647087;
+      font-size:11.5px;font-weight:850;
+      display:flex;align-items:center;justify-content:center;gap:7px;
+    }
+    .classifieds-nav-row button:first-child{justify-content:flex-start;padding-left:4px;color:#314c94}
+    .classifieds-nav-row button:last-child{justify-content:flex-end;padding-right:4px}
+    .classifieds-nav-row button:hover{color:var(--navy)}
+
+    @media (min-width:700px){
+      .upload-preview-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+    }
+
+    @media (max-width:699px){
+      body{background:#fff}
+      .app{background:#fff}
+      .topbar{background:rgba(255,255,255,.96)}
+      .topbar-inner{padding:0 14px}
+      .header-actions{gap:2px}
+      .header-actions .icon-btn{
+        width:38px;height:38px;
+        border:0;background:transparent;
+      }
+      .logo-mark{border-radius:8px}
+      .shell{
+        display:block;
+        padding:0;
+        margin:0;
+        max-width:none;
+        background:#fff;
+      }
+      .main{width:100%;background:#fff}
+      .page{width:100%}
+      .page-hero{
+        padding:17px 16px 9px;
+        margin-bottom:0;
+      }
+      .page-hero h1{font-size:25px}
+      .card{
+        border-radius:0!important;
+        box-shadow:none!important;
+        border-left:0!important;
+        border-right:0!important;
+      }
+      .welcome{
+        margin:0 0 8px;
+        border-radius:0;
+        box-shadow:none;
+        height:138px;
+      }
+      .welcome:after{border-radius:0}
+      .composer{
+        margin:0;
+        padding:13px 16px 9px;
+        border-top:1px solid #eef0f4!important;
+        border-bottom:1px solid #e3e7ed!important;
+      }
+      .composer-trigger{
+        background:#f3f5f7;
+        border-radius:8px;
+      }
+      .composer-tools{
+        margin-top:9px;
+        padding-top:7px;
+      }
+      .home-block{
+        margin:0;
+        padding-top:16px;
+        border-top:1px solid #eceff3;
+      }
+      .home-block .section-head{padding:0 16px}
+      .section-card{
+        padding:16px;
+        margin:0;
+        border-top:1px solid #eceff3!important;
+      }
+      .post{
+        margin:0!important;
+        padding:15px 16px 13px;
+        border:0!important;
+        border-bottom:1px solid #e7eaf0!important;
+      }
+      .post-images,
+      .media-gallery{
+        margin-left:-16px;
+        margin-right:-16px;
+        border-radius:0;
+      }
+      .media-gallery.two img{height:250px}
+      .media-gallery.multi .media-main{height:310px}
+      .media-gallery.multi .media-side{height:154px}
+      .comment-preview{background:transparent;padding:8px 0;margin-top:8px}
+      .listing-grid{padding:0 16px 18px}
+      .listing-card{
+        border:0;
+        border-radius:0;
+        box-shadow:none;
+      }
+      .listing-media{border-radius:6px}
+      .market-feed{gap:0}
+      .market-post{
+        margin:0;
+        border:0!important;
+        border-bottom:1px solid #e5e9ef!important;
+        border-radius:0!important;
+        box-shadow:none!important;
+      }
+      .market-post-head{padding:14px 16px 9px}
+      .market-post-copy{padding:2px 16px 13px}
+      .market-post .media-gallery{margin:0}
+      .market-post-bottom{padding:8px 12px 10px}
+      .filters{
+        padding:0 16px;
+        border-bottom:1px solid #eceff3;
+        gap:18px;
+      }
+      .chip{
+        border:0;
+        border-radius:0;
+        padding:11px 0 9px;
+        background:transparent;
+      }
+      .chip.active{
+        background:transparent;
+        border:0;
+        box-shadow:inset 0 -2px 0 var(--blue);
+      }
+      .story-card{min-width:220px}
+      .tabs{
+        margin:12px 16px;
+        padding:0;
+        background:transparent;
+        border-radius:0;
+        border-bottom:1px solid #e7eaf0;
+      }
+      .tab-btn{border-radius:0;padding:10px 9px}
+      .tab-btn.active{
+        background:transparent;
+        box-shadow:inset 0 -2px 0 var(--blue);
+      }
+      .profile-card{border:0!important}
+      .profile-cover{border-radius:0}
+      .profile-avatar{border-radius:12px}
+      .notif,.conversation{
+        border-left:0;border-right:0;border-radius:0;
+      }
+      .bottom-nav .create-fab{
+        width:38px;height:38px;
+        margin:0 auto;
+        border:0;
+        border-radius:8px;
+        box-shadow:none;
+      }
+      .modal{
+        border-radius:14px 14px 0 0;
+        padding:17px 16px;
+      }
+      .upload-preview-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .photo-controls{opacity:1;transform:none}
+      .upload-action{border-radius:7px}
+      .primary-btn,.secondary-btn{border-radius:8px}
+    }
+
+</style>
 </head>
 <body>
   <div class="app">
@@ -805,7 +1122,7 @@
             <div class="composer-tools">
               <button data-open-composer><i data-lucide="square-pen" width="16"></i> Įrašas</button>
               <button data-open-listing-post><i data-lucide="tag" width="16"></i> Skelbimas</button>
-              <button data-open-question><i data-lucide="circle-help" width="16"></i> Klausimas</button>
+              <button data-open-event><i data-lucide="calendar-plus" width="16"></i> Renginys</button>
             </div>
           </div>
 
@@ -871,14 +1188,13 @@
         <section class="page" id="page-feed">
           <div class="page-hero">
             <div><h1>Srautas</h1></div>
-            <button class="primary-btn" data-open-composer><i data-lucide="plus" width="17"></i><span class="hide-mobile">Įrašas</span></button>
           </div>
           <div class="composer card">
             <div class="composer-row"><img class="avatar round" src="https://i.pravatar.cc/120?img=12" alt=""><button class="composer-trigger" data-open-composer>Kuo norėtum pasidalinti?</button></div>
             <div class="composer-tools">
               <button data-open-composer><i data-lucide="square-pen" width="16"></i> Įrašas</button>
-              <button data-open-question><i data-lucide="circle-help" width="16"></i> Klausimas</button>
               <button data-open-listing-post><i data-lucide="tag" width="16"></i> Skelbimas</button>
+              <button data-open-event><i data-lucide="calendar-plus" width="16"></i> Renginys</button>
             </div>
           </div>
           <div class="filters" style="margin-bottom:13px">
@@ -891,23 +1207,28 @@
         <!-- CLASSIFIEDS -->
         <section class="page" id="page-classifieds">
           <div class="page-hero">
-            <div><h1>Skelbimai</h1></div>
-            <button class="primary-btn" data-open-listing-post><i data-lucide="plus" width="17"></i><span class="hide-mobile">Paskelbti</span></button>
+            <div><h1>Ukmergės skelbimai</h1></div>
           </div>
 
           <div class="composer market-composer card">
             <div class="composer-row">
               <img class="avatar round" src="https://i.pravatar.cc/120?img=12" alt="">
-              <button class="composer-trigger" data-open-listing-post>Parašyk skelbimą…</button>
+              <button class="composer-trigger" data-open-listing-post>Skelbti skelbimą</button>
             </div>
-            <div class="composer-tools market-compose-tools">
+            <div class="classifieds-nav-row">
               <button data-open-listing-post><i data-lucide="square-pen" width="16"></i> Skelbimas</button>
-              <button data-open-listing-post data-listing-photo><i data-lucide="image-plus" width="16"></i> Nuotraukos</button>
-              <button data-route="saved"><i data-lucide="bookmark" width="16"></i> Išsaugoti</button>
+              <button data-route="saved-listings"><i data-lucide="bookmark" width="16"></i> Išsaugoti skelbimai</button>
             </div>
           </div>
 
           <div class="market-feed" id="classifiedsFeed"></div>
+        </section>
+
+        <section class="page" id="page-saved-listings">
+          <div class="page-hero">
+            <div><h1>Išsaugoti skelbimai</h1></div>
+          </div>
+          <div class="market-feed" id="savedListingsFeed"></div>
         </section>
 
         <!-- LISTING DETAIL -->
@@ -918,7 +1239,7 @@
 
         <!-- EVENTS -->
         <section class="page" id="page-events">
-          <div class="page-hero"><div><h1>Renginiai Ukmergėje</h1><p>Kas vyksta mieste šiandien, šią savaitę ir artimiausiu metu.</p></div></div>
+          <div class="page-hero"><div><h1>Renginiai Ukmergėje</h1></div><button class="secondary-btn" data-open-event><i data-lucide="plus" width="16"></i> Renginys</button></div>
           <div class="filters" style="margin-bottom:14px"><button class="chip active">Visi</button><button class="chip">Šiandien</button><button class="chip">Savaitgalį</button><button class="chip">Šeimai</button><button class="chip">Nemokami</button></div>
           <div class="card section-card">
             <div class="h-scroll">
@@ -1156,20 +1477,20 @@
         </div>
 
         <div class="field">
-          <textarea class="compose-text" id="listingPostText" placeholder="Ką parduodi, perki, dovanoji ar ko ieškai?"></textarea>
+          <textarea class="compose-text" id="listingPostText" placeholder="Parašyk skelbimą…"></textarea>
         </div>
 
         <div class="upload-preview-grid" id="listingPostImagePreview"></div>
 
         <div class="compose-upload-toolbar">
           <label class="upload-action" for="listingPostImagesInput">
-            <i data-lucide="image-plus" width="16"></i> Nuotraukos
+            <i data-lucide="image-plus" width="16"></i> Pridėti nuotraukas
           </label>
           <input class="sr-only" id="listingPostImagesInput" type="file" accept="image/*" multiple>
           <span class="upload-count" id="listingPostPhotoCount"></span>
         </div>
 
-        <button class="primary-btn" type="submit" style="width:100%;margin-top:14px">Paskelbti</button>
+        <button class="primary-btn" type="submit" style="width:100%;margin-top:14px">Paskelbti skelbimą</button>
       </form>
     </div>
   </div>
@@ -1177,21 +1498,45 @@
   <!-- Composer modal -->
   <div class="modal-backdrop" id="composerModal">
     <div class="modal">
-      <div class="modal-head"><h2 id="composerTitle">Naujas įrašas</h2><button class="icon-btn" data-close-modal><i data-lucide="x" width="18"></i></button></div>
+      <div class="modal-head">
+        <h2 id="composerTitle">Naujas įrašas</h2>
+        <button class="icon-btn" data-close-modal><i data-lucide="x" width="18"></i></button>
+      </div>
       <form id="postForm">
         <div class="compose-user">
           <img class="avatar round" src="https://i.pravatar.cc/120?img=12" alt="">
           <strong>Mantas Žukauskas</strong>
         </div>
+
         <div class="field">
           <textarea class="compose-text" id="postText" placeholder="Pasidalink, kas vyksta Ukmergėje…"></textarea>
         </div>
+
+        <div class="event-fields hidden" id="eventFields">
+          <div class="field">
+            <label>Data</label>
+            <input id="eventDateInput" type="date">
+          </div>
+          <div class="field">
+            <label>Laikas</label>
+            <input id="eventTimeInput" type="time">
+          </div>
+          <div class="field">
+            <label>Vieta</label>
+            <input id="eventPlaceInput" placeholder="Pvz. Pilies parkas">
+          </div>
+        </div>
+
         <div class="upload-preview-grid" id="postImagePreview"></div>
+
         <div class="compose-upload-toolbar">
-          <label class="upload-action" for="postImagesInput"><i data-lucide="image-plus" width="16"></i> Nuotraukos</label>
+          <label class="upload-action" for="postImagesInput">
+            <i data-lucide="image-plus" width="16"></i> Pridėti nuotraukas
+          </label>
           <input class="sr-only" id="postImagesInput" type="file" accept="image/*" multiple>
           <span class="upload-count" id="postPhotoCount"></span>
         </div>
+
         <button class="primary-btn" id="postSubmitBtn" type="submit" style="width:100%;margin-top:14px">Paskelbti</button>
       </form>
     </div>
@@ -1203,7 +1548,7 @@
       <div class="modal-head"><h2>Sukurti</h2><button class="icon-btn" data-close-create><i data-lucide="x" width="18"></i></button></div>
       <div class="create-choice-grid">
         <button class="create-choice" data-create-post><i data-lucide="square-pen" width="21"></i><span>Įrašas</span></button>
-        <button class="create-choice" data-create-question><i data-lucide="circle-help" width="21"></i><span>Klausimas</span></button>
+        <button class="create-choice" data-create-event><i data-lucide="calendar-plus" width="21"></i><span>Renginys</span></button>
         <button class="create-choice" data-create-listing-simple><i data-lucide="tag" width="21"></i><span>Skelbimas</span></button>
       </div>
     </div>
@@ -1308,8 +1653,11 @@
       replyingTo:null,
       postKind:'Įrašas',
       postDraftImages:[],
-      listingPostDraftImages:[]
+      listingPostDraftImages:[],
+      imageDrag:null
     };
+
+    const communityEvents = [];
 
     const commentAuthors = [
       ['Gabija M.',21],['Andrius K.',33],['Rūta P.',47],['Saulius V.',14],
@@ -1406,21 +1754,85 @@
       })));
     }
 
-    function renderPostImagePreview(){
-      const box=$('#postImagePreview');
+    function managedPhotoMarkup(src,i,scope,total,alt){
+      return `<div class="upload-preview-item ${i===0?'is-main':''}" draggable="true" data-drag-image="${scope}" data-image-index="${i}">
+        <img src="${src}" alt="${alt}">
+        ${i===0?`<span class="main-photo-badge">${icon('star',10)} Pagrindinė</span>`:''}
+        <div class="photo-controls">
+          <button type="button" class="photo-control ${i===0?'main-active':''}" data-main-image="${scope}" data-index="${i}" title="Padaryti pagrindine" aria-label="Padaryti pagrindine">${icon('star',14)}</button>
+          <button type="button" class="photo-control" data-move-image="${scope}" data-index="${i}" data-direction="-1" ${i===0?'disabled':''} title="Perkelti kairėn" aria-label="Perkelti kairėn">${icon('chevron-left',14)}</button>
+          <button type="button" class="photo-control" data-move-image="${scope}" data-index="${i}" data-direction="1" ${i===total-1?'disabled':''} title="Perkelti dešinėn" aria-label="Perkelti dešinėn">${icon('chevron-right',14)}</button>
+          <button type="button" class="photo-control" data-remove-image="${scope}" data-index="${i}" title="Pašalinti" aria-label="Pašalinti">${icon('trash-2',14)}</button>
+        </div>
+      </div>`;
+    }
+
+    function getDraftImages(scope){
+      return scope==='post' ? state.postDraftImages : state.listingPostDraftImages;
+    }
+
+    function setDraftImages(scope,images){
+      if(scope==='post') state.postDraftImages=images;
+      else state.listingPostDraftImages=images;
+    }
+
+    function renderDraftImages(scope){
+      const images=getDraftImages(scope);
+      const box=$(scope==='post'?'#postImagePreview':'#listingPostImagePreview');
+      const count=$(scope==='post'?'#postPhotoCount':'#listingPostPhotoCount');
       if(!box)return;
-      box.innerHTML=state.postDraftImages.map((src,i)=>`
-        <div class="upload-preview-item">
-          <img src="${src}" alt="Įrašo nuotrauka">
-          <button type="button" class="upload-remove" data-remove-post-image="${i}" aria-label="Pašalinti">${icon('x',14)}</button>
-        </div>`).join('');
-      $('#postPhotoCount').textContent=state.postDraftImages.length ? `${state.postDraftImages.length}/6` : '';
+      box.innerHTML=images.map((src,i)=>managedPhotoMarkup(
+        src,i,scope,images.length,scope==='post'?'Įrašo nuotrauka':'Skelbimo nuotrauka'
+      )).join('');
+      if(count) count.textContent=images.length?`${images.length}/10`:'';
       refreshIcons();
     }
 
+    function renderPostImagePreview(){ renderDraftImages('post'); }
+    function renderListingPostImagePreview(){ renderDraftImages('listing'); }
+
+    function moveDraftImage(scope,from,to){
+      const arr=[...getDraftImages(scope)];
+      if(from<0||to<0||from>=arr.length||to>=arr.length||from===to)return;
+      const [item]=arr.splice(from,1);
+      arr.splice(to,0,item);
+      setDraftImages(scope,arr);
+      renderDraftImages(scope);
+    }
+
+    function setMainDraftImage(scope,index){
+      if(index<=0)return;
+      moveDraftImage(scope,index,0);
+    }
+
+    function removeDraftImage(scope,index){
+      const arr=[...getDraftImages(scope)];
+      arr.splice(index,1);
+      setDraftImages(scope,arr);
+      renderDraftImages(scope);
+    }
+
+    function mediaGallery(images=[],alt='Nuotrauka'){
+      const imgs=(images||[]).filter(Boolean);
+      if(!imgs.length)return '';
+      if(imgs.length===1){
+        return `<div class="media-gallery one"><img src="${imgs[0]}" alt="${alt}"></div>`;
+      }
+      if(imgs.length===2){
+        return `<div class="media-gallery two">${imgs.map(src=>`<img src="${src}" alt="${alt}">`).join('')}</div>`;
+      }
+      const visible=imgs.slice(0,3);
+      return `<div class="media-gallery multi">
+        <img class="media-main" src="${visible[0]}" alt="${alt}">
+        <img class="media-side" src="${visible[1]}" alt="${alt}">
+        <div class="media-more" ${imgs.length>3?`data-more="+${imgs.length-3}"`:''}>
+          <img class="media-side" src="${visible[2]}" alt="${alt}">
+        </div>
+      </div>`;
+    }
 
     function postTemplate(p){
-      const imgs = p.images?.length ? `<div class="post-images ${p.images.length>1?'two':''}">${p.images.map(x=>`<img src="${x}" alt="Įrašo nuotrauka">`).join('')}</div>` : '';
+      const imgs = mediaGallery(p.images||[], p.kind==='Renginys'?'Renginio nuotrauka':'Įrašo nuotrauka');
       const kindBadge = p.kind && p.kind!=='Įrašas' ? `<span class="post-kind">${esc(p.kind)}</span>` : '';
       const previews = (p.thread||[]).slice(0,2).map(c=>`
         <div class="comment-preview">
@@ -1438,6 +1850,7 @@
           <button class="more-btn" data-post-menu="${p.id}" aria-label="Daugiau">${icon('more-horizontal',19)}</button>
         </div>
         ${kindBadge}
+        ${p.kind==='Renginys' && (p.eventDate||p.eventTime) ? `<div class="post-sub" style="margin:4px 0 8px">${icon('calendar-days',13)} ${esc(p.eventDate||'')} ${p.eventTime?`· ${esc(p.eventTime)}`:''}</div>`:''}
         <div class="post-text">${esc(p.text)}</div>
         ${imgs}
         <div class="post-stats"><span>${p.likes} patiktukai</span><span>${p.comments} komentarai</span><span>${p.saved?'Išsaugota':''}</span></div>
@@ -1465,7 +1878,10 @@
 
     function listingFeedTemplate(l){
       const person = listingPeople[(Number(l.id)-1) % listingPeople.length] || listingPeople[0];
-      const bodyText = [l.title, l.desc].filter(Boolean).join(l.title && l.desc ? '\n\n' : '');
+      const desc=(l.desc||'').trim();
+      const title=(l.title||'').trim();
+      const bodyText = desc && title && desc.startsWith(title) ? desc : [title,desc].filter(Boolean).join('\n\n');
+      const gallery=(l.gallery&&l.gallery.length)?l.gallery:(l.img?[l.img]:[]);
       return `<article class="market-post" data-listing="${l.id}">
         <div class="market-post-head">
           <img class="avatar round" src="${person[1]}" alt="">
@@ -1481,7 +1897,7 @@
           <p class="market-post-desc">${esc(bodyText)}</p>
         </div>
 
-        ${l.img?`<img class="market-post-image" src="${l.img}" alt="Skelbimo nuotrauka">`:''}
+        ${mediaGallery(gallery,'Skelbimo nuotrauka')}
 
         <div class="market-post-bottom">
           <div class="market-actions">
@@ -1547,15 +1963,31 @@
       $('#conversationList').innerHTML = conversations.map(c=>`<div class="conversation ${c.unread?'unread':''}" data-route="chat"><img class="avatar round" src="${c.avatar}" alt=""><div class="grow"><strong>${esc(c.name)}</strong><p class="truncate">${esc(c.msg)}</p></div><div class="time">${c.time}</div>${c.unread?'<span class="unread-dot"></span>':''}</div>`).join('');
     }
 
+    function formatEventDate(dateStr){
+      if(!dateStr)return {label:'Data',day:'–',month:''};
+      const d=new Date(dateStr+'T12:00:00');
+      const month=d.toLocaleDateString('lt-LT',{month:'short'}).replace('.','');
+      const label=d.toLocaleDateString('lt-LT',{month:'long',day:'numeric'});
+      return {label:label.charAt(0).toUpperCase()+label.slice(1),day:String(d.getDate()).padStart(2,'0'),month};
+    }
+
     function renderEvents(){
-      const events = [
-        ['Rugsėjo 5','18:00','Gyvos muzikos vakaras','Pilies parkas'],
-        ['Rugsėjo 7','11:00','Šeimų sporto sekmadienis','Miesto stadionas'],
-        ['Rugsėjo 10','17:30','Knygų klubo susitikimas','Vlado Šlaito biblioteka'],
-        ['Rugsėjo 12','12:00','Rudens turgelis','Kęstučio aikštė'],
-        ['Rugsėjo 14','10:00','Bendruomenės dviračių žygis','Startas prie piliakalnio']
+      const base = [
+        {date:'2026-09-05',time:'18:00',title:'Gyvos muzikos vakaras',place:'Pilies parkas'},
+        {date:'2026-09-07',time:'11:00',title:'Šeimų sporto sekmadienis',place:'Miesto stadionas'},
+        {date:'2026-09-10',time:'17:30',title:'Knygų klubo susitikimas',place:'Vlado Šlaito biblioteka'},
+        {date:'2026-09-12',time:'12:00',title:'Rudens turgelis',place:'Kęstučio aikštė'},
+        {date:'2026-09-14',time:'10:00',title:'Bendruomenės dviračių žygis',place:'Startas prie piliakalnio'}
       ];
-      $('#eventList').innerHTML = events.map(e=>`<div class="mini-event"><div class="datebox"><strong>${e[0].split(' ')[1]}</strong><span>Rgs</span></div><div style="flex:1"><strong>${e[2]}</strong><small>${e[3]} · ${e[1]}</small></div><button class="icon-btn" onclick="showToast('Renginys išsaugotas')">${icon('bookmark',15)}</button></div>`).join('');
+      const events=[...communityEvents,...base];
+      $('#eventList').innerHTML = events.map(e=>{
+        const d=formatEventDate(e.date);
+        return `<div class="mini-event">
+          <div class="datebox"><strong>${d.day}</strong><span>${esc(d.month)}</span></div>
+          <div style="flex:1"><strong>${esc(e.title)}</strong><small>${esc(e.place||'Ukmergė')} · ${esc(e.time||'Laikas derinamas')}</small></div>
+          <button class="icon-btn" onclick="showToast('Renginys išsaugotas')">${icon('bookmark',15)}</button>
+        </div>`;
+      }).join('');
       refreshIcons();
     }
 
@@ -1570,6 +2002,13 @@
 
     function renderOtherUser(){ $('#otherUserPosts').innerHTML = [posts[0],posts[3]].map(postTemplate).join(''); refreshIcons(); }
     function renderSaved(){ $('#savedContent').innerHTML = posts.filter(p=>p.saved).map(postTemplate).join('') || '<div class="empty card">Dar nieko neišsaugota.</div>'; refreshIcons(); }
+    function renderSavedListings(){
+      const box=$('#savedListingsFeed');
+      if(!box)return;
+      const arr=listings.filter(l=>l.fav);
+      box.innerHTML=arr.length?arr.map(listingFeedTemplate).join(''):`<div class="empty">${icon('bookmark',30)}Išsaugotų skelbimų dar nėra.</div>`;
+      refreshIcons();
+    }
 
     function refreshIcons(){ if(window.lucide) lucide.createIcons(); }
 
@@ -1589,6 +2028,7 @@
       if(name==='profile') renderProfile('posts');
       if(name==='user') renderOtherUser();
       if(name==='saved') renderSaved();
+      if(name==='saved-listings') renderSavedListings();
       refreshIcons();
     }
 
@@ -1597,7 +2037,7 @@
       if(r){ e.preventDefault(); route(r.dataset.route); return; }
 
       const fav = e.target.closest('[data-fav]');
-      if(fav){ e.preventDefault(); e.stopPropagation(); const l=listings.find(x=>x.id===Number(fav.dataset.fav)); if(l){l.fav=!l.fav; showToast(l.fav?'Pridėta į mėgstamus':'Pašalinta iš mėgstamų'); renderHome(); renderListings(); if(state.route==='listing-detail') renderListingDetail(l.id);} return; }
+      if(fav){ e.preventDefault(); e.stopPropagation(); const l=listings.find(x=>x.id===Number(fav.dataset.fav)); if(l){l.fav=!l.fav; showToast(l.fav?'Skelbimas išsaugotas':'Pašalinta iš išsaugotų'); renderHome(); renderListings(); renderSavedListings(); if(state.route==='listing-detail') renderListingDetail(l.id);} return; }
 
       const listing = e.target.closest('[data-listing]');
       if(listing && !e.target.closest('button')){ renderListingDetail(listing.dataset.listing); route('listing-detail'); return; }
@@ -1613,23 +2053,21 @@
 
       const commentBtn=e.target.closest('[data-comment]'); if(commentBtn){ openComments(commentBtn.dataset.comment); return; }
       if(e.target.closest('[data-share]')){ showToast('Nuoroda į įrašą nukopijuota'); return; }
-
-      const removeListingPostImage=e.target.closest('[data-remove-listing-post-image]');
-      if(removeListingPostImage){
-        state.listingPostDraftImages.splice(Number(removeListingPostImage.dataset.removeListingPostImage),1);
-        renderListingPostImagePreview();
+      const mainImage=e.target.closest('[data-main-image]');
+      if(mainImage){
+        setMainDraftImage(mainImage.dataset.mainImage,Number(mainImage.dataset.index));
         return;
       }
-
-      const removePostImage=e.target.closest('[data-remove-post-image]');
-      if(removePostImage){
-        state.postDraftImages.splice(Number(removePostImage.dataset.removePostImage),1);
-        renderPostImagePreview(); return;
+      const moveImage=e.target.closest('[data-move-image]');
+      if(moveImage){
+        const from=Number(moveImage.dataset.index);
+        moveDraftImage(moveImage.dataset.moveImage,from,from+Number(moveImage.dataset.direction));
+        return;
       }
-      const removeListingImage=e.target.closest('[data-remove-listing-image]');
-      if(removeListingImage){
-        state.listingDraftImages.splice(Number(removeListingImage.dataset.removeListingImage),1);
-        renderListingImagePreview(); return;
+      const removeImage=e.target.closest('[data-remove-image]');
+      if(removeImage){
+        removeDraftImage(removeImage.dataset.removeImage,Number(removeImage.dataset.index));
+        return;
       }
 
       const reply=e.target.closest('[data-reply-to]');
@@ -1653,10 +2091,12 @@
         return;
       }
       if(e.target.closest('[data-open-question]')){ openComposer(false,'Klausimas'); return; }
+      if(e.target.closest('[data-open-event]')){ openComposer(false,'Renginys'); return; }
       if(e.target.closest('[data-open-composer]')){ openComposer(false,'Įrašas'); return; }
       if(e.target.closest('[data-close-modal]')) closeComposer();
       if(e.target.closest('[data-close-create]')) closeCreate();
       if(e.target.closest('[data-create-question]')){ closeCreate(); openComposer(false,'Klausimas'); return; }
+      if(e.target.closest('[data-create-event]')){ closeCreate(); openComposer(false,'Renginys'); return; }
       if(e.target.closest('[data-create-post]')){ closeCreate(); openComposer(false,'Įrašas'); return; }
       if(e.target.closest('[data-open-listing-post]')){ closeCreate(); openListingPost(); return; }
     });
@@ -1700,11 +2140,24 @@
         state.postKind=kind;
         state.postDraftImages=[];
         $('#postText').value='';
+        $('#eventDateInput').value='';
+        $('#eventTimeInput').value='';
+        $('#eventPlaceInput').value='';
       }
       const isQuestion=state.postKind==='Klausimas';
-      $('#composerTitle').textContent=editing ? 'Redaguoti įrašą' : (isQuestion?'Naujas klausimas':'Naujas įrašas');
-      $('#postText').placeholder=isQuestion?'Ko norėtum paklausti Ukmergės bendruomenės?':'Pasidalink, kas vyksta Ukmergėje…';
+      const isEvent=state.postKind==='Renginys';
+      $('#composerTitle').textContent=editing ? (isEvent?'Redaguoti renginį':'Redaguoti įrašą') : (isEvent?'Naujas renginys':isQuestion?'Naujas klausimas':'Naujas įrašas');
+      $('#postText').placeholder=isEvent?'Renginio pavadinimas ir trumpas aprašymas…':isQuestion?'Ko norėtum paklausti Ukmergės bendruomenės?':'Pasidalink, kas vyksta Ukmergėje…';
       $('#postSubmitBtn').textContent=editing?'Išsaugoti':'Paskelbti';
+      $('#eventFields').classList.toggle('hidden',!isEvent);
+      if(editing && isEvent){
+        const p=posts.find(x=>x.id===state.editingPostId);
+        if(p){
+          $('#eventDateInput').value=p.eventDateRaw||'';
+          $('#eventTimeInput').value=p.eventTime||'';
+          $('#eventPlaceInput').value=p.place||'';
+        }
+      }
       renderPostImagePreview();
       $('#composerModal').classList.add('open');
       setTimeout(()=>$('#postText').focus(),100);
@@ -1734,14 +2187,48 @@
     }
     function closeComments(){ $('#commentsModal').classList.remove('open'); state.replyingTo=null; }
 
+    document.addEventListener('dragstart',e=>{
+      const item=e.target.closest('[data-drag-image]');
+      if(!item)return;
+      state.imageDrag={scope:item.dataset.dragImage,index:Number(item.dataset.imageIndex)};
+      item.classList.add('dragging');
+      if(e.dataTransfer)e.dataTransfer.effectAllowed='move';
+    });
+    document.addEventListener('dragend',e=>{
+      const item=e.target.closest('[data-drag-image]');
+      if(item)item.classList.remove('dragging');
+      $$('.upload-preview-item.drag-over').forEach(x=>x.classList.remove('drag-over'));
+      state.imageDrag=null;
+    });
+    document.addEventListener('dragover',e=>{
+      const item=e.target.closest('[data-drag-image]');
+      if(!item||!state.imageDrag||item.dataset.dragImage!==state.imageDrag.scope)return;
+      e.preventDefault();
+      item.classList.add('drag-over');
+    });
+    document.addEventListener('dragleave',e=>{
+      const item=e.target.closest('[data-drag-image]');
+      if(item)item.classList.remove('drag-over');
+    });
+    document.addEventListener('drop',e=>{
+      const item=e.target.closest('[data-drag-image]');
+      if(!item||!state.imageDrag||item.dataset.dragImage!==state.imageDrag.scope)return;
+      e.preventDefault();
+      item.classList.remove('drag-over');
+      moveDraftImage(state.imageDrag.scope,state.imageDrag.index,Number(item.dataset.imageIndex));
+      state.imageDrag=null;
+    });
+
     $('#composerModal').addEventListener('click', e=>{ if(e.target.id==='composerModal') closeComposer(); });
     $('#createModal').addEventListener('click', e=>{ if(e.target.id==='createModal') closeCreate(); });
     $('#commentsModal').addEventListener('click', e=>{ if(e.target.id==='commentsModal') closeComments(); });
     $('#listingPostModal').addEventListener('click', e=>{ if(e.target.id==='listingPostModal') closeListingPost(); });
 
     $('#listingPostImagesInput').addEventListener('change', async e=>{
-      const incoming=await imageFilesToDataUrls(e.target.files,8-state.listingPostDraftImages.length);
-      state.listingPostDraftImages=[...state.listingPostDraftImages,...incoming].slice(0,8);
+      const room=10-state.listingPostDraftImages.length;
+      if(room<=0){ showToast('Galima pridėti iki 10 nuotraukų'); e.target.value=''; return; }
+      const incoming=await imageFilesToDataUrls(e.target.files,room);
+      state.listingPostDraftImages=[...state.listingPostDraftImages,...incoming].slice(0,10);
       e.target.value='';
       renderListingPostImagePreview();
     });
@@ -1779,8 +2266,10 @@
     });
 
     $('#postImagesInput').addEventListener('change', async e=>{
-      const incoming=await imageFilesToDataUrls(e.target.files,6-state.postDraftImages.length);
-      state.postDraftImages=[...state.postDraftImages,...incoming].slice(0,6);
+      const room=10-state.postDraftImages.length;
+      if(room<=0){ showToast('Galima pridėti iki 10 nuotraukų'); e.target.value=''; return; }
+      const incoming=await imageFilesToDataUrls(e.target.files,room);
+      state.postDraftImages=[...state.postDraftImages,...incoming].slice(0,10);
       e.target.value='';
       renderPostImagePreview();
     });
@@ -1788,10 +2277,22 @@
     $('#postForm').addEventListener('submit', e=>{
       e.preventDefault();
       const text=$('#postText').value.trim();
+      const isEvent=state.postKind==='Renginys';
+      const eventDateRaw=$('#eventDateInput').value;
+      const eventTime=$('#eventTimeInput').value;
+      const eventPlace=$('#eventPlaceInput').value.trim();
+
       if(!text && !state.postDraftImages.length){
-        showToast('Parašyk tekstą arba pridėk nuotrauką');
+        showToast(isEvent?'Įrašyk renginio informaciją':'Parašyk tekstą arba pridėk nuotrauką');
         return;
       }
+      if(isEvent && !eventDateRaw){
+        showToast('Pasirink renginio datą');
+        return;
+      }
+
+      const formattedEventDate=isEvent?formatEventDate(eventDateRaw).label:'';
+
       if(state.editingPostId){
         const p=posts.find(x=>x.id===state.editingPostId);
         if(p){
@@ -1799,15 +2300,21 @@
           p.images=[...state.postDraftImages];
           p.kind=state.postKind;
           p.time='redaguota ką tik';
+          if(isEvent){
+            p.eventDateRaw=eventDateRaw;
+            p.eventDate=formattedEventDate;
+            p.eventTime=eventTime;
+            p.place=eventPlace||'Ukmergė';
+          }
         }
-        showToast('Įrašas atnaujintas');
+        showToast(isEvent?'Renginys atnaujintas':'Įrašas atnaujintas');
       }else{
-        posts.unshift({
+        const newPost={
           id:Date.now(),
           author:'Mantas Žukauskas',
           avatar:'https://i.pravatar.cc/120?img=12',
           time:'ką tik',
-          place:'Ukmergė',
+          place:isEvent?(eventPlace||'Ukmergė'):'Ukmergė',
           text,
           images:[...state.postDraftImages],
           kind:state.postKind,
@@ -1817,15 +2324,30 @@
           liked:false,
           comment:'',
           thread:[]
-        });
-        showToast(state.postKind==='Klausimas'?'Klausimas paskelbtas':'Įrašas paskelbtas');
+        };
+        if(isEvent){
+          newPost.eventDateRaw=eventDateRaw;
+          newPost.eventDate=formattedEventDate;
+          newPost.eventTime=eventTime;
+          const firstLine=text.split(/\n+/).find(Boolean)||'Bendruomenės renginys';
+          communityEvents.unshift({
+            date:eventDateRaw,
+            time:eventTime,
+            title:firstLine,
+            place:eventPlace||'Ukmergė'
+          });
+        }
+        posts.unshift(newPost);
+        showToast(isEvent?'Renginys paskelbtas':state.postKind==='Klausimas'?'Klausimas paskelbtas':'Įrašas paskelbtas');
       }
+
       $('#postText').value='';
       state.editingPostId=null;
       state.postDraftImages=[];
       state.postKind='Įrašas';
       closeComposer();
       renderHome();
+      renderEvents();
       state.feedCount=Math.max(state.feedCount,4);
       renderFeed();
       route('feed');
@@ -1945,7 +2467,7 @@
     }
 
     // Demo navigation / initial render
-    renderHome(); renderFeed(); renderListings(); renderNotifications(); renderConversations(); renderEvents(); renderProfile(); renderOtherUser(); renderSaved();
+    renderHome(); renderFeed(); renderListings(); renderNotifications(); renderConversations(); renderEvents(); renderProfile(); renderOtherUser(); renderSaved(); renderSavedListings();
     const initial = location.hash.replace('#','');
     if(initial && $('#page-'+initial)) route(initial,false);
     refreshIcons();
