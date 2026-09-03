@@ -77,21 +77,29 @@
       margin:0 auto;
       padding:0 18px;
       display:flex;align-items:center;gap:12px;
+      position:relative;
     }
     .brand{
       display:flex;align-items:center;gap:11px;min-width:0;
+      border-radius:14px;
     }
     .logo-mark{
-      width:42px;height:42px;border-radius:14px;
+      width:40px;height:40px;border-radius:12px;
       display:grid;place-items:center;
-      color:#fff;font-weight:900;letter-spacing:-.05em;
-      background:linear-gradient(135deg,var(--navy),var(--blue) 65%,var(--violet));
-      box-shadow:0 10px 25px rgba(65,105,225,.24);
+      color:#fff;font-size:18px;font-weight:900;letter-spacing:-.06em;
+      background:linear-gradient(145deg,#0a1d40 0%,#183d82 62%,#5e65e8 130%);
+      box-shadow:0 8px 22px rgba(18,48,102,.22), inset 0 0 0 1px rgba(255,255,255,.13);
       flex:0 0 auto;
     }
-    .brand-copy{min-width:0}
-    .brand-copy strong{display:block;font-size:16px;letter-spacing:-.02em}
-    .brand-copy span{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+    .brand-copy{min-width:0;line-height:1}
+    .brand-copy strong{
+      display:block;font-size:17px;line-height:1.05;letter-spacing:-.035em;
+      color:var(--navy);font-weight:900;
+    }
+    .brand-copy span{
+      display:block;color:#7b8498;font-size:10.5px;line-height:1.1;
+      margin-top:5px;font-weight:700;letter-spacing:.01em;
+    }
     .header-actions{margin-left:auto;display:flex;align-items:center;gap:8px}
     .icon-btn{
       position:relative;
@@ -112,13 +120,35 @@
       border:2px solid #fff;box-shadow:0 0 0 1px var(--line);
     }
     .avatar.round{border-radius:50%}
-    .header-search{
-      display:none;
-      align-items:center;gap:8px;
-      max-width:430px;flex:1;margin-left:22px;
-      background:#fff;border:1px solid var(--line);border-radius:15px;padding:0 14px;height:44px;
+    .header-search-pop{
+      position:absolute;
+      z-index:20;
+      left:12px;right:12px;top:10px;
+      height:52px;
+      display:flex;align-items:center;gap:9px;
+      padding:0 7px 0 15px;
+      background:rgba(255,255,255,.98);
+      border:1px solid #dce3ee;
+      border-radius:16px;
+      box-shadow:0 16px 42px rgba(11,31,68,.14);
+      opacity:0;visibility:hidden;pointer-events:none;
+      transform:translateY(-5px) scale(.985);
+      transform-origin:right center;
+      transition:opacity .16s ease, transform .16s ease, visibility .16s ease;
     }
-    .header-search input{border:0;outline:0;background:transparent;min-width:0;flex:1;color:var(--text)}
+    .header-search-pop.open{
+      opacity:1;visibility:visible;pointer-events:auto;transform:none;
+    }
+    .header-search-pop svg{color:#748096;flex:0 0 auto}
+    .header-search-pop input{
+      border:0;outline:0;background:transparent;min-width:0;flex:1;
+      color:var(--text);font-size:14px;font-weight:600;
+    }
+    .header-search-pop input::placeholder{color:#9aa3b5;font-weight:500}
+    .header-search-pop .search-close{
+      width:38px;height:38px;border:0;border-radius:11px;
+      display:grid;place-items:center;background:#f4f6fa;color:#69748a;
+    }
 
     /* Layout */
     .shell{max-width:1480px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr);gap:22px;padding:18px}
@@ -194,18 +224,50 @@
     /* home hero */
     .welcome{
       position:relative;overflow:hidden;
-      background:linear-gradient(135deg,#0b1f44 0%,#173f88 58%,#6c63ff 130%);
-      color:#fff;border-radius:26px;padding:23px;margin-bottom:18px;
-      box-shadow:0 18px 45px rgba(16,42,93,.18);
+      min-height:142px;
+      display:flex;align-items:flex-end;
+      color:#fff;border-radius:24px;
+      padding:18px 18px 17px;
+      margin-bottom:16px;
+      background:
+        linear-gradient(90deg,rgba(7,22,49,.88) 0%,rgba(7,22,49,.62) 48%,rgba(7,22,49,.15) 100%),
+        url('https://commons.wikimedia.org/wiki/Special:Redirect/file/Ukmerg%C4%97%20Wikivoyage%20Banner.jpg?width=1800') center 46% / cover no-repeat;
+      box-shadow:0 16px 40px rgba(16,42,93,.17);
+      isolation:isolate;
+    }
+    .welcome:before{
+      content:"";position:absolute;inset:0;z-index:-1;
+      background:linear-gradient(180deg,rgba(9,26,58,.04),rgba(9,26,58,.25));
     }
     .welcome:after{
-      content:"";position:absolute;width:230px;height:230px;border-radius:50%;
-      background:rgba(255,255,255,.07);right:-90px;top:-100px;
+      content:"";position:absolute;inset:0;z-index:-1;
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);
+      border-radius:inherit;
     }
-    .welcome h1{font-size:26px;line-height:1.1;letter-spacing:-.045em;margin:0 0 8px;max-width:550px}
-    .welcome p{margin:0;color:#dbe4fa;max-width:610px;line-height:1.55}
-    .welcome-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-    .welcome-meta span{display:flex;align-items:center;gap:6px;padding:8px 10px;border-radius:99px;background:rgba(255,255,255,.1);font-size:12px;font-weight:700}
+    .welcome-content{position:relative;z-index:1;max-width:530px}
+    .welcome-label{
+      display:inline-flex;align-items:center;gap:6px;
+      margin-bottom:7px;padding:5px 8px;border-radius:999px;
+      background:rgba(255,255,255,.13);
+      border:1px solid rgba(255,255,255,.15);
+      backdrop-filter:blur(8px);
+      font-size:9px;font-weight:850;letter-spacing:.08em;text-transform:uppercase;
+      color:#edf3ff;
+    }
+    .welcome h1{
+      font-size:22px;line-height:1.05;letter-spacing:-.045em;
+      margin:0 0 5px;max-width:520px;text-shadow:0 2px 16px rgba(0,0,0,.18)
+    }
+    .welcome p{
+      margin:0;color:rgba(243,247,255,.86);max-width:520px;
+      line-height:1.35;font-size:12px;font-weight:550;
+    }
+    .welcome-meta{display:none}
+    .hero-credit{
+      position:absolute;right:10px;bottom:8px;
+      font-size:8px;color:rgba(255,255,255,.56);
+      text-shadow:0 1px 4px rgba(0,0,0,.45)
+    }
 
     /* composer */
     .composer{padding:14px;margin-bottom:18px}
@@ -431,7 +493,10 @@
     @media (min-width:700px){
       .hide-mobile{display:inline}
       .topbar-inner{padding:0 24px}
-      .header-search{display:flex}
+      .header-search-pop{left:auto;right:24px;width:min(470px,calc(100vw - 250px));}
+      .welcome{min-height:158px;padding:20px 22px 19px}
+      .welcome h1{font-size:25px}
+      .welcome p{font-size:12.5px}
       .shell{padding:22px 24px}
       .listing-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
       .post-images img{height:320px}
@@ -454,8 +519,8 @@
       .sidebar{display:block}
       .bottom-nav{display:none}
       .listing-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-      .welcome{padding:28px}
-      .welcome h1{font-size:32px}
+      .welcome{min-height:166px;padding:22px 24px 20px}
+      .welcome h1{font-size:27px}
       .modal-backdrop{align-items:center;padding:24px}
     }
 
@@ -484,13 +549,14 @@
           </span>
         </button>
 
-        <label class="header-search">
+        <div class="header-search-pop" id="headerSearchPop" role="search">
           <i data-lucide="search" width="18"></i>
-          <input id="globalSearch" placeholder="Ieškoti bendruomenėje..." />
-        </label>
+          <input id="globalSearch" placeholder="Ieškoti UKM.lt bendruomenėje..." autocomplete="off" />
+          <button class="search-close" id="headerSearchClose" type="button" aria-label="Uždaryti paiešką"><i data-lucide="x" width="17"></i></button>
+        </div>
 
         <div class="header-actions">
-          <button class="icon-btn" data-route="search" aria-label="Paieška"><i data-lucide="search" width="19"></i></button>
+          <button class="icon-btn" id="headerSearchToggle" type="button" aria-label="Atidaryti paiešką"><i data-lucide="search" width="19"></i></button>
           <button class="icon-btn" data-route="notifications" aria-label="Pranešimai">
             <i data-lucide="bell" width="19"></i><span class="badge">4</span>
           </button>
@@ -528,13 +594,12 @@
         <!-- HOME -->
         <section class="page active" id="page-home">
           <div class="welcome">
-            <h1>Viskas, kas svarbu Ukmergei, vienoje vietoje.</h1>
-            <p>Bendraukite su kaimynais, sekite miesto naujienas, raskite renginius ir patalpinkite skelbimą per kelias akimirkas.</p>
-            <div class="welcome-meta">
-              <span><i data-lucide="users" width="15"></i> 8 420 narių</span>
-              <span><i data-lucide="map-pin" width="15"></i> Ukmergė ir rajonas</span>
-              <span><i data-lucide="sparkles" width="15"></i> 186 aktyvūs dabar</span>
+            <div class="welcome-content">
+              <div class="welcome-label"><i data-lucide="map-pin" width="11"></i> Ukmergė</div>
+              <h1>Tavo miestas. Tavo bendruomenė.</h1>
+              <p>Vietos žmonės, skelbimai ir tai, kas vyksta Ukmergėje.</p>
             </div>
+            <span class="hero-credit">Nuotrauka: D. Vertelka / Wikimedia Commons</span>
           </div>
 
           <div class="composer card">
@@ -1344,7 +1409,45 @@
       refreshIcons();
     });
 
-    $('#globalSearch').addEventListener('keydown',e=>{ if(e.key==='Enter'){ route('search'); $('#searchPageInput').value=e.target.value; $('#searchPageInput').dispatchEvent(new Event('input')); }});
+
+    const headerSearchPop = $('#headerSearchPop');
+    const headerSearchToggle = $('#headerSearchToggle');
+    const headerSearchClose = $('#headerSearchClose');
+
+    function openHeaderSearch(){
+      headerSearchPop.classList.add('open');
+      setTimeout(()=>$('#globalSearch')?.focus(),80);
+    }
+    function closeHeaderSearch(){
+      headerSearchPop.classList.remove('open');
+    }
+
+    headerSearchToggle?.addEventListener('click', e=>{
+      e.stopPropagation();
+      headerSearchPop.classList.contains('open') ? closeHeaderSearch() : openHeaderSearch();
+    });
+    headerSearchClose?.addEventListener('click', e=>{
+      e.stopPropagation();
+      closeHeaderSearch();
+    });
+    headerSearchPop?.addEventListener('click', e=>e.stopPropagation());
+    document.addEventListener('click', e=>{
+      if(headerSearchPop?.classList.contains('open') && !e.target.closest('#headerSearchPop') && !e.target.closest('#headerSearchToggle')){
+        closeHeaderSearch();
+      }
+    });
+    document.addEventListener('keydown', e=>{
+      if(e.key==='Escape' && headerSearchPop?.classList.contains('open')) closeHeaderSearch();
+    });
+
+    $('#globalSearch').addEventListener('keydown',e=>{ 
+      if(e.key==='Enter'){
+        route('search');
+        $('#searchPageInput').value=e.target.value;
+        $('#searchPageInput').dispatchEvent(new Event('input'));
+        closeHeaderSearch();
+      }
+    });
 
     $('#editPost').addEventListener('click',()=>{
       const p=posts.find(x=>x.id===state.activePost); if(!p)return;
