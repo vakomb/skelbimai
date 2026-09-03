@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://images.unsplash.com">
   <link rel="preconnect" href="https://i.pravatar.cc">
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root{
       --navy:#0b1f44;
@@ -2170,6 +2171,90 @@
       }
     }
 
+
+    /* v17 — messages, notifications & Supabase */
+    .backend-status{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin-bottom:12px;
+      padding:9px 11px;
+      border:1px solid #e4e8ee;
+      border-radius:8px;
+      background:#f8fafc;
+      color:#758094;
+      font-size:10.5px;
+      font-weight:750;
+    }
+    .backend-dot{
+      width:7px;height:7px;border-radius:50%;
+      background:#a3abba;flex:0 0 auto;
+    }
+    .backend-status[data-state="online"]{background:#f3faf6;color:#397357;border-color:#dcefe4}
+    .backend-status[data-state="online"] .backend-dot{background:#2f9c69}
+    .backend-status[data-state="warning"]{background:#fff9ee;color:#8a681f;border-color:#f0e3c5}
+    .backend-status[data-state="warning"] .backend-dot{background:#d3992f}
+    .backend-status[data-state="offline"]{background:#faf6f6;color:#8a5c62;border-color:#eedfe1}
+    .backend-status[data-state="offline"] .backend-dot{background:#c76872}
+
+    .message-search{margin-bottom:10px}
+    .message-groups{display:block}
+    .conversation-group{margin-top:17px}
+    .conversation-group:first-child{margin-top:5px}
+    .conversation-group-head{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      margin-bottom:5px;
+      padding:0 2px 7px;
+      border-bottom:1px solid #e8ebf0;
+    }
+    .conversation-group-head strong{
+      color:#69748a;font-size:9.5px;text-transform:uppercase;
+      letter-spacing:.085em;font-weight:900;
+    }
+    .conversation-group-head span{color:#a0a7b4;font-size:9.5px;font-weight:700}
+    .conversation-context{
+      display:inline-flex;align-items:center;gap:5px;
+      margin-top:4px;
+      max-width:100%;
+      color:#60739a;
+      font-size:9.5px;
+      font-weight:780;
+    }
+    .conversation-context svg{flex:0 0 auto}
+    .conversation-preview{
+      display:flex;align-items:center;gap:5px;min-width:0;
+    }
+    .conversation-preview .incoming-label{
+      flex:0 0 auto;color:#4364ad;font-size:9px;font-weight:900;
+    }
+    .chat-context{
+      margin-top:4px;
+      color:#5870a5;
+      font-size:9.5px;
+      font-weight:780;
+      display:flex;align-items:center;gap:5px;
+    }
+    .notification-clickable{cursor:pointer}
+    .notification-clickable:hover{background:#f8fafc}
+    .notif-action{
+      color:#9aa3b2;
+      display:grid;place-items:center;
+    }
+
+    @media (max-width:699px){
+      .backend-status{margin:0 0 10px;border-radius:6px}
+      .conversation-group{margin-top:14px}
+      .conversation-group-head{padding:0 16px 7px;margin-left:-16px;margin-right:-16px}
+      .conversation-group .conversation{margin-left:-16px;margin-right:-16px}
+    }
+
+
+    .mini-event .icon-btn.active{
+      background:#edf3ff;
+      color:#3e5fae;
+      border-color:#ccd9f4;
+    }
+
 </style>
 </head>
 <body>
@@ -2192,10 +2277,10 @@
         <div class="header-actions">
           <button class="header-action" id="headerSearchToggle" type="button" aria-label="Ieškoti"><i data-lucide="search" width="20"></i></button>
           <button class="header-action" data-route="notifications" aria-label="Pranešimai">
-            <i data-lucide="bell" width="20"></i><span class="badge">4</span>
+            <i data-lucide="bell" width="20"></i><span class="badge" id="notificationBadge">4</span>
           </button>
           <button class="header-action header-message-action" data-route="messages" aria-label="Žinutės">
-            <i data-lucide="message-circle" width="20"></i><span class="badge">2</span>
+            <i data-lucide="message-circle" width="20"></i><span class="badge" id="messageBadge">2</span>
           </button>
           <button class="profile-shortcut" data-route="profile" aria-label="Profilis">
             <img class="avatar" src="https://i.pravatar.cc/120?img=12" alt="Mantas" />
@@ -2217,7 +2302,7 @@
             <div class="side-divider"></div>
             <button class="nav-item" data-route="profile"><i data-lucide="user-round"></i><span>Mano profilis</span></button>
             <button class="nav-item" data-route="saved"><i data-lucide="bookmark"></i><span>Išsaugota</span></button>
-            <button class="nav-item" data-route="admin"><i data-lucide="shield-check"></i><span>Moderavimas</span></button>
+            <button class="nav-item hidden" id="adminNavItem" data-route="admin"><i data-lucide="shield-check"></i><span>Moderavimas</span></button>
           </nav>
           <button class="create-main" id="desktopCreate"><i data-lucide="plus"></i> Sukurti</button>
           <div class="side-footer">© 2026 UKM.lt · Taisyklės · Privatumas · Pagalba<br>Kurta Ukmergės bendruomenei.</div>
@@ -2446,16 +2531,16 @@
 
         <!-- MESSAGES -->
         <section class="page" id="page-messages">
-          <div class="page-hero"><div><h1>Žinutės</h1><p>Privatūs pokalbiai su bendruomenės nariais.</p></div></div>
-          <label class="search-box" style="margin-bottom:13px"><i data-lucide="search" width="17"></i><input id="conversationSearch" placeholder="Ieškoti pokalbių..." /></label>
-          <div class="conversation-list" id="conversationList"></div>
+          <div class="page-hero"><div><h1>Žinutės</h1><p>Bendri pokalbiai ir pokalbiai dėl skelbimų.</p></div></div>
+          <label class="search-box message-search"><i data-lucide="search" width="17"></i><input id="conversationSearch" placeholder="Ieškoti pokalbių..." /></label>
+          <div class="conversation-list message-groups" id="conversationList"></div>
         </section>
 
         <!-- CHAT -->
         <section class="page" id="page-chat">
           <button class="link-btn" data-route="messages" style="margin-bottom:8px"><i data-lucide="arrow-left" width="16"></i> Visi pokalbiai</button>
           <div class="card chat-shell">
-            <div class="chat-head"><img class="avatar round" id="chatAvatar" src="https://i.pravatar.cc/100?img=47" alt=""><div><strong id="chatName">Rūta K.</strong><div class="muted" id="chatStatus" style="font-size:11px">aktyvi prieš 5 min.</div></div><button class="icon-btn" id="chatCallBtn" type="button" style="margin-left:auto" aria-label="Skambinti"><i data-lucide="phone" width="17"></i></button></div>
+            <div class="chat-head"><img class="avatar round" id="chatAvatar" src="https://i.pravatar.cc/100?img=47" alt=""><div class="grow"><strong id="chatName">Rūta K.</strong><div class="muted" id="chatStatus" style="font-size:11px">bendruomenės narys</div><div class="chat-context hidden" id="chatContext"></div></div><button class="icon-btn" id="chatCallBtn" type="button" style="margin-left:auto" aria-label="Skambinti"><i data-lucide="phone" width="17"></i></button></div>
             <div class="chat-messages" id="chatMessages"></div>
             <form class="chat-input" id="chatForm"><label class="icon-btn" for="chatAttachment" style="display:grid" aria-label="Pridėti nuotrauką"><i data-lucide="paperclip" width="17"></i></label><input class="sr-only" id="chatAttachment" type="file" accept="image/*"><input id="chatInput" placeholder="Rašyti žinutę..." required><button class="send-btn" type="submit"><i data-lucide="send" width="18"></i></button></form>
           </div>
@@ -2541,29 +2626,33 @@
             <p>Prisijunk, kad galėtum rašyti įrašus, talpinti skelbimus, bendrauti ir išsaugoti tai, kas svarbu.</p>
           </div>
           <div class="card form-card">
+            <div class="backend-status" id="backendStatus" data-state="checking">
+              <span class="backend-dot"></span>
+              <span id="backendStatusText">Tikrinamas Supabase ryšys…</span>
+            </div>
             <div class="tabs" id="authTabs" style="margin-top:0">
               <button class="tab-btn active" data-auth-tab="login">Prisijungti</button>
               <button class="tab-btn" data-auth-tab="register">Registruotis</button>
             </div>
             <form id="loginForm">
               <div class="form-grid">
-                <div class="field"><label>El. paštas</label><input type="email" required placeholder="vardas@pastas.lt"></div>
-                <div class="field"><label>Slaptažodis</label><input type="password" required minlength="6" placeholder="••••••••"></div>
+                <div class="field"><label>El. paštas</label><input id="loginEmail" type="email" required autocomplete="email" placeholder="vardas@pastas.lt"></div>
+                <div class="field"><label>Slaptažodis</label><input id="loginPassword" type="password" required minlength="6" autocomplete="current-password" placeholder="••••••••"></div>
               </div>
               <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px">
                 <label style="font-size:12px;color:var(--muted)"><input type="checkbox"> Prisiminti mane</label>
-                <button type="button" class="link-btn" onclick="showToast('Slaptažodžio atkūrimo nuoroda išsiųsta (demo)')">Pamiršau slaptažodį</button>
+                <button type="button" class="link-btn" id="forgotPasswordBtn">Pamiršau slaptažodį</button>
               </div>
               <button class="primary-btn" type="submit" style="width:100%;margin-top:12px">Prisijungti</button>
             </form>
             <form id="registerForm" class="hidden">
               <div class="form-grid two">
-                <div class="field"><label>Vardas</label><input required placeholder="Mantas"></div>
-                <div class="field"><label>Pavardė</label><input required placeholder="Žukauskas"></div>
-                <div class="field"><label>El. paštas</label><input type="email" required placeholder="vardas@pastas.lt"></div>
-                <div class="field"><label>Vieta</label><select required><option>Ukmergės centras</option><option>Pivonija</option><option>Pašilė</option><option>Dukstyna</option><option>Ukmergės rajonas</option></select></div>
-                <div class="field"><label>Slaptažodis</label><input type="password" required minlength="8" placeholder="Bent 8 simboliai"></div>
-                <div class="field"><label>Pakartok slaptažodį</label><input type="password" required minlength="8" placeholder="Pakartok slaptažodį"></div>
+                <div class="field"><label>Vardas</label><input id="registerFirstName" required autocomplete="given-name" placeholder="Mantas"></div>
+                <div class="field"><label>Pavardė</label><input id="registerLastName" required autocomplete="family-name" placeholder="Žukauskas"></div>
+                <div class="field"><label>El. paštas</label><input id="registerEmail" type="email" required autocomplete="email" placeholder="vardas@pastas.lt"></div>
+                <div class="field"><label>Vieta</label><select id="registerLocation" required><option>Ukmergės centras</option><option>Pivonija</option><option>Pašilė</option><option>Dukstyna</option><option>Ukmergės rajonas</option></select></div>
+                <div class="field"><label>Slaptažodis</label><input id="registerPassword" type="password" required minlength="8" autocomplete="new-password" placeholder="Bent 8 simboliai"></div>
+                <div class="field"><label>Pakartok slaptažodį</label><input id="registerPassword2" type="password" required minlength="8" autocomplete="new-password" placeholder="Pakartok slaptažodį"></div>
               </div>
               <label style="display:flex;gap:8px;align-items:flex-start;margin-top:13px;font-size:11px;color:var(--muted)"><input type="checkbox" required> Sutinku su UKM.lt bendruomenės taisyklėmis ir privatumo nuostatomis.</label>
               <button class="primary-btn" type="submit" style="width:100%;margin-top:14px">Sukurti paskyrą</button>
@@ -2575,21 +2664,17 @@
         <section class="page" id="page-admin">
           <div class="page-hero"><div><h1>Moderavimo centras</h1><p>Turinio, skelbimų, komentarų, reportų ir vartotojų priežiūra.</p></div><span class="tag">Moderatorius</span></div>
           <div class="admin-stats">
-            <div class="card admin-stat"><span>Laukia peržiūros</span><strong>14</strong></div>
-            <div class="card admin-stat"><span>Reportai šiandien</span><strong>7</strong></div>
-            <div class="card admin-stat"><span>Nauji vartotojai</span><strong>28</strong></div>
-            <div class="card admin-stat"><span>Sulaikytas spam</span><strong>43</strong></div>
+            <div class="card admin-stat"><span>Laukia peržiūros</span><strong id="adminPendingCount">0</strong></div>
+            <div class="card admin-stat"><span>Reportai šiandien</span><strong id="adminTodayCount">0</strong></div>
+            <div class="card admin-stat"><span>Išspręsta</span><strong id="adminResolvedCount">0</strong></div>
+            <div class="card admin-stat"><span>Rolė</span><strong id="adminRoleLabel">—</strong></div>
           </div>
           <div class="card section-card">
             <div class="section-head"><div><div class="section-kicker">Moderavimas</div><h2 class="section-title">Naujausi reportai</h2></div></div>
             <div class="table-wrap">
               <table>
                 <thead><tr><th>Turinys</th><th>Tipas</th><th>Priežastis</th><th>Būsena</th><th>Veiksmai</th></tr></thead>
-                <tbody>
-                  <tr data-admin-row="0"><td>„Parduodu iPhone...“</td><td>Skelbimas</td><td>Įtartina kaina</td><td><span class="status warn">Tikrinama</span></td><td><button class="secondary-btn" data-admin-review="0" style="padding:7px 9px">Peržiūrėti</button></td></tr>
-                  <tr data-admin-row="1"><td>Komentaras prie įrašo</td><td>Komentaras</td><td>Įžeidimai</td><td><span class="status bad">Naujas</span></td><td><button class="secondary-btn" data-admin-review="1" style="padding:7px 9px">Peržiūrėti</button></td></tr>
-                  <tr data-admin-row="2"><td>Vartotojas „Jonas44“</td><td>Profilis</td><td>Spam</td><td><span class="status ok">Išspręsta</span></td><td><button class="secondary-btn" data-admin-review="2" style="padding:7px 9px">Istorija</button></td></tr>
-                </tbody>
+                <tbody id="adminReportRows"></tbody>
               </table>
             </div>
           </div>
@@ -2768,6 +2853,35 @@
     </div>
   </div>
 
+
+  <!-- Report modal -->
+  <div class="modal-backdrop" id="reportModal">
+    <div class="modal">
+      <div class="modal-head">
+        <h2>Pranešti apie turinį</h2>
+        <button class="icon-btn" data-close-report><i data-lucide="x" width="18"></i></button>
+      </div>
+      <form id="reportForm">
+        <div class="field">
+          <label>Priežastis</label>
+          <select id="reportReason" required>
+            <option value="">Pasirink priežastį</option>
+            <option>Spam arba reklama</option>
+            <option>Įžeidžiantis turinys</option>
+            <option>Klaidinanti informacija</option>
+            <option>Netinkamas skelbimas</option>
+            <option>Kita</option>
+          </select>
+        </div>
+        <div class="field" style="margin-top:12px">
+          <label>Papildoma informacija <span class="muted">(nebūtina)</span></label>
+          <textarea id="reportDetails" placeholder="Trumpai aprašyk problemą…"></textarea>
+        </div>
+        <button class="primary-btn" type="submit" style="width:100%;margin-top:14px">Siųsti pranešimą</button>
+      </form>
+    </div>
+  </div>
+
   <!-- Comments modal -->
   <div class="modal-backdrop" id="commentsModal">
     <div class="modal">
@@ -2783,7 +2897,7 @@
 
   <div class="context-menu" id="postMenu">
     <button id="editPost"><i data-lucide="pencil" width="15"></i>Redaguoti įrašą</button>
-    <button onclick="showToast('Įrašas pažymėtas peržiūrai');closeMenu()"><i data-lucide="flag" width="15"></i>Pranešti apie turinį</button>
+    <button data-report-active-post><i data-lucide="flag" width="15"></i>Pranešti apie turinį</button>
     <button class="danger-btn" id="deletePost"><i data-lucide="trash-2" width="15"></i>Ištrinti įrašą</button>
   </div>
   <div class="toast" id="toast"></div>
@@ -2884,21 +2998,21 @@
     ];
 
     const conversations = [
-      {name:'Rūta K.',avatar:'https://i.pravatar.cc/100?img=47',msg:'Puiku. Galėčiau užsukti apie 19:30.',time:'18:45',unread:true,status:'aktyvi prieš 5 min.',messages:[
+      {type:'listing',listingId:1,listingTitle:'Trek Marlin 6 kalnų dviratis',name:'Rūta K.',avatar:'https://i.pravatar.cc/100?img=47',msg:'Puiku. Galėčiau užsukti apie 19:30.',time:'18:45',unread:true,status:'aktyvi prieš 5 min.',messages:[
         {me:false,text:'Sveiki! Mačiau jūsų skelbimą dėl vaikiško dviračio. Ar dar turite?',time:'18:42'},
         {me:true,text:'Taip, dar turiu 🙂 Galite apžiūrėti šiandien po 19 val.',time:'18:44'},
         {me:false,text:'Puiku. Esu netoli Pivonijos, tai galėčiau užsukti apie 19:30.',time:'18:45'}
       ]},
-      {name:'Austėja V.',avatar:'https://i.pravatar.cc/100?img=32',msg:'Radau kontaktą, siunčiu 👌',time:'17:02',unread:true,status:'aktyvi dabar',messages:[
+      {type:'general',name:'Austėja V.',avatar:'https://i.pravatar.cc/100?img=32',msg:'Radau kontaktą, siunčiu 👌',time:'17:02',unread:true,status:'aktyvi dabar',messages:[
         {me:false,text:'Labas, dėl meistro kontakto — radau, siunčiu 👌',time:'16:58'},
         {me:true,text:'Super, labai ačiū!',time:'17:00'},
         {me:false,text:'Parašiau numerį žemiau. Jei neatsilieps, turiu dar vieną variantą.',time:'17:02'}
       ]},
-      {name:'Tomas Jankauskas',avatar:'https://i.pravatar.cc/100?img=53',msg:'Ačiū, tada susirašom savaitgalį.',time:'Vakar',unread:false,status:'aktyvus vakar',messages:[
+      {type:'general',name:'Tomas Jankauskas',avatar:'https://i.pravatar.cc/100?img=53',msg:'Ačiū, tada susirašom savaitgalį.',time:'Vakar',unread:false,status:'aktyvus vakar',messages:[
         {me:true,text:'Ar vis dar planuoji tą dviračių ratą sekmadienį?',time:'Vakar 19:10'},
         {me:false,text:'Taip, jei nelis. Ačiū, tada susirašom savaitgalį.',time:'Vakar 19:14'}
       ]},
-      {name:'Greta M.',avatar:'https://i.pravatar.cc/100?img=44',msg:'Taip, dar aktualu.',time:'Antr.',unread:false,status:'aktyvi antradienį',messages:[
+      {type:'listing',listingId:8,listingTitle:'Lauko gėlės ir daugiamečiai augalai',name:'Greta M.',avatar:'https://i.pravatar.cc/100?img=44',msg:'Taip, dar aktualu.',time:'Antr.',unread:false,status:'aktyvi antradienį',messages:[
         {me:true,text:'Sveika, ar tavo klausimas dėl fejerverkų dar aktualus?',time:'Antr. 20:02'},
         {me:false,text:'Taip, dar aktualu.',time:'Antr. 20:08'}
       ]}
@@ -2913,6 +3027,7 @@
       editingPostId:null,
       commentPostId:null,
       replyingTo:null,
+      replyingCommentId:null,
       postKind:'Įrašas',
       postDraftImages:[],
       listingPostDraftImages:[],
@@ -2925,7 +3040,10 @@
       searchFilter:'all',
       activeConversation:0,
       profileAvatarDraft:null,
-      activeAdminReview:null
+      activeAdminReview:null,
+      activeReportTarget:null,
+      savedEvents:new Set(),
+      adminReportsRemote:[]
     };
 
     const communityEvents = [];
@@ -2936,11 +3054,697 @@
       {name:'Darius Petrauskas',avatar:'https://i.pravatar.cc/120?img=14',place:'Ukmergė'},
       {name:'Greta M.',avatar:'https://i.pravatar.cc/120?img=44',place:'Dukstyna'}
     ];
-    const adminReports = [
-      {title:'„Parduodu iPhone...“',type:'Skelbimas',reason:'Įtartina kaina',status:'Tikrinama',detail:'Skelbimo kaina ženkliai mažesnė už panašių skelbimų. Reikalinga rankinė peržiūra.'},
-      {title:'Komentaras prie įrašo',type:'Komentaras',reason:'Įžeidimai',status:'Naujas',detail:'Komentaras pažymėtas dėl galimo asmens įžeidimo ir bendruomenės taisyklių pažeidimo.'},
-      {title:'Vartotojas „Jonas44“',type:'Profilis',reason:'Spam',status:'Išspręsta',detail:'Profilio veikla jau peržiūrėta. Ankstesni pasikartojantys skelbimai pašalinti.'}
-    ];
+    const adminReports = []; // legacy placeholder; moderation is loaded from Supabase
+
+
+    // ---------------------------------------------------------------
+    // Supabase backend
+    // ---------------------------------------------------------------
+    const SUPABASE_URL = 'https://hnsfrhduxjsfkdrfixyb.supabase.co';
+    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_yhAd9AjBpmrd6YVcvDfINg_KoGAWWRo';
+    const backend = {
+      client:null,
+      user:null,
+      profile:null,
+      schemaReady:false,
+      channel:null,
+      authSubscription:null,
+      booted:false
+    };
+
+    try{
+      if(window.supabase?.createClient){
+        backend.client=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{
+          auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
+        });
+      }
+    }catch(err){
+      console.warn('Supabase init:',err);
+    }
+
+    const demoSnapshot = {
+      posts:JSON.parse(JSON.stringify(posts)),
+      listings:JSON.parse(JSON.stringify(listings)),
+      notifications:JSON.parse(JSON.stringify(notifications)),
+      conversations:JSON.parse(JSON.stringify(conversations))
+    };
+
+    function restoreDemoData(){
+      posts.splice(0,posts.length,...JSON.parse(JSON.stringify(demoSnapshot.posts)));
+      listings.splice(0,listings.length,...JSON.parse(JSON.stringify(demoSnapshot.listings)));
+      notifications.splice(0,notifications.length,...JSON.parse(JSON.stringify(demoSnapshot.notifications)));
+      conversations.splice(0,conversations.length,...JSON.parse(JSON.stringify(demoSnapshot.conversations)));
+    }
+
+    function setBackendStatus(text,stateName='checking'){
+      const box=document.querySelector('#backendStatus');
+      const label=document.querySelector('#backendStatusText');
+      if(box)box.dataset.state=stateName;
+      if(label)label.textContent=text;
+    }
+
+    function backendWritable(){
+      return !!(backend.client && backend.user && backend.schemaReady);
+    }
+
+    function isSchemaError(error){
+      const msg=(error?.message||'').toLowerCase();
+      return error?.code==='42P01' || msg.includes('does not exist') || msg.includes('could not find the table');
+    }
+
+    function timeAgo(value){
+      if(!value)return 'ką tik';
+      const d=new Date(value);
+      if(Number.isNaN(d.getTime()))return String(value);
+      const sec=Math.max(0,Math.floor((Date.now()-d.getTime())/1000));
+      if(sec<45)return 'ką tik';
+      const min=Math.floor(sec/60);
+      if(min<60)return `prieš ${min} min.`;
+      const hr=Math.floor(min/60);
+      if(hr<24)return `prieš ${hr} val.`;
+      if(hr<48)return 'vakar';
+      const day=Math.floor(hr/24);
+      if(day<7)return `prieš ${day} d.`;
+      return d.toLocaleDateString('lt-LT',{month:'short',day:'numeric'});
+    }
+
+    function notificationDateGroup(value){
+      const d=new Date(value);
+      const now=new Date();
+      if(Number.isNaN(d.getTime()))return 'Anksčiau';
+      const start=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+      const diff=Math.floor((start-new Date(d.getFullYear(),d.getMonth(),d.getDate()))/86400000);
+      if(diff<=0)return 'Šiandien';
+      if(diff===1)return 'Vakar';
+      return 'Anksčiau';
+    }
+
+    function currentDisplayName(){
+      return backend.profile?.display_name || backend.user?.user_metadata?.display_name || 'UKM.lt narys';
+    }
+    function currentAvatar(){
+      return backend.profile?.avatar_url || 'https://i.pravatar.cc/120?img=12';
+    }
+
+    async function checkSchema(){
+      if(!backend.client)return false;
+      const {error}=await backend.client.from('profiles').select('id').limit(1);
+      if(error){
+        backend.schemaReady=false;
+        if(isSchemaError(error))setBackendStatus('Supabase pasiekiamas · reikia įdiegti DB schemą','warning');
+        else setBackendStatus('Nepavyko pasiekti Supabase lentelių','offline');
+        console.warn('Supabase schema check:',error);
+        return false;
+      }
+      backend.schemaReady=true;
+      return true;
+    }
+
+    async function fetchProfiles(ids=[]){
+      const unique=[...new Set(ids.filter(Boolean))];
+      if(!unique.length)return new Map();
+      const {data,error}=await backend.client.from('profiles')
+        .select('id,display_name,first_name,last_name,location,bio,avatar_url,role,created_at')
+        .in('id',unique);
+      if(error)throw error;
+      return new Map((data||[]).map(p=>[p.id,p]));
+    }
+
+    async function ensureOwnProfile(){
+      if(!backendWritable())return null;
+      let {data,error}=await backend.client.from('profiles').select('*').eq('id',backend.user.id).maybeSingle();
+      if(error)throw error;
+      if(!data){
+        const meta=backend.user.user_metadata||{};
+        const first=meta.first_name||'';
+        const last=meta.last_name||'';
+        const display=meta.display_name||[first,last].filter(Boolean).join(' ')||'UKM.lt narys';
+        const up=await backend.client.from('profiles').upsert({
+          id:backend.user.id,
+          display_name:display,
+          first_name:first||null,
+          last_name:last||null,
+          location:meta.location||'Ukmergė'
+        }).select().single();
+        if(up.error)throw up.error;
+        data=up.data;
+      }
+      backend.profile=data;
+      applyProfileToUI();
+      return data;
+    }
+
+    function applyProfileToUI(){
+      const p=backend.profile;
+      if(!p)return;
+      const name=p.display_name || [p.first_name,p.last_name].filter(Boolean).join(' ') || 'UKM.lt narys';
+      const avatar=p.avatar_url||currentAvatar();
+      const profileName=document.querySelector('#profileName');
+      const profileLocation=document.querySelector('#profileLocationText');
+      const profileBio=document.querySelector('#profileBio');
+      const isModerator=['moderator','admin'].includes(p.role);
+      const adminNav=document.querySelector('#adminNavItem');
+      if(adminNav)adminNav.classList.toggle('hidden',!isModerator);
+      if(profileName)profileName.textContent=name;
+      if(profileLocation)profileLocation.innerHTML=`${icon('map-pin',13)} ${esc(p.location||'Ukmergė')} · UKM.lt narys`;
+      if(profileBio)profileBio.textContent=p.bio||'';
+      ['#profileAvatar','#profileEditAvatar'].forEach(sel=>{const el=document.querySelector(sel);if(el)el.src=avatar;});
+      document.querySelectorAll('.header-actions img.avatar').forEach(img=>img.src=avatar);
+      if(document.querySelector('#profileFirstName'))document.querySelector('#profileFirstName').value=p.first_name||'';
+      if(document.querySelector('#profileLastName'))document.querySelector('#profileLastName').value=p.last_name||'';
+      if(document.querySelector('#profileBioInput'))document.querySelector('#profileBioInput').value=p.bio||'';
+      if(document.querySelector('#profileEmail'))document.querySelector('#profileEmail').value=backend.user?.email||'';
+      const loc=document.querySelector('#profileLocation');
+      if(loc && p.location){
+        const short=p.location.replace(/^Ukmergė,\s*/,'');
+        if([...loc.options].some(o=>o.value===short||o.textContent===short))loc.value=short;
+      }
+    }
+
+    async function uploadImageValue(src,folder='media'){
+      if(!backendWritable() || !src || !String(src).startsWith('data:'))return src;
+      const blob=await (await fetch(src)).blob();
+      const mime=blob.type||'image/jpeg';
+      const ext=(mime.split('/')[1]||'jpg').replace('jpeg','jpg');
+      const uid=(crypto.randomUUID?crypto.randomUUID():`${Date.now()}-${Math.random().toString(36).slice(2)}`);
+      const path=`${backend.user.id}/${folder}/${uid}.${ext}`;
+      const {error}=await backend.client.storage.from('ukm-media').upload(path,blob,{contentType:mime,cacheControl:'3600',upsert:false});
+      if(error)throw error;
+      return backend.client.storage.from('ukm-media').getPublicUrl(path).data.publicUrl;
+    }
+
+    async function uploadImageList(images=[],folder='media'){
+      const result=[];
+      for(const src of images)result.push(await uploadImageValue(src,folder));
+      return result;
+    }
+
+    async function loadRemotePosts(){
+      const {data:rows,error}=await backend.client.from('posts').select('*').order('created_at',{ascending:false}).limit(100);
+      if(error)throw error;
+      const postRows=rows||[];
+      if(!postRows.length){posts.splice(0,posts.length);return;}
+
+      const postIds=postRows.map(p=>p.id);
+      const authorIds=postRows.map(p=>p.author_id);
+      const [profilesMap,likesRes,savesRes,commentsRes]=await Promise.all([
+        fetchProfiles(authorIds),
+        backend.client.from('post_likes').select('id,post_id,user_id').in('post_id',postIds),
+        backend.client.from('post_saves').select('post_id,user_id').eq('user_id',backend.user.id).in('post_id',postIds),
+        backend.client.from('comments').select('*').in('post_id',postIds).order('created_at',{ascending:true})
+      ]);
+      if(likesRes.error)throw likesRes.error;
+      if(savesRes.error)throw savesRes.error;
+      if(commentsRes.error)throw commentsRes.error;
+
+      const commentRows=commentsRes.data||[];
+      const commentProfiles=await fetchProfiles(commentRows.map(c=>c.author_id));
+      const likes=likesRes.data||[];
+      const saveIds=new Set((savesRes.data||[]).map(x=>Number(x.post_id)));
+
+      const commentsByPost=new Map();
+      postIds.forEach(id=>commentsByPost.set(Number(id),[]));
+      for(const c of commentRows){
+        const cp=commentProfiles.get(c.author_id)||{};
+        const item={
+          id:Number(c.id),parentId:c.parent_id?Number(c.parent_id):null,
+          authorId:c.author_id,
+          author:cp.display_name||'UKM.lt narys',
+          avatar:cp.avatar_url||'https://i.pravatar.cc/80?img=22',
+          text:c.body,time:timeAgo(c.created_at),createdAt:c.created_at,replies:[]
+        };
+        commentsByPost.get(Number(c.post_id))?.push(item);
+      }
+
+      const makeThread=(list)=>{
+        const map=new Map(list.map(x=>[x.id,x]));
+        const roots=[];
+        for(const x of list){
+          if(x.parentId && map.has(x.parentId))map.get(x.parentId).replies.push(x);
+          else roots.push(x);
+        }
+        return roots;
+      };
+
+      const mapped=postRows.map(r=>{
+        const ap=profilesMap.get(r.author_id)||{};
+        const thread=makeThread(commentsByPost.get(Number(r.id))||[]);
+        const kind=r.kind==='event'?'Renginys':r.kind==='question'?'Klausimas':'Įrašas';
+        const obj={
+          id:Number(r.id),remote:true,authorId:r.author_id,
+          author:ap.display_name||'UKM.lt narys',
+          avatar:ap.avatar_url||'https://i.pravatar.cc/120?img=22',
+          time:timeAgo(r.created_at),place:r.place||ap.location||'Ukmergė',
+          text:r.body||'',images:Array.isArray(r.images)?r.images:[],
+          kind,topic:r.topic||'',likes:likes.filter(x=>Number(x.post_id)===Number(r.id)).length,
+          comments:threadCommentCount(thread),
+          liked:likes.some(x=>Number(x.post_id)===Number(r.id)&&x.user_id===backend.user.id),
+          saved:saveIds.has(Number(r.id)),comment:'',thread,createdAt:r.created_at
+        };
+        if(kind==='Renginys'){
+          obj.eventDateRaw=r.event_date||'';
+          obj.eventDate=r.event_date?formatEventDate(r.event_date).label:'';
+          obj.eventTime=(r.event_time||'').slice(0,5);
+        }
+        return obj;
+      });
+      posts.splice(0,posts.length,...mapped);
+    }
+
+    async function loadRemoteListings(){
+      const {data:rows,error}=await backend.client.from('listings').select('*').order('created_at',{ascending:false}).limit(100);
+      if(error)throw error;
+      const ls=rows||[];
+      if(!ls.length){listings.splice(0,listings.length);return;}
+      const profilesMap=await fetchProfiles(ls.map(x=>x.author_id));
+      const ids=ls.map(x=>x.id);
+      const saveRes=await backend.client.from('listing_saves').select('listing_id,user_id').eq('user_id',backend.user.id).in('listing_id',ids);
+      if(saveRes.error)throw saveRes.error;
+      const saveIds=new Set((saveRes.data||[]).map(x=>Number(x.listing_id)));
+      const mapped=ls.map(r=>{
+        const p=profilesMap.get(r.author_id)||{};
+        const text=(r.body||'').trim();
+        const firstLine=text.split(/\n+/).find(Boolean)||'Skelbimas';
+        const imgs=Array.isArray(r.images)?r.images:[];
+        return {
+          id:Number(r.id),remote:true,authorId:r.author_id,
+          author:p.display_name||'UKM.lt narys',authorAvatar:p.avatar_url||'https://i.pravatar.cc/120?img=22',
+          type:'Skelbimas',category:r.category||'',title:firstLine,price:0,
+          loc:p.location||'Ukmergė',time:timeAgo(r.created_at),img:imgs[0]||'',
+          gallery:imgs,fav:saveIds.has(Number(r.id)),condition:'',desc:text,createdAt:r.created_at
+        };
+      });
+      listings.splice(0,listings.length,...mapped);
+    }
+
+    function mapDbNotification(row){
+      const config={
+        post_like:{type:'post',icon:'heart',title:'Naujas patiktukas'},
+        post_comment:{type:'post',icon:'message-circle',title:'Naujas komentaras'},
+        comment_reply:{type:'post',icon:'reply',title:'Atsakymas į komentarą'},
+        listing_save:{type:'listing',icon:'bookmark',title:'Skelbimas išsaugotas'},
+        message:{type:'message',icon:'message-square',title:'Nauja žinutė'},
+        event:{type:'event',icon:'calendar-days',title:'Renginio pranešimas'},
+        system:{type:'system',icon:'shield-check',title:'Sistemos pranešimas'}
+      }[row.type]||{type:'system',icon:'bell',title:'Pranešimas'};
+      return {
+        dbId:Number(row.id),rawType:row.type,
+        type:config.type,icon:config.icon,title:config.title,
+        text:row.message||'',time:timeAgo(row.created_at),
+        group:notificationDateGroup(row.created_at),
+        unread:!row.read_at,entityId:row.entity_id?Number(row.entity_id):null,
+        conversationId:row.conversation_id?Number(row.conversation_id):null,
+        createdAt:row.created_at
+      };
+    }
+
+
+    async function loadRemoteEventSaves(){
+      if(!backendWritable())return;
+      const {data,error}=await backend.client.from('event_saves')
+        .select('event_key').eq('user_id',backend.user.id);
+      if(error)throw error;
+      state.savedEvents=new Set((data||[]).map(x=>x.event_key));
+    }
+
+    async function loadRemoteReports(){
+      if(!backendWritable()||!['moderator','admin'].includes(backend.profile?.role)){
+        state.adminReportsRemote=[];
+        return;
+      }
+      const {data,error}=await backend.client.from('reports')
+        .select('*').order('created_at',{ascending:false}).limit(100);
+      if(error)throw error;
+      state.adminReportsRemote=data||[];
+      renderAdmin();
+    }
+
+    function eventKey(event){
+      return `${event.postId?'post:'+event.postId:'event'}|${event.date||''}|${event.title||''}`;
+    }
+
+    async function toggleEventSave(event){
+      const key=eventKey(event);
+      const already=state.savedEvents.has(key);
+      if(!backend.user){route('auth');showToast('Prisijunk, kad galėtum išsaugoti renginį');return;}
+      if(!backend.schemaReady){showToast('Supabase dar neparuoštas');return;}
+      try{
+        if(already){
+          const {error}=await backend.client.from('event_saves').delete()
+            .eq('user_id',backend.user.id).eq('event_key',key);
+          if(error)throw error;
+          state.savedEvents.delete(key);
+          showToast('Renginys pašalintas iš išsaugotų');
+        }else{
+          const {error}=await backend.client.from('event_saves').insert({
+            user_id:backend.user.id,event_key:key,event_title:event.title,
+            event_date:event.date||null,post_id:event.postId||null
+          });
+          if(error)throw error;
+          state.savedEvents.add(key);
+          showToast('Renginys išsaugotas');
+        }
+        renderEvents();
+      }catch(error){showToast(error.message||'Nepavyko išsaugoti renginio');}
+    }
+
+    async function createReport(target,reason,details=''){
+      if(!backend.user){route('auth');showToast('Prisijunk, kad galėtum pranešti apie turinį');return false;}
+      if(!backend.schemaReady){showToast('Supabase dar neparuoštas');return false;}
+      const {error}=await backend.client.from('reports').insert({
+        reporter_id:backend.user.id,
+        target_type:target.type,
+        target_id:target.id||null,
+        target_label:target.label||null,
+        reason,details
+      });
+      if(error){showToast(error.message);return false;}
+      showToast('Pranešimas perduotas moderavimui');
+      return true;
+    }
+
+    function reportStatusLabel(status){
+      return ({new:'Naujas',reviewing:'Tikrinama',dismissed:'Atmesta',removed:'Turinys pašalintas'})[status]||status;
+    }
+
+    function reportStatusClass(status){
+      return status==='new'?'bad':status==='reviewing'?'warn':'ok';
+    }
+
+    function renderAdmin(){
+      const page=$('#page-admin');
+      if(!page)return;
+      const allowed=['moderator','admin'].includes(backend.profile?.role);
+      if(!allowed){
+        const rows=$('#adminReportRows');
+        if(rows)rows.innerHTML='<tr><td colspan="5"><div class="empty">Moderavimo centras skirtas tik moderatoriams.</div></td></tr>';
+        return;
+      }
+      const rows=state.adminReportsRemote||[];
+      const today=new Date().toISOString().slice(0,10);
+      $('#adminPendingCount').textContent=rows.filter(r=>['new','reviewing'].includes(r.status)).length;
+      $('#adminTodayCount').textContent=rows.filter(r=>(r.created_at||'').slice(0,10)===today).length;
+      $('#adminResolvedCount').textContent=rows.filter(r=>['dismissed','removed'].includes(r.status)).length;
+      $('#adminRoleLabel').textContent=backend.profile.role==='admin'?'Admin':'Moderatorius';
+      $('#adminReportRows').innerHTML=rows.length?rows.map((r,i)=>`
+        <tr data-admin-row="${i}">
+          <td>${esc(r.target_label||`${r.target_type} #${r.target_id||'—'}`)}</td>
+          <td>${esc(r.target_type)}</td>
+          <td>${esc(r.reason)}</td>
+          <td><span class="status ${reportStatusClass(r.status)}">${esc(reportStatusLabel(r.status))}</span></td>
+          <td><button class="secondary-btn" data-admin-review="${i}" style="padding:7px 9px">${['dismissed','removed'].includes(r.status)?'Istorija':'Peržiūrėti'}</button></td>
+        </tr>`).join(''):'<tr><td colspan="5"><div class="empty">Reportų nėra.</div></td></tr>';
+      refreshIcons();
+    }
+
+    async function resolveRemoteReport(index,action){
+      const r=state.adminReportsRemote[index];
+      if(!r||!backendWritable()||!['moderator','admin'].includes(backend.profile?.role))return;
+      const newStatus=action==='remove'?'removed':'dismissed';
+      try{
+        if(action==='remove'&&r.target_id){
+          const table={post:'posts',comment:'comments',listing:'listings'}[r.target_type];
+          if(table){
+            const del=await backend.client.from(table).delete().eq('id',r.target_id);
+            if(del.error)throw del.error;
+          }
+        }
+        const update=await backend.client.from('reports').update({
+          status:newStatus,resolved_by:backend.user.id,resolved_at:new Date().toISOString()
+        }).eq('id',r.id);
+        if(update.error)throw update.error;
+        await loadRemoteReports();
+        closeAdminReview();
+        if(action==='remove')await syncRemoteData({quiet:true});
+        showToast(action==='remove'?'Turinys pašalintas':'Reportas atmestas');
+      }catch(error){showToast(error.message||'Moderavimo veiksmas nepavyko');}
+    }
+
+    async function loadRemoteNotifications(){
+      const {data,error}=await backend.client.from('notifications')
+        .select('*').eq('user_id',backend.user.id)
+        .order('created_at',{ascending:false}).limit(100);
+      if(error)throw error;
+      notifications.splice(0,notifications.length,...(data||[]).map(mapDbNotification));
+    }
+
+    async function loadRemoteConversations(){
+      const membershipsRes=await backend.client.from('conversation_members')
+        .select('conversation_id,last_read_at').eq('user_id',backend.user.id);
+      if(membershipsRes.error)throw membershipsRes.error;
+      const memberships=membershipsRes.data||[];
+      if(!memberships.length){conversations.splice(0,conversations.length);return;}
+      const ids=memberships.map(x=>Number(x.conversation_id));
+      const [convRes,memberRes,msgRes]=await Promise.all([
+        backend.client.from('conversations').select('*').in('id',ids),
+        backend.client.from('conversation_members').select('conversation_id,user_id').in('conversation_id',ids),
+        backend.client.from('messages').select('*').in('conversation_id',ids).order('created_at',{ascending:true})
+      ]);
+      if(convRes.error)throw convRes.error;
+      if(memberRes.error)throw memberRes.error;
+      if(msgRes.error)throw msgRes.error;
+
+      const convRows=convRes.data||[];
+      const memberRows=memberRes.data||[];
+      const msgRows=msgRes.data||[];
+      const otherIds=memberRows.filter(m=>m.user_id!==backend.user.id).map(m=>m.user_id);
+      const profilesMap=await fetchProfiles(otherIds);
+      const listingIds=convRows.filter(c=>c.listing_id).map(c=>c.listing_id);
+      let listingMap=new Map();
+      if(listingIds.length){
+        const lr=await backend.client.from('listings').select('id,body').in('id',listingIds);
+        if(!lr.error)listingMap=new Map((lr.data||[]).map(x=>[Number(x.id),x]));
+      }
+
+      const mapped=convRows.map(c=>{
+        const membership=memberships.find(m=>Number(m.conversation_id)===Number(c.id));
+        const members=memberRows.filter(m=>Number(m.conversation_id)===Number(c.id));
+        const other=members.find(m=>m.user_id!==backend.user.id);
+        const op=profilesMap.get(other?.user_id)||{};
+        const msgs=msgRows.filter(m=>Number(m.conversation_id)===Number(c.id));
+        const last=msgs[msgs.length-1];
+        const readAt=membership?.last_read_at?new Date(membership.last_read_at).getTime():0;
+        const unread=msgs.some(m=>m.sender_id!==backend.user.id && new Date(m.created_at).getTime()>readAt);
+        const listing=listingMap.get(Number(c.listing_id));
+        const listingTitle=listing?.body?.split(/\n+/).find(Boolean)||'Skelbimas';
+        return {
+          dbId:Number(c.id),type:c.kind==='listing'?'listing':'general',
+          listingId:c.listing_id?Number(c.listing_id):null,listingTitle,
+          otherUserId:other?.user_id||null,
+          name:op.display_name||'UKM.lt narys',
+          avatar:op.avatar_url||'https://i.pravatar.cc/100?img=22',
+          msg:last?(last.image_url?'📷 Nuotrauka':last.body||''):'Pokalbis pradėtas',
+          time:last?timeAgo(last.created_at):timeAgo(c.created_at),
+          lastAt:last?.created_at||c.updated_at||c.created_at,
+          unread,status:'bendruomenės narys',
+          messages:msgs.map(m=>({
+            dbId:Number(m.id),me:m.sender_id===backend.user.id,
+            text:m.body||'',image:m.image_url||'',time:timeAgo(m.created_at),createdAt:m.created_at
+          }))
+        };
+      }).sort((a,b)=>new Date(b.lastAt)-new Date(a.lastAt));
+      conversations.splice(0,conversations.length,...mapped);
+    }
+
+    async function syncRemoteData({quiet=false}={}){
+      if(!backend.client||!backend.user||!backend.schemaReady)return;
+      try{
+        if(!quiet)setBackendStatus('Sinchronizuojama su Supabase…','checking');
+        await ensureOwnProfile();
+        await Promise.all([
+          loadRemotePosts(),
+          loadRemoteListings(),
+          loadRemoteNotifications(),
+          loadRemoteConversations(),
+          loadRemoteEventSaves()
+        ]);
+        await loadRemoteReports();
+        renderHome();renderFeed();renderListings();renderNotifications();renderConversations(document.querySelector('#conversationSearch')?.value||'');
+        renderEvents();renderProfile();renderSaved();renderSavedListings();
+        if(conversations.length)renderChat();
+        updateHeaderBadges();
+        setBackendStatus('Supabase prijungtas · duomenys sinchronizuojami','online');
+      }catch(error){
+        console.warn('Supabase sync:',error);
+        if(isSchemaError(error)){
+          backend.schemaReady=false;
+          setBackendStatus('Supabase pasiekiamas · reikia įdiegti DB schemą','warning');
+        }else{
+          setBackendStatus('Supabase sinchronizacija nepavyko','offline');
+        }
+      }
+    }
+
+    function updateHeaderBadges(){
+      const nb=document.querySelector('#notificationBadge');
+      const mb=document.querySelector('#messageBadge');
+      const notificationCount=notifications.filter(n=>n.unread).length;
+      const messageCount=conversations.filter(c=>c.unread).length;
+      if(nb){nb.textContent=notificationCount;nb.style.display=notificationCount?'grid':'none';}
+      if(mb){mb.textContent=messageCount;mb.style.display=messageCount?'grid':'none';}
+    }
+
+    async function subscribeRealtime(){
+      if(!backend.client||!backend.user||!backend.schemaReady)return;
+      if(backend.channel)await backend.client.removeChannel(backend.channel);
+      const uid=backend.user.id;
+      backend.channel=backend.client
+        .channel(`ukm-live-${uid}`)
+        .on('postgres_changes',{event:'*',schema:'public',table:'notifications',filter:`user_id=eq.${uid}`},async payload=>{
+          await loadRemoteNotifications();
+          renderNotifications();updateHeaderBadges();
+          if(payload.eventType==='INSERT' && payload.new?.type!=='message')showToast('Naujas pranešimas');
+        })
+        .on('postgres_changes',{event:'*',schema:'public',table:'reports'},async payload=>{
+          if(['moderator','admin'].includes(backend.profile?.role)){await loadRemoteReports();if(state.route==='admin')renderAdmin();}
+        })
+        .on('postgres_changes',{event:'INSERT',schema:'public',table:'messages'},async payload=>{
+          if(payload.new?.sender_id===uid)return;
+          await loadRemoteConversations();
+          renderConversations(document.querySelector('#conversationSearch')?.value||'');
+          updateHeaderBadges();
+          const active=conversations[state.activeConversation];
+          if(state.route==='chat' && active?.dbId===Number(payload.new?.conversation_id))renderChat();
+          showToast('Gavai naują žinutę');
+        })
+        .subscribe();
+    }
+
+    async function bootSupabase(){
+      if(backend.booted)return;
+      backend.booted=true;
+      if(!backend.client){
+        setBackendStatus('Supabase biblioteka nepasiekiama · veikia demo režimas','offline');
+        updateHeaderBadges();
+        return;
+      }
+      setBackendStatus('Jungiamasi prie Supabase…','checking');
+      await checkSchema();
+      const {data,error}=await backend.client.auth.getSession();
+      if(error)console.warn('Supabase session:',error);
+      backend.user=data?.session?.user||null;
+      if(backend.user && backend.schemaReady){
+        await syncRemoteData();
+        await subscribeRealtime();
+      }else if(!backend.user && backend.schemaReady){
+        setBackendStatus('Supabase paruoštas · prisijunk, kad duomenys išliktų','online');
+      }
+      const {data:authListener}=backend.client.auth.onAuthStateChange((event,session)=>{
+        backend.user=session?.user||null;
+        setTimeout(async()=>{
+          if(backend.user){
+            if(!backend.schemaReady)await checkSchema();
+            if(backend.schemaReady){await syncRemoteData();await subscribeRealtime();}
+          }else{
+            if(backend.channel){await backend.client.removeChannel(backend.channel);backend.channel=null;}
+            backend.profile=null;
+            restoreDemoData();
+            renderHome();renderFeed();renderListings();renderNotifications();renderConversations();renderChat();renderEvents();renderProfile();renderSaved();renderSavedListings();
+            updateHeaderBadges();
+            setBackendStatus(backend.schemaReady?'Supabase paruoštas · prisijunk, kad duomenys išliktų':'Supabase laukia DB schemos',backend.schemaReady?'online':'warning');
+          }
+        },0);
+      });
+      backend.authSubscription=authListener?.subscription||null;
+    }
+
+    async function persistPostLike(post){
+      if(!backendWritable()||!post?.remote)return;
+      if(post.liked){
+        const {error}=await backend.client.from('post_likes').upsert({post_id:post.id,user_id:backend.user.id},{onConflict:'post_id,user_id'});
+        if(error)throw error;
+      }else{
+        const {error}=await backend.client.from('post_likes').delete().eq('post_id',post.id).eq('user_id',backend.user.id);
+        if(error)throw error;
+      }
+    }
+
+    async function persistPostSave(post){
+      if(!backendWritable()||!post?.remote)return;
+      if(post.saved){
+        const {error}=await backend.client.from('post_saves').upsert({post_id:post.id,user_id:backend.user.id},{onConflict:'post_id,user_id'});
+        if(error)throw error;
+      }else{
+        const {error}=await backend.client.from('post_saves').delete().eq('post_id',post.id).eq('user_id',backend.user.id);
+        if(error)throw error;
+      }
+    }
+
+    async function persistListingSave(listing){
+      if(!backendWritable()||!listing?.remote)return;
+      if(listing.fav){
+        const {error}=await backend.client.from('listing_saves').upsert({listing_id:listing.id,user_id:backend.user.id},{onConflict:'listing_id,user_id'});
+        if(error)throw error;
+      }else{
+        const {error}=await backend.client.from('listing_saves').delete().eq('listing_id',listing.id).eq('user_id',backend.user.id);
+        if(error)throw error;
+      }
+    }
+
+    async function markNotificationRead(notification){
+      if(!notification)return;
+      notification.unread=false;
+      if(backendWritable()&&notification.dbId){
+        const {error}=await backend.client.from('notifications').update({read_at:new Date().toISOString()})
+          .eq('id',notification.dbId).eq('user_id',backend.user.id);
+        if(error)console.warn(error);
+      }
+      renderNotifications();updateHeaderBadges();
+    }
+
+    async function markConversationRead(conversation){
+      if(!conversation)return;
+      conversation.unread=false;
+      if(backendWritable()&&conversation.dbId){
+        const {error}=await backend.client.from('conversation_members')
+          .update({last_read_at:new Date().toISOString()})
+          .eq('conversation_id',conversation.dbId).eq('user_id',backend.user.id);
+        if(error)console.warn(error);
+      }
+      updateHeaderBadges();
+    }
+
+    async function openListingConversation(listing){
+      if(!listing)return;
+      if(!backend.user){
+        route('auth');showToast('Prisijunk, kad galėtum parašyti dėl skelbimo');return;
+      }
+      if(!backend.schemaReady){
+        showToast('Pirmiausia įdiek Supabase DB schemą');return;
+      }
+      if(!listing.remote||!listing.authorId){
+        showToast('Šis demo skelbimas dar nėra Supabase duomenyse');return;
+      }
+      if(listing.authorId===backend.user.id){
+        showToast('Tai tavo skelbimas');return;
+      }
+      let existing=conversations.find(c=>c.type==='listing'&&Number(c.listingId)===Number(listing.id));
+      if(!existing){
+        let {data:conv,error}=await backend.client.from('conversations')
+          .select('*').eq('kind','listing').eq('listing_id',listing.id).eq('created_by',backend.user.id).maybeSingle();
+        if(error)console.warn(error);
+        if(!conv){
+          const created=await backend.client.from('conversations').insert({
+            kind:'listing',listing_id:listing.id,created_by:backend.user.id
+          }).select().single();
+          if(created.error){showToast(created.error.message);return;}
+          conv=created.data;
+        }
+        const members=await backend.client.from('conversation_members').upsert([
+          {conversation_id:conv.id,user_id:backend.user.id,last_read_at:new Date().toISOString()},
+          {conversation_id:conv.id,user_id:listing.authorId,last_read_at:new Date().toISOString()}
+        ],{onConflict:'conversation_id,user_id'});
+        if(members.error){showToast(members.error.message);return;}
+        await loadRemoteConversations();
+        existing=conversations.find(c=>c.dbId===Number(conv.id));
+      }
+      const index=conversations.indexOf(existing);
+      if(index>=0){
+        state.activeConversation=index;
+        await markConversationRead(existing);
+        renderChat();renderConversations(document.querySelector('#conversationSearch')?.value||'');route('chat');
+      }
+    }
 
     const commentAuthors = [
       ['Gabija M.',21],['Andrius K.',33],['Rūta P.',47],['Saulius V.',14],
@@ -3177,7 +3981,7 @@
     }
 
     function listingFeedTemplate(l){
-      const person = listingPeople[(Number(l.id)-1) % listingPeople.length] || listingPeople[0];
+      const person = l.author ? [l.author,l.authorAvatar||'https://i.pravatar.cc/120?img=22'] : (listingPeople[(Number(l.id)-1) % listingPeople.length] || listingPeople[0]);
       const desc=(l.desc||'').trim();
       const title=(l.title||'').trim();
       const bodyText = desc && title && desc.startsWith(title) ? desc : [title,desc].filter(Boolean).join('\n\n');
@@ -3202,7 +4006,7 @@
         <div class="market-post-bottom">
           <div class="market-actions">
             <button data-fav="${l.id}" class="${l.fav?'active':''}">${icon('heart',15)} <span>${l.fav?'Išsaugota':'Išsaugoti'}</span></button>
-            <button data-route="chat">${icon('message-circle',15)} <span>Parašyti</span></button>
+            <button data-listing-chat="${l.id}">${icon('message-circle',15)} <span>Parašyti</span></button>
             <button type="button" onclick="event.stopPropagation();showToast('Nuoroda nukopijuota')">${icon('share-2',15)} <span>Dalintis</span></button>
           </div>
         </div>
@@ -3260,7 +4064,7 @@
               <div class="grow"><strong>Mantas Ž.</strong><small>Ukmergė · bendruomenės narys</small></div>
               <button class="icon-btn" data-route="user">${icon('user-round',17)}</button>
             </div>
-            <div class="author-actions"><button class="primary-btn" data-route="chat">${icon('message-circle',16)} Parašyti</button><button class="secondary-btn" onclick="showToast('Telefono numeris: +370 612 34567')">${icon('phone',16)} Skambinti</button></div>
+            <div class="author-actions"><button class="primary-btn" data-listing-chat="${l.id}">${icon('message-circle',16)} Parašyti</button><button class="secondary-btn" onclick="showToast('Telefono numeris: +370 612 34567')">${icon('phone',16)} Skambinti</button></div>
             <button class="secondary-btn" data-fav="${l.id}" style="width:100%;margin-top:8px">${icon('heart',16)} ${l.fav?'Išsaugota':'Išsaugoti skelbimą'}</button>
           </div>
         </div>`;
@@ -3280,55 +4084,78 @@
     function renderNotifications(){
       const box=$('#notificationList');
       if(!box)return;
-
-      const filtered=notifications.filter(n=>
-        state.notificationFilter==='all' || n.type===state.notificationFilter
-      );
-
+      const filtered=notifications.filter(n=>state.notificationFilter==='all'||n.type===state.notificationFilter);
       if(!filtered.length){
         box.innerHTML=`<div class="notif-empty">${icon('bell-off',28)}<div style="margin-top:9px">Šio tipo pranešimų nėra.</div></div>`;
-        refreshIcons();
-        return;
+        refreshIcons();updateHeaderBadges();return;
       }
-
-      const groups=['Šiandien','Anksčiau'];
+      const groups=['Šiandien','Vakar','Anksčiau'];
       box.innerHTML=groups.map(group=>{
         const items=filtered.filter(n=>n.group===group);
         if(!items.length)return '';
         return `<section class="notif-group">
           <h2 class="notif-group-title">${group}</h2>
-          <div>
-            ${items.map(n=>`
-              <div class="notif ${n.unread?'unread':''}" data-notification-type="${n.type}">
-                <div class="notif-icon ${n.type}">${icon(n.icon,17)}</div>
-                <div class="notif-content">
-                  <div class="notif-meta">
-                    <span class="notif-type">${notificationTypeLabel(n.type)}</span>
-                    <span class="notif-time">${esc(n.time)}</span>
-                  </div>
-                  <div class="notif-title">${esc(n.title)}</div>
-                  <p class="notif-text">${esc(n.text)}</p>
-                </div>
-                <div class="notif-side">${n.unread?'<span class="unread-dot" title="Neperskaityta"></span>':''}</div>
-              </div>`).join('')}
-          </div>
+          <div>${items.map(n=>{
+            const index=notifications.indexOf(n);
+            return `<div class="notif notification-clickable ${n.unread?'unread':''}" data-notification-index="${index}">
+              <div class="notif-icon ${n.type}">${icon(n.icon,17)}</div>
+              <div class="notif-content">
+                <div class="notif-meta"><span class="notif-type">${notificationTypeLabel(n.type)}</span><span class="notif-time">${esc(n.time)}</span></div>
+                <div class="notif-title">${esc(n.title)}</div>
+                <p class="notif-text">${esc(n.text)}</p>
+              </div>
+              <div class="notif-side">${n.unread?'<span class="unread-dot" title="Neperskaityta"></span>':''}<span class="notif-action">${icon('chevron-right',14)}</span></div>
+            </div>`;
+          }).join('')}</div>
         </section>`;
       }).join('');
-      refreshIcons();
+      refreshIcons();updateHeaderBadges();
     }
 
     function renderConversations(query=''){
       const q=(query||'').toLowerCase().trim();
-      const filtered=conversations.map((c,i)=>({...c,index:i})).filter(c=>(c.name+' '+c.msg).toLowerCase().includes(q));
-      $('#conversationList').innerHTML = filtered.length ? filtered.map(c=>`<div class="conversation ${c.unread?'unread':''}" data-conversation="${c.index}"><img class="avatar round" src="${c.avatar}" alt=""><div class="grow"><strong>${esc(c.name)}</strong><p class="truncate">${esc(c.msg)}</p></div><div class="time">${c.time}</div>${c.unread?'<span class="unread-dot"></span>':''}</div>`).join('') : `<div class="empty">Pokalbių nerasta.</div>`;
+      const filtered=conversations.map((c,i)=>({...c,index:i}))
+        .filter(c=>(`${c.name} ${c.msg||''} ${c.listingTitle||''}`).toLowerCase().includes(q));
+      const groups=[
+        {type:'listing',label:'Dėl skelbimų',hint:'Susieti su konkrečiu skelbimu'},
+        {type:'general',label:'Bendri pokalbiai',hint:'Bendruomenės žinutės'}
+      ];
+      const html=groups.map(group=>{
+        const items=filtered.filter(c=>(c.type||'general')===group.type);
+        if(!items.length)return '';
+        return `<section class="conversation-group">
+          <div class="conversation-group-head"><strong>${group.label}</strong><span>${items.length}</span></div>
+          ${items.map(c=>`<div class="conversation ${c.unread?'unread':''}" data-conversation="${c.index}">
+            <img class="avatar round" src="${c.avatar}" alt="">
+            <div class="grow">
+              <strong>${esc(c.name)}</strong>
+              ${c.type==='listing'?`<div class="conversation-context">${icon('tag',11)}<span class="truncate">${esc(c.listingTitle||'Skelbimas')}</span></div>`:''}
+              <div class="conversation-preview">${c.unread?'<span class="incoming-label">NAUJA</span>':''}<p class="truncate">${esc(c.msg||'Pokalbis pradėtas')}</p></div>
+            </div>
+            <div class="time">${esc(c.time||'')}</div>
+            ${c.unread?'<span class="unread-dot"></span>':''}
+          </div>`).join('')}
+        </section>`;
+      }).join('');
+      $('#conversationList').innerHTML=html||`<div class="empty">Pokalbių nerasta.</div>`;
+      refreshIcons();updateHeaderBadges();
     }
 
     function renderChat(){
       const c=conversations[state.activeConversation]||conversations[0];
+      if(!c){
+        $('#chatMessages').innerHTML='<div class="empty">Pasirink pokalbį.</div>';
+        return;
+      }
       $('#chatAvatar').src=c.avatar;
       $('#chatName').textContent=c.name;
       $('#chatStatus').textContent=c.status||'bendruomenės narys';
-      $('#chatMessages').innerHTML=(c.messages||[]).map(m=>`<div class="bubble-row ${m.me?'me':''}"><div class="message-bubble">${m.image?`<img class="chat-image" src="${m.image}" alt="Pridėta nuotrauka">`:esc(m.text||'')}<small>${esc(m.time||'ką tik')}</small></div></div>`).join('');
+      const ctx=$('#chatContext');
+      if(ctx){
+        ctx.classList.toggle('hidden',c.type!=='listing');
+        ctx.innerHTML=c.type==='listing'?`${icon('tag',11)} ${esc(c.listingTitle||'Skelbimas')}`:'';
+      }
+      $('#chatMessages').innerHTML=(c.messages||[]).map(m=>`<div class="bubble-row ${m.me?'me':''}"><div class="message-bubble">${m.image?`<img class="chat-image" src="${m.image}" alt="Pridėta nuotrauka">`:esc(m.text||'')}<small>${esc(m.time||'ką tik')}</small></div></div>`).join('')||'<div class="empty">Pokalbis dar tuščias.</div>';
       $('#chatMessages').scrollTop=$('#chatMessages').scrollHeight;
       refreshIcons();
     }
@@ -3341,7 +4168,10 @@
         {date:'2026-09-12',time:'12:00',title:'Rudens turgelis',place:'Kęstučio aikštė',family:true,free:true},
         {date:'2026-09-14',time:'10:00',title:'Bendruomenės dviračių žygis',place:'Startas prie piliakalnio',family:true,free:true}
       ];
-      const events=[...communityEvents,...base];
+      const postEvents=posts.filter(p=>p.kind==='Renginys'&&p.eventDateRaw).map(p=>({
+        date:p.eventDateRaw,time:p.eventTime||'',title:(p.text||'Renginys').split(/\n+/)[0],place:p.place||'Ukmergė',postId:p.id,family:false,free:true
+      }));
+      const events=[...postEvents,...communityEvents,...base].filter((e,i,a)=>a.findIndex(x=>x.date===e.date&&x.title===e.title)===i);
       const today='2026-09-03';
       const weekend=['2026-09-05','2026-09-06'];
       const filtered=events.filter(e=>{
@@ -3354,7 +4184,7 @@
       });
       $('#eventList').innerHTML = filtered.length ? filtered.map(e=>{
         const d=formatEventDate(e.date);
-        return `<div class="mini-event event-card-clickable" data-event-title="${esc(e.title)}"><div class="datebox"><strong>${d.day}</strong><span>${esc(d.month)}</span></div><div style="flex:1"><strong>${esc(e.title)}</strong><small>${esc(e.place||'Ukmergė')} · ${esc(e.time||'Laikas derinamas')}</small></div><button class="icon-btn" data-save-event="${esc(e.title)}">${icon('bookmark',15)}</button></div>`;
+        return `<div class="mini-event event-card-clickable" data-event-title="${esc(e.title)}"><div class="datebox"><strong>${d.day}</strong><span>${esc(d.month)}</span></div><div style="flex:1"><strong>${esc(e.title)}</strong><small>${esc(e.place||'Ukmergė')} · ${esc(e.time||'Laikas derinamas')}</small></div><button class="icon-btn ${state.savedEvents.has(eventKey(e))?'active':''}" data-save-event-key="${esc(eventKey(e))}" data-save-event-title="${esc(e.title)}" data-save-event-date="${esc(e.date||'')}" data-save-event-post="${e.postId||''}" aria-label="${state.savedEvents.has(eventKey(e))?'Pašalinti iš išsaugotų':'Išsaugoti renginį'}">${icon('bookmark',15)}</button></div>`;
       }).join('') : `<div class="filter-empty">${icon('calendar-x',30)}<div style="margin-top:8px">Šiame filtre renginių nėra.</div></div>`;
       refreshIcons();
     }
@@ -3368,7 +4198,7 @@
       refreshIcons();
     }
 
-    function renderOtherUser(){ $('#otherUserPosts').innerHTML = [posts[0],posts[3]].map(postTemplate).join(''); refreshIcons(); }
+    function renderOtherUser(){ $('#otherUserPosts').innerHTML = [posts[0],posts[3]].filter(Boolean).map(postTemplate).join('')||'<div class="empty">Įrašų nėra.</div>'; refreshIcons(); }
     function renderSaved(){
       const box=$('#savedContent');
       if(state.savedTab==='posts'){
@@ -3423,10 +4253,30 @@
       if(name==='saved') renderSaved();
       if(name==='search') renderSearch();
       if(name==='saved-listings') renderSavedListings();
+      if(name==='admin'){
+        if(!['moderator','admin'].includes(backend.profile?.role)){
+          showToast('Moderavimo centras skirtas tik moderatoriams');
+          if(push){state.route='home';$('#page-admin').classList.remove('active');$('#page-home').classList.add('active');location.hash='home';}
+        }else renderAdmin();
+      }
       refreshIcons();
     }
 
-    document.addEventListener('click', e=>{
+    document.addEventListener('click', async e=>{
+      const notificationRow=e.target.closest('[data-notification-index]');
+      if(notificationRow){
+        const n=notifications[Number(notificationRow.dataset.notificationIndex)];
+        await markNotificationRead(n);
+        if(n?.type==='message'&&n.conversationId){
+          const i=conversations.findIndex(c=>c.dbId===Number(n.conversationId));
+          if(i>=0){state.activeConversation=i;await markConversationRead(conversations[i]);renderChat();route('chat');}
+          else route('messages');
+        }else if(n?.type==='listing'&&n.entityId){const l=listings.find(x=>x.id===Number(n.entityId));if(l){renderListingDetail(l.id);route('listing-detail');}else route('classifieds');}
+        else if(n?.type==='event')route('events');
+        else if(n?.type==='post')route('feed');
+        return;
+      }
+
       const notifFilter=e.target.closest('[data-notif-filter]');
       if(notifFilter){
         state.notificationFilter=notifFilter.dataset.notifFilter;
@@ -3467,13 +4317,21 @@
       const conversation=e.target.closest('[data-conversation]');
       if(conversation){
         state.activeConversation=Number(conversation.dataset.conversation);
-        conversations[state.activeConversation].unread=false;
+        await markConversationRead(conversations[state.activeConversation]);
         renderConversations($('#conversationSearch')?.value||'');
         renderChat(); route('chat'); return;
       }
 
-      const saveEvent=e.target.closest('[data-save-event]');
-      if(saveEvent){ e.stopPropagation(); showToast('Renginys išsaugotas'); return; }
+      const saveEvent=e.target.closest('[data-save-event-key]');
+      if(saveEvent){
+        e.stopPropagation();
+        await toggleEventSave({
+          title:saveEvent.dataset.saveEventTitle,
+          date:saveEvent.dataset.saveEventDate||'',
+          postId:saveEvent.dataset.saveEventPost?Number(saveEvent.dataset.saveEventPost):null
+        });
+        return;
+      }
 
       const eventCard=e.target.closest('[data-event-title]');
       if(eventCard && !e.target.closest('button')){ showToast(eventCard.dataset.eventTitle+' · renginio informacija'); return; }
@@ -3485,22 +4343,67 @@
       if(adminReview){ openAdminReview(Number(adminReview.dataset.adminReview)); return; }
       if(e.target.closest('[data-close-admin-review]')){ closeAdminReview(); return; }
       const adminResolve=e.target.closest('[data-admin-resolve]');
-      if(adminResolve){ resolveAdminReview(adminResolve.dataset.adminResolve); return; }
+      if(adminResolve){ await resolveRemoteReport(state.activeAdminReview,adminResolve.dataset.adminResolve); return; }
+
+      const listingChat=e.target.closest('[data-listing-chat]');
+      if(listingChat){
+        e.preventDefault();e.stopPropagation();
+        const listing=listings.find(x=>x.id===Number(listingChat.dataset.listingChat));
+        await openListingConversation(listing);
+        return;
+      }
 
       const r = e.target.closest('[data-route]');
       if(r){ e.preventDefault(); route(r.dataset.route); return; }
 
       const fav = e.target.closest('[data-fav]');
-      if(fav){ e.preventDefault(); e.stopPropagation(); const l=listings.find(x=>x.id===Number(fav.dataset.fav)); if(l){l.fav=!l.fav; showToast(l.fav?'Skelbimas išsaugotas':'Pašalinta iš išsaugotų'); renderHome(); renderListings(); renderSavedListings(); if(state.route==='listing-detail') renderListingDetail(l.id);} return; }
+      if(fav){
+        e.preventDefault();e.stopPropagation();
+        const l=listings.find(x=>x.id===Number(fav.dataset.fav));
+        if(l){
+          l.fav=!l.fav;
+          try{await persistListingSave(l);}catch(err){l.fav=!l.fav;showToast(err.message||'Nepavyko išsaugoti skelbimo');}
+          showToast(l.fav?'Skelbimas išsaugotas':'Pašalinta iš išsaugotų');
+          renderHome();renderListings();renderSaved();renderSavedListings();
+          if(state.route==='listing-detail')renderListingDetail(l.id);
+        }
+        return;
+      }
 
       const listing = e.target.closest('[data-listing]');
       if(listing && !e.target.closest('button')){ renderListingDetail(listing.dataset.listing); route('listing-detail'); return; }
 
       const like = e.target.closest('[data-like]');
-      if(like){ const p=posts.find(x=>x.id===Number(like.dataset.like)); p.liked=!p.liked; p.likes += p.liked?1:-1; renderHome(); renderFeed(); if(state.route==='user')renderOtherUser(); if(state.route==='profile')renderProfile('posts'); return; }
+      if(like){
+        const p=posts.find(x=>x.id===Number(like.dataset.like));if(!p)return;
+        p.liked=!p.liked;p.likes+=p.liked?1:-1;
+        renderHome();renderFeed();
+        try{await persistPostLike(p);}catch(err){p.liked=!p.liked;p.likes+=p.liked?1:-1;renderHome();renderFeed();showToast(err.message||'Nepavyko išsaugoti reakcijos');}
+        if(state.route==='user')renderOtherUser();if(state.route==='profile')renderProfile('posts');return;
+      }
 
       const save = e.target.closest('[data-save]');
-      if(save){ const p=posts.find(x=>x.id===Number(save.dataset.save)); p.saved=!p.saved; showToast(p.saved?'Įrašas išsaugotas':'Pašalinta iš išsaugotų'); renderHome(); renderFeed(); return; }
+      if(save){
+        const p=posts.find(x=>x.id===Number(save.dataset.save));if(!p)return;
+        p.saved=!p.saved;
+        try{await persistPostSave(p);}catch(err){p.saved=!p.saved;showToast(err.message||'Nepavyko išsaugoti įrašo');}
+        showToast(p.saved?'Įrašas išsaugotas':'Pašalinta iš išsaugotų');
+        renderHome();renderFeed();renderSaved();return;
+      }
+
+      const reportActive=e.target.closest('[data-report-active-post]');
+      if(reportActive){
+        const p=posts.find(x=>x.id===state.activePost);
+        if(!p){closeMenu();return;}
+        state.activeReportTarget={type:'post',id:p.remote?p.id:null,label:(p.text||'Įrašas').slice(0,80)};
+        closeMenu();
+        $('#reportReason').value='';$('#reportDetails').value='';
+        $('#reportModal').classList.add('open');refreshIcons();return;
+      }
+
+      if(e.target.closest('[data-close-report]')){
+        $('#reportModal').classList.remove('open');state.activeReportTarget=null;return;
+      }
 
       const menu = e.target.closest('[data-post-menu]');
       if(menu){ state.activePost=Number(menu.dataset.postMenu); const cm=$('#postMenu'); const rect=menu.getBoundingClientRect(); cm.style.left=Math.min(rect.left-140, window.innerWidth-200)+'px'; cm.style.top=(rect.bottom+6)+'px'; cm.classList.add('open'); return; }
@@ -3525,7 +4428,11 @@
       }
 
       const reply=e.target.closest('[data-reply-to]');
-      if(reply){ state.replyingTo=reply.dataset.replyTo; $('#commentInput').placeholder='Atsakymas @'+state.replyingTo+'...'; $('#commentInput').focus(); return; }
+      if(reply){
+        state.replyingTo=reply.dataset.replyTo;
+        state.replyingCommentId=Number(reply.dataset.replyCommentId)||null;
+        $('#commentInput').placeholder='Atsakymas @'+state.replyingTo+'...';$('#commentInput').focus();return;
+      }
       if(e.target.closest('[data-close-comments]')) closeComments();
 
       const listingFilter=e.target.closest('[data-listing-filter]');
@@ -3579,28 +4486,18 @@
 
     function openAdminReview(index){
       state.activeAdminReview=index;
-      const r=adminReports[index];
+      const r=state.adminReportsRemote[index];
       if(!r)return;
-      $('#adminReviewTitle').textContent=index===2?'Moderavimo istorija':'Moderavimo peržiūra';
-      $('#adminReviewBody').innerHTML=`<div class="admin-review-card"><strong>${esc(r.title)}</strong>${esc(r.detail)}</div><div class="admin-review-card"><strong>Priežastis</strong>${esc(r.reason)}</div><div class="admin-review-card"><strong>Dabartinė būsena</strong>${esc(r.status)}</div>`;
-      $('#adminReviewActions').style.display=index===2?'none':'flex';
-      $('#adminReviewModal').classList.add('open');
-      refreshIcons();
+      $('#adminReviewTitle').textContent=['dismissed','removed'].includes(r.status)?'Moderavimo istorija':'Moderavimo peržiūra';
+      $('#adminReviewBody').innerHTML=`
+        <div class="admin-review-card"><strong>${esc(r.target_label||`${r.target_type} #${r.target_id||'—'}`)}</strong>${esc(r.details||'Papildomos informacijos nepateikta.')}</div>
+        <div class="admin-review-card"><strong>Priežastis</strong>${esc(r.reason)}</div>
+        <div class="admin-review-card"><strong>Dabartinė būsena</strong>${esc(reportStatusLabel(r.status))}</div>`;
+      $('#adminReviewActions').style.display=['dismissed','removed'].includes(r.status)?'none':'flex';
+      $('#adminReviewModal').classList.add('open');refreshIcons();
     }
     function closeAdminReview(){ $('#adminReviewModal').classList.remove('open'); state.activeAdminReview=null; }
-    function resolveAdminReview(action){
-      const i=state.activeAdminReview;
-      if(i===null||i===undefined)return;
-      const row=$(`[data-admin-row="${i}"]`);
-      const status=row?.querySelector('.status');
-      if(status){
-        status.className='status ok';
-        status.textContent=action==='remove'?'Turinys pašalintas':'Reportas atmestas';
-      }
-      adminReports[i].status=action==='remove'?'Turinys pašalintas':'Reportas atmestas';
-      closeAdminReview();
-      showToast(action==='remove'?'Turinys pašalintas':'Reportas uždarytas');
-    }
+    function resolveAdminReview(action){ return resolveRemoteReport(state.activeAdminReview,action); }
 
     function openCreate(){ $('#createModal').classList.add('open'); refreshIcons(); }
     function closeCreate(){ $('#createModal').classList.remove('open'); }
@@ -3675,18 +4572,18 @@
         <div class="comment-preview" style="margin:0">
           <img class="avatar round" style="width:34px;height:34px" src="${c.avatar||'https://i.pravatar.cc/80?img=22'}" alt="">
           <div class="bubble" style="flex:1"><strong>${esc(c.author)}</strong>${esc(c.text)}
-            <div style="display:flex;gap:10px;margin-top:5px"><small class="muted">${c.time}</small><button type="button" class="link-btn" data-reply-to="${esc(c.author)}" style="padding:0;font-size:11px">Atsakyti</button></div>
+            <div style="display:flex;gap:10px;margin-top:5px"><small class="muted">${c.time}</small><button type="button" class="link-btn" data-reply-to="${esc(c.author)}" data-reply-comment-id="${c.id}" style="padding:0;font-size:11px">Atsakyti</button></div>
             ${(c.replies||[]).map(r=>`<div style="margin-top:9px;padding-left:10px;border-left:2px solid var(--line)"><strong>${esc(r.author)}</strong>${esc(r.text)}<div><small class="muted">${r.time}</small></div></div>`).join('')}
           </div>
         </div>`).join(''):'<div class="empty">Komentarų dar nėra. Būk pirmas!</div>';
       refreshIcons();
     }
     function openComments(postId){
-      state.commentPostId=Number(postId); state.replyingTo=null;
+      state.commentPostId=Number(postId); state.replyingTo=null; state.replyingCommentId=null;
       $('#commentInput').placeholder='Parašyti komentarą...';
       renderComments(); $('#commentsModal').classList.add('open'); setTimeout(()=>$('#commentInput').focus(),100);
     }
-    function closeComments(){ $('#commentsModal').classList.remove('open'); state.replyingTo=null; }
+    function closeComments(){ $('#commentsModal').classList.remove('open'); state.replyingTo=null; state.replyingCommentId=null; }
 
     document.addEventListener('dragstart',e=>{
       const item=e.target.closest('[data-drag-image]');
@@ -3724,7 +4621,18 @@
     $('#createModal').addEventListener('click', e=>{ if(e.target.id==='createModal') closeCreate(); });
     $('#commentsModal').addEventListener('click', e=>{ if(e.target.id==='commentsModal') closeComments(); });
     $('#adminReviewModal').addEventListener('click', e=>{ if(e.target.id==='adminReviewModal') closeAdminReview(); });
+    $('#reportModal').addEventListener('click', e=>{ if(e.target.id==='reportModal'){e.target.classList.remove('open');state.activeReportTarget=null;} });
     $('#listingPostModal').addEventListener('click', e=>{ if(e.target.id==='listingPostModal') closeListingPost(); });
+
+    $('#reportForm').addEventListener('submit',async e=>{
+      e.preventDefault();
+      const target=state.activeReportTarget;
+      const reason=$('#reportReason').value;
+      const details=$('#reportDetails').value.trim();
+      if(!target||!reason)return;
+      const ok=await createReport(target,reason,details);
+      if(ok){$('#reportModal').classList.remove('open');state.activeReportTarget=null;}
+    });
 
     $('#listingPostImagesInput').addEventListener('change', async e=>{
       const room=10-state.listingPostDraftImages.length;
@@ -3735,38 +4643,45 @@
       renderListingPostImagePreview();
     });
 
-    $('#listingPostForm').addEventListener('submit', e=>{
+    $('#listingPostForm').addEventListener('submit', async e=>{
       e.preventDefault();
       const text=$('#listingPostText').value.trim();
       if(!text && !state.listingPostDraftImages.length){
-        showToast('Parašyk skelbimą arba pridėk nuotrauką');
-        return;
+        showToast('Parašyk skelbimą arba pridėk nuotrauką');return;
+      }
+      let finalImages=[...state.listingPostDraftImages];
+      let remoteRow=null;
+      if(backend.user && !backend.schemaReady){showToast('Supabase DB schema dar neįdiegta');return;}
+      try{
+        if(backendWritable()){
+          finalImages=await uploadImageList(finalImages,'listings');
+          const result=await backend.client.from('listings').insert({
+            author_id:backend.user.id,
+            category:state.listingPostCategory||null,
+            body:text,
+            images:finalImages
+          }).select().single();
+          if(result.error)throw result.error;
+          remoteRow=result.data;
+        }
+      }catch(error){
+        showToast(error.message||'Nepavyko paskelbti skelbimo');return;
       }
 
       const firstLine=text.split(/\n+/).find(Boolean)||'Skelbimas';
-      const desc=text;
       listings.unshift({
-        id:Date.now(),
-        type:'Skelbimas',
-        category:state.listingPostCategory||'',
-        title:firstLine,
-        price:0,
-        loc:'Ukmergė',
-        time:'ką tik',
-        img:state.listingPostDraftImages[0]||'',
-        gallery:[...state.listingPostDraftImages],
-        fav:false,
-        condition:'',
-        desc
+        id:remoteRow?Number(remoteRow.id):Date.now(),
+        remote:!!remoteRow,authorId:backend.user?.id||null,
+        author:currentDisplayName(),authorAvatar:currentAvatar(),
+        type:'Skelbimas',category:state.listingPostCategory||'',
+        title:firstLine,price:0,loc:backend.profile?.location||'Ukmergė',
+        time:'ką tik',img:finalImages[0]||'',gallery:finalImages,
+        fav:false,condition:'',desc:text
       });
 
-      state.listingPostDraftImages=[];
-      state.listingPostCategory=null;
-      $('#listingPostText').value='';
-      renderListingCategoryChoices();
-      closeListingPost();
-      route('classifieds');
-      renderListings();
+      state.listingPostDraftImages=[];state.listingPostCategory=null;
+      $('#listingPostText').value='';renderListingCategoryChoices();
+      closeListingPost();route('classifieds');renderHome();renderListings();
       showToast('Skelbimas paskelbtas');
     });
 
@@ -3779,7 +4694,7 @@
       renderPostImagePreview();
     });
 
-    $('#postForm').addEventListener('submit', e=>{
+    $('#postForm').addEventListener('submit', async e=>{
       e.preventDefault();
       const text=$('#postText').value.trim();
       const isEvent=state.postKind==='Renginys';
@@ -3787,91 +4702,89 @@
       const eventTime=$('#eventTimeInput').value;
       const eventPlace=$('#eventPlaceInput').value.trim();
 
-      if(!text && !state.postDraftImages.length){
-        showToast(isEvent?'Įrašyk renginio informaciją':'Parašyk tekstą arba pridėk nuotrauką');
-        return;
-      }
-      if(isEvent && !eventDateRaw){
-        showToast('Pasirink renginio datą');
-        return;
-      }
+      if(!text && !state.postDraftImages.length){showToast(isEvent?'Įrašyk renginio informaciją':'Parašyk tekstą arba pridėk nuotrauką');return;}
+      if(isEvent&&!eventDateRaw){showToast('Pasirink renginio datą');return;}
+      if(backend.user&&!backend.schemaReady){showToast('Supabase DB schema dar neįdiegta');return;}
 
       const formattedEventDate=isEvent?formatEventDate(eventDateRaw).label:'';
+      let finalImages=[...state.postDraftImages];
 
-      if(state.editingPostId){
-        const p=posts.find(x=>x.id===state.editingPostId);
-        if(p){
-          p.text=text;
-          p.images=[...state.postDraftImages];
-          p.kind=state.postKind;
-          p.time='redaguota ką tik';
-          if(isEvent){
-            p.eventDateRaw=eventDateRaw;
-            p.eventDate=formattedEventDate;
-            p.eventTime=eventTime;
-            p.place=eventPlace||'Ukmergė';
+      try{
+        if(backendWritable())finalImages=await uploadImageList(finalImages,isEvent?'events':'posts');
+
+        if(state.editingPostId){
+          const p=posts.find(x=>x.id===state.editingPostId);
+          if(!p)return;
+          if(backendWritable()&&p.remote){
+            const result=await backend.client.from('posts').update({
+              kind:isEvent?'event':state.postKind==='Klausimas'?'question':'post',
+              body:text,images:finalImages,place:isEvent?(eventPlace||'Ukmergė'):(p.place||'Ukmergė'),
+              event_date:isEvent?eventDateRaw:null,event_time:isEvent?(eventTime||null):null
+            }).eq('id',p.id).eq('author_id',backend.user.id);
+            if(result.error)throw result.error;
           }
+          p.text=text;p.images=finalImages;p.kind=state.postKind;p.time='redaguota ką tik';
+          if(isEvent){p.eventDateRaw=eventDateRaw;p.eventDate=formattedEventDate;p.eventTime=eventTime;p.place=eventPlace||'Ukmergė';}
+          showToast(isEvent?'Renginys atnaujintas':'Įrašas atnaujintas');
+        }else{
+          let remoteRow=null;
+          if(backendWritable()){
+            const result=await backend.client.from('posts').insert({
+              author_id:backend.user.id,
+              kind:isEvent?'event':state.postKind==='Klausimas'?'question':'post',
+              body:text,images:finalImages,place:isEvent?(eventPlace||'Ukmergė'):(backend.profile?.location||'Ukmergė'),
+              event_date:isEvent?eventDateRaw:null,event_time:isEvent?(eventTime||null):null
+            }).select().single();
+            if(result.error)throw result.error;
+            remoteRow=result.data;
+          }
+          const newPost={
+            id:remoteRow?Number(remoteRow.id):Date.now(),remote:!!remoteRow,authorId:backend.user?.id||null,
+            author:currentDisplayName(),avatar:currentAvatar(),time:'ką tik',
+            place:isEvent?(eventPlace||'Ukmergė'):(backend.profile?.location||'Ukmergė'),
+            text,images:finalImages,kind:state.postKind,likes:0,comments:0,saved:false,liked:false,comment:'',thread:[]
+          };
+          if(isEvent){
+            newPost.eventDateRaw=eventDateRaw;newPost.eventDate=formattedEventDate;newPost.eventTime=eventTime;
+            communityEvents.unshift({date:eventDateRaw,time:eventTime,title:text.split(/\n+/).find(Boolean)||'Bendruomenės renginys',place:eventPlace||'Ukmergė'});
+          }
+          posts.unshift(newPost);
+          showToast(isEvent?'Renginys paskelbtas':state.postKind==='Klausimas'?'Klausimas paskelbtas':'Įrašas paskelbtas');
         }
-        showToast(isEvent?'Renginys atnaujintas':'Įrašas atnaujintas');
-      }else{
-        const newPost={
-          id:Date.now(),
-          author:'Mantas Žukauskas',
-          avatar:'https://i.pravatar.cc/120?img=12',
-          time:'ką tik',
-          place:isEvent?(eventPlace||'Ukmergė'):'Ukmergė',
-          text,
-          images:[...state.postDraftImages],
-          kind:state.postKind,
-          likes:0,
-          comments:0,
-          saved:false,
-          liked:false,
-          comment:'',
-          thread:[]
-        };
-        if(isEvent){
-          newPost.eventDateRaw=eventDateRaw;
-          newPost.eventDate=formattedEventDate;
-          newPost.eventTime=eventTime;
-          const firstLine=text.split(/\n+/).find(Boolean)||'Bendruomenės renginys';
-          communityEvents.unshift({
-            date:eventDateRaw,
-            time:eventTime,
-            title:firstLine,
-            place:eventPlace||'Ukmergė'
-          });
-        }
-        posts.unshift(newPost);
-        showToast(isEvent?'Renginys paskelbtas':state.postKind==='Klausimas'?'Klausimas paskelbtas':'Įrašas paskelbtas');
+      }catch(error){
+        showToast(error.message||'Nepavyko išsaugoti įrašo');return;
       }
 
-      $('#postText').value='';
-      state.editingPostId=null;
-      state.postDraftImages=[];
-      state.postKind='Įrašas';
-      closeComposer();
-      renderHome();
-      renderEvents();
-      state.feedCount=Math.max(state.feedCount,4);
-      renderFeed();
-      route('feed');
+      $('#postText').value='';state.editingPostId=null;state.postDraftImages=[];state.postKind='Įrašas';
+      closeComposer();renderHome();renderEvents();state.feedCount=Math.max(state.feedCount,4);renderFeed();route('feed');
     });
 
 
-    $('#commentForm').addEventListener('submit',e=>{
-      e.preventDefault(); const text=$('#commentInput').value.trim(); if(!text)return;
-      const p=posts.find(x=>x.id===state.commentPostId); if(!p)return;
-      p.thread=p.thread||[];
-      if(state.replyingTo && p.thread.length){
-        p.thread[p.thread.length-1].replies=p.thread[p.thread.length-1].replies||[];
-        p.thread[p.thread.length-1].replies.push({author:'Mantas Ž.',text,time:'ką tik'});
-      }else{
-        p.thread.push({id:Date.now(),author:'Mantas Žukauskas',avatar:'https://i.pravatar.cc/80?img=12',text,time:'ką tik',replies:[]});
-      }
-      p.comments=threadCommentCount(p.thread);
-      $('#commentInput').value=''; state.replyingTo=null; $('#commentInput').placeholder='Parašyti komentarą...';
-      renderComments(); renderHome(); renderFeed(); showToast('Komentaras paskelbtas');
+    $('#commentForm').addEventListener('submit',async e=>{
+      e.preventDefault();
+      const text=$('#commentInput').value.trim();if(!text)return;
+      const p=posts.find(x=>x.id===state.commentPostId);if(!p)return;
+      if(backend.user&&!backend.schemaReady){showToast('Supabase DB schema dar neįdiegta');return;}
+      try{
+        if(backendWritable()&&p.remote){
+          const result=await backend.client.from('comments').insert({
+            post_id:p.id,author_id:backend.user.id,parent_id:state.replyingCommentId||null,body:text
+          }).select().single();
+          if(result.error)throw result.error;
+          await loadRemotePosts();
+        }else{
+          p.thread=p.thread||[];
+          if(state.replyingCommentId){
+            const parent=p.thread.find(x=>Number(x.id)===Number(state.replyingCommentId));
+            if(parent){parent.replies=parent.replies||[];parent.replies.push({id:Date.now(),author:currentDisplayName(),text,time:'ką tik'});}
+          }else{
+            p.thread.push({id:Date.now(),author:currentDisplayName(),avatar:currentAvatar(),text,time:'ką tik',replies:[]});
+          }
+          p.comments=threadCommentCount(p.thread);
+        }
+      }catch(error){showToast(error.message||'Nepavyko paskelbti komentaro');return;}
+      $('#commentInput').value='';state.replyingTo=null;state.replyingCommentId=null;$('#commentInput').placeholder='Parašyti komentarą...';
+      renderComments();renderHome();renderFeed();showToast('Komentaras paskelbtas');
     });
 
     $('#loadMorePosts').addEventListener('click', ()=>{ state.feedCount=Math.min(posts.length,state.feedCount+2); renderFeed(); });
@@ -3883,31 +4796,50 @@
       showToast('Skambutis '+c.name+' (demo)');
     });
 
-    $('#chatAttachment').addEventListener('change',e=>{
-      const file=e.target.files?.[0]; if(!file)return;
+    $('#chatAttachment').addEventListener('change',async e=>{
+      const file=e.target.files?.[0];if(!file)return;
       const reader=new FileReader();
-      reader.onload=()=>{
-        const c=conversations[state.activeConversation]||conversations[0];
-        c.messages=c.messages||[];
-        c.messages.push({me:true,image:reader.result,time:'ką tik'});
-        c.msg='📷 Nuotrauka'; c.time='ką tik';
-        renderChat(); renderConversations($('#conversationSearch').value);
-        showToast('Nuotrauka pridėta');
+      reader.onload=async()=>{
+        const c=conversations[state.activeConversation]||conversations[0];if(!c)return;
+        let image=reader.result;
+        try{
+          if(backendWritable()&&c.dbId){
+            image=await uploadImageValue(image,'messages');
+            const result=await backend.client.from('messages').insert({
+              conversation_id:c.dbId,sender_id:backend.user.id,image_url:image,body:null
+            }).select().single();
+            if(result.error)throw result.error;
+          }
+          c.messages=c.messages||[];c.messages.push({me:true,image,time:'ką tik'});c.msg='📷 Nuotrauka';c.time='ką tik';c.unread=false;
+          renderChat();renderConversations($('#conversationSearch').value);showToast('Nuotrauka išsiųsta');
+        }catch(error){showToast(error.message||'Nepavyko išsiųsti nuotraukos');}
       };
-      reader.readAsDataURL(file); e.target.value='';
+      reader.readAsDataURL(file);e.target.value='';
     });
 
-    $('#chatForm').addEventListener('submit', e=>{
-      e.preventDefault(); const val=$('#chatInput').value.trim(); if(!val)return;
-      const c=conversations[state.activeConversation]||conversations[0];
-      c.messages=c.messages||[];
-      c.messages.push({me:true,text:val,time:'ką tik'});
-      c.msg=val; c.time='ką tik'; c.unread=false;
-      $('#chatInput').value='';
-      renderChat(); renderConversations($('#conversationSearch').value);
+    $('#chatForm').addEventListener('submit',async e=>{
+      e.preventDefault();const val=$('#chatInput').value.trim();if(!val)return;
+      const c=conversations[state.activeConversation]||conversations[0];if(!c)return;
+      try{
+        if(backendWritable()&&c.dbId){
+          const result=await backend.client.from('messages').insert({
+            conversation_id:c.dbId,sender_id:backend.user.id,body:val,image_url:null
+          }).select().single();
+          if(result.error)throw result.error;
+        }
+        c.messages=c.messages||[];c.messages.push({me:true,text:val,time:'ką tik'});c.msg=val;c.time='ką tik';c.unread=false;
+        $('#chatInput').value='';renderChat();renderConversations($('#conversationSearch').value);updateHeaderBadges();
+      }catch(error){showToast(error.message||'Nepavyko išsiųsti žinutės');}
     });
 
-    $('#markRead').addEventListener('click',()=>{ notifications.forEach(n=>n.unread=false); renderNotifications(); $$('.badge').forEach(b=>{ if(b.parentElement.dataset.route==='notifications') b.style.display='none'; }); showToast('Visi pranešimai pažymėti perskaitytais'); });
+    $('#markRead').addEventListener('click',async()=>{
+      notifications.forEach(n=>n.unread=false);
+      if(backendWritable()){
+        const {error}=await backend.client.from('notifications').update({read_at:new Date().toISOString()}).eq('user_id',backend.user.id).is('read_at',null);
+        if(error)showToast(error.message);
+      }
+      renderNotifications();updateHeaderBadges();showToast('Visi pranešimai pažymėti perskaitytais');
+    });
 
     $('#profileTabs').addEventListener('click', e=>{
       const b=e.target.closest('[data-tab]'); if(!b)return;
@@ -3922,22 +4854,38 @@
       reader.readAsDataURL(file); e.target.value='';
     });
 
-    $('#profileForm').addEventListener('submit', e=>{
+    $('#profileForm').addEventListener('submit',async e=>{
       e.preventDefault();
-      const first=$('#profileFirstName').value.trim()||'Mantas';
-      const last=$('#profileLastName').value.trim()||'Žukauskas';
+      const first=$('#profileFirstName').value.trim()||'';
+      const last=$('#profileLastName').value.trim()||'';
       const loc=$('#profileLocation').value;
       const bio=$('#profileBioInput').value.trim();
-      $('#profileName').textContent=`${first} ${last}`;
-      $('#profileLocationText').innerHTML=`${icon('map-pin',13)} Ukmergė, ${esc(loc)} · Narys nuo 2024 m.`;
-      $('#profileBio').textContent=bio;
-      if(state.profileAvatarDraft){
-        $('#profileAvatar').src=state.profileAvatarDraft;
-        $$('.header-actions img.avatar').forEach(img=>img.src=state.profileAvatarDraft);
-      }
-      route('profile'); refreshIcons(); showToast('Profilis atnaujintas');
+      const display=[first,last].filter(Boolean).join(' ')||'UKM.lt narys';
+      let avatar=state.profileAvatarDraft||backend.profile?.avatar_url||$('#profileAvatar').src;
+      try{
+        if(backendWritable()){
+          if(state.profileAvatarDraft)avatar=await uploadImageValue(state.profileAvatarDraft,'avatars');
+          const result=await backend.client.from('profiles').upsert({
+            id:backend.user.id,display_name:display,first_name:first||null,last_name:last||null,
+            location:`Ukmergė, ${loc}`,bio,avatar_url:avatar
+          }).select().single();
+          if(result.error)throw result.error;
+          backend.profile=result.data;
+          const newEmail=$('#profileEmail').value.trim();
+          if(newEmail&&newEmail!==backend.user.email){
+            const emailUpdate=await backend.client.auth.updateUser({email:newEmail});
+            if(emailUpdate.error)showToast('Profilis išsaugotas, bet el. pašto pakeisti nepavyko');
+          }
+        }else{
+          backend.profile={...(backend.profile||{}),display_name:display,first_name:first,last_name:last,location:`Ukmergė, ${loc}`,bio,avatar_url:avatar};
+        }
+      }catch(error){showToast(error.message||'Nepavyko išsaugoti profilio');return;}
+      state.profileAvatarDraft=null;applyProfileToUI();route('profile');refreshIcons();showToast('Profilis atnaujintas');
     });
-    $('#logoutBtn').addEventListener('click',()=>{ route('auth'); showToast('Atsijungta iš demonstracinės paskyros'); });
+    $('#logoutBtn').addEventListener('click',async()=>{
+      if(backend.client&&backend.user)await backend.client.auth.signOut();
+      route('auth');showToast('Atsijungta');
+    });
 
     $('#authTabs').addEventListener('click',e=>{
       const b=e.target.closest('[data-auth-tab]'); if(!b)return;
@@ -3945,12 +4893,48 @@
       $('#loginForm').classList.toggle('hidden',b.dataset.authTab!=='login');
       $('#registerForm').classList.toggle('hidden',b.dataset.authTab!=='register');
     });
-    $('#loginForm').addEventListener('submit',e=>{e.preventDefault();route('home');showToast('Prisijungta sėkmingai');});
-    $('#registerForm').addEventListener('submit',e=>{
+    $('#loginForm').addEventListener('submit',async e=>{
       e.preventDefault();
-      const pw=[...e.currentTarget.querySelectorAll('input[type="password"]')];
-      if(pw.length>=2 && pw[0].value!==pw[1].value){ showToast('Slaptažodžiai nesutampa'); return; }
-      route('home');showToast('Paskyra sukurta sėkmingai');
+      if(!backend.client){showToast('Supabase biblioteka nepasiekiama');return;}
+      const email=$('#loginEmail').value.trim();
+      const password=$('#loginPassword').value;
+      const {data,error}=await backend.client.auth.signInWithPassword({email,password});
+      if(error){showToast(error.message);return;}
+      backend.user=data.user;
+      if(!backend.schemaReady)await checkSchema();
+      if(backend.schemaReady){await syncRemoteData();await subscribeRealtime();}
+      route('home');showToast('Prisijungta sėkmingai');
+    });
+    $('#registerForm').addEventListener('submit',async e=>{
+      e.preventDefault();
+      if(!backend.client){showToast('Supabase biblioteka nepasiekiama');return;}
+      const password=$('#registerPassword').value;
+      if(password!==$('#registerPassword2').value){showToast('Slaptažodžiai nesutampa');return;}
+      const first=$('#registerFirstName').value.trim();
+      const last=$('#registerLastName').value.trim();
+      const email=$('#registerEmail').value.trim();
+      const location=$('#registerLocation').value;
+      const {data,error}=await backend.client.auth.signUp({
+        email,password,
+        options:{data:{first_name:first,last_name:last,display_name:[first,last].filter(Boolean).join(' '),location:`Ukmergė, ${location}`}}
+      });
+      if(error){showToast(error.message);return;}
+      if(data.session){
+        backend.user=data.user;
+        if(!backend.schemaReady)await checkSchema();
+        if(backend.schemaReady){await syncRemoteData();await subscribeRealtime();}
+        route('home');showToast('Paskyra sukurta');
+      }else{
+        showToast('Paskyra sukurta · patvirtink el. paštą');
+      }
+    });
+
+    $('#forgotPasswordBtn').addEventListener('click',async()=>{
+      if(!backend.client){showToast('Supabase biblioteka nepasiekiama');return;}
+      const email=$('#loginEmail').value.trim();
+      if(!email){showToast('Įrašyk el. paštą');return;}
+      const {error}=await backend.client.auth.resetPasswordForEmail(email);
+      showToast(error?error.message:'Slaptažodžio atkūrimo nuoroda išsiųsta');
     });
 
     $('#searchPageInput').addEventListener('input', renderSearch);
@@ -4004,8 +4988,17 @@
       $('#postText').value=p.text;
       openComposer(true,state.postKind);
     });
-    $('#deletePost').addEventListener('click',()=>{
-      const i=posts.findIndex(x=>x.id===state.activePost); if(i>=0){posts.splice(i,1);renderHome();renderFeed();showToast('Įrašas pašalintas');} closeMenu();
+    $('#deletePost').addEventListener('click',async()=>{
+      const i=posts.findIndex(x=>x.id===state.activePost);
+      if(i>=0){
+        const p=posts[i];
+        if(backendWritable()&&p.remote){
+          const {error}=await backend.client.from('posts').delete().eq('id',p.id).eq('author_id',backend.user.id);
+          if(error){showToast(error.message);closeMenu();return;}
+        }
+        posts.splice(i,1);renderHome();renderFeed();showToast('Įrašas pašalintas');
+      }
+      closeMenu();
     });
     document.addEventListener('click',e=>{ if(!e.target.closest('#postMenu')&&!e.target.closest('[data-post-menu]')) closeMenu(); });
     function closeMenu(){ $('#postMenu').classList.remove('open'); }
@@ -4015,11 +5008,12 @@
       const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2500);
     }
 
-    // Demo navigation / initial render
-    renderHome(); renderFeed(); renderListings(); renderNotifications(); renderConversations(); renderChat(); renderEvents(); renderProfile(); renderOtherUser(); renderSaved(); renderSavedListings();
+    // Initial render, then Supabase session + realtime boot
+    renderHome();renderFeed();renderListings();renderNotifications();renderConversations();renderChat();renderEvents();renderProfile();renderOtherUser();renderSaved();renderSavedListings();updateHeaderBadges();
     const initial = location.hash.replace('#','');
     if(initial && $('#page-'+initial)) route(initial,false);
     refreshIcons();
+    bootSupabase();
 
     window.addEventListener('hashchange',()=>{ const r=location.hash.replace('#',''); if(r && r!==state.route && $('#page-'+r)) route(r,false); });
   </script>
