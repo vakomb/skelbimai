@@ -582,6 +582,149 @@
     .chat-input input{flex:1;border:1px solid var(--line);border-radius:13px;padding:0 12px;min-width:0;outline:none}
     .send-btn{width:44px;height:44px;border:0;border-radius:13px;background:var(--blue);color:#fff;display:grid;place-items:center}
 
+
+    /* refined notifications */
+    .notification-filters{
+      display:flex;
+      gap:18px;
+      overflow:auto;
+      padding:0 2px;
+      margin:0 0 8px;
+      border-bottom:1px solid #e6eaf0;
+      scrollbar-width:none;
+    }
+    .notification-filters::-webkit-scrollbar{display:none}
+    .notification-filter{
+      position:relative;
+      flex:0 0 auto;
+      border:0;
+      background:transparent;
+      color:#7a8497;
+      padding:10px 0 11px;
+      font-size:12px;
+      font-weight:800;
+    }
+    .notification-filter.active{color:var(--navy)}
+    .notification-filter.active:after{
+      content:"";
+      position:absolute;
+      left:0;right:0;bottom:-1px;
+      height:2px;
+      background:var(--blue);
+    }
+    .notif-list{display:block}
+    .notif-group{margin-top:17px}
+    .notif-group:first-child{margin-top:10px}
+    .notif-group-title{
+      margin:0;
+      padding:0 2px 8px;
+      color:#8a93a5;
+      font-size:10px;
+      line-height:1;
+      text-transform:uppercase;
+      letter-spacing:.095em;
+      font-weight:900;
+    }
+    .notif{
+      position:relative;
+      display:grid;
+      grid-template-columns:42px minmax(0,1fr) auto;
+      gap:11px;
+      align-items:center;
+      padding:13px 4px;
+      border:0;
+      border-bottom:1px solid #edf0f4;
+      border-radius:0;
+      background:transparent;
+    }
+    .notif:last-child{border-bottom:0}
+    .notif.unread{
+      background:linear-gradient(90deg,rgba(65,105,225,.055),transparent 48%);
+      border-color:#e8ecf4;
+    }
+    .notif-icon{
+      width:38px;height:38px;
+      border-radius:9px;
+      display:grid;place-items:center;
+      flex:0 0 auto;
+    }
+    .notif-icon.post{background:#edf3ff;color:#3f63bd}
+    .notif-icon.listing{background:#f2efff;color:#6956c7}
+    .notif-icon.message{background:#ecf7fb;color:#237b9c}
+    .notif-icon.event{background:#fff4e6;color:#a66b16}
+    .notif-icon.system{background:#f0f2f5;color:#667085}
+    .notif-content{min-width:0}
+    .notif-meta{
+      display:flex;align-items:center;gap:7px;
+      margin-bottom:3px;
+      min-width:0;
+    }
+    .notif-type{
+      color:#56627a;
+      font-size:10px;
+      font-weight:850;
+    }
+    .notif-time{
+      color:#9aa2b1;
+      font-size:10px;
+      white-space:nowrap;
+    }
+    .notif-title{
+      margin:0;
+      color:#263247;
+      font-size:13px;
+      line-height:1.35;
+      font-weight:820;
+    }
+    .notif-text{
+      margin:3px 0 0!important;
+      color:#69748a!important;
+      font-size:11.5px!important;
+      line-height:1.45!important;
+    }
+    .notif-side{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .notif .unread-dot{
+      width:7px;height:7px;
+      background:#4169e1;
+    }
+    .notif-empty{
+      padding:44px 16px;
+      text-align:center;
+      color:#8a93a5;
+      font-size:12px;
+    }
+
+    @media (max-width:699px){
+      .notification-page-head{
+        padding:17px 16px 8px!important;
+      }
+      .notification-page-head .secondary-btn{
+        padding:8px 0;
+        border:0;
+        background:transparent;
+        color:#4662ae;
+      }
+      .notification-filters{
+        margin:0;
+        padding:0 16px;
+        gap:21px;
+      }
+      .notif-group{margin-top:14px}
+      .notif-group-title{padding:0 16px 7px}
+      .notif{
+        grid-template-columns:40px minmax(0,1fr) auto;
+        padding:13px 16px;
+        border-bottom:1px solid #eceff3;
+      }
+      .notif.unread{
+        background:linear-gradient(90deg,rgba(65,105,225,.05),transparent 62%);
+      }
+    }
+
     /* profile */
     .profile-cover{
       height:145px;border-radius:22px 22px 0 0;
@@ -1256,7 +1399,18 @@
 
         <!-- NOTIFICATIONS -->
         <section class="page" id="page-notifications">
-          <div class="page-hero"><div><h1>Pranešimai</h1><p>Naujausios reakcijos, komentarai, atsakymai ir sistemos žinutės.</p></div><button class="secondary-btn" id="markRead">Pažymėti perskaitytais</button></div>
+          <div class="page-hero notification-page-head">
+            <div><h1>Pranešimai</h1></div>
+            <button class="secondary-btn" id="markRead">Pažymėti perskaitytais</button>
+          </div>
+          <div class="notification-filters" id="notificationFilters">
+            <button class="notification-filter active" data-notif-filter="all">Visi</button>
+            <button class="notification-filter" data-notif-filter="post">Įrašai</button>
+            <button class="notification-filter" data-notif-filter="listing">Skelbimai</button>
+            <button class="notification-filter" data-notif-filter="message">Žinutės</button>
+            <button class="notification-filter" data-notif-filter="event">Renginiai</button>
+            <button class="notification-filter" data-notif-filter="system">Sistema</button>
+          </div>
           <div class="notif-list" id="notificationList"></div>
         </section>
 
@@ -1628,11 +1782,46 @@
     ];
 
     const notifications = [
-      {icon:'message-circle',text:'Rasa K. pakomentavo tavo įrašą apie dviračių taką.',time:'prieš 8 min.',unread:true},
-      {icon:'heart',text:'Austėja V. ir dar 5 žmonės pamėgo tavo įrašą.',time:'prieš 24 min.',unread:true},
-      {icon:'reply',text:'Tomas atsakė į tavo komentarą: „Taip, jau sutvarkė ženklus.“',time:'prieš 1 val.',unread:true},
-      {icon:'message-square',text:'Nauja žinutė nuo Rūtos K. dėl tavo skelbimo.',time:'prieš 2 val.',unread:true},
-      {icon:'shield-check',text:'Tavo reportas peržiūrėtas. Ačiū, kad padedi išlaikyti bendruomenę saugią.',time:'vakar',unread:false}
+      {
+        type:'post', icon:'message-circle', title:'Naujas komentaras',
+        text:'Rasa K. pakomentavo tavo įrašą apie dviračių taką.',
+        time:'prieš 8 min.', group:'Šiandien', unread:true
+      },
+      {
+        type:'post', icon:'heart', title:'Tavo įrašas sulaukė reakcijų',
+        text:'Austėja V. ir dar 5 žmonės pamėgo tavo įrašą.',
+        time:'prieš 24 min.', group:'Šiandien', unread:true
+      },
+      {
+        type:'listing', icon:'bookmark', title:'Tavo skelbimas išsaugotas',
+        text:'3 žmonės išsaugojo tavo skelbimą apie vaikišką dviratį.',
+        time:'prieš 41 min.', group:'Šiandien', unread:true
+      },
+      {
+        type:'message', icon:'message-square', title:'Nauja žinutė',
+        text:'Rūta K. parašė dėl tavo skelbimo.',
+        time:'prieš 2 val.', group:'Šiandien', unread:true
+      },
+      {
+        type:'event', icon:'calendar-days', title:'Renginys artėja',
+        text:'Rytoj 18:00 prasideda „Gyvos muzikos vakaras“ Pilies parke.',
+        time:'prieš 4 val.', group:'Šiandien', unread:false
+      },
+      {
+        type:'post', icon:'reply', title:'Atsakymas į komentarą',
+        text:'Tomas atsakė į tavo komentarą apie eismo pakeitimus.',
+        time:'vakar', group:'Anksčiau', unread:false
+      },
+      {
+        type:'listing', icon:'heart', title:'Skelbimas išsaugotas',
+        text:'Austėja V. išsaugojo tavo skelbimą.',
+        time:'vakar', group:'Anksčiau', unread:false
+      },
+      {
+        type:'system', icon:'shield-check', title:'Moderavimo informacija',
+        text:'Tavo pranešimas apie netinkamą turinį buvo peržiūrėtas.',
+        time:'prieš 2 d.', group:'Anksčiau', unread:false
+      }
     ];
 
     const conversations = [
@@ -1654,7 +1843,8 @@
       postKind:'Įrašas',
       postDraftImages:[],
       listingPostDraftImages:[],
-      imageDrag:null
+      imageDrag:null,
+      notificationFilter:'all'
     };
 
     const communityEvents = [];
@@ -1954,8 +2144,53 @@
       refreshIcons();
     }
 
+    function notificationTypeLabel(type){
+      return ({
+        post:'Įrašas',
+        listing:'Skelbimas',
+        message:'Žinutė',
+        event:'Renginys',
+        system:'Sistema'
+      })[type] || 'Pranešimas';
+    }
+
     function renderNotifications(){
-      $('#notificationList').innerHTML = notifications.map(n=>`<div class="notif ${n.unread?'unread':''}"><div class="notif-icon">${icon(n.icon,17)}</div><div class="grow"><p>${esc(n.text)}</p><small>${n.time}</small></div>${n.unread?'<span class="unread-dot"></span>':''}</div>`).join('');
+      const box=$('#notificationList');
+      if(!box)return;
+
+      const filtered=notifications.filter(n=>
+        state.notificationFilter==='all' || n.type===state.notificationFilter
+      );
+
+      if(!filtered.length){
+        box.innerHTML=`<div class="notif-empty">${icon('bell-off',28)}<div style="margin-top:9px">Šio tipo pranešimų nėra.</div></div>`;
+        refreshIcons();
+        return;
+      }
+
+      const groups=['Šiandien','Anksčiau'];
+      box.innerHTML=groups.map(group=>{
+        const items=filtered.filter(n=>n.group===group);
+        if(!items.length)return '';
+        return `<section class="notif-group">
+          <h2 class="notif-group-title">${group}</h2>
+          <div>
+            ${items.map(n=>`
+              <div class="notif ${n.unread?'unread':''}" data-notification-type="${n.type}">
+                <div class="notif-icon ${n.type}">${icon(n.icon,17)}</div>
+                <div class="notif-content">
+                  <div class="notif-meta">
+                    <span class="notif-type">${notificationTypeLabel(n.type)}</span>
+                    <span class="notif-time">${esc(n.time)}</span>
+                  </div>
+                  <div class="notif-title">${esc(n.title)}</div>
+                  <p class="notif-text">${esc(n.text)}</p>
+                </div>
+                <div class="notif-side">${n.unread?'<span class="unread-dot" title="Neperskaityta"></span>':''}</div>
+              </div>`).join('')}
+          </div>
+        </section>`;
+      }).join('');
       refreshIcons();
     }
 
@@ -2033,6 +2268,14 @@
     }
 
     document.addEventListener('click', e=>{
+      const notifFilter=e.target.closest('[data-notif-filter]');
+      if(notifFilter){
+        state.notificationFilter=notifFilter.dataset.notifFilter;
+        $$('#notificationFilters .notification-filter').forEach(b=>b.classList.toggle('active',b===notifFilter));
+        renderNotifications();
+        return;
+      }
+
       const r = e.target.closest('[data-route]');
       if(r){ e.preventDefault(); route(r.dataset.route); return; }
 
