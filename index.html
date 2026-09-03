@@ -2255,6 +2255,37 @@
       border-color:#ccd9f4;
     }
 
+
+    /* v21 — reliable Supabase/session UX */
+    .auth-connection-actions{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin:-3px 0 12px;
+      color:#8992a1;
+      font-size:9.5px;
+      font-weight:700;
+    }
+    .auth-connection-actions .link-btn{
+      flex:0 0 auto;
+      font-size:9.5px;
+      padding:4px 0;
+    }
+    .guest-write-hint{
+      color:#7a8596;
+      font-size:10px;
+    }
+    .write-locked{
+      opacity:.72;
+    }
+    @media(max-width:699px){
+      .auth-connection-actions{
+        margin-top:-1px;
+        font-size:9px;
+      }
+    }
+
 </style>
 </head>
 <body>
@@ -2282,7 +2313,7 @@
           <button class="header-action header-message-action" data-route="messages" aria-label="Žinutės">
             <i data-lucide="message-circle" width="20"></i><span class="badge" id="messageBadge">2</span>
           </button>
-          <button class="profile-shortcut" data-route="profile" aria-label="Profilis">
+          <button class="profile-shortcut" id="headerAccountBtn" data-route="auth" aria-label="Prisijungti">
             <img class="avatar" src="https://i.pravatar.cc/120?img=12" alt="Mantas" />
           </button>
         </div>
@@ -2300,7 +2331,7 @@
             <button class="nav-item" data-route="messages"><i data-lucide="messages-square"></i><span>Žinutės</span><span class="nav-count">2</span></button>
             <button class="nav-item" data-route="notifications"><i data-lucide="bell"></i><span>Pranešimai</span><span class="nav-count">4</span></button>
             <div class="side-divider"></div>
-            <button class="nav-item" data-route="profile"><i data-lucide="user-round"></i><span>Mano profilis</span></button>
+            <button class="nav-item" id="sideAccountNav" data-route="auth"><i data-lucide="user-round"></i><span id="sideAccountLabel">Prisijungti</span></button>
             <button class="nav-item" data-route="saved"><i data-lucide="bookmark"></i><span>Išsaugota</span></button>
             <button class="nav-item hidden" id="adminNavItem" data-route="admin"><i data-lucide="shield-check"></i><span>Moderavimas</span></button>
           </nav>
@@ -2590,13 +2621,18 @@
             <div class="profile-cover"></div>
             <div class="profile-content">
               <div class="profile-line">
-                <img class="profile-avatar" src="https://i.pravatar.cc/180?img=32" alt="">
-                <div class="profile-actions"><button class="primary-btn" data-route="chat"><i data-lucide="message-circle" width="15"></i> Parašyti</button></div>
+                <img class="profile-avatar" id="otherUserAvatar" src="https://i.pravatar.cc/180?img=32" alt="">
+                <div class="profile-actions">
+                  <button class="primary-btn" id="otherUserMessageBtn"><i data-lucide="message-circle" width="15"></i> Parašyti</button>
+                </div>
               </div>
-              <h2 class="profile-name">Austėja V.</h2>
-              <div class="muted" style="font-size:12px"><i data-lucide="map-pin" width="13"></i> Ukmergės centras · Patvirtintas profilis</div>
-              <p class="profile-bio">Fotografuoju miestą, mėgstu vietinius renginius ir dalinuosi rekomendacijomis šeimoms.</p>
-              <div class="profile-stats"><div class="profile-stat"><strong>42</strong><span>įrašai</span></div><div class="profile-stat"><strong>5</strong><span>skelbimai</span></div><div class="profile-stat"><strong>97%</strong><span>atsakymų</span></div></div>
+              <h2 class="profile-name" id="otherUserName">Bendruomenės narys</h2>
+              <div class="muted" id="otherUserLocation" style="font-size:12px;display:flex;align-items:center;gap:5px"><i data-lucide="map-pin" width="13"></i> Ukmergė</div>
+              <p class="profile-bio" id="otherUserBio"></p>
+              <div class="profile-stats">
+                <div class="profile-stat"><strong id="otherUserPostsCount">0</strong><span>įrašai</span></div>
+                <div class="profile-stat"><strong id="otherUserListingsCount">0</strong><span>skelbimai</span></div>
+              </div>
             </div>
           </div>
           <div id="otherUserPosts" style="margin-top:14px"></div>
@@ -2629,6 +2665,10 @@
             <div class="backend-status" id="backendStatus" data-state="checking">
               <span class="backend-dot"></span>
               <span id="backendStatusText">Tikrinamas Supabase ryšys…</span>
+            </div>
+            <div class="auth-connection-actions">
+              <span id="authSessionInfo">Tikrinama paskyros sesija…</span>
+              <button type="button" class="link-btn" id="checkSupabaseBtn">Patikrinti ryšį</button>
             </div>
             <div class="tabs" id="authTabs" style="margin-top:0">
               <button class="tab-btn active" data-auth-tab="login">Prisijungti</button>
@@ -2723,7 +2763,7 @@
       <button data-route="feed"><i data-lucide="newspaper" width="21"></i>Srautas</button>
       <button id="mobileCreate"><span class="create-fab"><i data-lucide="plus" width="22"></i></span>Sukurti</button>
       <button data-route="classifieds"><i data-lucide="shopping-bag" width="21"></i>Skelbimai</button>
-      <button data-route="profile"><i data-lucide="user-round" width="21"></i>Profilis</button>
+      <button id="bottomAccountNav" data-route="auth"><i data-lucide="user-round" width="21"></i><span id="bottomAccountLabel">Prisijungti</span></button>
     </nav>
   </div>
 
@@ -3043,7 +3083,9 @@
       activeAdminReview:null,
       activeReportTarget:null,
       savedEvents:new Set(),
-      adminReportsRemote:[]
+      adminReportsRemote:[],
+      activeUserProfile:null,
+      authReady:false
     };
 
     const communityEvents = [];
@@ -3105,6 +3147,75 @@
 
     function backendWritable(){
       return !!(backend.client && backend.user && backend.schemaReady);
+    }
+
+    function requireSession(message='Prisijunk, kad šis veiksmas būtų išsaugotas'){
+      if(!backend.client){
+        setBackendStatus('Supabase klientas nepasiekiamas','offline');
+        showToast('Nepavyko prisijungti prie Supabase');
+        route('auth');
+        return false;
+      }
+      if(!backend.user){
+        showToast(message);
+        route('auth');
+        return false;
+      }
+      if(!backend.schemaReady){
+        showToast('Supabase duomenų bazė nepasiekiama');
+        return false;
+      }
+      return true;
+    }
+
+    function updateSessionUI(){
+      const logged=!!backend.user;
+      const header=$('#headerAccountBtn');
+      const side=$('#sideAccountNav');
+      const bottom=$('#bottomAccountNav');
+      const sideLabel=$('#sideAccountLabel');
+      const bottomLabel=$('#bottomAccountLabel');
+      const info=$('#authSessionInfo');
+
+      if(header){
+        header.dataset.route=logged?'profile':'auth';
+        header.setAttribute('aria-label',logged?'Profilis':'Prisijungti');
+      }
+      if(side)side.dataset.route=logged?'profile':'auth';
+      if(bottom)bottom.dataset.route=logged?'profile':'auth';
+      if(sideLabel)sideLabel.textContent=logged?'Mano profilis':'Prisijungti';
+      if(bottomLabel)bottomLabel.textContent=logged?'Profilis':'Prisijungti';
+      if(info)info.textContent=logged
+        ? `Prisijungta: ${backend.user.email||currentDisplayName()}`
+        : 'Neprisijungta · naršymas galimas, rašymo veiksmai reikalauja paskyros';
+
+      const composerText=$('.home-create-trigger');
+      if(composerText)composerText.textContent=logged?'Pasidalink, kas vyksta Ukmergėje…':'Prisijunk ir pasidalink, kas vyksta Ukmergėje…';
+    }
+
+    async function testSupabaseConnection(){
+      if(!backend.client){
+        setBackendStatus('Supabase biblioteka nepasiekiama','offline');
+        return false;
+      }
+      setBackendStatus('Tikrinamas Supabase API…','checking');
+      try{
+        const {error}=await backend.client.from('profiles').select('id').limit(1);
+        if(error)throw error;
+        backend.schemaReady=true;
+        const {data}=await backend.client.auth.getSession();
+        backend.user=data?.session?.user||null;
+        setBackendStatus(
+          backend.user?'Supabase prijungtas · sesija aktyvi':'Supabase prijungtas · prisijunk, kad duomenys būtų saugomi',
+          'online'
+        );
+        updateSessionUI();
+        return true;
+      }catch(error){
+        console.error('Supabase connection test:',error);
+        setBackendStatus(error.message||'Supabase ryšio klaida','offline');
+        return false;
+      }
     }
 
     function isSchemaError(error){
@@ -3613,43 +3724,71 @@
     async function bootSupabase(){
       if(backend.booted)return;
       backend.booted=true;
+
       if(!backend.client){
-        setBackendStatus('Supabase biblioteka nepasiekiama · veikia demo režimas','offline');
-        updateHeaderBadges();
-        return;
+        setBackendStatus('Supabase biblioteka nepasiekiama','offline');
+        updateSessionUI();updateHeaderBadges();return;
       }
+
       setBackendStatus('Jungiamasi prie Supabase…','checking');
-      await checkSchema();
-      const {data,error}=await backend.client.auth.getSession();
-      if(error)console.warn('Supabase session:',error);
-      backend.user=data?.session?.user||null;
-      if(backend.user && backend.schemaReady){
-        await syncRemoteData();
-        await subscribeRealtime();
-      }else if(!backend.user && backend.schemaReady){
-        setBackendStatus('Supabase paruoštas · prisijunk, kad duomenys išliktų','online');
+      const schemaOk=await checkSchema();
+
+      try{
+        const {data,error}=await backend.client.auth.getSession();
+        if(error)throw error;
+        backend.user=data?.session?.user||null;
+        state.authReady=true;
+
+        if(backend.user&&schemaOk){
+          await syncRemoteData();
+          await subscribeRealtime();
+          setBackendStatus('Supabase prijungtas · duomenys saugomi','online');
+        }else if(schemaOk){
+          restoreDemoData();
+          setBackendStatus('Supabase prijungtas · prisijunk, kad duomenys būtų saugomi','online');
+        }
+        updateSessionUI();
+        updateHeaderBadges();
+      }catch(error){
+        console.error('Supabase boot:',error);
+        setBackendStatus(error.message||'Supabase prisijungimo klaida','offline');
       }
+
       const {data:authListener}=backend.client.auth.onAuthStateChange((event,session)=>{
         backend.user=session?.user||null;
+        updateSessionUI();
         setTimeout(async()=>{
           if(backend.user){
             if(!backend.schemaReady)await checkSchema();
-            if(backend.schemaReady){await syncRemoteData();await subscribeRealtime();}
+            if(backend.schemaReady){
+              await syncRemoteData();
+              await subscribeRealtime();
+              setBackendStatus('Supabase prijungtas · duomenys saugomi','online');
+            }
           }else{
-            if(backend.channel){await backend.client.removeChannel(backend.channel);backend.channel=null;}
+            if(backend.channel){
+              await backend.client.removeChannel(backend.channel);
+              backend.channel=null;
+            }
             backend.profile=null;
             restoreDemoData();
-            renderHome();renderFeed();renderListings();renderNotifications();renderConversations();renderChat();renderEvents();renderProfile();renderSaved();renderSavedListings();
-            updateHeaderBadges();
-            setBackendStatus(backend.schemaReady?'Supabase paruoštas · prisijunk, kad duomenys išliktų':'Supabase laukia DB schemos',backend.schemaReady?'online':'warning');
+            renderHome();renderFeed();renderListings();renderNotifications();
+            renderConversations();renderChat();renderEvents();renderProfile();
+            renderSaved();renderSavedListings();updateHeaderBadges();
+            setBackendStatus(
+              backend.schemaReady?'Supabase prijungtas · prisijunk, kad duomenys būtų saugomi':'Supabase DB nepasiekiama',
+              backend.schemaReady?'online':'offline'
+            );
           }
+          updateSessionUI();
         },0);
       });
       backend.authSubscription=authListener?.subscription||null;
     }
 
     async function persistPostLike(post){
-      if(!backendWritable()||!post?.remote)return;
+      if(!backendWritable())throw new Error('Prisijunk prie Supabase');
+      if(!post?.remote)throw new Error('Įrašas nėra Supabase duomenyse');
       if(post.liked){
         const {error}=await backend.client.from('post_likes').upsert({post_id:post.id,user_id:backend.user.id},{onConflict:'post_id,user_id'});
         if(error)throw error;
@@ -3660,7 +3799,8 @@
     }
 
     async function persistPostSave(post){
-      if(!backendWritable()||!post?.remote)return;
+      if(!backendWritable())throw new Error('Prisijunk prie Supabase');
+      if(!post?.remote)throw new Error('Įrašas nėra Supabase duomenyse');
       if(post.saved){
         const {error}=await backend.client.from('post_saves').upsert({post_id:post.id,user_id:backend.user.id},{onConflict:'post_id,user_id'});
         if(error)throw error;
@@ -3671,7 +3811,8 @@
     }
 
     async function persistListingSave(listing){
-      if(!backendWritable()||!listing?.remote)return;
+      if(!backendWritable())throw new Error('Prisijunk prie Supabase');
+      if(!listing?.remote)throw new Error('Skelbimas nėra Supabase duomenyse');
       if(listing.fav){
         const {error}=await backend.client.from('listing_saves').upsert({listing_id:listing.id,user_id:backend.user.id},{onConflict:'listing_id,user_id'});
         if(error)throw error;
@@ -3702,6 +3843,46 @@
         if(error)console.warn(error);
       }
       updateHeaderBadges();
+    }
+
+
+    async function openGeneralConversation(otherUserId){
+      if(!requireSession('Prisijunk, kad galėtum siųsti žinutes'))return;
+      if(!otherUserId){showToast('Šiam profiliui trūksta Supabase vartotojo ID');return;}
+      if(otherUserId===backend.user.id){route('profile');return;}
+
+      const directKey=[backend.user.id,otherUserId].sort().join(':');
+      try{
+        let {data:conv,error}=await backend.client.from('conversations')
+          .select('*').eq('direct_key',directKey).maybeSingle();
+        if(error)throw error;
+
+        if(!conv){
+          const created=await backend.client.from('conversations').insert({
+            kind:'general',
+            created_by:backend.user.id,
+            direct_key:directKey
+          }).select().single();
+          if(created.error)throw created.error;
+          conv=created.data;
+        }
+
+        const memberResult=await backend.client.from('conversation_members').upsert([
+          {conversation_id:conv.id,user_id:backend.user.id,last_read_at:new Date().toISOString()},
+          {conversation_id:conv.id,user_id:otherUserId,last_read_at:new Date().toISOString()}
+        ],{onConflict:'conversation_id,user_id'});
+        if(memberResult.error)throw memberResult.error;
+
+        await loadRemoteConversations();
+        const idx=conversations.findIndex(c=>c.dbId===Number(conv.id));
+        if(idx<0)throw new Error('Pokalbio nepavyko užkrauti');
+        state.activeConversation=idx;
+        await markConversationRead(conversations[idx]);
+        renderChat();renderConversations();route('chat');
+      }catch(error){
+        console.error('Open direct conversation:',error);
+        showToast(error.message||'Nepavyko pradėti pokalbio');
+      }
     }
 
     async function openListingConversation(listing){
@@ -3945,7 +4126,7 @@
       const allComments = p.comments > 2 ? `<button class="link-btn" data-comment="${p.id}" style="font-size:11px;padding:5px 2px 0">Rodyti visus ${p.comments} komentarus</button>` : '';
       return `<article class="post card" data-post="${p.id}">
         <div class="post-top">
-          <button data-route="user" style="border:0;background:transparent;padding:0"><img class="avatar round" src="${p.avatar}" alt=""></button>
+          <button data-open-user-post="${p.id}" style="border:0;background:transparent;padding:0"><img class="avatar round" src="${p.avatar}" alt=""></button>
           <div class="post-meta">
             <div class="post-author">${esc(p.author)} ${p.author.includes('Tomas')?'<span class="verified">'+icon('check',10)+'</span>':''}</div>
             <div class="post-sub">${esc(p.time)} · ${icon('map-pin',12)} ${esc(p.place)}</div>
@@ -4198,16 +4379,23 @@
       refreshIcons();
     }
 
-    function renderOtherUser(){ $('#otherUserPosts').innerHTML = [posts[0],posts[3]].filter(Boolean).map(postTemplate).join('')||'<div class="empty">Įrašų nėra.</div>'; refreshIcons(); }
-    function renderSaved(){
-      const box=$('#savedContent');
-      if(state.savedTab==='posts'){
-        const arr=posts.filter(p=>p.saved);
-        box.innerHTML=arr.length?arr.map(postTemplate).join(''):'<div class="empty">Išsaugotų įrašų dar nėra.</div>';
-      }else{
-        const arr=listings.filter(l=>l.fav);
-        box.innerHTML=arr.length?`<div class="listing-grid">${arr.map(listingTemplate).join('')}</div>`:'<div class="empty">Išsaugotų skelbimų dar nėra.</div>';
-      }
+    function renderOtherUser(){
+      const u=state.activeUserProfile||people[0];
+      const uid=u.id||u.userId||null;
+      const display=u.display_name||u.name||'Bendruomenės narys';
+      const avatar=u.avatar_url||u.avatar||'https://i.pravatar.cc/180?img=32';
+      const location=u.location||u.place||'Ukmergė';
+      const userPosts=uid?posts.filter(p=>p.authorId===uid):posts.filter(p=>p.author===display);
+      const userListings=uid?listings.filter(l=>l.authorId===uid):[];
+
+      $('#otherUserAvatar').src=avatar;
+      $('#otherUserName').textContent=display;
+      $('#otherUserLocation').innerHTML=`${icon('map-pin',13)} ${esc(location)}`;
+      $('#otherUserBio').textContent=u.bio||'Ukmergės bendruomenės narys.';
+      $('#otherUserPostsCount').textContent=userPosts.length;
+      $('#otherUserListingsCount').textContent=userListings.length;
+      $('#otherUserPosts').innerHTML=userPosts.length?userPosts.map(postTemplate).join(''):'<div class="empty">Viešų įrašų dar nėra.</div>';
+      $('#otherUserMessageBtn').dataset.userId=uid||'';
       refreshIcons();
     }
     function renderSavedListings(){
@@ -4235,6 +4423,11 @@
     function refreshIcons(){ if(window.lucide) lucide.createIcons(); }
 
     function route(name, push=true){
+      const protectedRoutes=new Set(['messages','chat','profile','edit-profile','saved','saved-listings','notifications','admin']);
+      if(protectedRoutes.has(name)&&!backend.user){
+        if(name!=='auth')showToast('Prisijunk, kad atidarytum šią skiltį');
+        name='auth';
+      }
       state.route = name;
       $$('.page').forEach(p=>p.classList.remove('active'));
       const page = $('#page-'+name);
@@ -4263,6 +4456,25 @@
     }
 
     document.addEventListener('click', async e=>{
+      const postUser=e.target.closest('[data-open-user-post]');
+      if(postUser){
+        const post=posts.find(p=>p.id===Number(postUser.dataset.openUserPost));
+        if(post){
+          state.activeUserProfile={
+            id:post.authorId||null,
+            userId:post.authorId||null,
+            display_name:post.author,
+            name:post.author,
+            avatar_url:post.avatar,
+            avatar:post.avatar,
+            location:post.place||'Ukmergė',
+            place:post.place||'Ukmergė'
+          };
+          renderOtherUser();route('user');
+        }
+        return;
+      }
+
       const notificationRow=e.target.closest('[data-notification-index]');
       if(notificationRow){
         const n=notifications[Number(notificationRow.dataset.notificationIndex)];
@@ -4356,39 +4568,53 @@
       const r = e.target.closest('[data-route]');
       if(r){ e.preventDefault(); route(r.dataset.route); return; }
 
-      const fav = e.target.closest('[data-fav]');
+      const fav=e.target.closest('[data-fav]');
       if(fav){
         e.preventDefault();e.stopPropagation();
+        if(!requireSession('Prisijunk, kad galėtum išsaugoti skelbimą'))return;
         const l=listings.find(x=>x.id===Number(fav.dataset.fav));
-        if(l){
-          l.fav=!l.fav;
-          try{await persistListingSave(l);}catch(err){l.fav=!l.fav;showToast(err.message||'Nepavyko išsaugoti skelbimo');}
+        if(!l?.remote){showToast('Demo skelbimas nėra Supabase duomenyse');return;}
+        const old=l.fav;l.fav=!old;
+        try{
+          await persistListingSave(l);
           showToast(l.fav?'Skelbimas išsaugotas':'Pašalinta iš išsaugotų');
-          renderHome();renderListings();renderSaved();renderSavedListings();
-          if(state.route==='listing-detail')renderListingDetail(l.id);
+        }catch(err){
+          l.fav=old;showToast(err.message||'Nepavyko išsaugoti skelbimo');
         }
+        renderHome();renderListings();renderSaved();renderSavedListings();
+        if(state.route==='listing-detail')renderListingDetail(l.id);
         return;
       }
 
       const listing = e.target.closest('[data-listing]');
       if(listing && !e.target.closest('button')){ renderListingDetail(listing.dataset.listing); route('listing-detail'); return; }
 
-      const like = e.target.closest('[data-like]');
+      const like=e.target.closest('[data-like]');
       if(like){
+        if(!requireSession('Prisijunk, kad galėtum reaguoti į įrašus'))return;
         const p=posts.find(x=>x.id===Number(like.dataset.like));if(!p)return;
+        if(!p.remote){showToast('Demo įrašas nėra Supabase duomenyse');return;}
+        const oldLiked=p.liked,oldLikes=p.likes;
         p.liked=!p.liked;p.likes+=p.liked?1:-1;
+        try{await persistPostLike(p);}
+        catch(err){p.liked=oldLiked;p.likes=oldLikes;showToast(err.message||'Nepavyko išsaugoti reakcijos');}
         renderHome();renderFeed();
-        try{await persistPostLike(p);}catch(err){p.liked=!p.liked;p.likes+=p.liked?1:-1;renderHome();renderFeed();showToast(err.message||'Nepavyko išsaugoti reakcijos');}
-        if(state.route==='user')renderOtherUser();if(state.route==='profile')renderProfile('posts');return;
+        if(state.route==='user')renderOtherUser();
+        if(state.route==='profile')renderProfile('posts');
+        return;
       }
 
-      const save = e.target.closest('[data-save]');
+      const save=e.target.closest('[data-save]');
       if(save){
+        if(!requireSession('Prisijunk, kad galėtum išsaugoti įrašą'))return;
         const p=posts.find(x=>x.id===Number(save.dataset.save));if(!p)return;
-        p.saved=!p.saved;
-        try{await persistPostSave(p);}catch(err){p.saved=!p.saved;showToast(err.message||'Nepavyko išsaugoti įrašo');}
+        if(!p.remote){showToast('Demo įrašas nėra Supabase duomenyse');return;}
+        const old=p.saved;p.saved=!old;
+        try{await persistPostSave(p);}
+        catch(err){p.saved=old;showToast(err.message||'Nepavyko išsaugoti įrašo');}
         showToast(p.saved?'Įrašas išsaugotas':'Pašalinta iš išsaugotų');
-        renderHome();renderFeed();renderSaved();return;
+        renderHome();renderFeed();renderSaved();
+        return;
       }
 
       const reportActive=e.target.closest('[data-report-active-post]');
@@ -4499,7 +4725,7 @@
     function closeAdminReview(){ $('#adminReviewModal').classList.remove('open'); state.activeAdminReview=null; }
     function resolveAdminReview(action){ return resolveRemoteReport(state.activeAdminReview,action); }
 
-    function openCreate(){ $('#createModal').classList.add('open'); refreshIcons(); }
+    function openCreate(){ if(!requireSession('Prisijunk, kad galėtum kurti turinį'))return; $('#createModal').classList.add('open'); refreshIcons(); }
     function closeCreate(){ $('#createModal').classList.remove('open'); }
 
     function renderListingCategoryChoices(){
@@ -4516,6 +4742,7 @@
     }
 
     function openListingPost(photoFirst=false){
+      if(!requireSession('Prisijunk, kad galėtum skelbti skelbimą'))return;
       state.listingPostDraftImages=[];
       state.listingPostCategory=listingCategories.includes(state.listingCategory) ? state.listingCategory : null;
       $('#listingPostText').value='';
@@ -4533,6 +4760,7 @@
       $('#listingPostModal').classList.remove('open');
     }
     function openComposer(editing=false,kind='Įrašas'){
+      if(!requireSession('Prisijunk, kad galėtum skelbti įrašą'))return;
       if(!editing){
         state.editingPostId=null;
         state.postKind=kind;
@@ -4645,44 +4873,41 @@
 
     $('#listingPostForm').addEventListener('submit', async e=>{
       e.preventDefault();
+      if(!requireSession('Prisijunk, kad galėtum paskelbti skelbimą'))return;
+
       const text=$('#listingPostText').value.trim();
       if(!text && !state.listingPostDraftImages.length){
         showToast('Parašyk skelbimą arba pridėk nuotrauką');return;
       }
-      let finalImages=[...state.listingPostDraftImages];
-      let remoteRow=null;
-      if(backend.user && !backend.schemaReady){showToast('Supabase DB schema dar neįdiegta');return;}
+
       try{
-        if(backendWritable()){
-          finalImages=await uploadImageList(finalImages,'listings');
-          const result=await backend.client.from('listings').insert({
-            author_id:backend.user.id,
-            category:state.listingPostCategory||null,
-            body:text,
-            images:finalImages
-          }).select().single();
-          if(result.error)throw result.error;
-          remoteRow=result.data;
-        }
+        const finalImages=await uploadImageList([...state.listingPostDraftImages],'listings');
+        const result=await backend.client.from('listings').insert({
+          author_id:backend.user.id,
+          category:state.listingPostCategory||null,
+          body:text,
+          images:finalImages
+        }).select().single();
+        if(result.error)throw result.error;
+
+        const firstLine=text.split(/\n+/).find(Boolean)||'Skelbimas';
+        listings.unshift({
+          id:Number(result.data.id),remote:true,authorId:backend.user.id,
+          author:currentDisplayName(),authorAvatar:currentAvatar(),
+          type:'Skelbimas',category:state.listingPostCategory||'',
+          title:firstLine,price:0,loc:backend.profile?.location||'Ukmergė',
+          time:'ką tik',img:finalImages[0]||'',gallery:finalImages,
+          fav:false,condition:'',desc:text,createdAt:result.data.created_at
+        });
+
+        state.listingPostDraftImages=[];state.listingPostCategory=null;
+        $('#listingPostText').value='';renderListingCategoryChoices();
+        closeListingPost();route('classifieds');renderHome();renderListings();
+        showToast('Skelbimas išsaugotas Supabase');
       }catch(error){
-        showToast(error.message||'Nepavyko paskelbti skelbimo');return;
+        console.error('Listing save:',error);
+        showToast(error.message||'Nepavyko išsaugoti skelbimo');
       }
-
-      const firstLine=text.split(/\n+/).find(Boolean)||'Skelbimas';
-      listings.unshift({
-        id:remoteRow?Number(remoteRow.id):Date.now(),
-        remote:!!remoteRow,authorId:backend.user?.id||null,
-        author:currentDisplayName(),authorAvatar:currentAvatar(),
-        type:'Skelbimas',category:state.listingPostCategory||'',
-        title:firstLine,price:0,loc:backend.profile?.location||'Ukmergė',
-        time:'ką tik',img:finalImages[0]||'',gallery:finalImages,
-        fav:false,condition:'',desc:text
-      });
-
-      state.listingPostDraftImages=[];state.listingPostCategory=null;
-      $('#listingPostText').value='';renderListingCategoryChoices();
-      closeListingPost();route('classifieds');renderHome();renderListings();
-      showToast('Skelbimas paskelbtas');
     });
 
     $('#postImagesInput').addEventListener('change', async e=>{
@@ -4696,95 +4921,90 @@
 
     $('#postForm').addEventListener('submit', async e=>{
       e.preventDefault();
+      if(!requireSession('Prisijunk, kad galėtum paskelbti įrašą'))return;
+
       const text=$('#postText').value.trim();
       const isEvent=state.postKind==='Renginys';
       const eventDateRaw=$('#eventDateInput').value;
       const eventTime=$('#eventTimeInput').value;
       const eventPlace=$('#eventPlaceInput').value.trim();
 
-      if(!text && !state.postDraftImages.length){showToast(isEvent?'Įrašyk renginio informaciją':'Parašyk tekstą arba pridėk nuotrauką');return;}
+      if(!text && !state.postDraftImages.length){
+        showToast(isEvent?'Įrašyk renginio informaciją':'Parašyk tekstą arba pridėk nuotrauką');return;
+      }
       if(isEvent&&!eventDateRaw){showToast('Pasirink renginio datą');return;}
-      if(backend.user&&!backend.schemaReady){showToast('Supabase DB schema dar neįdiegta');return;}
-
-      const formattedEventDate=isEvent?formatEventDate(eventDateRaw).label:'';
-      let finalImages=[...state.postDraftImages];
 
       try{
-        if(backendWritable())finalImages=await uploadImageList(finalImages,isEvent?'events':'posts');
+        const finalImages=await uploadImageList([...state.postDraftImages],isEvent?'events':'posts');
 
         if(state.editingPostId){
           const p=posts.find(x=>x.id===state.editingPostId);
-          if(!p)return;
-          if(backendWritable()&&p.remote){
-            const result=await backend.client.from('posts').update({
-              kind:isEvent?'event':state.postKind==='Klausimas'?'question':'post',
-              body:text,images:finalImages,place:isEvent?(eventPlace||'Ukmergė'):(p.place||'Ukmergė'),
-              event_date:isEvent?eventDateRaw:null,event_time:isEvent?(eventTime||null):null
-            }).eq('id',p.id).eq('author_id',backend.user.id);
-            if(result.error)throw result.error;
+          if(!p?.remote||p.authorId!==backend.user.id){
+            showToast('Galima redaguoti tik savo Supabase įrašus');return;
           }
-          p.text=text;p.images=finalImages;p.kind=state.postKind;p.time='redaguota ką tik';
-          if(isEvent){p.eventDateRaw=eventDateRaw;p.eventDate=formattedEventDate;p.eventTime=eventTime;p.place=eventPlace||'Ukmergė';}
-          showToast(isEvent?'Renginys atnaujintas':'Įrašas atnaujintas');
+          const result=await backend.client.from('posts').update({
+            kind:isEvent?'event':state.postKind==='Klausimas'?'question':'post',
+            body:text,images:finalImages,
+            place:isEvent?(eventPlace||'Ukmergė'):(p.place||backend.profile?.location||'Ukmergė'),
+            event_date:isEvent?eventDateRaw:null,
+            event_time:isEvent?(eventTime||null):null
+          }).eq('id',p.id).eq('author_id',backend.user.id).select().single();
+          if(result.error)throw result.error;
+          await loadRemotePosts();
+          showToast(isEvent?'Renginys išsaugotas':'Įrašas išsaugotas');
         }else{
-          let remoteRow=null;
-          if(backendWritable()){
-            const result=await backend.client.from('posts').insert({
-              author_id:backend.user.id,
-              kind:isEvent?'event':state.postKind==='Klausimas'?'question':'post',
-              body:text,images:finalImages,place:isEvent?(eventPlace||'Ukmergė'):(backend.profile?.location||'Ukmergė'),
-              event_date:isEvent?eventDateRaw:null,event_time:isEvent?(eventTime||null):null
-            }).select().single();
-            if(result.error)throw result.error;
-            remoteRow=result.data;
-          }
-          const newPost={
-            id:remoteRow?Number(remoteRow.id):Date.now(),remote:!!remoteRow,authorId:backend.user?.id||null,
-            author:currentDisplayName(),avatar:currentAvatar(),time:'ką tik',
+          const result=await backend.client.from('posts').insert({
+            author_id:backend.user.id,
+            kind:isEvent?'event':state.postKind==='Klausimas'?'question':'post',
+            body:text,images:finalImages,
             place:isEvent?(eventPlace||'Ukmergė'):(backend.profile?.location||'Ukmergė'),
-            text,images:finalImages,kind:state.postKind,likes:0,comments:0,saved:false,liked:false,comment:'',thread:[]
-          };
-          if(isEvent){
-            newPost.eventDateRaw=eventDateRaw;newPost.eventDate=formattedEventDate;newPost.eventTime=eventTime;
-            communityEvents.unshift({date:eventDateRaw,time:eventTime,title:text.split(/\n+/).find(Boolean)||'Bendruomenės renginys',place:eventPlace||'Ukmergė'});
-          }
-          posts.unshift(newPost);
-          showToast(isEvent?'Renginys paskelbtas':state.postKind==='Klausimas'?'Klausimas paskelbtas':'Įrašas paskelbtas');
+            event_date:isEvent?eventDateRaw:null,
+            event_time:isEvent?(eventTime||null):null
+          }).select().single();
+          if(result.error)throw result.error;
+          await loadRemotePosts();
+          showToast(isEvent?'Renginys išsaugotas Supabase':'Įrašas išsaugotas Supabase');
         }
-      }catch(error){
-        showToast(error.message||'Nepavyko išsaugoti įrašo');return;
-      }
 
-      $('#postText').value='';state.editingPostId=null;state.postDraftImages=[];state.postKind='Įrašas';
-      closeComposer();renderHome();renderEvents();state.feedCount=Math.max(state.feedCount,4);renderFeed();route('feed');
+        $('#postText').value='';
+        state.editingPostId=null;
+        state.postDraftImages=[];
+        state.postKind='Įrašas';
+        closeComposer();
+        renderHome();renderEvents();renderFeed();route('feed');
+      }catch(error){
+        console.error('Post save:',error);
+        showToast(error.message||'Nepavyko išsaugoti įrašo');
+      }
     });
 
 
     $('#commentForm').addEventListener('submit',async e=>{
       e.preventDefault();
+      if(!requireSession('Prisijunk, kad galėtum komentuoti'))return;
       const text=$('#commentInput').value.trim();if(!text)return;
       const p=posts.find(x=>x.id===state.commentPostId);if(!p)return;
-      if(backend.user&&!backend.schemaReady){showToast('Supabase DB schema dar neįdiegta');return;}
+      if(!p.remote){showToast('Demo įrašo komentuoti negalima');return;}
+
       try{
-        if(backendWritable()&&p.remote){
-          const result=await backend.client.from('comments').insert({
-            post_id:p.id,author_id:backend.user.id,parent_id:state.replyingCommentId||null,body:text
-          }).select().single();
-          if(result.error)throw result.error;
-          await loadRemotePosts();
-        }else{
-          p.thread=p.thread||[];
-          if(state.replyingCommentId){
-            const parent=p.thread.find(x=>Number(x.id)===Number(state.replyingCommentId));
-            if(parent){parent.replies=parent.replies||[];parent.replies.push({id:Date.now(),author:currentDisplayName(),text,time:'ką tik'});}
-          }else{
-            p.thread.push({id:Date.now(),author:currentDisplayName(),avatar:currentAvatar(),text,time:'ką tik',replies:[]});
-          }
-          p.comments=threadCommentCount(p.thread);
-        }
-      }catch(error){showToast(error.message||'Nepavyko paskelbti komentaro');return;}
-      $('#commentInput').value='';state.replyingTo=null;state.replyingCommentId=null;$('#commentInput').placeholder='Parašyti komentarą...';
-      renderComments();renderHome();renderFeed();showToast('Komentaras paskelbtas');
+        const result=await backend.client.from('comments').insert({
+          post_id:p.id,
+          author_id:backend.user.id,
+          parent_id:state.replyingCommentId||null,
+          body:text
+        }).select().single();
+        if(result.error)throw result.error;
+        await loadRemotePosts();
+
+        $('#commentInput').value='';
+        state.replyingTo=null;state.replyingCommentId=null;
+        $('#commentInput').placeholder='Parašyti komentarą...';
+        renderComments();renderHome();renderFeed();
+        showToast('Komentaras išsaugotas');
+      }catch(error){
+        console.error('Comment save:',error);
+        showToast(error.message||'Nepavyko paskelbti komentaro');
+      }
     });
 
     $('#loadMorePosts').addEventListener('click', ()=>{ state.feedCount=Math.min(posts.length,state.feedCount+2); renderFeed(); });
@@ -4798,41 +5018,66 @@
 
     $('#chatAttachment').addEventListener('change',async e=>{
       const file=e.target.files?.[0];if(!file)return;
+      if(!requireSession('Prisijunk, kad galėtum siųsti nuotraukas')){e.target.value='';return;}
+      const c=conversations[state.activeConversation];
+      if(!c?.dbId){showToast('Pokalbis nesusietas su Supabase');e.target.value='';return;}
+
       const reader=new FileReader();
       reader.onload=async()=>{
-        const c=conversations[state.activeConversation]||conversations[0];if(!c)return;
-        let image=reader.result;
         try{
-          if(backendWritable()&&c.dbId){
-            image=await uploadImageValue(image,'messages');
-            const result=await backend.client.from('messages').insert({
-              conversation_id:c.dbId,sender_id:backend.user.id,image_url:image,body:null
-            }).select().single();
-            if(result.error)throw result.error;
-          }
-          c.messages=c.messages||[];c.messages.push({me:true,image,time:'ką tik'});c.msg='📷 Nuotrauka';c.time='ką tik';c.unread=false;
-          renderChat();renderConversations($('#conversationSearch').value);showToast('Nuotrauka išsiųsta');
-        }catch(error){showToast(error.message||'Nepavyko išsiųsti nuotraukos');}
+          const image=await uploadImageValue(reader.result,'messages');
+          const result=await backend.client.from('messages').insert({
+            conversation_id:c.dbId,
+            sender_id:backend.user.id,
+            image_url:image,
+            body:null
+          }).select().single();
+          if(result.error)throw result.error;
+
+          await loadRemoteConversations();
+          const idx=conversations.findIndex(x=>x.dbId===c.dbId);
+          if(idx>=0)state.activeConversation=idx;
+          renderChat();renderConversations($('#conversationSearch').value);
+          showToast('Nuotrauka išsaugota ir išsiųsta');
+        }catch(error){
+          console.error('Message image save:',error);
+          showToast(error.message||'Nepavyko išsiųsti nuotraukos');
+        }
       };
-      reader.readAsDataURL(file);e.target.value='';
+      reader.readAsDataURL(file);
+      e.target.value='';
     });
 
     $('#chatForm').addEventListener('submit',async e=>{
-      e.preventDefault();const val=$('#chatInput').value.trim();if(!val)return;
-      const c=conversations[state.activeConversation]||conversations[0];if(!c)return;
+      e.preventDefault();
+      if(!requireSession('Prisijunk, kad galėtum siųsti žinutes'))return;
+      const val=$('#chatInput').value.trim();if(!val)return;
+      const c=conversations[state.activeConversation];
+      if(!c?.dbId){showToast('Pokalbis nesusietas su Supabase');return;}
+
       try{
-        if(backendWritable()&&c.dbId){
-          const result=await backend.client.from('messages').insert({
-            conversation_id:c.dbId,sender_id:backend.user.id,body:val,image_url:null
-          }).select().single();
-          if(result.error)throw result.error;
-        }
-        c.messages=c.messages||[];c.messages.push({me:true,text:val,time:'ką tik'});c.msg=val;c.time='ką tik';c.unread=false;
-        $('#chatInput').value='';renderChat();renderConversations($('#conversationSearch').value);updateHeaderBadges();
-      }catch(error){showToast(error.message||'Nepavyko išsiųsti žinutės');}
+        const result=await backend.client.from('messages').insert({
+          conversation_id:c.dbId,
+          sender_id:backend.user.id,
+          body:val,
+          image_url:null
+        }).select().single();
+        if(result.error)throw result.error;
+
+        $('#chatInput').value='';
+        await loadRemoteConversations();
+        const idx=conversations.findIndex(x=>x.dbId===c.dbId);
+        if(idx>=0)state.activeConversation=idx;
+        renderChat();renderConversations($('#conversationSearch').value);
+        updateHeaderBadges();
+      }catch(error){
+        console.error('Message save:',error);
+        showToast(error.message||'Nepavyko išsiųsti žinutės');
+      }
     });
 
     $('#markRead').addEventListener('click',async()=>{
+      if(!requireSession('Prisijunk, kad valdytum pranešimus'))return;
       notifications.forEach(n=>n.unread=false);
       if(backendWritable()){
         const {error}=await backend.client.from('notifications').update({read_at:new Date().toISOString()}).eq('user_id',backend.user.id).is('read_at',null);
@@ -4847,6 +5092,10 @@
       renderProfile(b.dataset.tab);
     });
 
+    $('#otherUserMessageBtn').addEventListener('click',async()=>{
+      await openGeneralConversation($('#otherUserMessageBtn').dataset.userId||'');
+    });
+
     $('#profileAvatarInput').addEventListener('change',e=>{
       const file=e.target.files?.[0]; if(!file)return;
       const reader=new FileReader();
@@ -4856,31 +5105,44 @@
 
     $('#profileForm').addEventListener('submit',async e=>{
       e.preventDefault();
+      if(!requireSession('Prisijunk, kad galėtum keisti profilį'))return;
+
       const first=$('#profileFirstName').value.trim()||'';
       const last=$('#profileLastName').value.trim()||'';
       const loc=$('#profileLocation').value;
       const bio=$('#profileBioInput').value.trim();
       const display=[first,last].filter(Boolean).join(' ')||'UKM.lt narys';
-      let avatar=state.profileAvatarDraft||backend.profile?.avatar_url||$('#profileAvatar').src;
+      let avatar=backend.profile?.avatar_url||$('#profileAvatar').src;
+
       try{
-        if(backendWritable()){
-          if(state.profileAvatarDraft)avatar=await uploadImageValue(state.profileAvatarDraft,'avatars');
-          const result=await backend.client.from('profiles').upsert({
-            id:backend.user.id,display_name:display,first_name:first||null,last_name:last||null,
-            location:`Ukmergė, ${loc}`,bio,avatar_url:avatar
-          }).select().single();
-          if(result.error)throw result.error;
-          backend.profile=result.data;
-          const newEmail=$('#profileEmail').value.trim();
-          if(newEmail&&newEmail!==backend.user.email){
-            const emailUpdate=await backend.client.auth.updateUser({email:newEmail});
-            if(emailUpdate.error)showToast('Profilis išsaugotas, bet el. pašto pakeisti nepavyko');
-          }
-        }else{
-          backend.profile={...(backend.profile||{}),display_name:display,first_name:first,last_name:last,location:`Ukmergė, ${loc}`,bio,avatar_url:avatar};
+        if(state.profileAvatarDraft)avatar=await uploadImageValue(state.profileAvatarDraft,'avatars');
+        const result=await backend.client.from('profiles').upsert({
+          id:backend.user.id,
+          display_name:display,
+          first_name:first||null,
+          last_name:last||null,
+          location:`Ukmergė, ${loc}`,
+          bio,
+          avatar_url:avatar
+        }).select().single();
+        if(result.error)throw result.error;
+        backend.profile=result.data;
+
+        const newEmail=$('#profileEmail').value.trim();
+        if(newEmail&&newEmail!==backend.user.email){
+          const emailUpdate=await backend.client.auth.updateUser({email:newEmail});
+          if(emailUpdate.error)showToast('Profilis išsaugotas, el. pašto pakeitimui reikia papildomo patvirtinimo');
         }
-      }catch(error){showToast(error.message||'Nepavyko išsaugoti profilio');return;}
-      state.profileAvatarDraft=null;applyProfileToUI();route('profile');refreshIcons();showToast('Profilis atnaujintas');
+
+        state.profileAvatarDraft=null;
+        applyProfileToUI();
+        route('profile');
+        refreshIcons();
+        showToast('Profilis išsaugotas Supabase');
+      }catch(error){
+        console.error('Profile save:',error);
+        showToast(error.message||'Nepavyko išsaugoti profilio');
+      }
     });
     $('#logoutBtn').addEventListener('click',async()=>{
       if(backend.client&&backend.user)await backend.client.auth.signOut();
@@ -4895,37 +5157,75 @@
     });
     $('#loginForm').addEventListener('submit',async e=>{
       e.preventDefault();
-      if(!backend.client){showToast('Supabase biblioteka nepasiekiama');return;}
-      const email=$('#loginEmail').value.trim();
-      const password=$('#loginPassword').value;
-      const {data,error}=await backend.client.auth.signInWithPassword({email,password});
-      if(error){showToast(error.message);return;}
-      backend.user=data.user;
-      if(!backend.schemaReady)await checkSchema();
-      if(backend.schemaReady){await syncRemoteData();await subscribeRealtime();}
-      route('home');showToast('Prisijungta sėkmingai');
+      if(!backend.client){showToast('Supabase klientas nepasiekiamas');return;}
+      const submit=e.submitter;if(submit)submit.disabled=true;
+      try{
+        const email=$('#loginEmail').value.trim();
+        const password=$('#loginPassword').value;
+        const {data,error}=await backend.client.auth.signInWithPassword({email,password});
+        if(error)throw error;
+        backend.user=data.user;
+        if(!backend.schemaReady)await checkSchema();
+        await ensureOwnProfile();
+        await syncRemoteData();
+        await subscribeRealtime();
+        updateSessionUI();
+        setBackendStatus('Supabase prijungtas · duomenys saugomi','online');
+        route('home');showToast('Prisijungta · duomenys bus saugomi');
+      }catch(error){
+        console.error('Login:',error);
+        showToast(error.message||'Prisijungti nepavyko');
+      }finally{
+        if(submit)submit.disabled=false;
+      }
     });
     $('#registerForm').addEventListener('submit',async e=>{
       e.preventDefault();
-      if(!backend.client){showToast('Supabase biblioteka nepasiekiama');return;}
-      const password=$('#registerPassword').value;
-      if(password!==$('#registerPassword2').value){showToast('Slaptažodžiai nesutampa');return;}
-      const first=$('#registerFirstName').value.trim();
-      const last=$('#registerLastName').value.trim();
-      const email=$('#registerEmail').value.trim();
-      const location=$('#registerLocation').value;
-      const {data,error}=await backend.client.auth.signUp({
-        email,password,
-        options:{data:{first_name:first,last_name:last,display_name:[first,last].filter(Boolean).join(' '),location:`Ukmergė, ${location}`}}
-      });
-      if(error){showToast(error.message);return;}
-      if(data.session){
-        backend.user=data.user;
-        if(!backend.schemaReady)await checkSchema();
-        if(backend.schemaReady){await syncRemoteData();await subscribeRealtime();}
-        route('home');showToast('Paskyra sukurta');
-      }else{
-        showToast('Paskyra sukurta · patvirtink el. paštą');
+      if(!backend.client){showToast('Supabase klientas nepasiekiamas');return;}
+      const submit=e.submitter;if(submit)submit.disabled=true;
+      try{
+        const password=$('#registerPassword').value;
+        if(password!==$('#registerPassword2').value)throw new Error('Slaptažodžiai nesutampa');
+
+        const first=$('#registerFirstName').value.trim();
+        const last=$('#registerLastName').value.trim();
+        const email=$('#registerEmail').value.trim();
+        const location=$('#registerLocation').value;
+
+        const {data,error}=await backend.client.auth.signUp({
+          email,password,
+          options:{
+            data:{
+              first_name:first,
+              last_name:last,
+              display_name:[first,last].filter(Boolean).join(' '),
+              location:`Ukmergė, ${location}`
+            }
+          }
+        });
+        if(error)throw error;
+
+        if(data.session){
+          backend.user=data.user;
+          if(!backend.schemaReady)await checkSchema();
+          await ensureOwnProfile();
+          await syncRemoteData();
+          await subscribeRealtime();
+          updateSessionUI();
+          setBackendStatus('Supabase prijungtas · duomenys saugomi','online');
+          route('home');
+          showToast('Paskyra sukurta · duomenys bus saugomi');
+        }else{
+          setBackendStatus('Paskyra sukurta · patvirtink el. paštą ir prisijunk','warning');
+          $('#authTabs [data-auth-tab="login"]').click();
+          $('#loginEmail').value=email;
+          showToast('Patvirtink el. paštą, tada prisijunk');
+        }
+      }catch(error){
+        console.error('Registration:',error);
+        showToast(error.message||'Registracija nepavyko');
+      }finally{
+        if(submit)submit.disabled=false;
       }
     });
 
@@ -4935,6 +5235,11 @@
       if(!email){showToast('Įrašyk el. paštą');return;}
       const {error}=await backend.client.auth.resetPasswordForEmail(email);
       showToast(error?error.message:'Slaptažodžio atkūrimo nuoroda išsiųsta');
+    });
+
+        $('#checkSupabaseBtn').addEventListener('click',async()=>{
+      const ok=await testSupabaseConnection();
+      showToast(ok?'Supabase ryšys veikia':'Supabase ryšio patikrinti nepavyko');
     });
 
     $('#searchPageInput').addEventListener('input', renderSearch);
@@ -4980,7 +5285,9 @@
     });
 
     $('#editPost').addEventListener('click',()=>{
-      const p=posts.find(x=>x.id===state.activePost); if(!p)return;
+      if(!requireSession('Prisijunk, kad galėtum redaguoti įrašą'))return;
+      const p=posts.find(x=>x.id===state.activePost);if(!p)return;
+      if(!p.remote||p.authorId!==backend.user.id){showToast('Gali redaguoti tik savo įrašus');closeMenu();return;}
       closeMenu();
       state.editingPostId=p.id;
       state.postKind=p.kind||'Įrašas';
@@ -4989,15 +5296,15 @@
       openComposer(true,state.postKind);
     });
     $('#deletePost').addEventListener('click',async()=>{
+      if(!requireSession('Prisijunk, kad galėtum trinti įrašą'))return;
       const i=posts.findIndex(x=>x.id===state.activePost);
-      if(i>=0){
-        const p=posts[i];
-        if(backendWritable()&&p.remote){
-          const {error}=await backend.client.from('posts').delete().eq('id',p.id).eq('author_id',backend.user.id);
-          if(error){showToast(error.message);closeMenu();return;}
-        }
-        posts.splice(i,1);renderHome();renderFeed();showToast('Įrašas pašalintas');
-      }
+      if(i<0)return;
+      const p=posts[i];
+      if(!p.remote||p.authorId!==backend.user.id){showToast('Gali ištrinti tik savo įrašus');closeMenu();return;}
+      const {error}=await backend.client.from('posts').delete().eq('id',p.id).eq('author_id',backend.user.id);
+      if(error){showToast(error.message);closeMenu();return;}
+      await loadRemotePosts();
+      renderHome();renderFeed();showToast('Įrašas pašalintas');
       closeMenu();
     });
     document.addEventListener('click',e=>{ if(!e.target.closest('#postMenu')&&!e.target.closest('[data-post-menu]')) closeMenu(); });
@@ -5009,7 +5316,7 @@
     }
 
     // Initial render, then Supabase session + realtime boot
-    renderHome();renderFeed();renderListings();renderNotifications();renderConversations();renderChat();renderEvents();renderProfile();renderOtherUser();renderSaved();renderSavedListings();updateHeaderBadges();
+    renderHome();renderFeed();renderListings();renderNotifications();renderConversations();renderChat();renderEvents();renderProfile();renderOtherUser();renderSaved();renderSavedListings();updateHeaderBadges();updateSessionUI();
     const initial = location.hash.replace('#','');
     if(initial && $('#page-'+initial)) route(initial,false);
     refreshIcons();
