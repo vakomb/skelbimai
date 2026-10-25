@@ -22468,8 +22468,62 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
   const seedWorkspace=async(c,payload)=>{await uploadReferencedMedia(c,payload);const {data,error}=await c.rpc('account_save_state',{p_expected_revision:0,p_payload:payload});if(error)throw error;workspaceRevision=Number(data?.[0]?.revision)||1;lastSyncedPayload=JSON.parse(JSON.stringify(payload));const hash=await hashState(payload);await writeMarker(activeSessionUserId,hash);localDirty=false;setSyncStatus('Paskyros duomenys paruošti','ok')};
   const beginCloudSync=async(userId)=>{const c=await loadClient();clearTimeout(cloudTimer);clearInterval(pollTimer);if(localSaveListener)window.removeEventListener('autoeasier:local-save',localSaveListener);if(pollCloudListener)window.removeEventListener('focus',pollCloudListener);if(visibilityListener)document.removeEventListener('visibilitychange',visibilityListener);if(pageHideListener)window.removeEventListener('pagehide',pageHideListener);cloudReady=true;localDirty=false;cloudConflict=false;const current=sharedState(window.AUTOEASIER_APP_DATA.getState());let initialSyncHash=await hashState(current);lastSyncedPayload=JSON.parse(JSON.stringify(current));
     localSaveListener=()=>{if(!cloudReady||applyingRemote)return;localDirty=true;setSyncStatus('Laukiama sinchronizavimo…','pending');clearTimeout(cloudTimer);cloudTimer=setTimeout(()=>flushCloudSync(),1100)};window.addEventListener('autoeasier:local-save',localSaveListener);
-    const flushCloudSync=async()=>{if(!cloudReady||!localDirty||cloudConflict)return;if(syncPromise)return syncPromise;syncPromise=(async()=>{let payload=sharedState(window.AUTOEASIER_APP_DATA.getState());try{setSyncStatus('Sinchronizuojama…','pending');await uploadReferencedMedia(c,payload);let result=await c.rpc('account_save_state',{p_expected_revision:workspaceRevision,p_payload:payload});if(result.error&&(result.error.code==='40001'||/reload required|changed/i.test(result.error.message||''))){const remote=await fetchWorkspaceState(c);if(!remote)throw result.error;const localNow=sharedState(window.AUTOEASIER_APP_DATA.getState());if(await hashState(localNow)!==await hashState(payload))throw new Error('Kol vyko sinchronizavimas, atsirado naujų pakeitimų. Pakartokite sinchronizavimą.');let merged;try{merged=mergeThreeWay(lastSyncedPayload||{},payload,sharedState(remote.payload))}catch(mergeError){cloudConflict=true;setSyncStatus('Pakeitimai laukia sujungimo – vietiniai duomenys išsaugoti','error');throw mergeError}mediaKeys(remote.payload).forEach(key=>uploadedMedia.add(key));applyingRemote=true;try{window.AUTOEASIER_APP_DATA.replaceState(merged)}finally{applyingRemote=false}payload=sharedState(window.AUTOEASIER_APP_DATA.getState());await uploadReferencedMedia(c,payload);result=await c.rpc('account_save_state',{p_expected_revision:Number(remote.revision),p_payload:payload});if(result.error)throw result.error}
-        if(result.error)throw result.error;workspaceRevision=Number(result.data?.[0]?.revision)||workspaceRevision+1;lastSyncedPayload=JSON.parse(JSON.stringify(payload));initialSyncHash=await hashState(payload);localDirty=false;cloudConflict=false;await writeMarker(userId,initialSyncHash);setSyncStatus('Sinchronizuota','ok');const currentHash=await hashState(sharedState(window.AUTOEASIER_APP_DATA.getState()));if(currentHash!==initialSyncHash){localDirty=true;clearTimeout(cloudTimer);cloudTimer=setTimeout(()=>flushCloudSync(),300)}}catch(error){console.error('AutoEasier cloud sync failed',error);if(error.code==='40001'||/Vienu metu pakeistas|nesujungiamas sąrašas|Kol vyko sinchronizavimas/i.test(error.message||''))cloudConflict=true;setSyncStatus(cloudConflict?'Pakeitimai laukia – vietiniai duomenys išsaugoti':'Neįkelta – vietiniai duomenys išsaugoti','error');if(!cloudConflict)setMessage('Sinchronizuoti nepavyko. Duomenys liko šiame įrenginyje; patikrinkite ryšį ir bandykite dar kartą.')}finally{syncPromise=null}})();return syncPromise};
+    const flushCloudSync=async()=>{
+      if(!cloudReady||!localDirty||cloudConflict)return;
+      if(syncPromise)return syncPromise;
+      syncPromise=(async()=>{
+        let payload=sharedState(window.AUTOEASIER_APP_DATA.getState());
+        try{
+          setSyncStatus('Sinchronizuojama…','pending');
+          await uploadReferencedMedia(c,payload);
+          let result=await c.rpc('account_save_state',{p_expected_revision:workspaceRevision,p_payload:payload});
+          if(result.error&&(result.error.code==='40001'||/reload required|changed/i.test(result.error.message||''))){
+            const remote=await fetchWorkspaceState(c);
+            if(!remote)throw result.error;
+            const localNow=sharedState(window.AUTOEASIER_APP_DATA.getState());
+            if(await hashState(localNow)!==await hashState(payload))throw new Error('Kol vyko sinchronizavimas, atsirado naujų pakeitimų. Pakartokite sinchronizavimą.');
+            const remotePayload=sharedState(remote.payload);
+            let merged;
+            try{merged=mergeThreeWay(lastSyncedPayload||{},payload,remotePayload)}
+            catch(mergeError){cloudConflict=true;setSyncStatus('Pakeitimai laukia sujungimo – vietiniai duomenys išsaugoti','error');throw mergeError}
+            mediaKeys(remotePayload).forEach(key=>uploadedMedia.add(key));
+            applyingRemote=true;
+            try{window.AUTOEASIER_APP_DATA.replaceState(merged)}
+            finally{applyingRemote=false}
+            payload=sharedState(window.AUTOEASIER_APP_DATA.getState());
+            workspaceRevision=Number(remote.revision)||workspaceRevision;
+            if(await hashState(payload)===await hashState(remotePayload)){
+              // The exact payload is already in the cloud; accept its revision without
+              // writing it again. This keeps stale tabs from churning revisions.
+              payload=remotePayload;
+              result={data:[{revision:workspaceRevision}],error:null};
+            }else{
+              await uploadReferencedMedia(c,payload);
+              result=await c.rpc('account_save_state',{p_expected_revision:workspaceRevision,p_payload:payload});
+              if(result.error)throw result.error;
+            }
+          }
+          if(result.error)throw result.error;
+          const resultRow=Array.isArray(result.data)?result.data[0]:result.data;
+          const returnedRevision=Number(resultRow?.revision);
+          workspaceRevision=Number.isFinite(returnedRevision)&&returnedRevision>0?returnedRevision:workspaceRevision+1;
+          lastSyncedPayload=JSON.parse(JSON.stringify(payload));
+          initialSyncHash=await hashState(payload);
+          localDirty=false;
+          cloudConflict=false;
+          await writeMarker(userId,initialSyncHash);
+          setSyncStatus('Sinchronizuota','ok');
+          const currentHash=await hashState(sharedState(window.AUTOEASIER_APP_DATA.getState()));
+          if(currentHash!==initialSyncHash){localDirty=true;clearTimeout(cloudTimer);cloudTimer=setTimeout(()=>flushCloudSync(),500)}
+        }catch(error){
+          console.error('AutoEasier cloud sync failed',error);
+          if(error.code==='40001'||/Vienu metu pakeistas|nesujungiamas sąrašas|Kol vyko sinchronizavimas/i.test(error.message||''))cloudConflict=true;
+          setSyncStatus(cloudConflict?'Pakeitimai laukia sujungimo – vietiniai duomenys išsaugoti':'Neįkelta – vietiniai duomenys išsaugoti','error');
+          if(!cloudConflict)setMessage('Sinchronizuoti nepavyko. Duomenys liko šiame įrenginyje; patikrinkite ryšį ir bandykite dar kartą.')
+        }finally{syncPromise=null}
+      })();
+      return syncPromise
+    };
     const pollCloud=async()=>{if(!cloudReady||!accountId)return;try{const row=await fetchWorkspaceState(c);if(!row||Number(row.revision)===workspaceRevision)return;const local=sharedState(window.AUTOEASIER_APP_DATA.getState()),hash=await hashState(local);if(localDirty||hash!==initialSyncHash){localDirty=true;setSyncStatus('Keli pakeitimai sinchronizuojami…','pending');clearTimeout(cloudTimer);cloudTimer=setTimeout(()=>flushCloudSync(),100);return}await applySharedPayload(row.payload,row.revision,userId);initialSyncHash=await hashState(sharedState(window.AUTOEASIER_APP_DATA.getState()))}catch(error){console.warn('Workspace refresh failed',error)}};
     pollCloudListener=pollCloud;visibilityListener=()=>{if(document.visibilityState==='visible')pollCloud();else flushCloudSync()};pageHideListener=()=>flushCloudSync();window.addEventListener('focus',pollCloudListener);document.addEventListener('visibilitychange',visibilityListener);window.addEventListener('pagehide',pageHideListener);clearInterval(pollTimer);pollTimer=setInterval(pollCloud,30000);
     window.AUTOEASIER_WORKSPACE.flush=flushCloudSync;window.AUTOEASIER_WORKSPACE.resetBaseline=async()=>{lastSyncedPayload=sharedState(window.AUTOEASIER_APP_DATA.getState());initialSyncHash=await hashState(lastSyncedPayload);localDirty=false};window.AUTOEASIER_WORKSPACE.listBackups=async()=>{const {data,error}=await c.rpc('account_list_backups');if(error)throw error;return Array.isArray(data)?data:[]};window.AUTOEASIER_WORKSPACE.restoreBackup=async id=>{await downloadLocalBackup();const {error}=await c.rpc('account_restore_backup',{p_version_id:Number(id)});if(error)throw error;const row=await fetchWorkspaceState(c);if(!row)throw new Error('Atkurta versija nerasta.');await applySharedPayload(row.payload,row.revision,userId);await window.AUTOEASIER_WORKSPACE.resetBaseline();setSyncStatus('Atsarginė versija atkurta','ok')};return {pollCloud};};
