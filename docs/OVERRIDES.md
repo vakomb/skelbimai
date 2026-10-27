@@ -15,6 +15,7 @@ nes deklaracijos „iškeliamos“ – hoisting), `reassigned` = `X = function�
 | `openGarageTasks` | 04-garage-leads:231 (function) → 44-smooth-v62:34 (reassigned) |
 | `downloadAllEntityPhotos` | 05-zip-and-galleries:28 (function) → 05-zip-and-galleries:208 (function) |
 | `openGarageLeadSheet` | 05-zip-and-galleries:313 (function) → 45-lead-sheet-v62:59 (reassigned) → 51-photo-fill-v67:79 (reassigned) |
+| `saveState` | 06-state-and-history:119 (function) → 54-readonly-v70:21 (reassigned) |
 | `openCar` | 09-cars-and-sale:148 (function) → 37-contract-v52:930 (reassigned) → 47-car-tasks-v63:99 (reassigned) → 50-car-manager-v66:54 (reassigned) |
 | `renderCarSheet` | 09-cars-and-sale:158 (function) → 14-vehicle-fields-documents:303 (reassigned) → 24-accounting-v3-pp-chooser:589 (reassigned) → 30-registration-review-v41:1338 (reassigned) → 31-registration-v42-v43:543 (reassigned) → 34-registration-ui:562 (reassigned) → 35-car-ui-v51:377 (reassigned) → 38-car-card-v55:6 (reassigned) → 42-car-sheet-v61:121 (reassigned) → 47-car-tasks-v63:90 (reassigned) → 50-car-manager-v66:48 (reassigned) → 51-photo-fill-v67:74 (reassigned) → 53-v69:32 (reassigned) |
 | `openCarEditSheet` | 09-cars-and-sale:247 (function) → 14-vehicle-fields-documents:355 (reassigned) → 30-registration-review-v41:866 (reassigned) → 31-registration-v42-v43:494 (reassigned) → 34-registration-ui:526 (reassigned) → 35-car-ui-v51:278 (reassigned) |

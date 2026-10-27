@@ -34,6 +34,10 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
   };
   const showGate = () => {
     stopCloudSync();
+    window.__autoEasierReadOnly = false;
+    window.__autoEasierSubscription = null;
+    window.AUTOEASIER_APP_DATA?.setReadOnly?.(false);
+    window.dispatchEvent(new Event("autoeasier:signed-out"));
     gate.hidden = false;
     appNodes.forEach(n => {
       n.setAttribute("inert", "");
@@ -479,7 +483,7 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
     let initialSyncHash = await hashState(current);
     lastSyncedPayload = JSON.parse(JSON.stringify(current));
     localSaveListener = () => {
-      if (!cloudReady || applyingRemote) return;
+      if (!cloudReady || applyingRemote || window.__autoEasierReadOnly) return;
       localDirty = true;
       setSyncStatus("Laukiama sinchronizavimo…", "pending");
       clearTimeout(cloudTimer);
@@ -487,7 +491,7 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
     };
     window.addEventListener("autoeasier:local-save", localSaveListener);
     const flushCloudSync = async () => {
-      if (!cloudReady || !localDirty || cloudConflict) return;
+      if (!cloudReady || !localDirty || cloudConflict || window.__autoEasierReadOnly) return;
       if (syncPromise) return syncPromise;
       syncPromise = (async () => {
         let payload = sharedState(window.AUTOEASIER_APP_DATA.getState());
@@ -697,17 +701,32 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
     window.AUTOEASIER_WORKSPACE = { downloadMedia };
     let row = await fetchWorkspaceState(c);
     const local = sharedState(window.AUTOEASIER_APP_DATA.getState());
-    if (!row) {
+    // Prenumerata (v70): be galiojančios prieigos duomenys tik skaitomi, į debesį nerašoma
+    let billing = null;
+    try {
+      const res = await c.rpc("account_subscription");
+      if (!res.error) billing = res.data || null;
+    } catch (e) {}
+    const readOnly = !!billing && billing.access === false;
+    window.__autoEasierSubscription = billing;
+    window.__autoEasierReadOnly = readOnly;
+    window.AUTOEASIER_APP_DATA.setReadOnly?.(readOnly);
+    if (!row && readOnly) {
+      workspaceRevision = 0;
+    } else if (!row) {
       await seedWorkspace(c, local);
       row = await fetchWorkspaceState(c);
       if (!row)
         throw new Error("Nepavyko saugiai išsaugoti paskyros duomenų. Vietinė kopija liko šiame įrenginyje.");
     } else await applySharedPayload(row.payload, row.revision, session.user.id);
-    workspaceRevision = Number(row.revision) || workspaceRevision;
+    workspaceRevision = Number(row?.revision) || workspaceRevision;
     await beginCloudSync(session.user.id);
     await attachWorkspacePanel(session);
     showApp();
     setMessage("");
+    window.dispatchEvent(
+      new CustomEvent("autoeasier:account-ready", { detail: { user: session.user, subscription: billing } })
+    );
     return true;
   };
   const safeShowApp = async session => {
@@ -891,14 +910,15 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
             : "Prisijungti";
     }
   });
-  const subscription = document.getElementById("autoEasierSubscription");
-  if (cfg.subscriptionUrl) {
-    subscription.href = cfg.subscriptionUrl;
-    subscription.target = "_blank";
-    subscription.rel = "noopener noreferrer";
-  } else
-    subscription.addEventListener("click", event => {
-      event.preventDefault();
-      setMessage("Prenumeratos nuoroda dar nesukonfigūruota.");
-    });
+  // Prenumeratos modulis (180-billing-v70.js) naudoja tą patį klientą ir formą
+  window.AUTOEASIER_AUTH = {
+    client: loadClient,
+    session: async () => (await (await loadClient()).auth.getSession()).data.session || null,
+    setMode,
+    setMessage,
+    focusEmail: () => emailInput.focus(),
+    get mode() {
+      return authMode;
+    }
+  };
 })();

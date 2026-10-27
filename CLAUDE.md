@@ -22,6 +22,7 @@ Kalba su vartotoju: **lietuvių**. Programėlė skirta telefonui (iPhone 15 Pro 
 - Ekranų HTML: `src/partials/view-*.html`. Dalį turinio vėliau perpiešia JS (`render*` funkcijos).
 - Pagrindinė logika: `src/scripts/app/` (aprašas kiekvieno failo pirmoje eilutėje).
 - Prisijungimas ir sinchronizacija: `src/scripts/155-autoeasier-supabase-auth-v1.js`.
+- Prenumerata (Stripe): `src/scripts/180-billing-v70.js`, `src/scripts/app/54-readonly-v70.js`, serveris – `supabase/` (migracijos ir Edge Functions). Stripe raktų ir webhook paslapčių į repozitoriją nedėk – tik Supabase secrets.
 - Detali architektūra: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 ## Komandos

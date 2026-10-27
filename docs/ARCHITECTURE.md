@@ -254,6 +254,19 @@ Vadybininkas nebesiūlo „Kodėl dar ne skelbime?“ ir kainos peržiūros paga
 - **Buhalterija:** „Laukia pateikimo“ sugrupuota pagal automobilį (nuotrauka, pavadinimas, numeris, skaičius). Eilutėse rodomas dokumento pavadinimas ir mygtukas „Pridėti“. Rodomos 3 grupės, kitos – „Rodyti visus“. Planšetėje ir kompiuteryje – 2 stulpeliai.
 - **Telefono apačios juosta:** nepermatomas baltas fonas iki pat ekrano apačios, viršuje plona linija.
 
+## Prenumerata – SaaS (v70)
+
+- **Prisijungimo ekranas:** apatinis mygtukas „Išbandyti 7 d. nemokamai“ atidaro plano skydelį (`180-billing-v70.js`, stilius `179-billing-v70.css`). Planai aprašyti masyve `PLANS` (dabar vienas – „Profesionalus“). Kad atsirastų daugiau planų, pakanka pridėti įrašą į masyvą ir kainą Stripe su savo `lookup_key`.
+- **Skydelis** (`#aeBillV70`) gyvena už `.app` ribų, todėl veikia ir prisijungimo ekrane. Jis uždaromas su X, Escape, fono paspaudimu ir braukimu žemyn. Telefone jis išslenka iš apačios, planšetėje ir kompiuteryje rodomas kaip centruotas langas.
+- **Srautas:** CTA → (nėra paskyros: registracija, ketinimas `autoeasier-trial-intent-v70`) → Edge Function `create-checkout-session` → Stripe Checkout (7 d. bandomasis, kortelė privaloma, `locale: lt`) → `?checkout=success` → `account_subscription()` tikrinamas kas 2 s, kol prieiga suteikiama → pasisveikinimo langas.
+- **Serveris (Supabase):** lentelė `public.subscriptions` (RLS: vartotojas gali tik skaityti savo įrašą, rašo tik `stripe-webhook` per service role). Prieigos taisyklė yra vienoje vietoje, `subscription_access_for()`: suteikiama, jei `comped`, `trialing` arba `active`, taip pat `past_due` ≤ 3 d. Rašymą be prieigos blokuoja `account_save_state`, `account_restore_backup` ir `user-media` įkėlimo politika. Migracija: `supabase/migrations/20261028_subscriptions_saas_v1.sql`. Esamoms paskyroms suteikta `comped` (nemokama) prieiga.
+- **Edge Functions** (`supabase/functions/`): `create-checkout-session`, `create-portal-session`, `stripe-webhook`. Pastaroji tikrina parašą (`STRIPE_WEBHOOK_SECRET`), o būseną visada perskaito iš Stripe API. Jei paslaptis neįvesta, įvykis tikrinamas `events.retrieve`. Priminimas apie bandomojo laikotarpio pabaigą siunčiamas per Resend gavus `trial_will_end` (Stripe šį įvykį siunčia likus 3 d.).
+- **Stripe:** produktas „AutoEasier Profesionalus“, kaina 49 EUR / mėn. (`lookup_key: autoeasier_pro_monthly`, su PVM, jei taikomas), Customer Portal (atšaukimas laikotarpio pabaigoje, kortelė, sąskaitos), webhook į `…/functions/v1/stripe-webhook`. Kainos ID kode nėra.
+- **Tik peržiūra** (`app/54-readonly-v70.js`): kai `access === false`, `saveState` grąžina paskutinę išsaugotą būseną ir atidaro „Atnaujinkite prenumeratą“. Vietiniai laukai (`ui`, `selectedView`, tema…) išsaugomi kaip įprasta, failų pasirinkimas blokuojamas, į debesį nerašoma (`window.__autoEasierReadOnly`).
+- **Garažo juosta** `#aeBarV70` (po `.garageRefBrandRow`) rodoma tik esant bandomajam laikotarpiui, mokėjimo klaidai, atšaukimui laikotarpio pabaigoje arba tik peržiūros režimui. Comped ir aktyviems vartotojams Garažas lieka pikselis į pikselį toks pat.
+- **Nustatymai → Prenumerata** (`#aeSubPanelV70`, Meniu → Nustatymai) rodo būseną, datas ir „Valdyti prenumeratą“ (Stripe portalas). Ten taip pat yra Paslaugų teikimo sąlygų ir Privatumo politikos nuorodos (`#salygos`, `#privatumas` – veikia ir neprisijungus).
+- **Testas:** `node tools/test-subscription.mjs` (375 / 430 / 834 / 1440).
+
 ## Perrašymų grandinės (svarbu!)
 
 Programa augo sluoksniais: nauja versija **perrašo** seną funkciją (`render = async function () { await __renderPP(); … }`). Todėl:
