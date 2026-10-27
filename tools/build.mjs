@@ -20,7 +20,14 @@ const args = process.argv.slice(2);
 const outArg = args.includes("--out") ? args[args.indexOf("--out") + 1] : "dist/index.html";
 const OUT = path.resolve(root, outArg);
 
-const MIME = { ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp", ".svg": "image/svg+xml", ".pdf": "application/pdf" };
+const MIME = {
+  ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".webp": "image/webp",
+  ".svg": "image/svg+xml",
+  ".pdf": "application/pdf"
+};
 
 function read(rel) {
   const file = path.join(SRC, rel);
@@ -39,7 +46,8 @@ function inlineDataUris(text) {
 
 function closingGuard(rel, tag, body) {
   // A literal </style> or </script> inside a block would end it early in the browser.
-  if (new RegExp(`</${tag}`, "i").test(body)) throw new Error(`src/${rel} contains "</${tag}" which would break the page`);
+  if (new RegExp(`</${tag}`, "i").test(body))
+    throw new Error(`src/${rel} contains "</${tag}" which would break the page`);
 }
 
 let html = read("index.html");
@@ -48,7 +56,10 @@ let blocks = 0;
 function readBlock(rel, flag) {
   if (!rel.endsWith("/")) return read(rel);
   const dir = path.join(SRC, rel);
-  const files = fs.readdirSync(dir).filter(f => f.endsWith(".js")).sort();
+  const files = fs
+    .readdirSync(dir)
+    .filter(f => f.endsWith(".js"))
+    .sort();
   if (!files.length) throw new Error(`No .js files in src/${rel}`);
   const joined = files.map(f => read(rel + f)).join("\n");
   if (flag === "iife") return `(() => {\n${joined}\n})();\n`;
@@ -56,14 +67,23 @@ function readBlock(rel, flag) {
   return joined;
 }
 
-html = html.replace(/<!-- @inline <(style|script)([^>]*)> (\S+)(?: (\w+))? -->/g, (_, tag, attrs, rel, flag) => {
-  const body = inlineDataUris(readBlock(rel, flag));
-  closingGuard(rel, tag, body);
-  blocks++;
-  return `<${tag}${attrs}>${body}</${tag}>`;
-});
+html = html.replace(
+  /<!-- @inline <(style|script)([^>]*)> (\S+)(?: (\w+))? -->/g,
+  (_, tag, attrs, rel, flag) => {
+    const body = inlineDataUris(readBlock(rel, flag));
+    closingGuard(rel, tag, body);
+    blocks++;
+    return `<${tag}${attrs}>${body}</${tag}>`;
+  }
+);
 if (/<!-- @(include|inline) /.test(html)) throw new Error("Unresolved build directive left in output");
 
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, html);
-console.log(`Built ${path.relative(root, OUT)} — ${blocks} inline blocks, ${(Buffer.byteLength(html) / 1024).toFixed(0)} KB`);
+// src/public/** – statiniai failai (pvz. sutarties šablonas), kopijuojami šalia index.html.
+const PUB = path.join(SRC, "public");
+if (fs.existsSync(PUB) && path.resolve(path.dirname(OUT)) !== path.resolve(PUB))
+  fs.cpSync(PUB, path.dirname(OUT), { recursive: true });
+console.log(
+  `Built ${path.relative(root, OUT)} — ${blocks} inline blocks, ${(Buffer.byteLength(html) / 1024).toFixed(0)} KB`
+);

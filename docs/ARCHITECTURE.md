@@ -93,6 +93,15 @@ Senieji OCR moduliai `28–31` vis dar įkeliami (kiti moduliai naudoja jų paga
 
 Testas: `node tools/test-car-forms.mjs` (forma, TA data, redagavimas, duomenų išsaugojimas, biudžetas).
 
+## Datos laukai ir sutartys (v53)
+
+- `36-datepicker-v52.js`: datos laukai yra sistemos (`<input type="date">`), todėl telefone atsidaro įprastas iOS / Android kalendorius. Laukas platus, su ikonėle, ir paspaudžiamas visas (`showPicker()`). Stilius – `165-sheets-v52.css`.
+- `37-contract-v52.js`: pildo **oficialią Regitros pirkimo–pardavimo sutarties formą** (3 psl.). Formos fonas – `src/public/assets/pp/regitra-pp-{1,2,3}.jpg` (200 DPI, iš originalaus PDF), o laukų koordinatės yra `CT_FORM_V53`, paimtos iš originalaus PDF formos laukų (y pastumta +7,83 pt dėl CropBox). Užpildoma: data, laikas, valstybė; abi šalys (kodas langeliuose, vardas, telefonas, el. paštas, adresas); SDK, markė ir modelis, valst. nr., rida, VIN, liudijimas; TA varnelė; „buvo/nebuvo“ ir „žinomi/nežinomi“ išbraukimai; trūkumų varnelės; įvykių informacija; kaina skaičiais ir žodžiais; atsiskaitymo būdas ir momentas; draudimo perdavimas; papildoma informacija; vardai prie parašų. Nutraukimo susitarimas lieka tuščias.
+- PDF sudedamas be bibliotekų (`ctPdfFromCanvasesV52`). Formos paveikslėliai kraunami iš `./assets/pp/`, kuriuos build nukopijuoja šalia `index.html` (`src/public/**`).
+- `165-sheets-v52.css`: vienodas visų iššokančių langų stilius.
+
+Testai: `node tools/test-contract.mjs` (per vietinį HTTP serverį, sukuria `.verify/contract.pdf`), `node tools/sheet-gallery.mjs`.
+
 ## Perrašymų grandinės (svarbu!)
 
 Programa augo sluoksniais: nauja versija **perrašo** seną funkciją (`render = async function () { await __renderPP(); … }`). Todėl:

@@ -10,6 +10,7 @@ nes deklaracijos „iškeliamos“ – hoisting), `reassigned` = `X = function�
 |---|---|
 | `daysBetweenISO` | 01-core-utils:67 (function) → 15-work-center:4 (function) |
 | `downloadAllEntityPhotos` | 05-zip-and-galleries:28 (function) → 05-zip-and-galleries:208 (function) |
+| `openCar` | 09-cars-and-sale:148 (function) → 37-contract-v52:832 (reassigned) |
 | `renderCarSheet` | 09-cars-and-sale:158 (function) → 14-vehicle-fields-documents:303 (reassigned) → 24-accounting-v3-pp-chooser:589 (reassigned) → 30-registration-review-v41:1338 (reassigned) → 31-registration-v42-v43:543 (reassigned) → 34-registration-ui:562 (reassigned) → 35-car-ui-v51:371 (reassigned) |
 | `openCarEditSheet` | 09-cars-and-sale:247 (function) → 14-vehicle-fields-documents:355 (reassigned) → 30-registration-review-v41:866 (reassigned) → 31-registration-v42-v43:494 (reassigned) → 34-registration-ui:526 (reassigned) → 35-car-ui-v51:272 (reassigned) |
 | `renderGarageStatsPage` | 10-render:4 (function) → 17-stats-period-boot:59 (reassigned) |
@@ -28,7 +29,7 @@ nes deklaracijos „iškeliamos“ – hoisting), `reassigned` = `X = function�
 | `ppPrefillFromCar` | 18-pp-contract-generator:365 (function) → 24-accounting-v3-pp-chooser:254 (reassigned) |
 | `ppGeneratorHtml` | 18-pp-contract-generator:398 (function) → 19-pp-pdf-offline-and-ocr:680 (reassigned) → 20-accounting-share:297 (reassigned) |
 | `bindPpGenerator` | 18-pp-contract-generator:402 (function) → 20-accounting-share:306 (reassigned) |
-| `openPpGeneratorForCar` | 18-pp-contract-generator:439 (function) → 24-accounting-v3-pp-chooser:386 (reassigned) |
+| `openPpGeneratorForCar` | 18-pp-contract-generator:439 (function) → 24-accounting-v3-pp-chooser:386 (reassigned) → 37-contract-v52:812 (reassigned) |
 | `ppDetectDocumentBounds` | 19-pp-pdf-offline-and-ocr:481 (function) → 29-registration-parse-v35-v36:322 (reassigned) |
 | `ppOcrWorker` | 19-pp-pdf-offline-and-ocr:589 (function) → 30-registration-review-v41:434 (reassigned) |
 | `accountingDirectEntries` | 20-accounting-share:4 (function) → 20-accounting-share:206 (reassigned) → 24-accounting-v3-pp-chooser:17 (reassigned) |
