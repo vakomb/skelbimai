@@ -1,0 +1,21 @@
+#activeCarGrid .carListTitle,
+#soldCarGrid .carListTitle {
+  font-size: 20px !important;
+  line-height: 1.14 !important;
+}
+#activeCarGrid .carListFacts strong,
+#soldCarGrid .carListFacts strong {
+  font-size: 16px !important;
+}
+#activeCarGrid .carListFacts small,
+#soldCarGrid .carListFacts small {
+  font-size: 12px !important;
+}
+#activeCarGrid .carListChip,
+#soldCarGrid .carListChip {
+  font-size: 12.5px !important;
+}
+#activeCarGrid .carListProgress,
+#soldCarGrid .carListDate {
+  font-size: 12.5px !important;
+}

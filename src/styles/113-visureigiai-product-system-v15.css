@@ -1,0 +1,1437 @@
+/* =========================================================
+   VISUREIGIAI, UAB — FINAL PRODUCT DESIGN SYSTEM
+   Reference: supplied Pagrindinis / Garažas / Buhalterija visuals
+   Target: iPhone 15 Pro Max, 430 CSS px
+   ========================================================= */
+:root {
+  --ref-bg: #fbfdff;
+  --ref-surface: #ffffff;
+  --ref-text: #0b1728;
+  --ref-muted: #667386;
+  --ref-line: #e5ebf1;
+  --ref-navy: #18314f;
+  --ref-navy-2: #244564;
+  --ref-gold: #bd9558;
+  --ref-blue: #edf6ff;
+  --ref-blue-strong: #dcecff;
+  --ref-mint: #effbf7;
+  --ref-mint-strong: #dff3ea;
+  --ref-peach: #fff7ed;
+  --ref-peach-strong: #faead6;
+  --ref-pink: #fff1f6;
+  --ref-pink-strong: #ffdfe9;
+  --ref-purple: #f4f0ff;
+  --ref-purple-strong: #e7e0ff;
+  --ref-danger: #b61933;
+  --ref-success: #08734f;
+  --ref-radius: 18px;
+  --ref-shadow: 0 7px 20px rgba(24, 39, 60, 0.055);
+  --ref-shadow-soft: 0 4px 14px rgba(24, 39, 60, 0.04);
+}
+html {
+  background: #fff !important;
+  scroll-behavior: smooth;
+}
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, "Segoe UI", sans-serif !important;
+  color: var(--ref-text) !important;
+  background:
+    radial-gradient(circle at 88% 3%, rgba(220, 232, 248, 0.66) 0%, rgba(220, 232, 248, 0) 24%),
+    linear-gradient(180deg, #fff 0%, #fbfdff 62%, #f9fcff 100%) !important;
+  letter-spacing: -0.008em;
+}
+.app {
+  width: 100% !important;
+  max-width: 430px !important;
+  min-height: 100svh !important;
+  margin: 0 auto !important;
+  padding: calc(env(safe-area-inset-top) + 16px) 14px calc(88px + env(safe-area-inset-bottom)) !important;
+  isolation: isolate;
+}
+.app::before,
+.app::after {
+  display: none !important;
+  content: none !important;
+}
+.topbar {
+  display: none !important;
+}
+.view {
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.view.active {
+  animation: refFade 0.16s ease;
+}
+@keyframes refFade {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+} /* Universal brand row for secondary pages */
+.productRefBrandRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 50px;
+  margin: 0 2px 14px;
+}
+.productRefBrand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  color: #0f1b2b;
+  font-weight: 850;
+  font-size: 17px;
+  letter-spacing: -0.018em;
+}
+.productRefLogo {
+  width: 36px;
+  height: 26px;
+  display: block;
+  flex: 0 0 auto;
+}
+.productRefDate {
+  height: 44px;
+  padding: 0 13px;
+  border-radius: 23px;
+  background: #f2f4f7;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #172236;
+  font-size: 14.5px;
+  font-weight: 540;
+  white-space: nowrap;
+}
+.productRefDate svg {
+  width: 19px;
+  height: 19px;
+  stroke-width: 1.8;
+} /* Page title hierarchy */
+#view-finance .financeMobileHead,
+#view-menu > .sectionHead:first-of-type,
+#view-settings > .sectionHead:first-of-type,
+#view-garage-leads > .sectionHead:first-of-type,
+#view-garage-stats .garageStatsHeader,
+#view-garage-what .garageWhatHead,
+#view-customers .contactsHead {
+  margin: 0 2px 15px !important;
+  align-items: flex-end !important;
+}
+#view-finance .financeMobileHead h2,
+#view-menu > .sectionHead:first-of-type h2,
+#view-settings > .sectionHead:first-of-type h2,
+#view-garage-leads > .sectionHead:first-of-type h2,
+#view-garage-stats .garageStatsHeader h2,
+#view-garage-what .garageWhatHead h2,
+#view-customers .contactsHead h2 {
+  margin: 0 !important;
+  color: #07152a !important;
+  font-size: 38px !important;
+  line-height: 0.98 !important;
+  font-weight: 950 !important;
+  letter-spacing: -0.055em !important;
+}
+#view-finance .financeMobileHead span,
+#view-menu > .sectionHead:first-of-type > span,
+#view-settings > .sectionHead:first-of-type > span,
+#view-garage-leads > .sectionHead:first-of-type > span,
+#view-garage-what .garageWhatHeadTitle small,
+#view-customers .contactsHead small,
+.pageEyebrow {
+  display: none !important;
+} /* Common section headers */
+.section {
+  margin-top: 14px !important;
+}
+.sectionHead,
+.statsSectionHead,
+.financeMobileSectionHead {
+  margin: 0 2px 8px !important;
+  align-items: center !important;
+}
+.sectionHead h2,
+.statsSectionHead h3,
+.financeMobileSectionHead h3 {
+  margin: 0 !important;
+  font-size: 22px !important;
+  line-height: 1.06 !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.04em !important;
+  color: #0b1728 !important;
+}
+.sectionHead > span,
+.statsSectionHead > span,
+.financeMobileSectionHead > span {
+  font-size: 11.5px !important;
+  color: #667386 !important;
+  font-weight: 720 !important;
+} /* Surface system */
+.panel,
+.smallStatBox,
+.financeRow,
+.historyItem,
+.contactGroupCard,
+.statsSection,
+.businessResultPro,
+.financeMobileFold,
+.financeSummaryShell,
+.companyStorage,
+.securitySettingsPanel,
+.switch,
+.vehicleRegData,
+.vehicleDetails,
+.accountingWorkspace,
+.accountingEmailFold,
+.garageLeadCard,
+.leadListCard,
+.soldCarCard,
+.otherTaskCard,
+.taskCard {
+  border: 1px solid var(--ref-line) !important;
+  border-radius: var(--ref-radius) !important;
+  background: #fff !important;
+  box-shadow: var(--ref-shadow-soft) !important;
+}
+.panel.pad {
+  padding: 13px !important;
+} /* Buttons */
+.btn,
+.smallBtn,
+.closeBtn {
+  font-family: inherit !important;
+  box-shadow: none !important;
+  transition:
+    transform 0.12s ease,
+    opacity 0.12s ease,
+    background 0.12s ease !important;
+}
+.btn {
+  min-height: 46px !important;
+  padding: 0 15px !important;
+  border-radius: 14px !important;
+  border: 1px solid var(--ref-navy) !important;
+  background: linear-gradient(110deg, var(--ref-navy), var(--ref-navy-2)) !important;
+  color: #fff !important;
+  font-size: 14.5px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.012em !important;
+}
+.btn.secondary,
+.smallBtn {
+  background: #fff !important;
+  color: #172236 !important;
+  border-color: var(--ref-line) !important;
+}
+.btn.ghost {
+  background: #fff !important;
+  color: #172236 !important;
+  border-color: var(--ref-line) !important;
+}
+.btn.danger {
+  background: #fff4f5 !important;
+  color: var(--ref-danger) !important;
+  border-color: #f2cdd3 !important;
+}
+#addCarBtn,
+#addGarageLeadBtn,
+#sellCarBtn,
+.premiumPrimaryBtn,
+.saleModalConfirm {
+  background: linear-gradient(110deg, #0b795f, #0d9271) !important;
+  border-color: #0b795f !important;
+  color: #fff !important;
+}
+.btn:active,
+.smallBtn:active,
+.closeBtn:active,
+.menuLink:active,
+.garageRefTile:active,
+.accountingRefAction:active {
+  transform: scale(0.986) !important;
+}
+.smallBtn {
+  min-height: 36px !important;
+  padding: 0 11px !important;
+  border-radius: 12px !important;
+  font-size: 12px !important;
+  font-weight: 760 !important;
+}
+.closeBtn {
+  width: 42px !important;
+  height: 42px !important;
+  min-height: 42px !important;
+  padding: 0 !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  color: #152236 !important;
+  border: 1px solid var(--ref-line) !important;
+  font-size: 18px !important;
+} /* Inputs / forms */
+.field {
+  margin-bottom: 10px !important;
+}
+.field label {
+  display: block !important;
+  margin: 0 0 5px 2px !important;
+  color: #667386 !important;
+  font-size: 11.5px !important;
+  line-height: 1.1 !important;
+  font-weight: 720 !important;
+  letter-spacing: 0.005em !important;
+}
+.input,
+select.input,
+textarea.input {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 46px !important;
+  padding: 11px 12px !important;
+  border: 1px solid #dfe6ed !important;
+  border-radius: 13px !important;
+  background: #fff !important;
+  color: #0d192a !important;
+  font: inherit !important;
+  font-size: 14.5px !important;
+  font-weight: 560 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+textarea.input {
+  min-height: 82px !important;
+  resize: vertical !important;
+  line-height: 1.4 !important;
+}
+.input:focus,
+select.input:focus,
+textarea.input:focus {
+  border-color: #a9c2dd !important;
+  box-shadow: 0 0 0 3px rgba(76, 120, 164, 0.09) !important;
+}
+input[type="file"].input {
+  padding: 6px !important;
+  font-size: 12px !important;
+  color: #667386 !important;
+}
+input[type="file"].input::file-selector-button {
+  height: 32px;
+  border: 0;
+  border-radius: 9px;
+  padding: 0 10px;
+  margin-right: 8px;
+  background: #edf5ff;
+  color: #174f89;
+  font-weight: 760;
+}
+.grid2 {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 9px !important;
+}
+.grid3 {
+  gap: 9px !important;
+}
+.companyForm {
+  display: grid !important;
+  gap: 0 !important;
+}
+.companyFormError {
+  font-size: 12px !important;
+  color: var(--ref-danger) !important;
+} /* Bottom navigation — same product treatment everywhere */
+.navWrap {
+  padding: 0 0 env(safe-area-inset-bottom) !important;
+  background: rgba(255, 255, 255, 0.97) !important;
+  border-top: 1px solid #eef0f3 !important;
+  backdrop-filter: blur(18px) saturate(145%) !important;
+}
+.nav {
+  width: 100% !important;
+  max-width: 430px !important;
+  min-height: 74px !important;
+  margin: 0 auto !important;
+  padding: 8px 8px 7px !important;
+  gap: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+.navBtn {
+  position: relative !important;
+  min-height: 58px !important;
+  padding: 5px 2px 8px !important;
+  gap: 3px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #263246 !important;
+  font-size: 11px !important;
+  font-weight: 520 !important;
+}
+.navBtn .ico {
+  height: 27px !important;
+  display: grid !important;
+  place-items: center !important;
+  font-size: 0 !important;
+  color: #263246 !important;
+}
+.navBtn .ico svg {
+  width: 24px !important;
+  height: 24px !important;
+  display: block !important;
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 1.8 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+}
+.navBtn.active {
+  color: #111d2d !important;
+  font-weight: 720 !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+.navBtn.active::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 50% !important;
+  bottom: 1px !important;
+  width: 31px !important;
+  height: 2.5px !important;
+  border-radius: 999px !important;
+  transform: translateX(-50%) !important;
+  background: var(--ref-gold) !important;
+} /* ================= FINANSAI ================= */
+#view-finance .financeSummaryShell {
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+#view-finance .financeMobileGrid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 9px !important;
+}
+#view-finance .financeMobileGrid .smallStatBox {
+  min-height: 78px !important;
+  padding: 11px 12px !important;
+  border-radius: 16px !important;
+}
+#view-finance .financeMobileGrid .smallStatBox:nth-child(1),
+#view-finance .financeMobileGrid .smallStatBox:nth-child(4) {
+  background: linear-gradient(120deg, #effbf7, #f9fdfb) !important;
+}
+#view-finance .financeMobileGrid .smallStatBox:nth-child(2),
+#view-finance .financeMobileGrid .smallStatBox:nth-child(5) {
+  background: linear-gradient(120deg, #eef6ff, #f9fcff) !important;
+}
+#view-finance .financeMobileGrid .smallStatBox:nth-child(3),
+#view-finance .financeMobileGrid .smallStatBox:nth-child(6) {
+  background: linear-gradient(120deg, #fff7ed, #fffdf9) !important;
+}
+#view-finance .financeMobileGrid .label {
+  margin: 0 0 6px !important;
+  font-size: 10.5px !important;
+  line-height: 1.15 !important;
+  color: #667386 !important;
+  font-weight: 680 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+#view-finance .financeMobileGrid .value {
+  font-size: 18px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.035em !important;
+  color: #0c192b !important;
+}
+.financeMobileActions {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 9px !important;
+  margin-top: 10px !important;
+}
+.financeMobileFold {
+  overflow: hidden !important;
+  border-radius: 17px !important;
+}
+.financeMobileFold > summary {
+  min-height: 61px !important;
+  padding: 8px 10px !important;
+  display: grid !important;
+  grid-template-columns: 39px minmax(0, 1fr) 14px !important;
+  align-items: center !important;
+  gap: 9px !important;
+  list-style: none !important;
+  cursor: pointer !important;
+}
+.financeMobileFold:nth-child(1) {
+  background: linear-gradient(120deg, #effbf7, #fbfefc) !important;
+}
+.financeMobileFold:nth-child(2) {
+  background: linear-gradient(120deg, #fff7ed, #fffdf9) !important;
+}
+.financeFoldIcon {
+  width: 39px !important;
+  height: 39px !important;
+  border-radius: 50% !important;
+  background: #dff3ea !important;
+  color: #08734f !important;
+  font-size: 18px !important;
+  display: grid !important;
+  place-items: center !important;
+}
+.financeMobileFold:nth-child(2) .financeFoldIcon {
+  background: #faead6 !important;
+  color: #8f4c12 !important;
+}
+.financeMobileFold > summary strong {
+  font-size: 15px !important;
+  line-height: 1.08 !important;
+  font-weight: 850 !important;
+  letter-spacing: -0.02em !important;
+}
+.financeMobileFold > summary small {
+  display: none !important;
+}
+.financeFoldArrow {
+  font-size: 23px !important;
+  color: #172236 !important;
+  transition: transform 0.15s ease !important;
+}
+.financeMobileFold[open] {
+  grid-column: 1/-1 !important;
+  background: #fff !important;
+}
+.financeMobileFold[open] .financeFoldArrow {
+  transform: rotate(90deg) !important;
+}
+.financeFoldBody {
+  padding: 12px !important;
+  border-top: 1px solid #edf0f4 !important;
+  background: #fff !important;
+}
+.financeMobileSection {
+  margin-top: 15px !important;
+}
+#view-finance .financeRow {
+  min-height: 54px !important;
+  padding: 9px 11px !important;
+  border-radius: 15px !important;
+  align-items: center !important;
+}
+#view-finance .financeRow strong {
+  font-size: 14px !important;
+  line-height: 1.1 !important;
+  font-weight: 820 !important;
+}
+#view-finance .financeRow span {
+  display: block !important;
+  margin-top: 3px !important;
+  font-size: 10.5px !important;
+  line-height: 1.1 !important;
+  color: #6b7788 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+} /* ================= MENIU ================= */
+#view-menu .menuIntro {
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+#view-menu .menuIntro > .garageMenuTitle {
+  display: none !important;
+}
+#view-menu .menuLinks {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 9px !important;
+  margin: 0 !important;
+}
+#view-menu .menuLink {
+  min-height: 72px !important;
+  padding: 10px 11px !important;
+  border: 1px solid var(--ref-line) !important;
+  border-radius: 17px !important;
+  display: grid !important;
+  grid-template-columns: 40px minmax(0, 1fr) 14px !important;
+  align-items: center !important;
+  gap: 9px !important;
+  color: #0e1a2b !important;
+  box-shadow: var(--ref-shadow-soft) !important;
+}
+#view-menu .menuLink:nth-child(1) {
+  background: linear-gradient(120deg, #eef6ff, #f9fcff) !important;
+}
+#view-menu .menuLink:nth-child(2) {
+  background: linear-gradient(120deg, #effbf7, #f9fdfb) !important;
+}
+#view-menu .menuLink:nth-child(3) {
+  background: linear-gradient(120deg, #fff7ed, #fffdf9) !important;
+}
+#view-menu .menuLink:nth-child(4) {
+  background: linear-gradient(120deg, #f4f0ff, #fbfaff) !important;
+}
+#view-menu .menuLink:nth-child(5) {
+  background: linear-gradient(120deg, #fff1f6, #fff9fb) !important;
+  grid-column: 1/-1 !important;
+}
+#view-menu .menuLink::after {
+  content: "›";
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 300;
+  color: #172236;
+}
+#view-menu .menuLink .ico {
+  width: 40px !important;
+  height: 40px !important;
+  margin: 0 !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.6) !important;
+  border: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  font-size: 19px !important;
+}
+#view-menu .menuLink strong {
+  font-size: 15px !important;
+  line-height: 1.08 !important;
+  font-weight: 850 !important;
+  letter-spacing: -0.02em !important;
+}
+#view-menu .menuLink span {
+  display: none !important;
+}
+.menuHistorySection {
+  margin-top: 15px !important;
+}
+.historyProPanel {
+  padding: 12px !important;
+  border: 1px solid var(--ref-line) !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  box-shadow: var(--ref-shadow-soft) !important;
+}
+.historyProHead h2 {
+  font-size: 20px !important;
+  letter-spacing: -0.035em !important;
+}
+.historyProHead p {
+  display: none !important;
+}
+.historyDateRow {
+  gap: 8px !important;
+}
+.historyDateRow label span {
+  font-size: 11px !important;
+  color: #667386 !important;
+}
+.historyQuickRow {
+  gap: 6px !important;
+}
+.historyProList {
+  gap: 7px !important;
+}
+.historyItem {
+  padding: 10px 11px !important;
+  border-radius: 14px !important;
+}
+.historyItem strong {
+  font-size: 13px !important;
+}
+.historyItem span {
+  font-size: 10.5px !important;
+} /* ================= KONTAKTAI ================= */
+.contactsPage {
+  display: grid !important;
+  gap: 10px !important;
+}
+.contactsHead {
+  display: flex !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+}
+.contactsHeadActions .btn {
+  min-height: 40px !important;
+  padding: 0 12px !important;
+  border-radius: 13px !important;
+  font-size: 13px !important;
+}
+.contactsSearch {
+  display: grid !important;
+  grid-template-columns: 35px minmax(0, 1fr) !important;
+  align-items: center !important;
+  gap: 7px !important;
+  padding: 5px 8px !important;
+  border: 1px solid var(--ref-line) !important;
+  border-radius: 16px !important;
+  background: #fff !important;
+  box-shadow: var(--ref-shadow-soft) !important;
+}
+.contactsSearch .ico {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #edf5ff;
+  color: #174f89;
+  font-size: 18px;
+}
+.contactsSearch .input {
+  border: 0 !important;
+  box-shadow: none !important;
+  padding-left: 2px !important;
+  background: transparent !important;
+}
+.contactGroupCard {
+  overflow: hidden !important;
+  border-radius: 18px !important;
+}
+.contactGroupHead {
+  min-height: 57px !important;
+  padding: 8px 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  background: linear-gradient(120deg, #f7faff, #fff) !important;
+}
+.contactGroupHeadTitle {
+  display: flex !important;
+  align-items: center !important;
+  gap: 9px !important;
+  min-width: 0 !important;
+}
+.contactGroupIcon {
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 50% !important;
+  display: grid !important;
+  place-items: center !important;
+  background: #e8f3ff !important;
+  font-size: 18px !important;
+}
+.contactGroupHead h3 {
+  margin: 0 !important;
+  font-size: 16px !important;
+  line-height: 1.05 !important;
+  font-weight: 850 !important;
+}
+.contactGroupHead b {
+  font-size: 10.5px !important;
+  color: #6b7788 !important;
+  font-weight: 700 !important;
+}
+.contactGroupActions {
+  display: flex !important;
+  gap: 6px !important;
+}
+.contactIconBtn,
+.contactEdit,
+.contactCall {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 11px !important;
+  border: 1px solid var(--ref-line) !important;
+  background: #fff !important;
+  color: #17304e !important;
+  display: grid !important;
+  place-items: center !important;
+  text-decoration: none !important;
+  font: inherit !important;
+  font-size: 15px !important;
+}
+.contactList {
+  padding: 0 9px 9px !important;
+}
+.contactRow {
+  min-height: 52px !important;
+  padding: 8px 3px !important;
+  border-top: 1px solid #edf0f4 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+}
+.contactRow:first-child {
+  border-top: 0 !important;
+}
+.contactRow strong {
+  display: block !important;
+  font-size: 14px !important;
+  line-height: 1.08 !important;
+  font-weight: 820 !important;
+}
+.contactRow .phone,
+.contactRow .note {
+  display: block !important;
+  margin-top: 3px !important;
+  font-size: 10.5px !important;
+  color: #6b7788 !important;
+  line-height: 1.15 !important;
+}
+.contactRow .note {
+  white-space: nowrap !important;
+  max-width: 245px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+.contactRowActions {
+  display: flex !important;
+  gap: 6px !important;
+  flex: 0 0 auto !important;
+}
+.contactsEmpty {
+  padding: 22px !important;
+  border: 1px dashed #dfe5eb !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  text-align: center !important;
+}
+.contactsEmpty .ico {
+  font-size: 26px !important;
+}
+.contactsEmpty strong {
+  display: block !important;
+  margin: 8px 0 12px !important;
+  font-size: 15px !important;
+} /* ================= VARIANTAI ================= */
+#view-garage-leads > .section:first-of-type {
+  margin-top: 0 !important;
+}
+#view-garage-leads > .section:first-of-type > .panel {
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+#view-garage-leads .garageMenuTitle {
+  margin: 0 2px 8px !important;
+  align-items: center !important;
+}
+#view-garage-leads .garageMenuTitle strong {
+  font-size: 22px !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.04em !important;
+}
+.garageMenuTitle span {
+  display: none !important;
+}
+#view-garage-leads #garageLeadCount {
+  min-height: 32px !important;
+  padding: 0 10px !important;
+  border-radius: 16px !important;
+  background: #eef6ff !important;
+  border-color: #dce9f6 !important;
+  color: #174f89 !important;
+  font-size: 11.5px !important;
+}
+#view-garage-leads #garageLeadRoot {
+  gap: 9px !important;
+}
+#view-garage-leads .leadListCard {
+  padding: 7px !important;
+  grid-template-columns: 112px minmax(0, 1fr) !important;
+  gap: 9px !important;
+  min-height: 126px !important;
+  border-radius: 18px !important;
+}
+#view-garage-leads .leadListPhoto {
+  width: 112px !important;
+  height: 112px !important;
+  border-radius: 13px !important;
+}
+#view-garage-leads .leadListInfo {
+  gap: 5px !important;
+  padding: 2px 2px 2px 0 !important;
+}
+.leadListTitle {
+  font-size: 16px !important;
+  font-weight: 900 !important;
+}
+.leadListPrice {
+  font-size: 13px !important;
+}
+.leadListChip {
+  font-size: 9.5px !important;
+  padding: 4px 6px !important;
+}
+.leadListNotes {
+  font-size: 10.5px !important;
+  line-height: 1.22 !important;
+}
+.leadListBottom {
+  font-size: 10.5px !important;
+}
+#showAddGarageLeadBtn {
+  min-height: 54px !important;
+  border-radius: 17px !important;
+  background: linear-gradient(120deg, #f4f0ff, #fbfaff) !important;
+  border-color: #e4ddfb !important;
+  color: #38339c !important;
+  font-size: 15px !important;
+}
+#addGarageLeadPanel {
+  padding: 12px !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+} /* ================= STATISTIKA ================= */
+#view-garage-stats .garageStatsHeader {
+  display: flex !important;
+  align-items: flex-end !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+}
+#view-garage-stats .garageStatsBackBtn {
+  min-height: 38px !important;
+  padding: 0 11px !important;
+  font-size: 12px !important;
+}
+#view-garage-stats .statsSection {
+  padding: 11px !important;
+  margin-top: 10px !important;
+  border-radius: 18px !important;
+}
+#view-garage-stats .statsSectionHead {
+  margin-bottom: 8px !important;
+}
+.statsSectionHead h3 {
+  font-size: 19px !important;
+}
+#view-garage-stats .garageStatsGrid,
+#view-garage-stats .metricsGrid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+}
+#view-garage-stats .smallStatBox {
+  min-height: 75px !important;
+  padding: 10px !important;
+  border-radius: 15px !important;
+  background: #f8fbfe !important;
+  box-shadow: none !important;
+}
+#view-garage-stats .smallStatBox .label {
+  font-size: 10px !important;
+  color: #667386 !important;
+  margin-bottom: 6px !important;
+}
+.smallStatBox .value {
+  font-size: 18px !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.03em !important;
+}
+.smallStatBox .hint {
+  display: none !important;
+}
+#view-garage-stats .businessResultPro {
+  padding: 11px !important;
+  border-radius: 16px !important;
+}
+.businessResultSub {
+  display: none !important;
+}
+.businessResultHero strong {
+  font-size: 28px !important;
+}
+.businessResultGrid {
+  gap: 7px !important;
+}
+.businessMetric {
+  padding: 9px !important;
+  border-radius: 13px !important;
+}
+.businessMetric .k {
+  font-size: 9.5px !important;
+}
+.businessMetric .v {
+  font-size: 15px !important;
+}
+.bestDeal {
+  border-radius: 13px !important;
+  padding: 9px !important;
+}
+#view-garage-stats .soldCarCard {
+  border-radius: 16px !important;
+  overflow: hidden !important;
+}
+.soldCarHero {
+  height: 135px !important;
+}
+.soldCarBody {
+  padding: 10px !important;
+}
+.soldCarBody h4 {
+  font-size: 15px !important;
+}
+.soldCarNumbers {
+  gap: 6px !important;
+}
+.soldCarNumbers small {
+  font-size: 9.5px !important;
+}
+.soldCarNumbers strong {
+  font-size: 13px !important;
+} /* ================= KĄ DARYTI ================= */
+#view-garage-what .garageWhatBack {
+  min-height: 38px !important;
+  padding: 0 11px !important;
+  border-radius: 19px !important;
+  background: #f1f4f8 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  font-size: 12px !important;
+}
+.garageWhatHero {
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  box-shadow: 0 8px 22px rgba(20, 42, 69, 0.12) !important;
+  background: #fff !important;
+}
+.garageWhatHeroMedia {
+  height: 185px !important;
+}
+.garageWhatHeroBody {
+  padding: 11px 12px !important;
+}
+.garageWhatHeroBody > span {
+  display: none !important;
+}
+.garageWhatHeroBody > strong {
+  font-size: 17px !important;
+}
+.garageWhatHeroBottom b {
+  font-size: 11.5px !important;
+}
+.garageWhatList {
+  gap: 7px !important;
+  margin-top: 9px !important;
+}
+.garageWhatRow {
+  min-height: 62px !important;
+  padding: 7px !important;
+  border-radius: 16px !important;
+  border: 1px solid var(--ref-line) !important;
+  background: #fff !important;
+  box-shadow: var(--ref-shadow-soft) !important;
+}
+.garageWhatThumb {
+  width: 68px !important;
+  height: 48px !important;
+  border-radius: 11px !important;
+}
+.garageWhatCopy b {
+  font-size: 11px !important;
+  color: #667386 !important;
+}
+.garageWhatCopy strong {
+  font-size: 14px !important;
+  line-height: 1.15 !important;
+}
+.garageWhatSide {
+  font-size: 11px !important;
+} /* ================= NUSTATYMAI ================= */
+#view-settings .companyStorage,
+#view-settings .securitySettingsPanel,
+#view-settings > .panel.pad:last-of-type {
+  padding: 12px !important;
+  border-radius: 18px !important;
+}
+#view-settings .companyStorage > strong,
+.securitySettingsHead strong {
+  font-size: 16px !important;
+  line-height: 1.1 !important;
+  font-weight: 850 !important;
+}
+#view-settings .companyStorage p,
+.securitySettingsHead p,
+.securityFootnote,
+.switch .sub {
+  display: none !important;
+}
+#view-settings .btnRow {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 8px !important;
+  margin-top: 11px !important;
+}
+#view-settings .securitySettingsHead {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+}
+.securityEyebrow {
+  display: none !important;
+}
+.securityStateBadge {
+  min-height: 30px !important;
+  padding: 0 9px !important;
+  border-radius: 15px !important;
+  font-size: 11px !important;
+}
+#view-settings .securitySettingsActions {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 8px !important;
+  margin-top: 10px !important;
+}
+#view-settings .switch {
+  min-height: 58px !important;
+  padding: 9px 10px !important;
+  margin: 0 0 7px !important;
+  border-radius: 15px !important;
+}
+.switch strong {
+  font-size: 14px !important;
+  font-weight: 820 !important;
+}
+.toggle {
+  width: 48px !important;
+  height: 28px !important;
+}
+.toggle::after {
+  width: 20px !important;
+  height: 20px !important;
+}
+.toggle.on::after {
+  transform: translateX(20px) !important;
+} /* ================= ADD CAR / TASK FORMS ================= */
+#addCarPanel,
+#garageTaskForm,
+.otherTaskFormPro {
+  border-radius: 18px !important;
+  background: #fff !important;
+  border: 1px solid var(--ref-line) !important;
+  box-shadow: var(--ref-shadow-soft) !important;
+}
+#addCarPanel {
+  padding: 12px !important;
+}
+.garageAddCarSection {
+  margin-top: 10px !important;
+}
+#addCarPanel .sectionHead h2 {
+  font-size: 20px !important;
+}
+.otherTaskFormPro {
+  padding: 12px !important;
+  margin: 0 0 10px !important;
+}
+.otherTaskCard {
+  min-height: 58px !important;
+  padding: 8px !important;
+  border-radius: 15px !important;
+}
+.otherTaskMain strong {
+  font-size: 14px !important;
+}
+.otherTaskMeta span {
+  font-size: 9.5px !important;
+}
+.otherTaskMain p {
+  font-size: 10.5px !important;
+}
+.otherTaskActions button,
+.otherTaskCheck {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 10px !important;
+} /* ================= BOTTOM SHEETS / DETAILS ================= */
+.modalBackdrop {
+  background: rgba(14, 27, 45, 0.46) !important;
+  backdrop-filter: blur(9px) !important;
+  align-items: flex-end !important;
+}
+.sheet {
+  width: min(100%, 430px) !important;
+  max-height: 92svh !important;
+  padding: 0 13px calc(18px + env(safe-area-inset-bottom)) !important;
+  border: 0 !important;
+  border-radius: 28px 28px 0 0 !important;
+  background: #fff !important;
+  color: #0b1728 !important;
+  box-shadow: 0 -16px 50px rgba(12, 25, 43, 0.14) !important;
+}
+.sheetHead {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 8 !important;
+  min-height: 64px !important;
+  margin: 0 -13px 11px !important;
+  padding: 11px 13px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-bottom: 1px solid #edf0f3 !important;
+  backdrop-filter: blur(14px) !important;
+}
+.sheetHead h3 {
+  margin: 0 !important;
+  font-size: 21px !important;
+  line-height: 1.05 !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.035em !important;
+}
+.premiumSheetTitle h3 {
+  font-size: 22px !important;
+}
+.premiumSheetTitle span,
+.premiumSheetTitle small {
+  display: none !important;
+}
+#sheet .premiumDetail {
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: #fff !important;
+  overflow: visible !important;
+}
+#sheet .premiumHero {
+  height: 178px !important;
+  border-radius: 17px !important;
+  overflow: hidden !important;
+}
+.premiumHeroEmpty {
+  height: 178px !important;
+}
+.premiumHeroPills {
+  top: 9px !important;
+  left: 9px !important;
+  right: 9px !important;
+}
+.premiumStatus {
+  padding: 5px 8px !important;
+  border-radius: 9px !important;
+  font-size: 10px !important;
+}
+#sheet .premiumDetailBody {
+  padding: 11px 0 0 !important;
+  gap: 10px !important;
+}
+.premiumStatGrid {
+  gap: 7px !important;
+}
+.premiumStat {
+  padding: 9px 10px !important;
+  border-radius: 13px !important;
+  background: #f5f8fa !important;
+}
+.premiumStat span {
+  font-size: 10px !important;
+}
+.premiumStat strong {
+  font-size: 15px !important;
+}
+.premiumSectionHead h4 {
+  font-size: 17px !important;
+}
+.premiumEyebrow {
+  display: none !important;
+}
+#sheet .premiumUpload {
+  min-height: 47px !important;
+  border-radius: 13px !important;
+  padding: 8px 10px !important;
+}
+.premiumUploadIcon {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 10px !important;
+}
+.premiumUpload strong {
+  font-size: 13px !important;
+}
+.premiumThumbGrid {
+  gap: 6px !important;
+}
+.premiumThumb img {
+  border-radius: 10px !important;
+}
+#sheet .premiumActionStack {
+  gap: 7px !important;
+}
+.premiumWideBtn {
+  min-height: 44px !important;
+}
+.premiumInfo {
+  padding: 9px 10px !important;
+  border-radius: 13px !important;
+  background: #f7f9fb !important;
+  border: 1px solid var(--ref-line) !important;
+}
+.premiumInfo span {
+  font-size: 10px !important;
+}
+.premiumInfo p {
+  font-size: 12px !important;
+  line-height: 1.35 !important;
+}
+#sheet .carDetailActions {
+  display: grid !important;
+  gap: 7px !important;
+}
+.carDetailActions .btn {
+  width: 100% !important;
+}
+.galleryMain {
+  border-radius: 16px !important;
+}
+.galleryThumbs {
+  gap: 6px !important;
+}
+.galleryThumbs .img {
+  border-radius: 10px !important;
+} /* PP / accounting nested forms */
+.accountingSourceGrid {
+  gap: 8px !important;
+}
+.accountingSourceTile {
+  min-height: 58px !important;
+  padding: 8px 10px !important;
+  border-radius: 16px !important;
+  border: 1px solid var(--ref-line) !important;
+  box-shadow: none !important;
+  background: linear-gradient(120deg, #eef6ff, #fff) !important;
+}
+.accountingSourceTile:nth-child(2) {
+  background: linear-gradient(120deg, #effbf7, #fff) !important;
+}
+.accountingSourceTile:nth-child(3) {
+  background: linear-gradient(120deg, #fff7ed, #fff) !important;
+}
+.accountingSourceTile .ico {
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 50% !important;
+}
+.accountingSourceTile strong {
+  font-size: 14px !important;
+}
+.accountingSourceTile small {
+  display: none !important;
+}
+.ppGeneratorCard,
+.accountingRangeCard,
+.accountingEntryForm {
+  border-radius: 17px !important;
+  border: 1px solid var(--ref-line) !important;
+  background: #fff !important;
+  box-shadow: var(--ref-shadow-soft) !important;
+}
+.ppGeneratorCard {
+  padding: 11px !important;
+}
+.ppGeneratorCard h3 {
+  font-size: 19px !important;
+  letter-spacing: -0.03em !important;
+}
+.ppGeneratorCard p,
+.ppHint,
+.accountingHint {
+  font-size: 10.5px !important;
+  color: #6b7788 !important;
+}
+.accountingRangeTabs {
+  gap: 6px !important;
+}
+.accountingRangeTabs button {
+  min-height: 36px !important;
+  border-radius: 11px !important;
+  font-size: 11.5px !important;
+}
+.accountingCleanRow,
+.accountingCarPick {
+  min-height: 50px !important;
+  border-radius: 13px !important;
+} /* Empty states */
+.emptyState,
+.accountingEmpty,
+.accountingCleanEmpty,
+.homeFoldEmpty,
+.premiumEmptyMedia {
+  padding: 15px !important;
+  border: 1px dashed #dfe5eb !important;
+  border-radius: 15px !important;
+  background: #fff !important;
+  color: #708096 !important;
+  font-size: 12px !important;
+  text-align: center !important;
+} /* Keep Pagrindinis / Garažas / Buhalterija reference layouts intact but harmonise global typography. */
+.homeRefBrand,
+.garageRefBrand,
+.accountingRefBrand {
+  font-family: inherit !important;
+}
+.homeRefTodayTask,
+.homeRefFold > summary,
+.garageRefWhat,
+.garageRefTile,
+.accountingRefAction,
+.accountingRefWait {
+  font-family: inherit !important;
+}
+@media (max-width: 390px) {
+  .app {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+  #view-finance .financeMobileHead h2,
+  #view-menu > .sectionHead:first-of-type h2,
+  #view-settings > .sectionHead:first-of-type h2,
+  #view-garage-leads > .sectionHead:first-of-type h2,
+  #view-garage-stats .garageStatsHeader h2,
+  #view-garage-what .garageWhatHead h2,
+  #view-customers .contactsHead h2 {
+    font-size: 34px !important;
+  }
+  .productRefBrandRow {
+    margin-bottom: 11px;
+  }
+  .productRefBrand {
+    font-size: 16px;
+  }
+  .productRefDate {
+    height: 41px;
+    padding: 0 11px;
+    font-size: 13.5px;
+  }
+  .grid2 {
+    gap: 7px !important;
+  }
+  .field label {
+    font-size: 11px !important;
+  }
+  .input,
+  select.input,
+  textarea.input {
+    font-size: 14px !important;
+    padding: 10px !important;
+  }
+  #view-garage-leads .leadListCard {
+    grid-template-columns: 100px minmax(0, 1fr) !important;
+  }
+  .leadListPhoto {
+    width: 100px !important;
+    height: 108px !important;
+  }
+}

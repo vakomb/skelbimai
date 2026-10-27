@@ -1,0 +1,181 @@
+#view-garage-stats {
+  padding-bottom: 8px !important;
+}
+.garageStatsHeader {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  margin: 0 2px 16px !important;
+}
+.garageStatsHeader h2 {
+  margin: 0 !important;
+  font-size: 25px !important;
+  line-height: 1.05 !important;
+  font-weight: 950 !important;
+}
+.pageEyebrow {
+  display: block !important;
+  margin-bottom: 4px !important;
+  font-size: 10px !important;
+  line-height: 1 !important;
+  letter-spacing: 0.11em !important;
+  font-weight: 950 !important;
+  color: var(--muted) !important;
+}
+.garageStatsBackBtn {
+  min-height: 42px !important;
+  padding: 9px 12px !important;
+  font-size: 12px !important;
+  white-space: nowrap !important;
+}
+.statsSection {
+  margin-top: 14px !important;
+  padding: 14px !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 20px !important;
+  background: var(--surface) !important;
+  box-shadow: 0 8px 22px rgba(23, 34, 53, 0.045) !important;
+}
+.statsSectionHead {
+  display: flex !important;
+  align-items: flex-end !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  margin-bottom: 11px !important;
+}
+.statsSectionHead h3 {
+  margin: 0 !important;
+  font-size: 19px !important;
+  line-height: 1.15 !important;
+  font-weight: 900 !important;
+}
+.statsSectionHead > span {
+  font-size: 11px !important;
+  color: var(--muted) !important;
+  font-weight: 800 !important;
+}
+#view-garage-stats .garageStatsGrid,
+#view-garage-stats .metricsGrid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+  margin: 0 !important;
+}
+#view-garage-stats .garageOverviewStat,
+#view-garage-stats .garageTempoStat,
+#view-garage-stats .smallStatBox,
+#view-garage-stats .businessMetric {
+  min-width: 0 !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 15px !important;
+  background: var(--surface-2) !important;
+  box-shadow: none !important;
+}
+#view-garage-stats .garageOverviewStat {
+  min-height: 86px !important;
+  padding: 11px !important;
+}
+#view-garage-stats .garageOverviewStat .label {
+  font-size: 10px !important;
+  line-height: 1.2 !important;
+}
+#view-garage-stats .garageOverviewStat .value {
+  font-size: 20px !important;
+  line-height: 1.05 !important;
+  margin-top: 7px !important;
+}
+#view-garage-stats .businessResultPro {
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+#view-garage-stats .businessResultHead {
+  padding: 0 !important;
+  margin-bottom: 9px !important;
+}
+#view-garage-stats .businessResultHead .businessResultTitle {
+  font-size: 16px !important;
+  font-weight: 900 !important;
+}
+#view-garage-stats .businessResultSub {
+  display: none !important;
+}
+#view-garage-stats .businessResultHero {
+  margin: 0 0 8px !important;
+  padding: 12px !important;
+  border-radius: 15px !important;
+  background: var(--success-soft) !important;
+  border-color: #cfeadb !important;
+}
+#view-garage-stats .businessResultHero span {
+  font-size: 11px !important;
+  color: var(--muted) !important;
+}
+#view-garage-stats .businessResultHero strong {
+  font-size: 23px !important;
+  color: var(--success) !important;
+}
+#view-garage-stats .businessResultGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+}
+#view-garage-stats .businessMetric {
+  min-height: 67px !important;
+  padding: 10px !important;
+}
+#view-garage-stats .businessMetric .k {
+  font-size: 10px !important;
+  color: var(--muted) !important;
+  line-height: 1.2 !important;
+}
+#view-garage-stats .businessMetric .v {
+  font-size: 16px !important;
+  line-height: 1.1 !important;
+  margin-top: 5px !important;
+}
+#view-garage-stats .metricsGrid .garageTempoStat {
+  min-height: 76px !important;
+  padding: 10px !important;
+}
+#view-garage-stats .garageTempoStat .label {
+  font-size: 10px !important;
+}
+#view-garage-stats .garageTempoStat .value {
+  font-size: 18px !important;
+  margin-top: 6px !important;
+}
+#view-garage-stats .garageTempoStat .hint {
+  font-size: 10px !important;
+  margin-top: 4px !important;
+}
+#view-garage-stats .garageSalesGrid {
+  display: grid !important;
+  gap: 8px !important;
+}
+#view-garage-stats .soldCarCard {
+  border: 1px solid var(--line) !important;
+  border-radius: 16px !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+#view-garage-stats .soldCarHero {
+  height: 126px !important;
+}
+#view-garage-stats .soldCarBody {
+  padding: 11px !important;
+}
+#view-garage-stats .soldCarName {
+  font-size: 15px !important;
+  font-weight: 900 !important;
+}
+#view-garage-stats .soldCarMeta {
+  font-size: 11px !important;
+}
+#view-garage-stats .soldCarProfit {
+  font-size: 10px !important;
+}
+#view-garage-stats .soldCarIndex {
+  font-size: 10px !important;
+}

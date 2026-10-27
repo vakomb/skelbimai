@@ -1,0 +1,261 @@
+/* Final UI rule: buttons are self-explanatory. No secondary button subtitles. */
+.sectionHead > span,
+.financeMobileHead > div > span,
+.garageWhatHeadTitle > small,
+.menuLink > span:not(.ico),
+.garageAction .garageActionText > span,
+.vehicleRegData .regTitle small,
+.vehicleRegHint,
+.accountingSourceTitle > span,
+.accountingCleanAction small,
+.accountingSourceTile small,
+.financeMobileFold > summary small,
+.ppSourceBtn small {
+  display: none !important;
+} /* One button language: same scale as Garage. */
+#view-accounting .accountingCleanActions {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+}
+#view-accounting .accountingCleanAction {
+  min-height: 96px !important;
+  padding: 14px !important;
+  border-radius: 20px !important;
+  grid-template-columns: 44px minmax(0, 1fr) auto !important;
+  gap: 11px !important;
+  background: var(--surface) !important;
+  border: 1px solid var(--line) !important;
+  box-shadow: var(--shadow-soft) !important;
+}
+#view-accounting .accountingCleanAction .ico {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 14px !important;
+  background: var(--surface-2) !important;
+  font-size: 19px !important;
+}
+#view-accounting .accountingCleanAction strong {
+  font-size: 16px !important;
+  line-height: 1.18 !important;
+  font-weight: 900 !important;
+}
+#view-accounting .accountingCleanAction > b {
+  position: static !important;
+  font-size: 21px !important;
+  color: var(--muted) !important;
+}
+#view-accounting .accountingCleanAction.active {
+  background: #f3faf8 !important;
+  border-color: #bcded7 !important;
+}
+html[data-theme="dark"] #view-accounting .accountingCleanAction.active {
+  background: #112c29 !important;
+  border-color: #2d5a53 !important;
+}
+.accountingSourceTitle {
+  margin: 0 2px 10px !important;
+}
+.accountingSourceTitle h3 {
+  font-size: 19px !important;
+  margin: 0 !important;
+}
+.accountingSourceGrid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+}
+.accountingSourceTile {
+  min-height: 92px !important;
+  padding: 14px !important;
+  border-radius: 20px !important;
+  display: grid !important;
+  grid-template-columns: 44px minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 11px !important;
+  text-align: left !important;
+  background: var(--surface) !important;
+  border: 1px solid var(--line) !important;
+  box-shadow: var(--shadow-soft) !important;
+}
+.accountingSourceTile:first-child {
+  grid-column: 1/-1 !important;
+}
+.accountingSourceTile .ico {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 14px !important;
+  background: var(--surface-2) !important;
+  display: grid !important;
+  place-items: center !important;
+  font-size: 19px !important;
+}
+.accountingSourceTile strong {
+  font-size: 16px !important;
+  line-height: 1.18 !important;
+  font-weight: 900 !important;
+}
+.accountingSourceTile::after {
+  content: "›";
+  font-size: 21px;
+  color: var(--muted);
+  font-weight: 800;
+}
+.ppSourceContext {
+  padding: 11px 13px !important;
+  border-radius: 15px !important;
+  text-align: center !important;
+}
+.ppSourceContext > b {
+  margin: 0 !important;
+  font-size: 15px !important;
+} /* Home: from-scratch "Today" module, same visual family as task folds, always open. */
+#view-home .homeTodayPanel {
+  overflow: hidden;
+  border: 1px solid #efc9d0 !important;
+  border-radius: 20px !important;
+  background: #fff4f6 !important;
+  box-shadow: var(--shadow-soft) !important;
+}
+#view-home .homeTodayHead {
+  min-height: 72px;
+  padding: 11px 13px;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+}
+#view-home .homeTodayHead .homeFoldIcon {
+  background: #fbe2e7 !important;
+  color: #a92d43 !important;
+}
+#view-home .homeTodayCount {
+  min-width: 31px;
+  height: 31px;
+  padding: 0 9px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  border: 1px solid #ebc9cf;
+  color: #9e2f42;
+  font-size: 12px;
+  font-weight: 950;
+}
+#view-home .homeTodayBody {
+  border-top: 1px solid #efd7dc;
+  padding: 10px;
+  display: grid;
+  gap: 7px;
+}
+#view-home .homeTodayTask {
+  width: 100%;
+  min-height: 56px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 11px;
+  border-radius: 14px;
+  border: 1px solid #eed8dc;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+#view-home .homeTodayTaskMain {
+  min-width: 0;
+}
+#view-home .homeTodayTaskMain strong {
+  display: block;
+  font-size: 15px;
+  line-height: 1.2;
+  font-weight: 900;
+  color: #251a1d;
+}
+#view-home .homeTodayTaskMain b {
+  display: block;
+  margin-top: 3px;
+  font-size: 12.5px;
+  line-height: 1.15;
+  font-weight: 750;
+  color: #765d62;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#view-home .homeTodayTaskStatus {
+  font-size: 11.5px;
+  font-weight: 950;
+  color: #ae3147;
+  white-space: nowrap;
+}
+#view-home .homeTodayTask.late {
+  background: #fff7f8;
+  border-color: #eebbc4;
+}
+#view-home .homeTodayTask.late .homeTodayTaskMain strong,
+#view-home .homeTodayTask.late .homeTodayTaskStatus {
+  color: #c51f3b;
+}
+#view-home .homeTodayEmpty {
+  min-height: 54px;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid #eed8dc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-size: 15px;
+  font-weight: 900;
+  color: #386658;
+}
+html[data-theme="dark"] #view-home .homeTodayPanel {
+  background: #28171c !important;
+  border-color: #56323a !important;
+}
+html[data-theme="dark"] #view-home .homeTodayBody {
+  border-top-color: #56323a !important;
+}
+html[data-theme="dark"] #view-home .homeTodayTask {
+  background: #321e23 !important;
+  border-color: #59323b !important;
+}
+html[data-theme="dark"] #view-home .homeTodayTaskMain strong {
+  color: #fff !important;
+}
+html[data-theme="dark"] #view-home .homeTodayTaskMain b {
+  color: #d5b9bf !important;
+}
+html[data-theme="dark"] #view-home .homeTodayCount {
+  background: #351f24;
+  border-color: #5b333c;
+  color: #f5a3b2;
+} /* Remove old Today board if any stale renderer flashes before final render. */
+#view-home .homePriorityBoard {
+  display: none !important;
+} /* Page-title subtitles are intentionally gone app-wide. */
+#view-garage > .sectionHead,
+#view-garage-leads > .sectionHead,
+#view-menu > .sectionHead,
+#view-settings > .sectionHead {
+  align-items: center !important;
+}
+@media (max-width: 390px) {
+  #view-accounting .accountingCleanActions {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  #view-accounting .accountingCleanAction {
+    min-height: 90px !important;
+    padding: 12px !important;
+  }
+  .accountingSourceGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  #view-home .homeTodayHead {
+    min-height: 68px;
+    padding: 10px 12px;
+  }
+}

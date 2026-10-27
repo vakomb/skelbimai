@@ -1,0 +1,252 @@
+.topbar {
+  display: none !important;
+}
+.workHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 14px 2px 18px;
+}
+.workHead h2 {
+  font-size: 24px;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+.workHead h3 {
+  font-size: 18px;
+  margin: 0;
+}
+.workTextButton {
+  border: 0;
+  background: none;
+  color: var(--accent-2);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  padding: 8px 0;
+  cursor: pointer;
+}
+.workActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+.workActions button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  color: var(--text);
+  padding: 17px 12px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 68px;
+}
+.workActions button > span {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--brand-soft, #e5f5ef);
+  color: var(--accent-2);
+  border-radius: 10px;
+  width: 30px;
+  height: 30px;
+  font-size: 22px;
+  font-weight: 400;
+}
+.workTabs {
+  display: flex;
+  gap: 6px;
+  margin: 0 0 14px;
+  flex-wrap: wrap;
+}
+.workTabs button {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: var(--muted);
+  font: inherit;
+  font-size: 13px;
+  background: var(--surface);
+  cursor: pointer;
+}
+.workTabs button.selected {
+  color: var(--accent-2);
+  background: var(--brand-soft, #e5f5ef);
+  border-color: #b9ddd1;
+  font-weight: 700;
+}
+.workEmpty {
+  padding: 25px 16px;
+  border: 1px dashed var(--line);
+  border-radius: 16px;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+}
+.periodPanel {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  padding: 13px;
+  margin-bottom: 14px;
+}
+.periodTabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 5px;
+}
+.periodTabs button {
+  padding: 10px 3px;
+  font-size: 12px;
+}
+.periodDates {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.periodDates label {
+  font-size: 12px;
+  color: var(--muted);
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+}
+.periodDates input {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100%;
+  font-size: 14px !important;
+  padding: 10px 8px !important;
+  font-weight: 500 !important;
+}
+.periodDates button {
+  grid-column: 1/-1;
+  font-size: 14px !important;
+  padding: 11px !important;
+}
+#periodError:empty {
+  display: none;
+}
+#periodError {
+  color: var(--danger);
+  font-size: 12px;
+  margin-top: 10px;
+}
+.periodMetrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+}
+.periodMetric {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 15px 13px;
+  min-width: 0;
+}
+.periodMetric > span,
+.periodAverages span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+.periodMetric strong {
+  display: block;
+  font-size: 24px;
+  line-height: 1.3;
+  margin-top: 8px;
+  overflow-wrap: anywhere;
+}
+.periodProfit {
+  background: var(--brand-soft, #e5f5ef);
+  border-color: #bfdfd4;
+}
+.periodProfit strong {
+  color: var(--accent-2);
+}
+.periodAverages {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 16px 5px;
+}
+.periodAverages strong {
+  display: block;
+  font-size: 16px;
+  margin-top: 7px;
+}
+.periodFootnote {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0 3px 20px;
+}
+.salesHeading {
+  margin-bottom: 12px;
+}
+.salesHeading > span {
+  font-size: 13px;
+  color: var(--muted);
+}
+.periodSaleMargin {
+  text-align: right;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent-2);
+}
+.periodSaleMargin small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 400;
+  margin-top: 6px;
+}
+.periodPager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+.periodPager > span {
+  font-size: 13px;
+  color: var(--muted);
+}
+html[data-theme="dark"] .workTabs button.selected,
+html[data-theme="dark"] .periodProfit,
+html[data-theme="dark"] .workActions button > span {
+  background: #143b31 !important;
+  border-color: #245f4b;
+  color: #80e7b6;
+}
+html[data-theme="dark"] .periodProfit strong,
+html[data-theme="dark"] .workTextButton {
+  color: #80e7b6;
+}
+@media (max-width: 360px) {
+  .workActions {
+    gap: 8px;
+  }
+  .workActions button {
+    font-size: 12px;
+    padding: 13px 9px;
+    gap: 6px;
+  }
+  .periodTabs {
+    grid-template-columns: 1fr 1fr;
+  }
+  .periodMetric strong {
+    font-size: 22px;
+  }
+  .workHead h2 {
+    font-size: 22px;
+  }
+}

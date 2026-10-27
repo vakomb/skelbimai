@@ -1,0 +1,251 @@
+.vehicleDetails {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  margin: 12px 0;
+  background: var(--surface);
+  overflow: hidden;
+}
+.vehicleDetails summary {
+  padding: 14px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1.4;
+  color: var(--text);
+}
+.vehicleDetails[open] summary {
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 12px;
+}
+.vehicleFields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 0 12px 4px;
+}
+.vehicleFields .field {
+  min-width: 0;
+  margin-bottom: 10px;
+}
+.vehicleFields .input {
+  width: 100% !important;
+  min-width: 0 !important;
+  font-size: 16px !important;
+  padding: 11px 10px !important;
+  font-weight: 500 !important;
+}
+.vehicleFields label {
+  display: block;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  margin-bottom: 7px;
+  line-height: 1.4;
+}
+.vehicleFields .vehicleWide {
+  grid-column: 1/-1;
+}
+.sdkFields {
+  padding: 0;
+  margin: 12px 0;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+}
+.sdkFields select {
+  font-size: 13px !important;
+  min-height: 44px !important;
+}
+.vehicleSdkDisplay {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 6px 0 16px;
+}
+.vehicleSdkDisplay > div {
+  min-width: 0;
+}
+.vehicleSdkDisplay > div > span {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+}
+.vehicleSdkDisplay strong {
+  display: block;
+  font-size: 16px;
+  overflow-wrap: anywhere;
+  margin-top: 5px;
+}
+.vehicleSdkBadge {
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  padding: 7px 10px;
+  max-width: 60%;
+  line-height: 1.4;
+}
+.sdkDone {
+  color: #146b49 !important;
+  background: #e5f5ec !important;
+  border-color: #bce1ce !important;
+}
+.sdkLate {
+  color: #aa2938 !important;
+  background: #fcebed !important;
+  border-color: #efc1c8 !important;
+}
+.sdkPending {
+  color: #8b5c09 !important;
+  background: #fff4d9 !important;
+  border-color: #efdaa6 !important;
+}
+.sdkUnset {
+  color: var(--muted) !important;
+  background: var(--surface-2) !important;
+  border-color: var(--line) !important;
+}
+.vehicleInfo {
+  margin: 0;
+  padding: 0 12px 8px;
+  display: grid;
+  gap: 0;
+}
+.vehicleInfo > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+.vehicleInfo > div:last-child {
+  border-bottom: 0;
+}
+.vehicleInfo dt {
+  font-size: 13px;
+  color: var(--muted);
+  flex: 1;
+}
+.vehicleInfo dd {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  text-align: right;
+  max-width: 60%;
+  overflow-wrap: anywhere;
+}
+.vehicleCount {
+  font-size: 12px;
+  color: var(--muted);
+  margin-left: 6px;
+}
+.vehicleDocInputs {
+  display: grid;
+  gap: 12px;
+  padding: 0 12px 14px;
+}
+.vehicleDocPicker {
+  display: grid;
+  gap: 7px;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  min-width: 0;
+}
+.vehicleDocPicker input {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--muted);
+}
+.vehicleDocPicker input::file-selector-button {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px;
+  background: var(--surface-2);
+  color: var(--text);
+  cursor: pointer;
+  margin-right: 8px;
+}
+.vehicleDocList {
+  padding: 0 12px;
+}
+.vehicleDocRow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+}
+.vehicleDocRow[hidden] {
+  display: none !important;
+}
+.vehicleDocDownload {
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  font: inherit;
+  padding: 0;
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+}
+.vehicleDocDownload strong {
+  display: block;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.vehicleDocDownload span {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 5px;
+}
+.vehicleDocRemove {
+  border: 0;
+  background: transparent;
+  color: var(--danger);
+  font-size: 24px;
+  min-width: 36px;
+  min-height: 40px;
+  cursor: pointer;
+}
+.vehicleDocuments {
+  margin-bottom: 18px;
+}
+.vehicleDetails summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -3px;
+}
+html[data-theme="dark"] .sdkDone {
+  background: #123d30 !important;
+  color: #80e7b6 !important;
+  border-color: #286c4f !important;
+}
+html[data-theme="dark"] .sdkLate {
+  background: #471e27 !important;
+  color: #ffadba !important;
+  border-color: #7e3947 !important;
+}
+html[data-theme="dark"] .sdkPending {
+  background: #423519 !important;
+  color: #f8d488 !important;
+  border-color: #705825 !important;
+}
+@media (max-width: 360px) {
+  .sdkFields {
+    grid-template-columns: 1fr;
+  }
+  .vehicleFields:not(.sdkFields) {
+    gap: 8px;
+  }
+  .vehicleInfo > div {
+    gap: 9px;
+  }
+  .vehicleInfo dd {
+    max-width: 58%;
+  }
+}

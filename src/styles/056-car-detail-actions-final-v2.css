@@ -1,0 +1,28 @@
+.carTasksSectionHead {
+  justify-content: center !important;
+  text-align: center !important;
+}
+.carTasksSectionHead .carTasksSectionTitle {
+  width: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+}
+.carTasksAddTop {
+  width: auto !important;
+  margin: 0 auto !important;
+}
+.carDetailActions {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  flex-wrap: nowrap !important;
+}
+.carDetailActions .carDeleteReal {
+  margin-right: auto !important;
+}
+.carDetailActions #sellCarBtn {
+  width: auto !important;
+  flex: 0 0 auto !important;
+  padding: 9px 12px !important;
+}

@@ -1,0 +1,6 @@
+#sheet .carSaleBottomBtn,
+#sheet #sellCarBtn {
+  background: linear-gradient(180deg, #198a6f 0%, #13745f 100%) !important;
+  color: #fff !important;
+  border-color: rgba(16, 110, 90, 0.32) !important;
+}

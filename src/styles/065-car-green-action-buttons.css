@@ -1,0 +1,21 @@
+#sheet .carTasksAddWide,
+#sheet .carMediaToggle,
+#sheet .carSaleBottomBtn {
+  background: linear-gradient(180deg, #198a6f 0%, #13745f 100%) !important;
+  border: 1px solid rgba(16, 110, 90, 0.32) !important;
+  color: #fff !important;
+  box-shadow: 0 10px 22px rgba(19, 116, 95, 0.18) !important;
+}
+#sheet .carTasksAddWide:hover,
+#sheet .carMediaToggle:hover,
+#sheet .carSaleBottomBtn:hover {
+  filter: brightness(1.04) !important;
+}
+#sheet .carMediaToggleRight,
+#sheet .carMediaCount {
+  color: #fff !important;
+}
+#sheet .carMediaCount {
+  background: rgba(255, 255, 255, 0.14) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}

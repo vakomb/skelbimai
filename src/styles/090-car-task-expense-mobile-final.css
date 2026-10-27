@@ -1,0 +1,93 @@
+@media (max-width: 899px) {
+  #sheet .carTaskRow {
+    display: grid !important;
+    grid-template-columns: 30px minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    column-gap: 9px !important;
+    width: 100% !important;
+    padding: 10px 8px !important;
+    min-width: 0 !important;
+  }
+  #sheet .carTaskRow > label {
+    display: contents !important;
+  }
+  #sheet .carTaskRow > label > input[type="checkbox"] {
+    grid-column: 1 !important;
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    min-height: 22px !important;
+    justify-self: center !important;
+  }
+  #sheet .carTaskMain {
+    grid-column: 2 !important;
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+  #sheet .carTaskMain strong {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    font-size: 15px !important;
+    line-height: 1.22 !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+  }
+  #sheet .carTaskNumber {
+    display: inline !important;
+    width: auto !important;
+    height: auto !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    margin-right: 5px !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    color: #111 !important;
+    font-size: 15px !important;
+    line-height: inherit !important;
+  }
+  #sheet .carTaskActions {
+    grid-column: 3 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 5px !important;
+    min-width: 0 !important;
+  }
+  #sheet .carTaskExpenseInput {
+    width: 56px !important;
+    min-width: 56px !important;
+    max-width: 56px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    padding: 7px 6px !important;
+    border-radius: 10px !important;
+    font-size: 13px !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+  }
+  #sheet .carTaskActions .smallBtn,
+  #sheet .carTaskActions .smallBtn.danger {
+    width: 26px !important;
+    min-width: 26px !important;
+    height: 26px !important;
+    min-height: 26px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: #dc2626 !important;
+    font-size: 18px !important;
+    font-weight: 500 !important;
+    line-height: 1 !important;
+  }
+  #sheet .carTaskMain .small {
+    margin-top: 4px !important;
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+  }
+  #sheet .carTaskRow:has(.carTaskExpenseInput) {
+    grid-template-columns: 30px minmax(0, 1fr) auto !important;
+  }
+}

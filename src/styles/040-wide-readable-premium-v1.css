@@ -1,0 +1,256 @@
+:root {
+  --text: #172033 !important;
+  --muted: #4f5d73 !important;
+  --muted-2: #718096 !important;
+  --line: #dde5eb !important;
+  --surface: #ffffff !important;
+  --surface-2: #f7faf9 !important;
+  --surface-3: #edf3f1 !important;
+  --accent: #177b6d !important;
+  --accent-2: #116557 !important;
+}
+.app {
+  max-width: 520px !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+.section {
+  width: 100% !important;
+  margin-top: 15px !important;
+}
+.sectionHead {
+  margin-left: 2px !important;
+  margin-right: 2px !important;
+}
+.sectionHead h2 {
+  font-size: 20px !important;
+  color: var(--text) !important;
+}
+.sectionHead span {
+  color: var(--muted) !important;
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+}
+body {
+  font-size: 16px !important;
+  color: var(--text) !important;
+}
+.taskMain strong,
+.topicTaskMain strong,
+.listItem strong,
+.carListTitle,
+.leadListTitle,
+.carBody h4,
+.garageLeadBody h4,
+.garageAction strong,
+.menuLink strong,
+.smallStatBox .value,
+.rewardCard strong,
+.achievement strong,
+.skillTop strong,
+.historyItem strong,
+.historyHeadLine strong,
+.premiumSheetTitle h3,
+.premiumSectionHead h4 {
+  color: var(--text) !important;
+}
+.taskMeta,
+.topicTaskMeta,
+.listItem .small,
+.carLine,
+.garageLeadLine,
+.leadDetailBox,
+.financeRow span,
+.historyItem span,
+.skillTop span,
+.skillDesc,
+.switch .sub,
+.field label,
+.carMetricLabel,
+.premiumStat span,
+.premiumContactCard span {
+  color: #4f5d73 !important;
+  font-size: 12.5px !important;
+}
+.btn {
+  min-height: 46px !important;
+  padding: 10px 14px !important;
+  border-radius: 13px !important;
+  font-size: 14px !important;
+  font-weight: 900 !important;
+}
+.btn.secondary {
+  background: #fff !important;
+  color: var(--text) !important;
+  border: 1px solid var(--line) !important;
+  box-shadow: none !important;
+}
+.btn:not(.secondary):not(.ghost):not(.danger) {
+  background: linear-gradient(180deg, var(--accent) 0%, var(--accent-2) 100%) !important;
+  color: #fff !important;
+  border-color: var(--accent) !important;
+}
+#view-garage .garageCarTaskCard,
+#view-garage .carChecklistWrap .listItem,
+#view-garage .premiumChecklist .listItem,
+#view-garage .premiumMedia,
+#view-garage .premiumSellBox,
+#view-garage .premiumResult {
+  border-color: transparent !important;
+}
+#view-garage .garageCarTaskCard {
+  background: var(--surface) !important;
+  box-shadow: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+#view-garage .carChecklistWrap .listItem {
+  background: #f7faf9 !important;
+  box-shadow: none !important;
+}
+#view-garage .premiumMedia {
+  background: #f7faf9 !important;
+  box-shadow: none !important;
+}
+#view-garage .premiumSellBox,
+#view-garage .premiumResult {
+  background: #f7faf9 !important;
+  box-shadow: none !important;
+}
+#activeCarGrid,
+#soldCarGrid,
+#garageLeadRoot {
+  gap: 9px !important;
+}
+#activeCarGrid .carListCard,
+#soldCarGrid .carListCard,
+#garageLeadRoot .leadListCard {
+  width: 100% !important;
+  padding: 9px !important;
+  border-radius: 17px !important;
+  box-shadow: 0 7px 20px rgba(23, 32, 51, 0.05) !important;
+}
+#activeCarGrid .carListTitle,
+#soldCarGrid .carListTitle,
+#garageLeadRoot .leadListTitle {
+  font-size: 18px !important;
+  line-height: 1.15 !important;
+}
+#activeCarGrid .carListFacts strong,
+#soldCarGrid .carListFacts strong {
+  font-size: 14px !important;
+}
+#activeCarGrid .carListFacts small,
+#soldCarGrid .carListFacts small,
+#garageLeadRoot .leadListChip {
+  font-size: 10.5px !important;
+}
+.premiumDetail {
+  border-color: var(--line) !important;
+  box-shadow: 0 12px 30px rgba(23, 32, 51, 0.07) !important;
+}
+.premiumDetailBody {
+  padding: 15px 13px !important;
+  gap: 10px !important;
+}
+.premiumStatGrid {
+  gap: 7px !important;
+}
+.premiumStat {
+  background: #f7faf9 !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+.premiumSectionHead {
+  margin-top: 5px !important;
+}
+.premiumChecklist {
+  gap: 5px !important;
+}
+.premiumChecklist .listItem {
+  min-height: 54px !important;
+  padding: 8px 7px !important;
+  border: 0 !important;
+  background: #f7faf9 !important;
+}
+.premiumChecklist .listItem strong {
+  font-size: 14px !important;
+}
+.premiumUpload {
+  border: 1px dashed #c7d8d3 !important;
+  background: #fff !important;
+  min-height: 52px !important;
+}
+.premiumMediaActions {
+  gap: 7px !important;
+}
+.premiumMediaActions .btn {
+  min-height: 41px !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+#view-garage-leads .premiumDetail {
+  border-color: var(--line) !important;
+}
+#view-garage-leads .premiumEditSection,
+#view-garage-leads .premiumMedia,
+#view-garage-leads .premiumContactCard {
+  border-color: transparent !important;
+  box-shadow: none !important;
+  background: #f7faf9 !important;
+}
+#view-garage-leads .premiumFieldsGrid {
+  gap: 7px !important;
+}
+#view-garage-leads .premiumFieldsGrid .input {
+  min-height: 47px !important;
+}
+#view-garage-stats .smallStatBox,
+#view-garage-stats .businessMetric,
+#view-finance .smallStatBox,
+#view-finance .financeRow {
+  box-shadow: none !important;
+}
+#view-garage-stats .statsSection {
+  padding: 13px !important;
+  border-radius: 18px !important;
+}
+#view-achievements .topicTaskSection {
+  padding: 13px !important;
+  border-color: var(--line) !important;
+}
+#view-achievements .topicTaskCard {
+  min-height: 59px !important;
+  border: 0 !important;
+  background: #f7faf9 !important;
+}
+#view-achievements .personalTaskComposer {
+  padding: 14px !important;
+}
+#view-menu .historyItem {
+  box-shadow: none !important;
+  border-color: var(--line) !important;
+  padding: 12px !important;
+}
+#view-menu .historyBody {
+  padding-top: 9px !important;
+}
+#view-settings .switch {
+  box-shadow: none !important;
+}
+.bar .fill,
+.miniBar .fill,
+.premiumProgress span,
+.carDetailProgress span,
+.carListProgressTrack span {
+  background: linear-gradient(90deg, #177b6d 0%, #258f80 100%) !important;
+}
+.toggle.on {
+  background: var(--accent) !important;
+}
+.navBtn.active {
+  color: var(--accent-2) !important;
+  background: #e8f5f1 !important;
+  border-color: #c5e1da !important;
+}

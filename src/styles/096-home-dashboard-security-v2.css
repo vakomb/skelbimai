@@ -1,0 +1,225 @@
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden !important;
+  overscroll-behavior-x: none;
+}
+body {
+  -webkit-text-size-adjust: 100%;
+  touch-action: manipulation;
+}
+.app,
+.view,
+.panel,
+.companyRow,
+.companyCustomer,
+.sheet {
+  min-width: 0;
+  max-width: 100%;
+}
+input.input,
+textarea.input,
+select.input,
+input[type="date"],
+input[type="search"],
+input[type="number"],
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="tel"] {
+  font-size: 16px !important;
+  max-width: 100%;
+  min-width: 0;
+}
+textarea.input {
+  resize: vertical;
+}
+.securitySettingsHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.securitySettingsHead > div {
+  min-width: 0;
+}
+.securityEyebrow {
+  display: block;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  color: var(--accent-2);
+  margin-bottom: 6px;
+}
+.securitySettingsHead strong {
+  display: block;
+  font-size: 17px;
+  line-height: 1.25;
+}
+.securitySettingsHead p,
+.securityFootnote {
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--muted);
+  margin: 7px 0 0;
+}
+.securityStateBadge {
+  flex: 0 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 9px;
+  font-size: 10px;
+  font-weight: 850;
+  color: var(--muted);
+  background: var(--surface-2);
+}
+.securityStateBadge.on {
+  background: #e5f5ec;
+  border-color: #bce1ce;
+  color: #146b49;
+}
+.securitySettingsActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 14px;
+}
+.securitySettingsActions .btn {
+  width: 100%;
+  font-size: 13px !important;
+}
+.appLock[hidden] {
+  display: none !important;
+}
+.appLock {
+  position: fixed;
+  inset: 0;
+  z-index: 200000;
+  background: linear-gradient(180deg, #eff6f4 0%, #f8fbfa 100%);
+  display: grid;
+  place-items: center;
+  padding: 24px 18px env(safe-area-inset-bottom);
+}
+.appLockCard {
+  width: min(100%, 390px);
+  background: #fff;
+  border: 1px solid #dce8e4;
+  border-radius: 28px;
+  padding: 26px 20px;
+  box-shadow: 0 30px 80px rgba(15, 65, 56, 0.15);
+  text-align: center;
+}
+.appLockBrand {
+  width: 54px;
+  height: 54px;
+  border-radius: 17px;
+  background: #177b6d;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 13px;
+  font-size: 25px;
+  font-weight: 950;
+}
+.appLockEyebrow {
+  font-size: 10px;
+  font-weight: 950;
+  letter-spacing: 0.14em;
+  color: #177b6d;
+}
+.appLockCard h2 {
+  font-size: 23px;
+  letter-spacing: -0.03em;
+  margin: 8px 0 7px;
+}
+.appLockCard > p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #667085;
+  margin: 0 auto 19px;
+  max-width: 310px;
+}
+.appLockCard form {
+  text-align: left;
+}
+.appLockCard label {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  color: #4b5d58;
+  margin: 0 0 7px 2px;
+}
+.appLockInput {
+  width: 100%;
+  height: 58px;
+  border: 1px solid #cfded9;
+  border-radius: 16px;
+  background: #f9fbfa;
+  color: #172033;
+  font: inherit;
+  font-size: 22px !important;
+  font-weight: 900;
+  letter-spacing: 0.28em;
+  text-align: center;
+  outline: none;
+}
+.appLockInput:focus {
+  border-color: #177b6d;
+  box-shadow: 0 0 0 4px rgba(23, 123, 109, 0.1);
+}
+.appLockButton {
+  width: 100%;
+  margin-top: 10px;
+  min-height: 52px !important;
+  background: #177b6d !important;
+  border-color: #177b6d !important;
+}
+.appLockError {
+  min-height: 18px;
+  margin-top: 8px;
+  color: #b4232d;
+  font-size: 12px;
+  text-align: center;
+}
+body.appLocked {
+  overflow: hidden !important;
+}
+.pinFormHint {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+  margin: -2px 0 12px;
+}
+.pinDangerZone {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+html[data-theme="dark"] .securityStateBadge.on {
+  background: #123d30;
+  border-color: #286c4f;
+  color: #80e7b6;
+}
+html[data-theme="dark"] .appLock {
+  background: #0f172a;
+}
+html[data-theme="dark"] .appLockCard {
+  background: #111827;
+  border-color: #263247;
+  color: #f8fafc;
+}
+html[data-theme="dark"] .appLockCard > p,
+html[data-theme="dark"] .appLockCard label {
+  color: #cbd5e1;
+}
+html[data-theme="dark"] .appLockInput {
+  background: #162033;
+  border-color: #334155;
+  color: #f8fafc;
+}
+@media (max-width: 360px) {
+  .securitySettingsActions {
+    grid-template-columns: 1fr;
+  }
+}

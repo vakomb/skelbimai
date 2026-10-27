@@ -1,0 +1,4 @@
+#activeCarGrid .carListMeta,
+#soldCarGrid .carListMeta {
+  display: none !important;
+}

@@ -1,0 +1,36 @@
+#sheet .premiumUpload.carMediaUpload,
+#sheet .premiumMediaActions {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+#sheet .premiumUpload.carMediaUpload {
+  min-height: 48px !important;
+  text-align: center !important;
+  cursor: pointer !important;
+}
+#sheet .premiumUpload.carMediaUpload > span {
+  display: block !important;
+  text-align: center !important;
+}
+#sheet .premiumUpload.carMediaUpload .premiumUploadIcon {
+  display: inline-grid !important;
+  margin-right: 6px !important;
+  vertical-align: middle !important;
+}
+#sheet .premiumUpload.carMediaUpload span strong {
+  font-size: 13px !important;
+}
+#sheet .premiumMediaActions {
+  margin-top: 10px !important;
+}
+#sheet #downloadCarPhotos {
+  width: 100% !important;
+  max-width: 260px !important;
+  min-height: 44px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+}

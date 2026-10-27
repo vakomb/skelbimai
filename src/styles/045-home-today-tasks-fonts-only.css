@@ -1,0 +1,14 @@
+#view-home #todayTasksRoot .taskGroupHead h3,
+#view-home #todayTasksRoot .taskGroupHead strong {
+  font-size: 1.06em !important;
+}
+#view-home #todayTasksRoot .taskCard .taskMain strong {
+  font-size: 1.06em !important;
+}
+#view-home #todayTasksRoot .taskCard .taskMeta {
+  font-size: 1.05em !important;
+}
+#view-home #todayTasksRoot .taskCard .rewardPills .xp,
+#view-home #todayTasksRoot .taskCard .rewardPills .coins {
+  font-size: 1.05em !important;
+}

@@ -1,0 +1,85 @@
+#activeCarGrid .carListCard,
+#soldCarGrid .carListCard,
+#garageLeadRoot .leadListCard {
+  font-size: 1.07em !important;
+}
+#activeCarGrid .carListTitle,
+#soldCarGrid .carListTitle,
+#garageLeadRoot .leadListTitle {
+  font-size: 18px !important;
+  line-height: 1.18 !important;
+}
+#activeCarGrid .carListProgress,
+#soldCarGrid .carListDate,
+#garageLeadRoot .leadListPrice {
+  font-size: 12px !important;
+}
+#activeCarGrid .carListChip,
+#soldCarGrid .carListChip,
+#garageLeadRoot .leadListChip {
+  font-size: 11px !important;
+}
+#activeCarGrid .carListFacts small,
+#soldCarGrid .carListFacts small {
+  font-size: 10.5px !important;
+}
+#activeCarGrid .carListFacts strong,
+#soldCarGrid .carListFacts strong {
+  font-size: 14px !important;
+}
+#garageLeadRoot .leadListNotes,
+#garageLeadRoot .leadListBottom,
+#garageLeadRoot .leadNoPhone,
+#garageLeadRoot .leadCallBtn {
+  font-size: 12px !important;
+}
+.premiumSheetTitle h3 {
+  font-size: 21px !important;
+  line-height: 1.15 !important;
+}
+.premiumDetailBody {
+  padding: 15px !important;
+}
+.premiumStat {
+  padding: 12px 13px !important;
+}
+.premiumStat span,
+.premiumContactCard span,
+.premiumResult span,
+.premiumMetric span {
+  font-size: 11.5px !important;
+}
+.premiumStat strong {
+  font-size: 17px !important;
+}
+.premiumInfo p {
+  font-size: 13px !important;
+}
+.premiumSectionHead h4 {
+  font-size: 18px !important;
+}
+.premiumSmallBtn {
+  font-size: 13px !important;
+}
+.premiumChecklist .listItem strong {
+  font-size: 15px !important;
+}
+.premiumChecklist .listItem .small {
+  font-size: 11.5px !important;
+}
+.premiumChecklist .listItem .badge {
+  font-size: 10px !important;
+}
+.premiumPrimaryBtn {
+  font-size: 14px !important;
+}
+.carDeleteReal {
+  font-size: 14px !important;
+}
+.premiumUpload strong {
+  font-size: 14px !important;
+}
+.premiumMediaActions .btn,
+.premiumWideBtn {
+  font-size: 13px !important;
+}

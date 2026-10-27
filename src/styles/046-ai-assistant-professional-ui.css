@@ -1,0 +1,164 @@
+#view-ai .sectionHead {
+  margin-bottom: 12px !important;
+}
+#view-ai .sectionHead h2 {
+  font-size: 21px !important;
+}
+.aiPanel {
+  display: grid !important;
+  gap: 12px !important;
+  width: 100% !important;
+  padding: 13px !important;
+  background: var(--surface) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 21px !important;
+  box-shadow: 0 12px 30px rgba(16, 24, 40, 0.06) !important;
+}
+.aiHero {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 12px !important;
+  border-radius: 16px !important;
+  background: #eef7f4 !important;
+  border: 1px solid #d8ebe5 !important;
+}
+.aiHeroIcon {
+  width: 44px !important;
+  height: 44px !important;
+  display: grid !important;
+  place-items: center !important;
+  border-radius: 14px !important;
+  background: #dcefe9 !important;
+  color: #126556 !important;
+  font-size: 22px !important;
+}
+.aiHeroCopy strong {
+  display: block !important;
+  font-size: 16px !important;
+  line-height: 1.15 !important;
+  color: var(--text) !important;
+}
+.aiHeroCopy p {
+  margin: 3px 0 0 !important;
+  font-size: 12px !important;
+  line-height: 1.35 !important;
+  color: #4f5d73 !important;
+}
+.aiClearBtn {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 11px !important;
+  border: 1px solid #cfe0db !important;
+  background: #fff !important;
+  color: #126556 !important;
+  font-size: 18px !important;
+  font-weight: 900 !important;
+}
+.aiQuickGrid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 7px !important;
+}
+.aiQuickBtn {
+  min-height: 56px !important;
+  display: grid !important;
+  grid-template-columns: auto 1fr !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 9px 10px !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  color: var(--text) !important;
+  font: inherit !important;
+  text-align: left !important;
+}
+.aiQuickBtn span {
+  font-size: 20px !important;
+}
+.aiQuickBtn strong {
+  font-size: 12.5px !important;
+  font-weight: 900 !important;
+}
+.aiQuickBtn:active {
+  transform: scale(0.985);
+}
+.aiChat {
+  min-height: 190px !important;
+  max-height: 48vh !important;
+  overflow-y: auto !important;
+  display: grid !important;
+  gap: 8px !important;
+  padding: 2px !important;
+}
+.aiWelcomeState {
+  min-height: 170px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  gap: 6px !important;
+  padding: 20px !important;
+  border-radius: 16px !important;
+  background: #f7faf9 !important;
+}
+.aiWelcomeIcon {
+  font-size: 30px !important;
+}
+.aiWelcomeState strong {
+  font-size: 16px !important;
+  color: var(--text) !important;
+}
+.aiWelcomeState span {
+  max-width: 290px !important;
+  font-size: 12px !important;
+  line-height: 1.45 !important;
+  color: #4f5d73 !important;
+}
+.aiMessage {
+  display: flex !important;
+}
+.aiUser {
+  justify-content: flex-end !important;
+}
+.aiAssistant {
+  justify-content: flex-start !important;
+}
+.aiMessageBubble {
+  max-width: 90% !important;
+  padding: 10px 12px !important;
+  border-radius: 14px !important;
+  font-size: 13px !important;
+  line-height: 1.48 !important;
+  color: var(--text) !important;
+  background: #f3f7f6 !important;
+  border: 1px solid #e1ebe8 !important;
+}
+.aiUser .aiMessageBubble {
+  color: #fff !important;
+  background: #177b6d !important;
+  border-color: #177b6d !important;
+}
+.aiMessageBubble strong {
+  font-weight: 950 !important;
+}
+.aiComposer {
+  display: grid !important;
+  gap: 7px !important;
+}
+.aiComposer .input {
+  min-height: 76px !important;
+  resize: none !important;
+  font-size: 14px !important;
+}
+.aiComposer .btn {
+  min-height: 46px !important;
+  background: linear-gradient(180deg, #177b6d 0%, #126556 100%) !important;
+  border-color: #177b6d !important;
+}
+.aiMenuLink .ico {
+  background: #e8f5f1 !important;
+}

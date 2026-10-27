@@ -1,0 +1,41 @@
+@media (max-width: 899px) {
+  .premiumResultGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+  }
+  .premiumResultGrid > div {
+    min-width: 0 !important;
+    padding: 9px 6px !important;
+    border-radius: 14px !important;
+    text-align: center !important;
+    overflow: hidden !important;
+  }
+  .premiumResultGrid > div > span {
+    display: block !important;
+    font-size: 11px !important;
+    line-height: 1.15 !important;
+    white-space: nowrap !important;
+  }
+  .premiumResultGrid > div > strong {
+    display: block !important;
+    margin-top: 4px !important;
+    font-size: 18px !important;
+    line-height: 1.05 !important;
+    letter-spacing: -0.02em !important;
+    white-space: nowrap !important;
+  }
+  .premiumResultGrid .positiveText,
+  .premiumResultGrid .negativeText {
+    font-size: 17px !important;
+  }
+}
+.soldCarCard .carPrice,
+.soldCarCard .soldPrice,
+.soldCarCard .profit,
+.soldCarCard .carMoney,
+.carSoldCard .carPrice,
+.carSoldCard .soldPrice,
+.carSoldCard .profit {
+  white-space: nowrap !important;
+  word-break: normal !important;
+}

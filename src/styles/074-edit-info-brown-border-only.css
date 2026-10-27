@@ -1,0 +1,18 @@
+#sheet .carEditInfoBottomBtn {
+  background: transparent !important;
+  background-image: none !important;
+  color: #5a3a22 !important;
+  border: 1px solid #7a5130 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+#sheet .carEditInfoBottomBtn:hover,
+#sheet .carEditInfoBottomBtn:active,
+#sheet .carEditInfoBottomBtn:focus {
+  background: transparent !important;
+  background-image: none !important;
+  color: #5a3a22 !important;
+  border: 1px solid #7a5130 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}

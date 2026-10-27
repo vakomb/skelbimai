@@ -1,0 +1,116 @@
+.carMediaSection {
+  margin-top: 14px !important;
+}
+.carMediaToggle {
+  width: 100% !important;
+  min-height: 52px !important;
+  height: 52px !important;
+  padding: 10px 13px !important;
+  border-radius: 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+.carMediaToggleLeft,
+.carMediaToggleRight {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.carMediaToggleLeft strong {
+  font-size: 14px !important;
+}
+.carMediaIcon {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: rgba(37, 99, 235, 0.08);
+  font-size: 16px;
+}
+.carMediaToggleRight {
+  color: var(--muted);
+}
+.carMediaCount,
+.carMediaPanelCount {
+  min-width: 23px;
+  height: 23px;
+  padding: 0 7px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  font-size: 11px;
+  font-weight: 900;
+}
+.carMediaChevron {
+  font-size: 17px;
+  line-height: 1;
+}
+.carMediaPanel {
+  margin-top: 9px !important;
+  padding: 13px !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 18px !important;
+  background: var(--surface-2) !important;
+}
+.carMediaPanel[hidden] {
+  display: none !important;
+}
+.carMediaPanelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 11px;
+}
+.carMediaPanelHead strong {
+  display: block;
+  font-size: 14px;
+}
+.carMediaPanelHead span {
+  display: block;
+  margin-top: 3px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.carMediaPanelCount {
+  background: var(--surface);
+}
+.carMediaUpload {
+  margin-bottom: 10px !important;
+}
+.carMediaUpload span strong {
+  font-size: 13px !important;
+}
+.carMediaUpload span small {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.carPhotoGrid {
+  margin-top: 0 !important;
+}
+.carPhotosEmpty {
+  min-height: 90px !important;
+}
+#sheet .taskGroupHead h3 {
+  font-size: 15px !important;
+}
+#sheet .garageCarTaskHead strong,
+#sheet .premiumChecklist .listItem strong {
+  font-size: 15px !important;
+}
+#sheet .premiumChecklist .listItem .small {
+  font-size: 12px !important;
+}
+#sheet .carBottomCostGrid .premiumStat span {
+  font-size: 12px !important;
+}
+#sheet .carBottomCostGrid .premiumStat strong {
+  font-size: 18px !important;
+}

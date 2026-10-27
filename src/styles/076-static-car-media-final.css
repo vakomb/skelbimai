@@ -1,0 +1,13 @@
+#sheet .carMediaSection {
+  width: 100% !important;
+  margin-top: 14px !important;
+}
+#sheet .carMediaSection .premiumSectionHead {
+  display: flex !important;
+}
+#sheet .carPhotoGrid {
+  display: grid !important;
+}
+#sheet .premiumMediaActions {
+  display: grid !important;
+}

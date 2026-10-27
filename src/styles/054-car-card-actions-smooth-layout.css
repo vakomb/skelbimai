@@ -1,0 +1,37 @@
+.carTasksSectionHead {
+  justify-content: center !important;
+  text-align: center !important;
+}
+.carTasksSectionHead .carTasksSectionTitle {
+  width: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+}
+.carTasksSectionHead h4 {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
+}
+.carSellAction {
+  width: 100% !important;
+  margin-top: 4px !important;
+  margin-bottom: 8px !important;
+}
+.carSellAction #sellCarBtn,
+.carSellAction #sellCarForm {
+  width: 100% !important;
+}
+.carDetailActions {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  flex-wrap: nowrap !important;
+}
+.carDetailActions .carDeleteReal {
+  margin-right: auto !important;
+}
+.carDetailActions #addChecklistBtn {
+  width: auto !important;
+  flex: 0 0 auto !important;
+}

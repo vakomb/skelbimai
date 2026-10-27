@@ -1,0 +1,21 @@
+.garageCarTaskHead .btn.secondary[data-open-car] {
+  font-size: 12px !important;
+  line-height: 1.15 !important;
+  min-height: 40px !important;
+  padding: 8px 12px !important;
+}
+.nav {
+  padding: 9px !important;
+  gap: 7px !important;
+}
+.navBtn {
+  min-height: 70px !important;
+  padding: 10px 7px !important;
+  gap: 6px !important;
+  font-size: 14px !important;
+  font-weight: 900 !important;
+  border-radius: 17px !important;
+}
+.navBtn .ico {
+  font-size: 26px !important;
+}

@@ -1,0 +1,39 @@
+#view-garage .garageCarTaskCard .listItem,
+#view-garage .garageCarTaskCard .listItem * {
+  font-size: 115% !important;
+}
+#view-garage .garageCarTaskCard .listItem .small,
+#view-garage .garageCarTaskCard .listItem .badge {
+  font-size: 12px !important;
+}
+#view-garage .garageCarTaskCard .listItem strong {
+  font-size: 15px !important;
+}
+#view-garage .garageCarTaskCard .listItem input[type="number"] {
+  font-size: 13px !important;
+}
+#view-garage .garageCarTaskCard .listItem .taskDue,
+#view-garage .garageCarTaskCard .listItem [class*="due"] {
+  font-size: 12px !important;
+}
+.taskCard strong,
+.topicTaskCard strong,
+.listItem strong {
+  font-size: 16px !important;
+}
+.taskCard .small,
+.topicTaskCard .small,
+.listItem .small {
+  font-size: 12px !important;
+}
+.taskCard .taskMeta,
+.topicTaskCard .topicTaskMeta,
+.listItem .taskMeta {
+  font-size: 12px !important;
+}
+.garageCarTaskHead strong {
+  font-size: 18px !important;
+}
+.garageCarTaskHead span {
+  font-size: 12px !important;
+}
