@@ -26,7 +26,6 @@
   --ds-r-ctl: 13px;
   --ds-r-btn: 14px;
   --ds-shadow: 0 1px 2px rgba(18, 35, 58, 0.04), 0 4px 14px rgba(18, 35, 58, 0.04);
-  --ds-gutter: 14px;
 }
 
 /* ---------- Pagrindas ir šriftas ---------- */
@@ -36,17 +35,7 @@ html:not(#ae):not(#af) body:not(#ae):not(#af) {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app {
-  padding-left: var(--ds-gutter) !important;
-  padding-right: var(--ds-gutter) !important;
-  box-sizing: border-box !important;
-}
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .view > .section,
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .view > div,
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .view > section {
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-}
+/* Ekrano kraštai paliekami tokie, kokie buvo iki v54 (platus išdėstymas). */
 
 /* Antraštės */
 html:not(#ae):not(#af) body:not(#ae):not(#af) .app .view h2,

@@ -492,3 +492,50 @@ html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 
   grid-column: auto !important;
   grid-row: auto !important;
 }
+
+/* ---------- Platus išdėstymas (iPhone 15 Pro Max, 430 px) ----------
+   Ekrano kraštai 9 px kaip anksčiau; vidinės paraštės sumažintos, kad laukai ir kortelės būtų kuo platesni. */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage #addCarPanel,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .accountingWorkspace.show,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app #menuInlineDisclosure.menuDisclosure {
+  padding: 12px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .cfCardV51,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .regCardV50 {
+  padding: 14px 12px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .cfGridV51 {
+  column-gap: 8px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .premiumDetailBody > section,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .premiumDetailBody
+  > .premiumMedia,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .premiumDetailBody
+  > .cdInfoV51,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .premiumDetailBody > details,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .premiumDetailBody
+  > .carBottomCostGrid,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .premiumDetailBody
+  > .premiumResultGrid {
+  padding: 14px 12px !important;
+}
