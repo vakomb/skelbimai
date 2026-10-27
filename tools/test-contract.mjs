@@ -63,13 +63,10 @@ const pre = await ev(() => ({
   ta: document.getElementById("ct_ta")?.value
 }));
 check(
-  pre.form && pre.make === "Nissan" && pre.vin === "JN1TANT31U0000001" && pre.car === "car-demo-1",
-  "atidaroma iš automobilio kortelės su duomenimis " + JSON.stringify(pre)
+  pre.form && pre.car === "car-demo-1" && !pre.make && !pre.ta,
+  "atidaroma iš kortelės; žinomi duomenys (markė, VIN, TA) neberodomi " + JSON.stringify(pre)
 );
-check(
-  pre.role === "buyer" && pre.price === "4500" && pre.ta === "valid",
-  "įmonė perka, kaina = pirkimo kaina, TA galioja"
-);
+check(pre.role === "buyer" && pre.price === "4500", "įmonė perka, kaina = pirkimo kaina");
 const dateInfo = await ev(() => {
   const i = document.getElementById("ctDate"),
     r = i.getBoundingClientRect();
@@ -86,6 +83,26 @@ check(
 );
 await p.fill("#ctDate", "2026-10-15");
 check((await ev(() => document.getElementById("ctDate").value)) === "2026-10-15", "data įrašoma");
+const shown = await ev(() =>
+  [
+    "ctregMake",
+    "ctvin",
+    "ctplate",
+    "ctmileage",
+    "ctregistrationDoc",
+    "ctsdk",
+    "ctEvents",
+    "ct_payment",
+    "ctInsurance"
+  ].filter(id => document.getElementById(id))
+);
+check(
+  shown.join() === "ctregistrationDoc,ctsdk",
+  "rodomi tik trūkstami laukai (liudijimo nr., SDK), be įvykių / atsiskaitymo / draudimo: " + shown.join()
+);
+const handHidden = await ev(() => document.getElementById("ctPartyWrap").hidden);
+check(handHidden, "numatyta – kita šalis pildys ranka (laukai paslėpti)");
+await ev(() => document.querySelector('[data-ct-seg="pmode"] [data-seg-value="app"]').click());
 await ev(() => {
   const s = (id, v) => (document.getElementById(id).value = v);
   s("ctPName", "Jonas Jonaitis");
@@ -93,12 +110,20 @@ await ev(() => {
   s("ctPAddress", "Laisvės al. 1, Kaunas");
   s("ctPPhone", "+370 600 00000");
   s("ctPEmail", "jonas@pastas.lt");
-  s("ctMileage", "245000");
-  s("ctSdk", "AB12CD34");
-  s("ctEvents", "Įbrėžimas kairėse duryse, keistas priekinis žibintas");
-  s("ctTerms", "Automobilis parduodamas su žieminėmis padangomis.");
-  document.querySelector('[data-ct-defect="Lights"]').click();
+  s("ctsdk", "AB12CD34");
+  s("ctregistrationDoc", "K1281961");
 });
+const overflow = await ev(() =>
+  [...document.querySelectorAll("#ctform *")]
+    .filter(e => {
+      const r = e.getBoundingClientRect(),
+        c = e.closest(".cfCardV51")?.getBoundingClientRect();
+      return c && r.width && r.right > c.right + 1;
+    })
+    .map(e => e.id || e.className)
+    .slice(0, 5)
+);
+check(!overflow.length, "niekas neišlenda už kortelės ribų " + overflow.join(","));
 await p.screenshot({ path: path.join(root, ".verify/contract-form.png") });
 await ev(() => document.getElementById("ctGenerate").click());
 await p.waitForFunction(() => !document.getElementById("ctResult").hidden, null, { timeout: 30000 });
@@ -118,6 +143,10 @@ check(
   "PDF prisegtas prie automobilio kaip pirkimo sutartis"
 );
 check(car.ppParty?.name === "Jonas Jonaitis", "kita šalis įsimenama");
+check(
+  car.sdk === "AB12CD34" && car.registrationDoc === "K1281961",
+  "trūkę duomenys išsaugoti automobilio kortelėje"
+);
 await ev(() => document.querySelector("#ctClose").click());
 await p.waitForTimeout(300);
 await ev(() => document.querySelector('.navBtn[data-view="accounting"]').click());

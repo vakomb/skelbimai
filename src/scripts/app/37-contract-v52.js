@@ -426,15 +426,17 @@ async function ctRenderPagesV52(d) {
   ev.forEach(([r, s]) => textIn(r, s, { pt: 9, w: 500 }));
   cells(F.price, String(Math.round(Number(d.price) || 0)), { align: "right" });
   textIn(F.priceWords, ctMoneyWordsV52(d.price), { pt: 10, w: 600 });
+  // Atsiskaitymo būdas / momentas, draudimas, įvykiai ir trūkumai žymimi tik jei nurodyti (kitu atveju – ranka).
   if (d.payment === "cash") tick(F.payCash);
-  else tick(F.payBank);
+  if (d.payment === "bank") tick(F.payBank);
+  if (d.payWhen === "now") tick(F.whenNow);
   if (d.payWhen === "other") {
     tick(F.whenOther);
     textIn(F.whenOtherText, d.payWhenText, { pt: 9 });
-  } else tick(F.whenNow);
+  }
   if (d.insurance) tick(F.insurance);
   ctSplitLinesV53(d.terms, [F.extra1, F.extra2], 9).forEach(([r, s]) => textIn(r, s, { pt: 9, w: 500 }));
-  const signName = p => (p.type === "company" ? [p.rep, p.name].filter(Boolean).join(", ") : p.name);
+  const signName = p => (p.type === "company" ? [p.rep, p.name].filter(Boolean).join(", ") : p.name || "");
   textIn(F.sSign, signName(d.seller), { pt: 9.5 });
   textIn(F.bSign, signName(d.buyer), { pt: 9.5 });
   return pages;
@@ -503,21 +505,83 @@ function ctCarVehicleV52(car) {
   };
 }
 
-const CT_DEFECTS_V53 = [
-  ["Brakes", "Stabdžių sistema"],
-  ["Steering", "Vairo mechanizmas ir pakaba"],
-  ["Lights", "Apšvietimas ir šviesos signalai"],
-  ["Safety", "Vairuotojo ir keleivių saugos sistemos"],
-  ["Exhaust", "Dujų išmetimo sistema"]
+// ---------- Sutarties langas (v55) ----------
+// Rodoma tik tai, ko trūksta: automobilio duomenys imami iš kortelės, kita šalis gali būti pildoma ranka popieriuje.
+const CT_CAR_FIELDS_V55 = [
+  { key: "regMake", label: "Markė", get: c => c.regMake || String(c.name || "").split(/\s+/)[0] || "" },
+  {
+    key: "regModel",
+    label: "Modelis",
+    get: c =>
+      c.regModel ||
+      String(c.name || "")
+        .split(/\s+/)
+        .slice(1)
+        .join(" ")
+  },
+  { key: "plate", label: "Valst. numeris", caps: true, max: 10, get: c => c.plate || "" },
+  { key: "vin", label: "VIN", caps: true, max: 17, wide: true, get: c => c.vin || "" },
+  {
+    key: "registrationDoc",
+    label: "Liudijimo nr.",
+    caps: true,
+    max: 12,
+    get: c => c.registrationDoc || c.regDoc || ""
+  },
+  {
+    key: "mileage",
+    label: "Rida, km",
+    num: true,
+    get: c => ((c.mileage ?? "") === null ? "" : String(c.mileage ?? ""))
+  },
+  { key: "sdk", label: "SDK", caps: true, max: 8, get: c => c.sdk || "" }
 ];
-function ctPartyFieldsV53(p = {}) {
-  return `<div class="ctPartyV52">
-    ${ctField("ctPName", "Vardas, pavardė", p.name || "")}
-    <div class="cfGridV51">${ctField("ctPCode", "Asmens kodas", p.code || "", 'inputmode="numeric" maxlength="11"')}${ctField("ctPPhone", "Telefonas", p.phone || "", 'type="tel" inputmode="tel"')}</div>
-    ${ctField("ctPEmail", "El. paštas", p.email || "", 'type="email" inputmode="email"')}
-    ${ctField("ctPAddress", "Adresas", p.address || "")}
-    <div class="ctRepV52">${ctField("ctPRep", "Atstovas (vardas, pavardė)", p.rep || "")}</div>
-  </div>`;
+function ctInputV55(f, value = "") {
+  const id = "ct" + f.key;
+  const attrs = f.num
+    ? 'type="number" min="0" inputmode="numeric"'
+    : `maxlength="${f.max || 60}" ${f.caps ? 'autocapitalize="characters" spellcheck="false"' : ""}`;
+  return `<div class="field ${f.wide ? "ctWideV55" : ""}"><label for="${id}">${f.label}</label><input class="input" id="${id}" value="${escapeHTML(value)}" autocomplete="off" ${attrs}></div>`;
+}
+function ctVehicleHTMLV55(car) {
+  if (!car) {
+    return (
+      regCardHTMLV50("ct", {}) +
+      `<section class="cfCardV51"><div class="cfGridV51">${ctInputV55(CT_CAR_FIELDS_V55[5])}${ctInputV55(CT_CAR_FIELDS_V55[6])}</div><div class="ctMt"><span class="cfLabelV51">Techninė apžiūra</span>${ctSegV52(
+        "ta",
+        [
+          ["valid", "Galioja"],
+          ["invalid", "Negalioja"]
+        ],
+        ""
+      )}</div></section>`
+    );
+  }
+  const missing = CT_CAR_FIELDS_V55.filter(f => !String(f.get(car)).trim());
+  const taKnown = ["valid", "invalid"].includes(car.taStatus);
+  const regMissing = missing.some(f =>
+    ["regMake", "regModel", "plate", "vin", "registrationDoc"].includes(f.key)
+  );
+  const summary = `<section class="cfCardV51 ctCarSumV55"><div class="ctCarSumTopV55"><strong>${escapeHTML([CT_CAR_FIELDS_V55[0].get(car), CT_CAR_FIELDS_V55[1].get(car)].filter(Boolean).join(" ") || car.name || "Automobilis")}</strong>${car.plate ? `<span class="cdChipV51 plate">${escapeHTML(car.plate)}</span>` : ""}</div>${car.vin ? `<div class="ctCarVinV55">${escapeHTML(car.vin)}</div>` : ""}</section>`;
+  if (!missing.length && taKnown) return summary;
+  const scan = regMissing
+    ? `<div class="regScanBtnsV50"><label class="regScanBtnV50 primary">${regIconV50("camera")}<span>Fotografuoti</span><input id="ctregCamera" type="file" accept="image/*" capture="environment"></label><label class="regScanBtnV50">${regIconV50("gallery")}<span>Iš galerijos</span><input id="ctregGallery" type="file" accept="image/*"></label></div><div class="regScanStatusV50" id="ctregStatus" hidden><div class="regScanTopV50"><img id="ctregPreview" alt=""><div><span class="regScanMsgV50" id="ctregMsg"></span><div class="regScanBarV50"><i id="ctregBar"></i></div></div></div></div>`
+    : "";
+  return (
+    summary +
+    `<section class="cfCardV51 ${regMissing ? "regCardV50" : ""}" id="${regMissing ? "ctregCard" : "ctMissingCard"}"><div class="ctCardTitleV55">Trūksta duomenų</div>${scan}<div class="cfGridV51 ctMt">${missing.map(f => ctInputV55(f)).join("")}</div>${
+      taKnown
+        ? ""
+        : `<div class="ctMt"><span class="cfLabelV51">Techninė apžiūra</span>${ctSegV52(
+            "ta",
+            [
+              ["valid", "Galioja"],
+              ["invalid", "Negalioja"]
+            ],
+            ""
+          )}</div>`
+    }</section>`
+  );
 }
 function openContractSheetV52({ carId = "" } = {}) {
   const cars = (state.cars || []).slice();
@@ -529,97 +593,64 @@ function openContractSheetV52({ carId = "" } = {}) {
       : c.status === "parduotas" || (c.documents || []).some(x => x.kind === "purchase")
         ? "seller"
         : "buyer";
-  const role = defaultRole(car);
   const time = new Date().toTimeString().slice(0, 5);
-  const ta0 = car?.taStatus === "valid" ? "valid" : car?.taStatus === "invalid" ? "invalid" : "";
-  openSheet(`<div class="sheetHead cfHeadV51"><h3>Pirkimo–pardavimo sutartis</h3><button class="closeBtn" id="ctClose" type="button" aria-label="Uždaryti">✕</button></div>
+  openSheet(`<div class="sheetHead cfHeadV51 ctHeadV55"><span></span><h3>PP sutartis</h3><button class="closeBtn" id="ctClose" type="button" aria-label="Uždaryti">✕</button></div>
   <div class="cfFormV51 ctFormV52" id="ctform">
-    <section class="cfCardV51"><div class="field"><label for="ctCar">Automobilis</label><select class="input" id="ctCar"><option value="">Kitas (skenuoti arba įvesti)</option>${cars
-      .map(
-        c =>
-          `<option value="${escapeHTML(c.id)}" ${car && c.id === car.id ? "selected" : ""}>${escapeHTML(c.name || "Automobilis")}${c.plate ? " · " + escapeHTML(c.plate) : ""}${c.status === "parduotas" ? " · parduotas" : ""}</option>`
-      )
-      .join("")}</select></div>
-      <div class="ctRoleV52"><span class="cfLabelV51">${escapeHTML(co.name || "Įmonė")} šiame sandoryje</span>${ctSegV52(
+    <section class="cfCardV51">
+      <div class="field"><label for="ctCar">Automobilis</label><select class="input" id="ctCar"><option value="">Kitas automobilis</option>${cars
+        .map(
+          c =>
+            `<option value="${escapeHTML(c.id)}" ${car && c.id === car.id ? "selected" : ""}>${escapeHTML(c.name || "Automobilis")}${c.plate ? " · " + escapeHTML(c.plate) : ""}</option>`
+        )
+        .join("")}</select></div>
+      <div class="ctMt"><span class="cfLabelV51">Mano įmonė</span>${ctSegV52(
         "role",
         [
           ["buyer", "Perka"],
           ["seller", "Parduoda"]
         ],
-        role
+        defaultRole(car)
       )}</div>
     </section>
-    <div id="ctVehicleSlot">${regCardHTMLV50("ct", ctCarVehicleV52(car))}</div>
-    <section class="cfCardV51"><div class="cfGridV51">
-      ${ctField("ctMileage", "Rida, km", car?.mileage ?? "", 'type="number" min="0" inputmode="numeric"')}
-      ${ctField("ctSdk", "SDK", car?.sdk || "", 'maxlength="8" autocapitalize="characters"')}
-    </div>
-    <div class="ctMt"><span class="cfLabelV51">Techninė apžiūra</span>${ctSegV52(
-      "ta",
-      [
-        ["valid", "Galioja"],
-        ["invalid", "Negalioja"]
-      ],
-      ta0
-    )}</div>
-    <div class="ctMt"><span class="cfLabelV51">Buvo apgadinta eismo įvykių metu</span>${ctSegV52(
-      "damaged",
-      [
-        ["no", "Ne"],
-        ["yes", "Taip"]
-      ],
-      car?.ppDamaged || "no"
-    )}</div>
-    <div class="ctMt"><span class="cfLabelV51">Įvykiai, kuriuose apgadinta, žinomi</span>${ctSegV52(
-      "known",
-      [
-        ["no", "Nežinomi"],
-        ["yes", "Žinomi"]
-      ],
-      car?.ppKnown || "no"
-    )}</div>
-    <div class="ctMt"><span class="cfLabelV51">Trūkumai</span><div class="ctChecksV53">${CT_DEFECTS_V53.map(([k, t]) => `<label class="ctCheckV52"><input type="checkbox" data-ct-defect="${k}"><span>${t}</span></label>`).join("")}</div></div>
-    <div class="field ctMt"><label for="ctEvents">Informacija apie įvykius ir trūkumus</label><input class="input" id="ctEvents" autocomplete="off"></div>
-    </section>
-    <section class="cfCardV51"><span class="cfLabelV51" id="ctPartyTitle"></span>${ctSegV52(
-      "ptype",
-      [
-        ["person", "Fizinis asmuo"],
-        ["company", "Įmonė"]
-      ],
-      car?.ppParty?.type || "person"
-    )}${ctPartyFieldsV53(car?.ppParty)}</section>
+    <div id="ctVehicleSlot">${ctVehicleHTMLV55(car)}</div>
     <section class="cfCardV51">
       ${ctField("ctPrice", "Kaina, €", "", 'type="number" min="0" step="1" inputmode="numeric"')}
-      <div class="ctMt"><span class="cfLabelV51">Atsiskaitymo būdas</span>${ctSegV52(
-        "payment",
-        [
-          ["bank", "Pavedimu"],
-          ["cash", "Grynaisiais"]
-        ],
-        "bank"
-      )}</div>
-      <div class="ctMt"><span class="cfLabelV51">Atsiskaitymo momentas</span>${ctSegV52(
-        "paywhen",
-        [
-          ["now", "Pasirašant"],
-          ["other", "Kitu metu"]
-        ],
-        "now"
-      )}</div>
-      <div class="field ctMt" id="ctPayWhenWrap" style="display:none"><label for="ctPayWhenText">Kada atsiskaitoma</label><input class="input" id="ctPayWhenText" autocomplete="off"></div>
-      <label class="ctCheckV52"><input type="checkbox" id="ctInsurance"><span>Perduodami draudimo dokumentai</span></label>
       <div class="cfGridV51 ctMt"><div class="field"><label for="ctDate">Data</label><input class="input" id="ctDate" type="date" value="${todayISO()}"></div>${ctField("ctTime", "Laikas", time, 'type="time"')}</div>
-      <div class="ctMt">${ctField("ctPlace", "Valstybė", state.accounting.pp.country || "Lietuva")}</div>
     </section>
-    <details class="cfCardV51 ctMoreV52"><summary>Įmonės rekvizitai</summary>
+    <section class="cfCardV51">
+      <span class="cfLabelV51" id="ctPartyTitle"></span>${ctSegV52(
+        "pmode",
+        [
+          ["hand", "Pildys ranka"],
+          ["app", "Pildyti dabar"]
+        ],
+        car?.ppParty?.name ? "app" : "hand"
+      )}
+      <div class="ctPartyWrapV55" id="ctPartyWrap">
+        <div class="ctMt">${ctSegV52(
+          "ptype",
+          [
+            ["person", "Fizinis asmuo"],
+            ["company", "Įmonė"]
+          ],
+          car?.ppParty?.type || "person"
+        )}</div>
+        <div class="ctPartyV52">
+          ${ctField("ctPName", "Vardas, pavardė", car?.ppParty?.name || "")}
+          <div class="cfGridV51">${ctField("ctPCode", "Asmens kodas", car?.ppParty?.code || "", 'inputmode="numeric" maxlength="11"')}${ctField("ctPPhone", "Telefonas", car?.ppParty?.phone || "", 'type="tel" inputmode="tel"')}</div>
+          ${ctField("ctPEmail", "El. paštas", car?.ppParty?.email || "", 'type="email" inputmode="email"')}
+          ${ctField("ctPAddress", "Adresas", car?.ppParty?.address || "")}
+          <div class="ctRepV52">${ctField("ctPRep", "Atstovas", car?.ppParty?.rep || "")}</div>
+        </div>
+      </div>
+    </section>
+    <details class="cfCardV51 ctMoreV52" ${co.address && co.code ? "" : "open"}><summary>Mano įmonės duomenys</summary>
       ${ctField("ctCoName", "Pavadinimas", co.name)}
       <div class="cfGridV51">${ctField("ctCoCode", "Įmonės kodas", co.code)}${ctField("ctCoPhone", "Telefonas", co.phone)}</div>
       ${ctField("ctCoEmail", "El. paštas", co.email || "")}
       ${ctField("ctCoAddress", "Adresas", co.address || "")}
       ${ctField("ctCoRep", "Atstovas", co.representative || "")}
     </details>
-    <details class="cfCardV51 ctMoreV52"><summary>Papildoma informacija</summary><div class="field"><textarea class="input" id="ctTerms" rows="3"></textarea></div></details>
   </div>
   <button class="btn cfSaveV51" id="ctGenerate" type="button">Sukurti sutartį</button>
   <section class="ctResultV52" id="ctResult" hidden></section>`);
@@ -627,55 +658,46 @@ function openContractSheetV52({ carId = "" } = {}) {
   sheet.scrollTop = 0;
   const $ = id => document.getElementById(id);
   const val = id => ($(id)?.value || "").trim();
-  const seg = name => $("ct_" + name).value;
-  sheet.querySelectorAll("[data-ct-seg]").forEach(box =>
-    box.querySelectorAll("[data-seg-value]").forEach(btn =>
-      btn.addEventListener("click", () => {
-        const input = $("ct_" + box.dataset.ctSeg);
-        // TA galima ir „atžymėti“ – tada nežymimas nė vienas langelis.
-        const same = input.value === btn.dataset.segValue && box.dataset.ctSeg === "ta";
-        input.value = same ? "" : btn.dataset.segValue;
-        box
-          .querySelectorAll("[data-seg-value]")
-          .forEach(b => b.setAttribute("aria-checked", String(!same && b === btn)));
-        refresh();
-      })
-    )
-  );
+  const seg = name => $("ct_" + name)?.value || "";
+  const bindSegs = root =>
+    root.querySelectorAll("[data-ct-seg]").forEach(box => {
+      if (box.dataset.bound) return;
+      box.dataset.bound = "1";
+      box.querySelectorAll("[data-seg-value]").forEach(btn =>
+        btn.addEventListener("click", () => {
+          $("ct_" + box.dataset.ctSeg).value = btn.dataset.segValue;
+          box
+            .querySelectorAll("[data-seg-value]")
+            .forEach(b => b.setAttribute("aria-checked", String(b === btn)));
+          refresh();
+        })
+      );
+    });
   const refresh = () => {
-    const r = seg("role"),
-      company = seg("ptype") === "company";
-    $("ctPartyTitle").textContent = r === "buyer" ? "Pardavėjas" : "Pirkėjas";
+    const company = seg("ptype") === "company";
+    $("ctPartyTitle").textContent = seg("role") === "buyer" ? "Pardavėjo duomenys" : "Pirkėjo duomenys";
+    $("ctPartyWrap").hidden = seg("pmode") !== "app";
     sheet.querySelector('label[for="ctPName"]').textContent = company
       ? "Įmonės pavadinimas"
       : "Vardas, pavardė";
     sheet.querySelector('label[for="ctPCode"]').textContent = company ? "Įmonės kodas" : "Asmens kodas";
     sheet.querySelector(".ctRepV52").hidden = !company;
-    $("ctPayWhenWrap").style.display = seg("paywhen") === "other" ? "" : "none";
-    if (!$("ctPrice").dataset.touched && car) {
-      const pr = r === "buyer" ? car.buyPrice : car.soldPrice || "";
+    if (!$("ctPrice").dataset.touched) {
+      const pr = car ? (seg("role") === "buyer" ? car.buyPrice : car.soldPrice) : "";
       $("ctPrice").value = pr ? String(Math.round(pr)) : "";
     }
   };
-  $("ctPrice").addEventListener("input", () => ($("ctPrice").dataset.touched = "1"));
-  const bindVehicle = () => regBindCardV50("ct", () => ({ car, nameInputId: "" }));
+  const bindVehicle = () => {
+    bindSegs($("ctVehicleSlot"));
+    if ($("ctregCard")) regBindCardV50("ct", () => ({ car, nameInputId: "" }));
+  };
+  bindSegs(sheet);
   bindVehicle();
+  $("ctPrice").addEventListener("input", () => ($("ctPrice").dataset.touched = "1"));
   $("ctCar").addEventListener("change", () => {
     car = cars.find(c => c.id === $("ctCar").value) || null;
-    $("ctVehicleSlot").innerHTML = regCardHTMLV50("ct", ctCarVehicleV52(car));
+    $("ctVehicleSlot").innerHTML = ctVehicleHTMLV55(car);
     bindVehicle();
-    $("ctMileage").value = car?.mileage ?? "";
-    $("ctSdk").value = car?.sdk || "";
-    const p = car?.ppParty || {};
-    for (const [id, k] of [
-      ["ctPName", "name"],
-      ["ctPCode", "code"],
-      ["ctPPhone", "phone"],
-      ["ctPEmail", "email"],
-      ["ctPAddress", "address"],
-      ["ctPRep", "rep"]
-    ])
-      $(id).value = p[k] || "";
     delete $("ctPrice").dataset.touched;
     sheet.querySelector(`[data-ct-seg="role"] [data-seg-value="${defaultRole(car)}"]`)?.click();
     refresh();
@@ -687,14 +709,16 @@ function openContractSheetV52({ carId = "" } = {}) {
     const btn = $("ctGenerate");
     if (btn.disabled) return;
     try {
-      const make = val("ctregMake"),
-        model = val("ctregModel");
-      if (!make && !model) throw Error("Įrašykite markę ir modelį arba nuskenuokite liudijimą.");
-      if (!val("ctvin")) throw Error("Įrašykite VIN numerį.");
-      if (!val("ctMileage")) throw Error("Įrašykite ridą.");
+      // Automobilio duomenys: iš kortelės, o trūkstami – iš formos.
+      const v = {};
+      for (const f of CT_CAR_FIELDS_V55)
+        v[f.key] = $("ct" + f.key) ? val("ct" + f.key) : car ? String(f.get(car)).trim() : "";
+      if (!v.regMake && !v.regModel) throw Error("Įrašykite markę ir modelį.");
+      if (v.vin && !/^[A-HJ-NPR-Z0-9]{17}$/i.test(v.vin)) throw Error("VIN turi būti 17 simbolių.");
       const price = Number(val("ctPrice"));
       if (!Number.isFinite(price) || price <= 0) throw Error("Įrašykite kainą.");
-      if (!val("ctPName"))
+      const byHand = seg("pmode") !== "app";
+      if (!byHand && !val("ctPName"))
         throw Error(seg("role") === "buyer" ? "Įrašykite pardavėją." : "Įrašykite pirkėją.");
       btn.disabled = true;
       btn.textContent = "Kuriama…";
@@ -707,7 +731,6 @@ function openContractSheetV52({ carId = "" } = {}) {
         representative: val("ctCoRep")
       };
       Object.assign(state.accounting.pp.company, company);
-      state.accounting.pp.country = val("ctPlace");
       const us = {
         type: "company",
         name: company.name,
@@ -717,49 +740,49 @@ function openContractSheetV52({ carId = "" } = {}) {
         email: company.email,
         rep: company.representative
       };
-      const other = {
-        type: seg("ptype"),
-        name: val("ctPName"),
-        code: val("ctPCode"),
-        address: val("ctPAddress"),
-        phone: val("ctPPhone"),
-        email: val("ctPEmail"),
-        rep: val("ctPRep")
-      };
+      const other = byHand
+        ? {}
+        : {
+            type: seg("ptype"),
+            name: val("ctPName"),
+            code: val("ctPCode"),
+            address: val("ctPAddress"),
+            phone: val("ctPPhone"),
+            email: val("ctPEmail"),
+            rep: val("ctPRep")
+          };
+      const ta = seg("ta") || (car && ["valid", "invalid"].includes(car.taStatus) ? car.taStatus : "");
       const date = val("ctDate") || todayISO();
       const num = ctNextNumberV52(date);
       const d = {
         number: num.number,
         date,
         time: val("ctTime"),
-        country: val("ctPlace") || "Lietuva",
+        country: "Lietuva",
         seller: seg("role") === "buyer" ? other : us,
         buyer: seg("role") === "buyer" ? us : other,
-        make,
-        model,
-        vin: val("ctvin").toUpperCase(),
-        plate: val("ctplate").toUpperCase(),
-        regDoc: val("ctregistrationDoc").toUpperCase(),
-        mileage: val("ctMileage"),
-        sdk: val("ctSdk").toUpperCase(),
-        ta: seg("ta"),
-        damaged: seg("damaged"),
-        eventsKnown: seg("known"),
-        defects: [...sheet.querySelectorAll("[data-ct-defect]:checked")].map(x => x.dataset.ctDefect),
-        events: val("ctEvents"),
-        price,
-        payment: seg("payment"),
-        payWhen: seg("paywhen"),
-        payWhenText: val("ctPayWhenText"),
-        insurance: $("ctInsurance").checked,
-        terms: val("ctTerms")
+        make: v.regMake,
+        model: v.regModel,
+        vin: v.vin.toUpperCase(),
+        plate: v.plate.toUpperCase(),
+        regDoc: v.registrationDoc.toUpperCase(),
+        mileage: v.mileage,
+        sdk: v.sdk.toUpperCase(),
+        ta,
+        price
       };
       const pages = await ctRenderPagesV52(d);
       const blob = await ctPdfFromCanvasesV52(pages);
       num.commit();
-      const fileName = `${d.number}-${accountingSafeName([make, model].join(" "))}.pdf`;
+      const fileName = `${d.number}-${accountingSafeName([d.make, d.model].join(" "))}.pdf`;
       let attached = false;
       if (car) {
+        // Ranka įvesti trūkstami duomenys išsaugomi ir automobilio kortelėje.
+        for (const f of CT_CAR_FIELDS_V55) {
+          if (!$("ct" + f.key) || !v[f.key]) continue;
+          car[f.key] = f.num ? Number(v[f.key]) : f.caps ? v[f.key].toUpperCase() : v[f.key];
+        }
+        if (seg("ta") && !["valid", "invalid"].includes(car.taStatus)) car.taStatus = seg("ta");
         try {
           const key = await putDocument(blob);
           car.documents = [
@@ -775,9 +798,7 @@ function openContractSheetV52({ carId = "" } = {}) {
               addedDateISO: todayISO()
             }
           ];
-          car.ppParty = other;
-          car.ppDamaged = d.damaged;
-          car.ppKnown = d.eventsKnown;
+          if (!byHand) car.ppParty = other;
           attached = true;
         } catch (e) {
           console.warn("Sutarties prisegimas", e);
@@ -785,15 +806,14 @@ function openContractSheetV52({ carId = "" } = {}) {
       }
       addHistory(
         "Sukurta PP sutartis",
-        `${d.number} · ${[make, model].join(" ")} · ${ctMoneyV52(price)}`,
+        `${d.number} · ${[d.make, d.model].join(" ")} · ${ctMoneyV52(price)}`,
         "🧾"
       );
       saveState();
       const url = URL.createObjectURL(blob);
-      const preview = pages[0].toDataURL("image/jpeg", 0.6);
       const res = $("ctResult");
       res.hidden = false;
-      res.innerHTML = `<img src="${preview}" alt="Sutarties peržiūra"><div><strong>${escapeHTML(d.number)}</strong><span>${pages.length} psl.${attached ? " · prisegta prie automobilio" : ""}</span></div><div class="ctResultBtnsV52"><a class="btn" id="ctDownload" href="${url}" download="${escapeHTML(fileName)}">Atsisiųsti PDF</a><button class="btn secondary" id="ctShare" type="button">Dalintis</button></div>`;
+      res.innerHTML = `<img src="${pages[0].toDataURL("image/jpeg", 0.6)}" alt=""><div><strong>Sutartis paruošta</strong><span>${attached ? "Prisegta prie automobilio" : escapeHTML(d.number)}</span></div><div class="ctResultBtnsV52"><a class="btn" id="ctDownload" href="${url}" download="${escapeHTML(fileName)}">Atsisiųsti</a><button class="btn secondary" id="ctShare" type="button">Dalintis</button></div>`;
       const file = new File([blob], fileName, { type: "application/pdf" });
       const share = $("ctShare");
       if (!(navigator.canShare && navigator.canShare({ files: [file] }))) share.remove();

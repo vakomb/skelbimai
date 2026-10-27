@@ -1,0 +1,494 @@
+/* Automobilio kortelė (v55) ir PP sutarties langas. Prefiksas kaip dizaino sistemoje (+4 ID). */
+
+/* ---------- Antraštė: pavadinimas centre, ✕ dešinėje ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .premiumSheetHead {
+  display: grid !important;
+  grid-template-columns: 40px minmax(0, 1fr) 40px !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 0 0 14px !important;
+  padding: 2px 0 12px !important;
+  border-bottom: 1px solid var(--ds-line) !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .premiumSheetHead
+  .premiumSheetTitle {
+  grid-column: 2 !important;
+  min-width: 0 !important;
+  width: auto !important;
+  text-align: center !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .premiumSheetHead h3 {
+  margin: 0 !important;
+  font-size: 19px !important;
+  line-height: 1.25 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .premiumSheetHead .closeBtn {
+  grid-column: 3 !important;
+  justify-self: end !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .cdHeadSpacerV55 {
+  grid-column: 1;
+}
+
+/* ---------- Sekcijos – vienodos baltos kortelės ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .premiumDetailBody > section,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .premiumDetailBody
+  > .premiumMedia,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .premiumDetailBody
+  > .cdInfoV51,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .premiumDetailBody > details,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .premiumDetailBody
+  > .carBottomCostGrid,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .premiumDetailBody
+  > .premiumResult {
+  margin: 0 0 10px !important;
+  padding: 16px !important;
+  border: 1px solid var(--ds-line) !important;
+  border-radius: 20px !important;
+  background: #fff !important;
+  box-shadow: var(--ds-shadow) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .premiumSectionHead,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .carTasksSectionHead {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  text-align: left !important;
+  margin: 0 0 10px !important;
+  padding: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .premiumSectionHead h4,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .carTasksSectionHead h4 {
+  margin: 0 !important;
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  text-align: left !important;
+  color: var(--ds-ink) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .cdCountV55 {
+  margin-left: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--ds-soft);
+  color: var(--ds-muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Kainos – viena kortelė su dviem stulpeliais */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .carBottomCostGrid,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .premiumResultGrid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 0 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .carBottomCostGrid
+  .premiumStat,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .premiumResultGrid > div {
+  padding: 2px 0 2px 14px !important;
+  border: 0 !important;
+  border-left: 1px solid var(--ds-line) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  text-align: left !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .carBottomCostGrid
+  .premiumStat:first-child,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .premiumResultGrid
+  > div:first-child {
+  padding-left: 0 !important;
+  border-left: 0 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .carBottomCostGrid
+  .premiumStat
+  span,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .premiumResultGrid span {
+  display: block !important;
+  margin-bottom: 3px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .carBottomCostGrid
+  .premiumStat
+  strong,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .premiumResultGrid strong {
+  font-size: 20px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.01em !important;
+  color: var(--ds-ink) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .premiumResultGrid {
+  grid-template-columns: 1fr 1fr 1fr !important;
+}
+
+/* ---------- Užduotys: lygios eilutės su skirtukais ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .premiumChecklist {
+  display: block !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .premiumChecklist
+  .carTaskRow {
+  margin: 0 !important;
+  padding: 12px 0 !important;
+  border: 0 !important;
+  border-top: 1px solid var(--ds-line) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  grid-template-columns: 26px minmax(0, 1fr) auto !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .premiumChecklist
+  .carTaskRow:first-child {
+  border-top: 0 !important;
+  padding-top: 4px !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .premiumChecklist
+  .carTaskNumber {
+  display: none !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .premiumChecklist
+  .carTaskMain
+  strong {
+  font-size: 15.5px !important;
+  font-weight: 700 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .premiumChecklist
+  .carTaskRow
+  input[type="checkbox"] {
+  width: 22px !important;
+  height: 22px !important;
+  accent-color: var(--ds-brand) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .premiumChecklist .dueChip {
+  margin-top: 5px !important;
+  min-height: 22px !important;
+  padding: 0 8px !important;
+  font-size: 12px !important;
+  border: 0 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .premiumChecklist
+  .carTaskReceiptMeta,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .premiumChecklist
+  .carTaskMain
+  .small {
+  margin-top: 4px !important;
+  font-size: 13px !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .premiumChecklist
+  .carTaskExpenseInput {
+  width: 84px !important;
+  min-width: 84px !important;
+  max-width: 84px !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  text-align: right !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .premiumChecklist
+  .smallBtn.danger {
+  background: transparent !important;
+  color: #b9c2cd !important;
+  font-size: 17px !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  #addChecklistBtn.carTasksAddWide {
+  width: 100% !important;
+  min-height: 46px !important;
+  margin-top: 10px !important;
+  border: 1px dashed var(--ds-line-2) !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  color: var(--ds-brand) !important;
+  -webkit-text-fill-color: var(--ds-brand) !important;
+  font-size: 15px !important;
+  font-weight: 750 !important;
+  box-shadow: none !important;
+}
+
+/* ---------- Nuotraukos ---------- */
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  #carDetailPhotos
+  .premiumUpload {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  min-height: 46px !important;
+  border: 1px dashed var(--ds-line-2) !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  color: var(--ds-brand) !important;
+  font-size: 15px !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  #carDetailPhotos
+  .premiumUploadIcon {
+  background: transparent !important;
+  color: var(--ds-brand) !important;
+  width: auto !important;
+  height: auto !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  #carDetailPhotos.cdNoPhotosV55
+  .premiumThumbGrid,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  #carDetailPhotos.cdNoPhotosV55
+  .premiumMediaActions,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  #carDetailPhotos.cdNoPhotosV55
+  .premiumCount {
+  display: none !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  #carDetailPhotos
+  .premiumThumbGrid {
+  margin-top: 10px !important;
+}
+
+/* ---------- Dokumentai ---------- */
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  #carDetailDocuments
+  > summary {
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  color: var(--ds-ink) !important;
+  padding: 0 !important;
+}
+
+/* ---------- Veiksmai ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .carBottomActions {
+  margin-top: 6px !important;
+}
+
+/* ---------- PP sutarties langas ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .ctHeadV55 {
+  display: grid !important;
+  grid-template-columns: 40px minmax(0, 1fr) 40px !important;
+  align-items: center !important;
+  padding-bottom: 12px !important;
+  border-bottom: 1px solid var(--ds-line) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .ctHeadV55 h3 {
+  text-align: center !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .ctHeadV55 .closeBtn {
+  justify-self: end !important;
+}
+.ctCarSumTopV55 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.ctCarSumTopV55 strong {
+  font-size: 17px;
+  font-weight: 800;
+  color: #12233a;
+}
+.ctCarVinV55 {
+  margin-top: 8px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: #2c3d52;
+}
+.ctCardTitleV55 {
+  margin-bottom: 12px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #12233a;
+}
+.ctWideV55 {
+  grid-column: 1 / -1;
+}
+.ctPartyWrapV55[hidden] {
+  display: none !important;
+}
+
+/* ---------- Tinkleliai niekada neišlenda už kortelės (datos / laiko laukai) ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .cfGridV51,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .grid2,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .grid2,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .historyDateRow,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .accountingRangeGrid {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) input[type="date"],
+html:not(#ae):not(#af) body:not(#ae):not(#af) input[type="time"] {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .field,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .historyDateRow > label {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .premiumDetailBody
+  > .premiumResultGrid {
+  margin: 0 0 10px !important;
+  padding: 16px !important;
+  border: 1px solid var(--ds-line) !important;
+  border-radius: 20px !important;
+  background: #fff !important;
+  box-shadow: var(--ds-shadow) !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .premiumResult:not(:has(.premiumResultGrid)) {
+  display: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .carTasksSectionTitle {
+  flex: 1 1 auto !important;
+  text-align: left !important;
+  justify-content: flex-start !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .carBottomCostGrid
+  .premiumStat,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .premiumResultGrid > div {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cfSaveV51 {
+  width: 100% !important;
+  min-height: 52px !important;
+  margin-top: 12px !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  border-radius: 15px !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .carBottomCostGrid
+  .premiumStat
+  > *,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .premiumResultGrid > div > * {
+  text-align: left !important;
+  width: auto !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .premiumResultGrid > div {
+  grid-column: auto !important;
+  grid-row: auto !important;
+}

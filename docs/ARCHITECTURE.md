@@ -112,6 +112,12 @@ Visos taisyklės turi prefiksą `html:not(#ae):not(#af) body:not(#ae):not(#af)` 
 
 Vadybininkas nebesiūlo „Kodėl dar ne skelbime?“ ir kainos peržiūros pagal skelbimo dienas, nes skelbimo laukas pašalintas (`35-car-ui-v51.js`).
 
+## PP langas ir automobilio kortelė (v55)
+
+- **PP langas** (`37-contract-v52.js`, `openContractSheetV52`): pasirinkus automobilį rodoma jo santrauka ir **tik trūkstami laukai** (`CT_CAR_FIELDS_V55`: markė, modelis, numeris, VIN, liudijimas, rida, SDK, o TA – jei nežinoma). Ranka įvesti trūkę duomenys išsaugomi automobilio kortelėje. Kita šalis numatytai „Pildys ranka“, todėl sutartyje jos laukai lieka tušti. Įvykiai, trūkumai, atsiskaitymo būdas ir momentas, draudimo perdavimas formoje nerodomi ir PDF'e nežymimi, jie pildomi ranka.
+- **Automobilio kortelė** (`38-car-card-v55.js`, `167-car-card-v55.css`): antraštė „markė modelis“ centre, ✕ dešinėje; sekcija „Užduotys“ su skaitikliu (pvz. 1/3); visos sekcijos vienodos baltos kortelės; kainos vienoje kortelėje; be emoji; nuotraukų sekcija be tuščio laukelio.
+- Tinkleliai (`cfGridV51`, `grid2`, datų eilutės) naudoja `minmax(0,1fr)`, todėl datos ir laiko laukai neišlenda už kortelės.
+
 ## Perrašymų grandinės (svarbu!)
 
 Programa augo sluoksniais: nauja versija **perrašo** seną funkciją (`render = async function () { await __renderPP(); … }`). Todėl:
