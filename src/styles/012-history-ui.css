@@ -1,0 +1,131 @@
+.menuHistorySection {
+  display: none !important;
+}
+.menuHistorySection.open {
+  display: block !important;
+}
+.historyProPanel {
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+.historyProHead h2 {
+  margin: 0;
+  font-size: 20px !important;
+}
+.historyProHead p {
+  margin: 4px 0 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.historyDateRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.historyDateRow label {
+  display: grid;
+  gap: 5px;
+}
+.historyDateRow label > span {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--muted);
+}
+.historyDateRow .input {
+  height: 44px;
+  min-height: 44px !important;
+  padding: 8px 9px !important;
+  font-size: 12px !important;
+}
+.historyQuickRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin: 8px 0;
+}
+.historyQuickRow .smallBtn {
+  width: 100% !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  font-size: 10px !important;
+}
+.historyProList {
+  display: grid;
+  gap: 12px;
+}
+.historyDayBlock {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+.historyDayHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 14px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--line);
+}
+.historyDayHead strong {
+  font-size: 15px;
+}
+.historyDayHead span {
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 800;
+}
+.historyProEntry {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) auto;
+  gap: 10px;
+  padding: 13px;
+}
+.historyProEntry + .historyProEntry {
+  border-top: 1px solid var(--line);
+}
+.historyProIcon {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: var(--surface-2);
+}
+.historyProMain strong {
+  display: block;
+  font-size: 14px;
+}
+.historyProMain p {
+  margin: 3px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.historyProTime {
+  font-size: 10px;
+  color: var(--muted-2);
+  white-space: nowrap;
+}
+.historyProLink {
+  margin-top: 6px;
+  border: 0;
+  border-radius: 9px;
+  padding: 6px 9px;
+  background: rgba(37, 99, 235, 0.08);
+  color: #1d4ed8;
+  font-size: 10px;
+  font-weight: 900;
+}
+.historyEmpty {
+  padding: 18px;
+  text-align: center;
+  border: 1px dashed var(--line);
+  border-radius: 16px;
+  color: var(--muted);
+  font-size: 13px;
+}

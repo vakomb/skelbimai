@@ -1,0 +1,28 @@
+<section class="autoEasierLogin" id="autoEasierLogin" aria-label="AutoEasier prisijungimas">
+  <div class="autoEasierLoginBackdrop" aria-hidden="true"></div>
+  <div class="autoEasierLoginStage">
+    <div class="autoEasierLoginContent">
+      <div class="autoEasierWordmark" aria-label="AutoEasier"><span>Auto</span><b>Easier</b></div>
+      <form class="autoEasierLoginCard" id="autoEasierLoginForm" novalidate>
+        <label class="autoEasierField" id="autoEasierEmailField">
+          <span class="autoEasierFieldIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4"/><path d="M4.5 20c.6-3.8 3.1-5.7 7.5-5.7s6.9 1.9 7.5 5.7z"/></svg></span>
+          <input id="autoEasierEmail" type="email" inputmode="email" autocomplete="username" placeholder="El. paštas" aria-label="El. paštas" required />
+        </label>
+        <label class="autoEasierField">
+          <span class="autoEasierFieldIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg></span>
+          <input id="autoEasierPassword" type="password" autocomplete="current-password" placeholder="Slaptažodis" aria-label="Slaptažodis" />
+          <button class="autoEasierPasswordToggle" type="button" id="autoEasierPasswordToggle" aria-label="Rodyti slaptažodį" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none"><path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6z"/><circle cx="12" cy="12" r="2.7"/><path class="eyeSlash" d="m4 4 16 16"/></svg></button>
+        </label>
+        <label class="autoEasierField autoEasierConfirmField" id="autoEasierConfirmField" hidden>
+          <span class="autoEasierFieldIcon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M9 15l2 2 4-4"/></svg></span>
+          <input id="autoEasierConfirmPassword" type="password" autocomplete="new-password" placeholder="Pakartokite slaptažodį" aria-label="Pakartokite slaptažodį" />
+          <span aria-hidden="true"></span>
+        </label>
+        <button class="autoEasierSubmit" id="autoEasierSubmit" type="submit"><span>Prisijungti</span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>
+        <div class="autoEasierAuthLinks" id="autoEasierAuthLinks"><button type="button" id="autoEasierModeToggle">Sukurti paskyrą</button><button type="button" id="autoEasierResetLink">Pamiršote slaptažodį?</button></div>
+        <div class="autoEasierAuthMessage" id="autoEasierAuthMessage" role="status" aria-live="polite" hidden></div>
+      </form>
+    </div>
+  </div>
+  <a class="autoEasierSubscription" id="autoEasierSubscription" href="#"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg><span>Įsigyti prenumeratą</span><b aria-hidden="true">›</b></a>
+</section>

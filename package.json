@@ -1,0 +1,23 @@
+{
+  "name": "autoeasier",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AutoEasier — Visureigiai, UAB auto prekybos valdymo programėlė (vieno failo PWA tipo web app).",
+  "type": "module",
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "check": "node tools/check.mjs",
+    "format": "prettier --write \"src/**/*.{js,css}\"",
+    "baseline": "node tools/build.mjs && node -e \"require('fs').mkdirSync('.verify',{recursive:true});require('fs').copyFileSync('dist/index.html','.verify/baseline.html')\"",
+    "verify:code": "node tools/build.mjs && node tools/verify-ast.mjs .verify/baseline.html dist/index.html",
+    "verify:browser": "node tools/build.mjs && node tools/verify-browser.mjs .verify/baseline.html dist/index.html",
+    "verify": "npm run check && npm run verify:code && npm run verify:browser",
+    "verify:original": "node tools/build.mjs && node tools/verify-ast.mjs reference/index.original.html dist/index.html && node tools/verify-browser.mjs reference/index.original.html dist/index.html"
+  },
+  "devDependencies": {
+    "acorn": "^8.12.0",
+    "playwright": "^1.47.0",
+    "prettier": "^3.3.0",
+    "sharp": "^0.33.0"
+  }
+}

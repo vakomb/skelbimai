@@ -1,0 +1,72 @@
+.taskFormRow {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 118px !important;
+  gap: 8px !important;
+  align-items: end !important;
+  width: 100% !important;
+}
+.taskFormRow > .field {
+  min-width: 0 !important;
+  margin-bottom: 0 !important;
+}
+.taskFormRow .field label {
+  font-size: 10px !important;
+  margin: 0 0 4px 2px !important;
+  line-height: 1 !important;
+}
+.taskFormRow .input {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 40px !important;
+  height: 40px !important;
+  padding: 8px 9px !important;
+  border-radius: 12px !important;
+  font-size: 12px !important;
+}
+.taskFormDate .input {
+  padding-left: 8px !important;
+  padding-right: 4px !important;
+}
+.taskFormAdd {
+  width: 100% !important;
+  min-height: 40px !important;
+  height: 40px !important;
+  margin-top: 7px !important;
+  padding: 8px 10px !important;
+  border-radius: 12px !important;
+  font-size: 12px !important;
+}
+@media (max-width: 360px) {
+  .taskFormRow {
+    grid-template-columns: minmax(0, 1fr) 104px !important;
+    gap: 6px !important;
+  }
+  .taskFormRow .input {
+    font-size: 11px !important;
+  }
+}
+.dueChip.today {
+  background: #fee2e2 !important;
+  color: #b91c1c !important;
+  border-color: #fecaca !important;
+}
+.dueChip.tomorrow {
+  background: #fef3c7 !important;
+  color: #a16207 !important;
+  border-color: #fde68a !important;
+}
+.dueChip.future {
+  background: #dbeafe !important;
+  color: #1d4ed8 !important;
+  border-color: #bfdbfe !important;
+}
+.leadCallBtn {
+  min-height: 40px !important;
+  padding: 9px 11px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent !important;
+  white-space: nowrap !important;
+}

@@ -1,0 +1,32 @@
+  <div class="view" id="view-menu">
+    <div class="sectionHead"><h2>Meniu</h2><span>Pagrindiniai skyriai</span></div>
+    <div class="panel pad menuIntro">
+      <div class="garageMenuTitle">
+        <div><strong>Greita navigacija</strong></div>
+      </div>
+      <div class="menuLinks">
+        <button class="menuLink accountingRefAction" type="button" data-open-view="garage-stats"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 20V13h3v7zM10.5 20V8h3v12zM17 20V4h3v16z"/></svg></span><strong>Pardavimų statistika</strong><span class="arrow" aria-hidden="true">›</span></button>
+        <button class="menuLink accountingRefAction" type="button" data-open-view="finance"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 7.5h16v11H4z"/><path d="M6 7.5V5.8A1.8 1.8 0 0 1 7.8 4h8.7"/><path d="M15.5 12h4.5v3h-4.5a1.5 1.5 0 0 1 0-3z"/></svg></span><strong>Finansai</strong><span class="arrow" aria-hidden="true">›</span></button>
+        <button class="menuLink accountingRefAction" type="button" data-open-view="customers"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5c.5-3.2 2.3-4.8 5.5-4.8s5 1.6 5.5 4.8"/><path d="M16 5.4a3 3 0 0 1 0 5.8M17 14.8c2.1.5 3.2 2 3.5 4.7"/></svg></span><strong>Kontaktai</strong><span class="arrow" aria-hidden="true">›</span></button>
+        <button class="menuLink accountingRefAction" type="button" data-open-history><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><strong>Veiksmų istorija</strong><span class="arrow" aria-hidden="true">›</span></button>
+        <button class="menuLink accountingRefAction" type="button" data-open-view="settings"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3.5 14 4l.8 2 1.8 1 2-.4 1.4 2.4-1.2 1.8v2l1.2 1.8-1.4 2.4-2-.4-1.8 1-.8 2-2 .5-2-.5-.8-2-1.8-1-2 .4L4 14.6l1.2-1.8v-2L4 9l1.4-2.4 2 .4 1.8-1 .8-2z"/><circle cx="12" cy="11.8" r="3"/></svg></span><strong>Nustatymai</strong><span class="arrow" aria-hidden="true">›</span></button>
+      </div>
+    </div>
+    <div class="section menuHistorySection" id="menu-history">
+      <div class="historyProPanel">
+        <div class="historyProHead"><div><h2>Veiksmų istorija</h2><p></p></div></div>
+        <div class="historyDateRow">
+          <label><span>Nuo</span><input class="input" id="historyFromDate" type="date"></label>
+          <label><span>Iki</span><input class="input" id="historyToDate" type="date"></label>
+        </div>
+        <div class="historyQuickRow">
+          <button class="smallBtn" id="historyTodayBtn" type="button">Šiandien</button>
+          <button class="smallBtn" id="history7Btn" type="button">7 d.</button>
+          <button class="smallBtn" id="history30Btn" type="button">30 d.</button>
+          <button class="smallBtn" id="historyAllBtn" type="button">Visa</button>
+        </div>
+        <button class="btn" id="historyApplyBtn" type="button">Rodyti istoriją</button>
+      </div>
+      <div class="section"><div class="historyProList" id="permanentHistoryRoot"></div></div>
+    </div>
+  </div>
