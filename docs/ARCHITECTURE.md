@@ -145,6 +145,27 @@ Vadybininkas nebesiūlo „Kodėl dar ne skelbime?“ ir kainos peržiūros paga
   - dokumentai visada atidaryti; vienas „Pridėti dokumentą“ atskleidžia tipų pasirinkimą.
 - **Klaida ištaisyta:** formose (`35-car-ui-v51.js`) pasirinkus „Galioja“, TA ir draudimo datos laukas likdavo išjungtas. Senas surišimas `14-vehicle-fields-documents.js` jį išjungdavo ir laukdavo `change` įvykio, o paslėptas laukas to įvykio negauna.
 
+## Užduotys, varianto kortelė ir sklandumas (v62)
+
+- **Užduočių skydelis** (`43-tasks-hub-v62.js`, `172-tasks-hub-v62.css`):
+  - skirtukai „Šiandien / Auto / Kitos“ su skaičiais;
+  - eilutės su apvaliu žymėjimu ir terminu („Vėluoja N d.“, „Šiandien“, „Rytoj“, data);
+  - automobilių užduotys sugrupuotos pagal automobilį (su numeriu);
+  - atliekant automobilio užduotį klausiama išlaidų (> 0 € atidaro čekio langą `openCarTaskReceiptSheetV24`);
+  - „Nauja užduotis“ kviečia `addGarageTask`;
+  - senos `.garageUnifiedSection` paslėptos.
+  - Testas: `node tools/test-tasks.mjs`.
+- **Varianto kortelė** (`45-lead-sheet-v62.js`): suvestinė (telefonas, miestas, metai, kitas skambutis, žalias „Skambinti“, centruotos kainos Prašo / Siūlome / Pelnas). Laukai sugrupuoti į korteles Automobilis, Pardavėjas, Kainos, Būklė ir Pastabos (id nepakeisti). Nuotraukų rodomos pirmos trys.
+- **Sklandumas** (`44-smooth-v62.js`):
+  - Garažo „Variantai“, „Kontaktai“ ir „Užduotys“ atsidaro be viso `render()`, todėl puslapis nešokinėja, o nuotraukos nekraunamos iš naujo;
+  - perjungiant puslapius juostoje apačioje – švelnus įėjimas ir grįžimas į viršų (slenka `body`);
+  - juostos šriftas visada 12 px / 650, keičiasi tik spalva.
+- **Kita** (`173-polish-v62.css`):
+  - automobilio kortelės antraštė: numeris ir pavadinimas kairėje;
+  - SDK plytelė balta su dokumento ženklu;
+  - kainų skaičiai centruoti;
+  - aktyvių automobilių kortelėse nebėra „Tikslas“.
+
 ## Perrašymų grandinės (svarbu!)
 
 Programa augo sluoksniais: nauja versija **perrašo** seną funkciją (`render = async function () { await __renderPP(); … }`). Todėl:

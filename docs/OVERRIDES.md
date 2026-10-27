@@ -9,14 +9,18 @@ nes deklaracijos „iškeliamos“ – hoisting), `reassigned` = `X = function�
 | Funkcija | Grandinė (failas:eilutė) |
 |---|---|
 | `daysBetweenISO` | 01-core-utils:67 (function) → 15-work-center:4 (function) |
+| `openGarageLeadsPage` | 04-garage-leads:174 (function) → 44-smooth-v62:21 (reassigned) |
+| `openGarageContacts` | 04-garage-leads:206 (function) → 44-smooth-v62:30 (reassigned) |
+| `openGarageTasks` | 04-garage-leads:231 (function) → 44-smooth-v62:35 (reassigned) |
 | `downloadAllEntityPhotos` | 05-zip-and-galleries:28 (function) → 05-zip-and-galleries:208 (function) |
+| `openGarageLeadSheet` | 05-zip-and-galleries:313 (function) → 45-lead-sheet-v62:68 (reassigned) |
 | `openCar` | 09-cars-and-sale:148 (function) → 37-contract-v52:930 (reassigned) |
 | `renderCarSheet` | 09-cars-and-sale:158 (function) → 14-vehicle-fields-documents:303 (reassigned) → 24-accounting-v3-pp-chooser:589 (reassigned) → 30-registration-review-v41:1338 (reassigned) → 31-registration-v42-v43:543 (reassigned) → 34-registration-ui:562 (reassigned) → 35-car-ui-v51:377 (reassigned) → 38-car-card-v55:6 (reassigned) → 42-car-sheet-v61:92 (reassigned) |
 | `openCarEditSheet` | 09-cars-and-sale:247 (function) → 14-vehicle-fields-documents:355 (reassigned) → 30-registration-review-v41:866 (reassigned) → 31-registration-v42-v43:494 (reassigned) → 34-registration-ui:526 (reassigned) → 35-car-ui-v51:278 (reassigned) |
 | `closeSheet` | 09-cars-and-sale:432 (function) → 39-profile-onboarding-v57:177 (reassigned) |
 | `renderGarageStatsPage` | 10-render:4 (function) → 17-stats-period-boot:59 (reassigned) |
 | `renderFinancePage` | 10-render:138 (function) → 25-accounting-v8-transactions-reports:517 (reassigned) |
-| `render` | 10-render:185 (function) → 18-pp-contract-generator:469 (reassigned) → 24-accounting-v3-pp-chooser:551 (reassigned) → 27-home-reference-v12-v19:92 (reassigned) → 32-unified-garage-tasks-and-boot:135 (reassigned) → 39-profile-onboarding-v57:241 (reassigned) |
+| `render` | 10-render:185 (function) → 18-pp-contract-generator:469 (reassigned) → 24-accounting-v3-pp-chooser:551 (reassigned) → 27-home-reference-v12-v19:92 (reassigned) → 32-unified-garage-tasks-and-boot:135 (reassigned) → 39-profile-onboarding-v57:241 (reassigned) → 43-tasks-hub-v62:273 (reassigned) |
 | `renderCustomers` | 13-customers-and-backup:21 (function) → 21-contacts:113 (reassigned) |
 | `vehicleFields` | 14-vehicle-fields-documents:67 (function) → 24-accounting-v3-pp-chooser:219 (reassigned) → 24-accounting-v3-pp-chooser:558 (reassigned) → 30-registration-review-v41:736 (reassigned) → 31-registration-v42-v43:453 (reassigned) → 34-registration-ui:164 (reassigned) |
 | `readVehicleFields` | 14-vehicle-fields-documents:84 (function) → 24-accounting-v3-pp-chooser:207 (reassigned) → 24-accounting-v3-pp-chooser:567 (reassigned) → 30-registration-review-v41:746 (reassigned) → 31-registration-v42-v43:462 (reassigned) → 34-registration-ui:173 (reassigned) |

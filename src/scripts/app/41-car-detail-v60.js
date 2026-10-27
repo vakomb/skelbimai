@@ -5,7 +5,7 @@ const CD_ICONS_V60 = {
   copy: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M15 9V6.5A2.5 2.5 0 0 0 12.5 4h-6A2.5 2.5 0 0 0 4 6.5v6A2.5 2.5 0 0 0 6.5 15H9"/></svg>'
 };
 function cdStatusTileV60(name, tone, value, sub = "") {
-  return `<div class="cdStatV60 ${tone}"><span class="cdStatNameV60"><i aria-hidden="true"></i>${escapeHTML(name)}</span><b>${escapeHTML(value)}</b>${sub ? `<small>${escapeHTML(sub)}</small>` : ""}</div>`;
+  return `<div class="cdStatV60 ${tone}${name === "SDK" ? " cdSdkV62" : ""}"><span class="cdStatNameV60"><i aria-hidden="true"></i>${escapeHTML(name)}</span><b>${escapeHTML(value)}</b>${sub ? `<small>${escapeHTML(sub)}</small>` : ""}</div>`;
 }
 // Būsena: trumpa reikšmė („Galioja“, „Baigiasi“, „Pasibaigė“…) ir, jei žinoma, data po ja.
 function cdStatusTileForV60(name, status, until) {

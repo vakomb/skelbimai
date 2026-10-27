@@ -31521,9 +31521,8 @@ async function render() {
     ? activeCars
         .map(car => {
           const expenses = carChecklistExpenses(car);
-          const target = Number(car.askingPrice || 0);
           const src = photoUrlCache[car.imageSrc] || car.imageSrc || "";
-          return `\n        <article class="carListCard garageRefCarCard" data-open-car="${car.id}" role="button" tabindex="0">\n          <div class="garageRefCarMain">\n            <div class="carListPhoto garageRefCarPhoto">\n              ${src ? `<img src="${src}" alt="${escapeHTML(car.name)}" loading="lazy">` : `<div class="carListNoPhoto">🚗</div>`}\n            </div>\n            <div class="carListInfo garageRefCarInfo">\n              <div class="carListTitle">${escapeHTML(car.name)}</div>\n              ${lcPlateHTMLV61(car.plate)}\n              <div class="carListFacts garageRefFacts">\n                <div><small>Pirkta</small><strong>${moneyFmt(car.buyPrice)}</strong></div>\n                <div><small>Išlaidos</small><strong>${moneyFmt(expenses)}</strong></div>\n                <div><small>Tikslas</small><strong>${target > 0 ? moneyFmt(target) : "—"}</strong></div>\n              </div>\n            </div>\n          </div>\n        </article>`;
+          return `\n        <article class="carListCard garageRefCarCard" data-open-car="${car.id}" role="button" tabindex="0">\n          <div class="garageRefCarMain">\n            <div class="carListPhoto garageRefCarPhoto">\n              ${src ? `<img src="${src}" alt="${escapeHTML(car.name)}" loading="lazy">` : `<div class="carListNoPhoto">🚗</div>`}\n            </div>\n            <div class="carListInfo garageRefCarInfo">\n              <div class="carListTitle">${escapeHTML(car.name)}</div>\n              ${lcPlateHTMLV61(car.plate)}\n              <div class="carListFacts garageRefFacts">\n                <div><small>Pirkta</small><strong>${moneyFmt(car.buyPrice)}</strong></div>\n                <div><small>Išlaidos</small><strong>${moneyFmt(expenses)}</strong></div>\n              </div>\n            </div>\n          </div>\n        </article>`;
         })
         .join("")
     : `<div class="emptyState">Kol kas nėra aktyvių automobilių.</div>`;
@@ -46129,7 +46128,7 @@ const CD_ICONS_V60 = {
   copy: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M15 9V6.5A2.5 2.5 0 0 0 12.5 4h-6A2.5 2.5 0 0 0 4 6.5v6A2.5 2.5 0 0 0 6.5 15H9"/></svg>'
 };
 function cdStatusTileV60(name, tone, value, sub = "") {
-  return `<div class="cdStatV60 ${tone}"><span class="cdStatNameV60"><i aria-hidden="true"></i>${escapeHTML(name)}</span><b>${escapeHTML(value)}</b>${sub ? `<small>${escapeHTML(sub)}</small>` : ""}</div>`;
+  return `<div class="cdStatV60 ${tone}${name === "SDK" ? " cdSdkV62" : ""}"><span class="cdStatNameV60"><i aria-hidden="true"></i>${escapeHTML(name)}</span><b>${escapeHTML(value)}</b>${sub ? `<small>${escapeHTML(sub)}</small>` : ""}</div>`;
 }
 // Būsena: trumpa reikšmė („Galioja“, „Baigiasi“, „Pasibaigė“…) ir, jei žinoma, data po ja.
 function cdStatusTileForV60(name, status, until) {
@@ -46317,6 +46316,532 @@ document.addEventListener("click", e => {
     add.setAttribute("aria-expanded", String(open));
     add.closest(".csDocsV61")?.classList.toggle("csDocPickOpenV61", open);
   }
+});
+
+// Užduočių skydelis (v62): skirtukai „Šiandien / Automobiliai / Kitos“, aiškios eilutės su apvaliu žymėjimu,
+// terminas spalva (vėluoja / šiandien / rytoj / data), automobilių užduotys sugrupuotos pagal automobilį,
+// greitas „Nauja užduotis“. Senos skilties (garageUnifiedSection) paslepiamos, duomenys ir veiksmai – tie patys:
+// completeGarageTask, deleteGarageTask, addGarageTask, completeCarTaskWithExpenseV24 / openCarTaskReceiptSheetV24.
+// Stilius – 172-tasks-hub-v62.css.
+const TK_MONTHS_V62 = [
+  "saus.",
+  "vas.",
+  "kov.",
+  "bal.",
+  "geg.",
+  "birž.",
+  "liep.",
+  "rugp.",
+  "rugs.",
+  "spal.",
+  "lapkr.",
+  "gruod."
+];
+let tkTabV62 = "";
+let tkExpenseOpenV62 = "";
+function tkDayDiffV62(due) {
+  const a = parseISODateLocal(todayISO()),
+    b = parseISODateLocal(due);
+  return a && b ? Math.round((b - a) / 864e5) : null;
+}
+function tkDueV62(due) {
+  if (!due) return { text: "Be termino", cls: "none" };
+  const d = tkDayDiffV62(due);
+  if (d == null) return { text: due, cls: "none" };
+  if (d < 0) return { text: `Vėluoja ${-d} d.`, cls: "late" };
+  if (d === 0) return { text: "Šiandien", cls: "today" };
+  if (d === 1) return { text: "Rytoj", cls: "soon" };
+  const [, m, day] = due.split("-");
+  return { text: `${TK_MONTHS_V62[Number(m) - 1] || m} ${Number(day)}`, cls: "later" };
+}
+function tkSortV62(a, b) {
+  const da = a.due || "9999-99-99",
+    db = b.due || "9999-99-99";
+  return da.localeCompare(db) || (a.title || "").localeCompare(b.title || "", "lt");
+}
+function tkItemsV62() {
+  const now = todayISO();
+  const cars = (state.cars || []).filter(c => c.status !== "parduotas");
+  const auto = [];
+  cars.forEach(car =>
+    (car.checklist || [])
+      .filter(t => !t.done)
+      .forEach(t =>
+        auto.push({
+          kind: "car",
+          carId: car.id,
+          id: t.id,
+          title: t.name || "Užduotis",
+          due: t.dueDate || "",
+          car
+        })
+      )
+  );
+  const custom = (state.garageTasks || [])
+    .filter(t => !t.done)
+    .map(t => ({
+      kind: "task",
+      id: t.id,
+      title: t.title || "Užduotis",
+      due: t.dueDate || "",
+      priority: t.priority,
+      notes: t.notes || ""
+    }));
+  const today = [...auto, ...custom].filter(i => i.due && i.due <= now);
+  return { today: today.sort(tkSortV62), auto: auto.sort(tkSortV62), custom: custom.sort(tkSortV62) };
+}
+const TK_ICON_V62 = {
+  check:
+    '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.2 4.2L19 7"/></svg>',
+  chev: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>',
+  x: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+  plus: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
+  done: '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.8 2.8L16.5 9.5"/></svg>'
+};
+function tkRowV62(item, { showCar = true } = {}) {
+  const due = tkDueV62(item.due);
+  const key = `${item.kind}:${item.carId || ""}:${item.id}`;
+  const meta = [
+    showCar && item.kind === "car" ? `<em>${escapeHTML(item.car.name || "Automobilis")}</em>` : "",
+    `<i class="tkDue ${due.cls}">${escapeHTML(due.text)}</i>`,
+    item.kind === "task" && item.priority === "urgent" ? '<i class="tkTag urgent">Skubu</i>' : "",
+    item.kind === "task" && item.priority === "important" ? '<i class="tkTag">Svarbu</i>' : ""
+  ]
+    .filter(Boolean)
+    .join("");
+  const expense =
+    tkExpenseOpenV62 === key
+      ? `<div class="tkExpenseV62"><label for="tkExpenseInput">Išlaidos</label><div class="tkExpenseFieldV62"><input id="tkExpenseInput" class="input" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0"><span>€</span></div><button type="button" class="tkExpenseOkV62" data-tk-confirm>Atlikta</button><button type="button" class="tkExpenseCancelV62" data-tk-cancel aria-label="Atšaukti">${TK_ICON_V62.x}</button></div>`
+      : "";
+  return `<div class="tkRowV62 ${due.cls}${expense ? " expanded" : ""}" data-tk-kind="${item.kind}" data-tk-id="${escapeHTML(item.id)}" ${item.carId ? `data-tk-car="${escapeHTML(item.carId)}"` : ""} data-tk-key="${escapeHTML(key)}">
+    <div class="tkRowMainV62">
+      <button type="button" class="tkCheckV62" data-tk-done aria-label="Pažymėti „${escapeHTML(item.title)}“ atlikta">${TK_ICON_V62.check}</button>
+      <button type="button" class="tkBodyV62" ${item.kind === "car" ? "data-tk-open" : "data-tk-noop"}><strong>${escapeHTML(item.title)}</strong><span class="tkMetaV62">${meta}</span>${item.notes ? `<small>${escapeHTML(item.notes)}</small>` : ""}</button>
+      ${item.kind === "car" ? `<span class="tkChevV62" aria-hidden="true">${TK_ICON_V62.chev}</span>` : `<button type="button" class="tkDelV62" data-tk-del aria-label="Ištrinti „${escapeHTML(item.title)}“">${TK_ICON_V62.x}</button>`}
+    </div>${expense}
+  </div>`;
+}
+function tkEmptyV62(text) {
+  return `<div class="tkEmptyV62">${TK_ICON_V62.done}<strong>${escapeHTML(text)}</strong></div>`;
+}
+function tkListHTMLV62(tab, items) {
+  if (tab === "today")
+    return items.today.length
+      ? items.today.map(i => tkRowV62(i)).join("")
+      : tkEmptyV62("Šiandien viskas atlikta");
+  if (tab === "custom")
+    return items.custom.length
+      ? items.custom.map(i => tkRowV62(i)).join("")
+      : tkEmptyV62("Kitų užduočių nėra");
+  if (!items.auto.length) return tkEmptyV62("Automobilių užduočių nėra");
+  const groups = new Map();
+  items.auto.forEach(i => {
+    if (!groups.has(i.carId)) groups.set(i.carId, []);
+    groups.get(i.carId).push(i);
+  });
+  return [...groups.values()]
+    .map(list => {
+      const car = list[0].car;
+      return `<div class="tkGroupV62"><button type="button" class="tkGroupHeadV62" data-tk-car-open="${escapeHTML(car.id)}"><strong>${escapeHTML(car.name || "Automobilis")}</strong>${typeof lcPlateHTMLV61 === "function" ? lcPlateHTMLV61(car.plate) : ""}<b>${list.length}</b></button>${list.map(i => tkRowV62(i, { showCar: false })).join("")}</div>`;
+    })
+    .join("");
+}
+function tkRenderV62() {
+  const section = document.getElementById("garageTasksSection");
+  if (!section) return;
+  section.classList.add("tkV62");
+  let hub = section.querySelector(".tkHubV62");
+  if (!hub) {
+    hub = document.createElement("div");
+    hub.className = "tkHubV62";
+    hub.innerHTML = `<div class="tkTabsV62" role="tablist"></div><div class="tkListV62"></div>
+      <div class="tkComposerV62">
+        <button type="button" class="tkAddV62" data-tk-add aria-expanded="false">${TK_ICON_V62.plus}<span>Nauja užduotis</span></button>
+        <form class="tkFormV62" hidden>
+          <input class="input" id="tkNewTitleV62" maxlength="180" placeholder="Ką reikia padaryti?" autocomplete="off">
+          <div class="tkFormRowV62">
+            <input class="input" id="tkNewDueV62" type="date" aria-label="Terminas">
+            <button type="submit" class="btn tkSaveV62">Pridėti</button>
+          </div>
+        </form>
+      </div>`;
+    const head = section.querySelector(":scope > .sectionHead");
+    if (head) head.after(hub);
+    else section.prepend(hub);
+  }
+  const items = tkItemsV62();
+  if (!["today", "autos", "custom"].includes(tkTabV62))
+    tkTabV62 = items.today.length ? "today" : items.auto.length ? "autos" : "custom";
+  const tabs = [
+    ["today", "Šiandien", items.today.length],
+    ["autos", "Auto", items.auto.length],
+    ["custom", "Kitos", items.custom.length]
+  ];
+  hub.querySelector(".tkTabsV62").innerHTML = tabs
+    .map(
+      ([k, t, n]) =>
+        `<button type="button" role="tab" data-tk-tab="${k}" aria-selected="${k === tkTabV62}" class="${k === "today" && n ? "hasDue" : ""}"><span>${t}</span><b>${n}</b></button>`
+    )
+    .join("");
+  const list = hub.querySelector(".tkListV62");
+  list.dataset.tab = tkTabV62;
+  list.innerHTML = tkListHTMLV62(tkTabV62 === "autos" ? "autos" : tkTabV62, items);
+  if (tkExpenseOpenV62) list.querySelector("#tkExpenseInput")?.focus({ preventScroll: true });
+}
+async function tkCompleteV62(row) {
+  const kind = row.dataset.tkKind,
+    id = row.dataset.tkId;
+  if (kind === "task") {
+    row.classList.add("isDone");
+    await new Promise(r => setTimeout(r, 260));
+    completeGarageTask(id);
+    return;
+  }
+  const key = row.dataset.tkKey;
+  tkExpenseOpenV62 = tkExpenseOpenV62 === key ? "" : key;
+  tkRenderV62();
+}
+async function tkConfirmCarV62(row) {
+  const car = state.cars.find(c => c.id === row.dataset.tkCar);
+  const item = car?.checklist?.find(i => i.id === row.dataset.tkId);
+  tkExpenseOpenV62 = "";
+  if (!car || !item || item.done) return tkRenderV62();
+  const expense = Math.max(0, Number(row.querySelector("#tkExpenseInput")?.value || 0));
+  if (expense > 0) {
+    tkRenderV62();
+    openCarTaskReceiptSheetV24(car, item, expense);
+    return;
+  }
+  row.classList.add("isDone");
+  await new Promise(r => setTimeout(r, 260));
+  await completeCarTaskWithExpenseV24(car, item, 0, []);
+  saveState();
+  render();
+  toast("Užduotis atlikta", "✓");
+}
+document.addEventListener(
+  "click",
+  e => {
+    const hub = e.target.closest("#garageTasksSection .tkHubV62");
+    if (!hub) return;
+    const tab = e.target.closest("[data-tk-tab]");
+    if (tab) {
+      tkTabV62 = tab.dataset.tkTab;
+      tkExpenseOpenV62 = "";
+      tkRenderV62();
+      return;
+    }
+    const carOpen = e.target.closest("[data-tk-car-open]");
+    if (carOpen) return openCar(carOpen.dataset.tkCarOpen);
+    const add = e.target.closest("[data-tk-add]");
+    if (add) {
+      const form = hub.querySelector(".tkFormV62");
+      const open = form.hidden;
+      form.hidden = !open;
+      add.setAttribute("aria-expanded", String(open));
+      if (open) hub.querySelector("#tkNewTitleV62")?.focus({ preventScroll: true });
+      return;
+    }
+    const row = e.target.closest(".tkRowV62");
+    if (!row) return;
+    if (e.target.closest("[data-tk-done]")) return void tkCompleteV62(row);
+    if (e.target.closest("[data-tk-confirm]")) return void tkConfirmCarV62(row);
+    if (e.target.closest("[data-tk-cancel]")) {
+      tkExpenseOpenV62 = "";
+      return tkRenderV62();
+    }
+    if (e.target.closest("[data-tk-del]")) return deleteGarageTask(row.dataset.tkId);
+    if (e.target.closest("[data-tk-open]")) return openCar(row.dataset.tkCar);
+  },
+  true
+);
+document.addEventListener(
+  "submit",
+  e => {
+    if (!e.target.closest?.(".tkFormV62")) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    const title = document.getElementById("tkNewTitleV62")?.value.trim() || "";
+    const due = document.getElementById("tkNewDueV62")?.value || "";
+    if (!title) {
+      toast("Įrašykite užduotį", "!");
+      document.getElementById("tkNewTitleV62")?.focus();
+      return;
+    }
+    tkTabV62 = due && due <= todayISO() ? "today" : "custom";
+    if (addGarageTask(title, 0, 0, due, "normal", "Bendra", "")) {
+      const form = e.target.closest(".tkFormV62");
+      form.reset();
+      form.hidden = true;
+      form.parentElement.querySelector("[data-tk-add]")?.setAttribute("aria-expanded", "false");
+    }
+  },
+  true
+);
+document.addEventListener(
+  "keydown",
+  e => {
+    if (e.key === "Enter" && e.target.id === "tkExpenseInput") {
+      e.preventDefault();
+      const row = e.target.closest(".tkRowV62");
+      if (row) tkConfirmCarV62(row);
+    }
+  },
+  true
+);
+const __renderTasksHubV62 = render;
+render = async function () {
+  const result = await __renderTasksHubV62.apply(this, arguments);
+  tkRenderV62();
+  return result;
+};
+
+// Sklandumas (v62): Garažo „Variantai“, „Kontaktai“ ir „Užduotys“ atsidaro be viso puslapio perpiešimo
+// (render()), todėl puslapis nešokinėja į viršų, o nuotraukos nekraunamos iš naujo. Puslapių perjungimas
+// apačios juostoje – švelnus įėjimas ir slinkimas į viršų. Stilius – 173-polish-v62.css.
+function smPanelToggleV62(panelId, action, expandedKey) {
+  const panel = document.getElementById(panelId);
+  if (!panel) return false;
+  const open = !panel.classList.contains("garageInlineOpen");
+  state.ui = state.ui || {};
+  state.selectedView = "garage";
+  state.ui.garageInlineExpanded = open ? expandedKey : "";
+  state.ui.garageTaskHubOpen = false;
+  state.ui.soldCarsOpen = false;
+  saveState();
+  panel.classList.toggle("garageInlineOpen", open);
+  document
+    .querySelector(`#view-garage [data-garage-action="${action}"]`)
+    ?.setAttribute("aria-expanded", String(open));
+  if (typeof renderUnifiedGarageTasks === "function") renderUnifiedGarageTasks();
+  return open;
+}
+openGarageLeadsPage = function () {
+  const open = smPanelToggleV62("view-garage-leads", "leads", "leads");
+  if (!open) {
+    const form = document.getElementById("addGarageLeadPanel");
+    if (form) form.style.display = "none";
+    const add = document.getElementById("showAddGarageLeadBtn");
+    if (add) add.style.display = "block";
+  }
+};
+openGarageContacts = function (forceOpen = false) {
+  const panel = document.getElementById("view-customers");
+  if (forceOpen && panel?.classList.contains("garageInlineOpen")) return;
+  smPanelToggleV62("view-customers", "contacts", "contacts");
+};
+openGarageTasks = function (forceOpen) {
+  state.ui = state.ui || {};
+  state.ui.garageInlineExpanded = "";
+  state.ui.soldCarsOpen = false;
+  state.ui.garageTaskHubOpen = typeof forceOpen === "boolean" ? forceOpen : !state.ui.garageTaskHubOpen;
+  state.ui.garageTaskGroups = { today: false, autos: false, custom: false };
+  saveState();
+  if (typeof renderUnifiedGarageTasks === "function") renderUnifiedGarageTasks();
+  tkRenderV62();
+};
+window.__closeGarageTaskHubV1 = () => openGarageTasks(false);
+
+// Puslapių perjungimas
+window.addEventListener(
+  "click",
+  e => {
+    const btn = e.target.closest(".navBtn[data-view]");
+    if (!btn) return;
+    const before = document.querySelector(".view.active")?.id;
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        const view = document.querySelector(".view.active");
+        if (!view || view.id === before) return;
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+        view.classList.remove("pgInV62");
+        void view.offsetWidth;
+        view.classList.add("pgInV62");
+        view.addEventListener("animationend", () => view.classList.remove("pgInV62"), { once: true });
+      })
+    );
+  },
+  true
+);
+
+// Nuotraukos dekoduojamos fone – sąrašai neužstringa
+new MutationObserver(list => {
+  for (const m of list)
+    m.addedNodes.forEach(n => {
+      if (n.nodeType !== 1) return;
+      (n.tagName === "IMG" ? [n] : n.querySelectorAll?.("img") || []).forEach(img => {
+        if (!img.hasAttribute("decoding")) img.decoding = "async";
+      });
+    });
+}).observe(document.body, { childList: true, subtree: true });
+
+// Varianto kortelė (v62): tvarkinga suvestinė (telefonas, miestas, kitas skambutis, „Skambinti“, trys kainos),
+// redagavimo laukai sugrupuoti į korteles (Automobilis, Pardavėjas, Kainos, Būklė, Pastabos), nuotraukų rodomos
+// pirmos trys. Laukų id ir mygtukų veiksmai – tie patys (openGarageLeadSheet). Stilius – 173-polish-v62.css.
+const lsPhotosOpenV62 = new Set();
+const LS_GROUPS_V62 = [
+  [
+    "Automobilis",
+    [
+      ["editLeadMake", "Markė"],
+      ["editLeadModel", "Modelis"],
+      ["editLeadYear", "Metai"],
+      ["editLeadFuel", "Kuras"]
+    ]
+  ],
+  [
+    "Pardavėjas",
+    [
+      ["editLeadPhone", "Telefonas"],
+      ["editLeadCity", "Miestas"],
+      ["editLeadFollowDays", "Perskambinti po, d."]
+    ]
+  ],
+  [
+    "Kainos",
+    [
+      ["editLeadInitialPrice", "Prašo, €"],
+      ["editLeadTargetPrice", "Siūlome, €"],
+      ["editLeadExpectedSalePrice", "Parduotume už, €"]
+    ]
+  ],
+  [
+    "Būklė",
+    [
+      ["editLeadTaStatus", "TA"],
+      ["editLeadTaUntil", "TA galioja iki"],
+      ["editLeadInsuranceStatus", "Draudimas"],
+      ["editLeadInsuranceUntil", "Draudimas iki"]
+    ]
+  ],
+  ["Pastabos", [["editLeadNotes", ""]]]
+];
+function lsPhotosV62(sheet, lead) {
+  const media = sheet.querySelector(".premiumMedia");
+  const grid = media?.querySelector(".premiumThumbGrid");
+  if (!media || !grid) return;
+  const count = grid.querySelectorAll(":scope > .premiumThumb").length;
+  media.classList.toggle("lsNoPhotosV62", !count);
+  const open = lsPhotosOpenV62.has(lead.id);
+  grid.classList.toggle("csPhotosCollapsedV61", count > 3 && !open);
+  media.querySelector(".csPhotoActionsV61")?.remove();
+  const dl = sheet.querySelector("#downloadLeadPhotos");
+  if (!count) {
+    if (dl) dl.hidden = true;
+    return;
+  }
+  if (dl) {
+    dl.hidden = false;
+    dl.textContent = "Atsisiųsti visas";
+  }
+  const row = document.createElement("div");
+  row.className = "csPhotoActionsV61" + (count > 3 ? " two" : "");
+  if (count > 3)
+    row.innerHTML = `<button type="button" class="csPhotoMoreV61" data-ls-photos-toggle="${escapeHTML(lead.id)}">${open ? "Rodyti mažiau" : `Rodyti visas (${count})`}</button>`;
+  if (dl) row.append(dl);
+  grid.after(row);
+}
+const __openGarageLeadSheetV62 = openGarageLeadSheet;
+openGarageLeadSheet = function (leadId) {
+  __openGarageLeadSheetV62(leadId);
+  const lead = (state.leadVariants || []).find(v => v.id === leadId);
+  const sheet = document.getElementById("sheet");
+  const body = sheet?.querySelector(".premiumDetailBody");
+  if (!lead || !body) return;
+  sheet.classList.add("leadSheetV62");
+  // Antraštė
+  sheet.querySelector(".premiumSheetHead .premiumEyebrow")?.remove();
+  const h3 = sheet.querySelector(".premiumSheetHead h3");
+  if (h3) h3.textContent = `${lead.make || ""} ${lead.model || ""}`.trim() || "Variantas";
+  // Nuotrauka viršuje – be ženkliukų; jei nuotraukų nėra – nerodoma
+  const hero = sheet.querySelector(".premiumHero");
+  hero?.querySelector(".premiumHeroPills")?.remove();
+  if (hero?.querySelector(".premiumHeroEmpty")) hero.hidden = true;
+  // Senos eilutės
+  body
+    .querySelectorAll(
+      ":scope > .premiumChipRow, :scope > .vehicleStatusRow, :scope > .sheetRecommendation, :scope > .premiumContactCard"
+    )
+    .forEach(n => (n.hidden = true));
+  // Suvestinė
+  const phone = String(lead.phone || "").trim();
+  const due = lead.nextCallDate ? tkDueV62(lead.nextCallDate) : null;
+  const seller = Number(lead.initialPrice || 0),
+    ours = Number(lead.targetPrice || lead.initialPrice || 0),
+    profit = leadPotentialProfit(lead);
+  const meta = [
+    lead.city ? `<span>${escapeHTML(lead.city)}</span>` : "",
+    lead.year ? `<span>${escapeHTML(String(lead.year))}</span>` : "",
+    due ? `<span class="tkDue ${due.cls}">Skambinti: ${escapeHTML(due.text.toLowerCase())}</span>` : ""
+  ]
+    .filter(Boolean)
+    .join("");
+  body.insertAdjacentHTML(
+    "afterbegin",
+    `<section class="lsSumV62">
+      <div class="lsContactV62">
+        <div class="lsWhoV62"><strong>${escapeHTML(phone || "Telefonas nenurodytas")}</strong>${meta ? `<div class="lsMetaV62">${meta}</div>` : ""}</div>
+        ${phone ? `<button type="button" class="lsCallV62" data-ls-call><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>Skambinti</button>` : ""}
+      </div>
+      <div class="lsPricesV62">
+        <div><span>Prašo</span><strong>${seller ? moneyFmt(seller) : "—"}</strong></div>
+        <div><span>Siūlome</span><strong>${ours ? moneyFmt(ours) : "—"}</strong></div>
+        <div><span>Pelnas</span><strong class="${profit != null && profit >= 0 ? "positiveText" : profit != null ? "negativeText" : ""}">${profit != null ? (profit >= 0 ? "+" : "") + moneyFmt(profit) : "—"}</strong></div>
+      </div>
+    </section>`
+  );
+  // Redagavimo laukai – grupėmis
+  const edit = body.querySelector(".premiumEditSection");
+  if (edit) {
+    const frag = document.createDocumentFragment();
+    LS_GROUPS_V62.forEach(([title, fields]) => {
+      const sec = document.createElement("section");
+      sec.className = "lsCardV62";
+      sec.innerHTML = `<h4>${escapeHTML(title)}</h4><div class="lsGridV62"></div>`;
+      const grid = sec.querySelector(".lsGridV62");
+      fields.forEach(([id, label]) => {
+        const input = document.getElementById(id);
+        const field = input?.closest(".field");
+        if (!field) return;
+        const lab = field.querySelector("label");
+        if (lab) {
+          if (label) lab.textContent = label;
+          else lab.remove();
+          lab.htmlFor = id;
+        }
+        if (id === "editLeadNotes") input.placeholder = "Defektai, derybos, kita…";
+        grid.append(field);
+      });
+      if (grid.children.length) frag.append(sec);
+    });
+    edit.replaceWith(frag);
+  }
+  // Nuotraukos
+  sheet.querySelector(".premiumMedia .premiumEyebrow")?.remove();
+  sheet.querySelector(".premiumMedia .premiumEmptyMedia")?.remove();
+  lsPhotosV62(sheet, lead);
+  // Veiksmai
+  const g2 = sheet.querySelector("#leadGalleryBtn2");
+  if (g2) g2.hidden = true;
+  const del = sheet.querySelector("#leadDeleteBtn");
+  if (del) del.textContent = "Ištrinti variantą";
+  const save = sheet.querySelector("#leadSaveBtn");
+  if (save) save.textContent = "Išsaugoti";
+};
+document.addEventListener("click", e => {
+  if (e.target.closest("#sheet.leadSheetV62 [data-ls-call]")) {
+    document.getElementById("leadCallNowBtn")?.click();
+    return;
+  }
+  const t = e.target.closest("[data-ls-photos-toggle]");
+  if (!t) return;
+  const id = t.dataset.lsPhotosToggle;
+  if (lsPhotosOpenV62.has(id)) lsPhotosOpenV62.delete(id);
+  else lsPhotosOpenV62.add(id);
+  const lead = (state.leadVariants || []).find(v => v.id === id);
+  const sheet = document.getElementById("sheet");
+  if (lead && sheet) lsPhotosV62(sheet, lead);
 });
 
 })();
@@ -59063,6 +59588,1136 @@ html:not(#ae):not(#af)
   html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV61 .premiumSheetHead h3 {
     font-size: 17px !important;
   }
+}
+</style><style id="tasks-hub-v62">/* Užduočių skydelis (v62) */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage #garageTasksSection.tkV62 > .garageUnifiedSection,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #view-garage
+  #garageTasksSection.tkV62
+  > section.garageUnifiedSection {
+  display: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage #garageTasksSection.tkV62.is-open {
+  display: block !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkHubV62 {
+  display: block !important;
+  min-width: 0 !important;
+}
+/* Skirtukai */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkTabsV62 {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 4px !important;
+  margin: 0 0 6px !important;
+  padding: 4px !important;
+  border-radius: 15px !important;
+  background: var(--ds-soft) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkTabsV62 > button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  min-width: 0 !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  margin: 0 !important;
+  padding: 0 6px !important;
+  border: 0 !important;
+  border-radius: 11px !important;
+  background: transparent !important;
+  color: var(--ds-muted) !important;
+  -webkit-text-fill-color: currentColor !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkTabsV62 > button span {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkTabsV62 > button b {
+  flex: none !important;
+  min-width: 20px !important;
+  height: 20px !important;
+  padding: 0 6px !important;
+  border-radius: 999px !important;
+  background: rgba(23, 38, 58, 0.08) !important;
+  color: inherit !important;
+  font-size: 12px !important;
+  line-height: 20px !important;
+  font-weight: 800 !important;
+  text-align: center !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkTabsV62 > button.hasDue b {
+  background: #e0394d !important;
+  color: #fff !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkTabsV62 > button[aria-selected="true"] {
+  background: #fff !important;
+  color: var(--ds-ink) !important;
+  box-shadow:
+    0 1px 2px rgba(18, 35, 58, 0.08),
+    0 2px 8px rgba(18, 35, 58, 0.06) !important;
+}
+/* Sąrašas */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkListV62 {
+  display: block !important;
+  animation: tkInV62 0.2s ease both;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupV62 + .tkGroupV62 {
+  margin-top: 6px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupHeadV62 {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 14px 0 6px !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--ds-ink) !important;
+  text-align: left !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupHeadV62 strong {
+  min-width: 0 !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupHeadV62 .lcPlateV61 {
+  height: 24px !important;
+  border-width: 1.2px !important;
+  border-radius: 6px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupHeadV62 .lcPlateV61 i {
+  width: 14px !important;
+  font-size: 7px !important;
+  padding-bottom: 3px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupHeadV62 .lcPlateV61 b {
+  padding: 0 7px 0 6px !important;
+  font-size: 12.5px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupHeadV62 > b {
+  margin-left: auto !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkRowV62 {
+  display: block !important;
+  border-bottom: 1px solid var(--ds-line) !important;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkListV62 > .tkRowV62:last-child,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupV62:last-child > .tkRowV62:last-child {
+  border-bottom: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkRowMainV62 {
+  display: grid !important;
+  grid-template-columns: 30px minmax(0, 1fr) 32px !important;
+  align-items: center !important;
+  gap: 10px !important;
+  min-height: 60px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkCheckV62 {
+  display: grid !important;
+  place-items: center !important;
+  width: 26px !important;
+  height: 26px !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  margin: 0 0 0 2px !important;
+  padding: 0 !important;
+  border: 2px solid #c3cdd9 !important;
+  border-radius: 50% !important;
+  background: #fff !important;
+  color: transparent !important;
+  box-shadow: none !important;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.12s ease !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkCheckV62:active {
+  transform: scale(0.9) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkRowV62.late .tkCheckV62 {
+  border-color: #eba3ad !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkRowV62.expanded .tkCheckV62,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkRowV62.isDone .tkCheckV62 {
+  border-color: #1fa463 !important;
+  background: #1fa463 !important;
+  color: #fff !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkRowV62.isDone {
+  opacity: 0.45 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkRowV62.isDone .tkBodyV62 strong {
+  text-decoration: line-through !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkBodyV62 {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 3px !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 10px 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--ds-ink) !important;
+  text-align: left !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkBodyV62[data-tk-noop] {
+  cursor: default !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkBodyV62 strong {
+  max-width: 100% !important;
+  font-size: 15.5px !important;
+  line-height: 1.25 !important;
+  font-weight: 700 !important;
+  color: var(--ds-ink) !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkBodyV62 small {
+  max-width: 100% !important;
+  font-size: 13px !important;
+  color: var(--ds-muted) !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkMetaV62 {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 0 !important;
+  max-width: 100% !important;
+  font-size: 13px !important;
+  line-height: 1.3 !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkMetaV62 > * {
+  font-style: normal !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkMetaV62 > * + *::before {
+  content: "·" !important;
+  margin: 0 6px !important;
+  color: #b3bdc9 !important;
+  font-weight: 400 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkMetaV62 em {
+  max-width: 60% !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  font-weight: 600 !important;
+  color: var(--ds-ink-2, #3b4a5e) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkDue {
+  font-weight: 700 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkDue.late {
+  color: #c62a3c !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkDue.today {
+  color: #b26b00 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkDue.soon {
+  color: var(--ds-brand) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkDue.later,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkDue.none {
+  font-weight: 600 !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkTag {
+  font-weight: 700 !important;
+  color: #b26b00 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkTag.urgent {
+  color: #c62a3c !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkChevV62 {
+  display: grid !important;
+  place-items: center !important;
+  color: #b3bdc9 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkDelV62 {
+  display: grid !important;
+  place-items: center !important;
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  background: transparent !important;
+  color: #a3afbd !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkDelV62:active {
+  background: #fdf1f2 !important;
+  color: #b42335 !important;
+}
+/* Išlaidų įvedimas atliekant automobilio užduotį */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkExpenseV62 {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) auto 40px !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: -4px 0 12px 40px !important;
+  animation: tkInV62 0.18s ease both;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkExpenseV62 label {
+  margin: 0 !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkExpenseFieldV62 {
+  position: relative !important;
+  min-width: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkExpenseFieldV62 input {
+  width: 100% !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  padding: 0 26px 0 12px !important;
+  border-radius: 12px !important;
+  font-size: 15px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkExpenseFieldV62 span {
+  position: absolute !important;
+  right: 11px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  font-size: 14px !important;
+  color: var(--ds-muted) !important;
+  pointer-events: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkExpenseOkV62,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkExpenseCancelV62 {
+  display: grid !important;
+  place-items: center !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkExpenseOkV62 {
+  padding: 0 14px !important;
+  background: var(--ds-brand) !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkExpenseCancelV62 {
+  width: 40px !important;
+  padding: 0 !important;
+  background: var(--ds-soft) !important;
+  color: var(--ds-muted) !important;
+}
+/* Tuščia */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkEmptyV62 {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 26px 0 22px !important;
+  color: #1fa463 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkEmptyV62 strong {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: var(--ds-muted) !important;
+}
+/* Nauja užduotis */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkComposerV62 {
+  margin: 8px 0 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkAddV62 {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+  height: 46px !important;
+  min-height: 46px !important;
+  margin: 0 !important;
+  padding: 0 14px !important;
+  border: 1px dashed var(--ds-line-2) !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  color: var(--ds-brand) !important;
+  -webkit-text-fill-color: var(--ds-brand) !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkAddV62[aria-expanded="true"] {
+  border-style: solid !important;
+  border-color: transparent !important;
+  background: var(--ds-soft) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkFormV62:not([hidden]) {
+  display: grid !important;
+  gap: 8px !important;
+  margin: 8px 0 0 !important;
+  animation: tkInV62 0.18s ease both;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkFormV62 .input {
+  width: 100% !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  font-size: 16px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkFormRowV62 {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  gap: 8px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkSaveV62 {
+  height: 48px !important;
+  min-height: 48px !important;
+  padding: 0 22px !important;
+  border-radius: 14px !important;
+  font-size: 15px !important;
+}
+@keyframes tkInV62 {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+}
+</style><style id="polish-v62">/* v62: kortelės antraštė, SDK plytelė, centruoti skaičiai, varianto kortelė, juosta apačioje, sklandūs skydeliai. */
+
+/* ---------- Automobilio kortelės antraštė: numeris ir pavadinimas kairėje, ✕ dešinėje ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV61 .premiumSheetHead {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  min-height: 54px !important;
+  margin: 0 0 12px !important;
+  padding: 2px 0 12px !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV61
+  .premiumSheetHead
+  .cdHeadSpacerV55 {
+  flex: none !important;
+  display: flex !important;
+  align-items: center !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV61
+  .premiumSheetHead
+  .cdHeadSpacerV55:empty {
+  display: none !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV61
+  .premiumSheetHead
+  .premiumSheetTitle {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  text-align: left !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV61 .premiumSheetHead h3 {
+  font-size: 20px !important;
+  line-height: 1.2 !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  text-align: left !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV61 .premiumSheetHead .closeBtn {
+  flex: none !important;
+  margin-left: auto !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV61
+  .premiumSheetHead
+  .cdHeadSpacerV55
+  .lcPlateV61 {
+  height: 32px !important;
+  border-radius: 8px !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV61
+  .premiumSheetHead
+  .cdHeadSpacerV55
+  .lcPlateV61
+  i {
+  width: 18px !important;
+  font-size: 8.5px !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV61
+  .premiumSheetHead
+  .cdHeadSpacerV55
+  .lcPlateV61
+  b {
+  padding: 0 10px 0 9px !important;
+  font-size: 16px !important;
+  letter-spacing: 0.07em !important;
+}
+@media (max-width: 400px) {
+  html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV61 .premiumSheetHead h3 {
+    font-size: 18px !important;
+  }
+  html:not(#ae):not(#af)
+    body:not(#ae):not(#af)
+    #modalBackdrop
+    #sheet.carSheetV61
+    .premiumSheetHead
+    .cdHeadSpacerV55
+    .lcPlateV61
+    b {
+    font-size: 14px !important;
+    padding: 0 8px 0 7px !important;
+  }
+}
+
+/* ---------- SDK plytelė – kitokia (balta, su dokumento ženklu ir spalvota juostele), tas pats dydis ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdStatV60.cdSdkV62 {
+  position: relative !important;
+  border-color: var(--ds-line-2) !important;
+  background: #fff !important;
+  box-shadow: inset 0 3px 0 var(--cd-dot) !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .cdInfoV60
+  .cdStatV60.cdSdkV62
+  .cdStatNameV60
+  i {
+  width: 14px !important;
+  height: 14px !important;
+  border-radius: 0 !important;
+  background: currentColor !important;
+  color: var(--cd-dot) !important;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z'/%3E%3Cpath d='M14 3v5h5M9 14l2 2 4-4'/%3E%3C/svg%3E")
+    center / contain no-repeat !important;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z'/%3E%3Cpath d='M14 3v5h5M9 14l2 2 4-4'/%3E%3C/svg%3E")
+    center / contain no-repeat !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdStatV60.cdSdkV62.neutral {
+  --cd-dot: #8a98aa;
+}
+
+/* ---------- Pirkimo kaina / Savikaina / Parduota / Marža – kiekvienas skaičius savo vietos centre ---------- */
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .carBottomCostGrid
+  .premiumStat,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .premiumResultGrid > div {
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .carBottomCostGrid
+  .premiumStat
+  > *,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .premiumResultGrid > div > * {
+  text-align: center !important;
+}
+
+/* ---------- Aktyvių automobilių kortelė: du skaičiai ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app #activeCarGrid .carListCard .garageRefFacts {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+/* ---------- Apačios juosta: vienodas šriftas, keičiasi tik spalva ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn.active,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn[aria-current="page"] {
+  font-size: 12px !important;
+  font-weight: 650 !important;
+  letter-spacing: 0 !important;
+  transform: none !important;
+  transition: color 0.2s ease !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn > div:not(.ico),
+html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn.active > div:not(.ico) {
+  font-size: 12px !important;
+  font-weight: 650 !important;
+  letter-spacing: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn:not(.active) {
+  color: #7b8899 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn.active {
+  color: #17263a !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn .ico svg {
+  transition: none !important;
+}
+/* Puslapio įėjimas */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .view.pgInV62 {
+  animation: pgInV62 0.22s cubic-bezier(0.2, 0.7, 0.2, 1) both !important;
+}
+@keyframes pgInV62 {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* ---------- Skydeliai atsidaro vienodai sklandžiai ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage #garageTasksSection.is-open,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .garageInlinePanel.garageInlineOpen,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage #addCarPanel {
+  animation: pnInV62 0.22s cubic-bezier(0.2, 0.7, 0.2, 1) both !important;
+  transition: none !important;
+}
+@keyframes pnInV62 {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #view-garage
+  .tkExpenseFieldV62
+  input::-webkit-outer-spin-button,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #view-garage
+  .tkExpenseFieldV62
+  input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkExpenseFieldV62 input {
+  -moz-appearance: textfield !important;
+}
+
+/* ---------- Varianto kortelė ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumSheetHead {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  min-height: 54px !important;
+  margin: 0 0 12px !important;
+  padding: 2px 0 12px !important;
+  border-bottom: 1px solid var(--ds-line) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumSheetHead h3 {
+  margin: 0 !important;
+  font-size: 20px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  text-align: left !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumDetail {
+  display: block !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumHero {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 16 / 10 !important;
+  margin: 0 0 10px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  background: var(--ds-soft) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumHero[hidden] {
+  display: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumHero img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumHeroShade {
+  display: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumDetailBody {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumDetailBody
+  > [hidden] {
+  display: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsSumV62,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsCardV62,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumMedia {
+  margin: 0 !important;
+  padding: 14px !important;
+  border: 1px solid var(--ds-line) !important;
+  border-radius: 20px !important;
+  background: #fff !important;
+  box-shadow: var(--ds-shadow) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsContactV62 {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  padding: 0 0 14px !important;
+  border-bottom: 1px solid var(--ds-line) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsWhoV62 {
+  min-width: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsWhoV62 strong {
+  display: block !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.01em !important;
+  color: var(--ds-ink) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  font-variant-numeric: tabular-nums !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsMetaV62 {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  margin: 4px 0 0 !important;
+  font-size: 13.5px !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsMetaV62 > * + *::before {
+  content: "·" !important;
+  margin: 0 6px !important;
+  color: #b3bdc9 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsMetaV62 .tkDue {
+  font-weight: 700 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsMetaV62 .tkDue.late {
+  color: #c62a3c !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsMetaV62 .tkDue.today {
+  color: #b26b00 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsMetaV62 .tkDue.soon {
+  color: var(--ds-brand) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsCallV62 {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  flex: none !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  margin: 0 !important;
+  padding: 0 16px 0 14px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: #1fa463 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 12px rgba(31, 164, 99, 0.22) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsCallV62:active {
+  transform: scale(0.97) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsPricesV62 {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  padding: 14px 0 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsPricesV62 > div {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 4px !important;
+  min-width: 0 !important;
+  text-align: center !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsPricesV62 > div + div {
+  border-left: 1px solid var(--ds-line) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsPricesV62 span {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsPricesV62 strong {
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.01em !important;
+  color: var(--ds-ink) !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .lsPricesV62
+  strong.positiveText {
+  color: var(--ds-good) !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .lsPricesV62
+  strong.negativeText {
+  color: var(--ds-bad) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsCardV62 h4,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .premiumSectionHead
+  h4 {
+  margin: 0 0 12px !important;
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  color: var(--ds-ink) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsGridV62 {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 12px 8px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsGridV62 > .field {
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsGridV62 > .field.full,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .lsGridV62
+  > .field:only-child {
+  grid-column: 1 / -1 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .lsGridV62
+  > .field:nth-child(3):last-child {
+  grid-column: 1 / -1 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsGridV62 label {
+  display: block !important;
+  margin: 0 0 6px !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsGridV62 .input {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  font-size: 16px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsGridV62 textarea.input {
+  height: auto !important;
+  min-height: 92px !important;
+  padding-top: 12px !important;
+  line-height: 1.4 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsGridV62 .input:disabled {
+  opacity: 0.5 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .premiumSectionHead {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .premiumSectionHead
+  h4 {
+  margin: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumMedia .premiumCount {
+  min-width: 26px !important;
+  height: 26px !important;
+  padding: 0 8px !important;
+  border-radius: 999px !important;
+  background: var(--ds-soft) !important;
+  color: var(--ds-ink-2) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  line-height: 26px !important;
+  text-align: center !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia.lsNoPhotosV62
+  .premiumCount,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia.lsNoPhotosV62
+  .premiumThumbGrid {
+  display: none !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .premiumUpload {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  min-height: 46px !important;
+  margin: 12px 0 0 !important;
+  border: 1px dashed var(--ds-line-2) !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  color: var(--ds-brand) !important;
+  font-size: 15px !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .premiumUploadIcon {
+  width: auto !important;
+  height: auto !important;
+  background: transparent !important;
+  color: var(--ds-brand) !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .premiumThumbGrid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 6px !important;
+  margin: 10px 0 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumMedia .premiumThumb {
+  position: relative !important;
+  aspect-ratio: 1 !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .premiumThumb
+  > button:first-child {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .premiumThumb
+  img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .premiumThumbDelete {
+  position: absolute !important;
+  top: 6px !important;
+  right: 6px !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 26px !important;
+  height: 26px !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: rgba(15, 23, 35, 0.55) !important;
+  color: #fff !important;
+  font-size: 16px !important;
+  line-height: 1 !important;
+  backdrop-filter: blur(6px) !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .csPhotoActionsV61 {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 8px !important;
+  margin: 10px 0 0 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .csPhotoActionsV61.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .csPhotoActionsV61
+  > button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  margin: 0 !important;
+  padding: 0 12px !important;
+  border: 1px solid var(--ds-line-2) !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  background-image: none !important;
+  color: var(--ds-ink) !important;
+  -webkit-text-fill-color: var(--ds-ink) !important;
+  font-size: 14.5px !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .csPhotoActionsV61
+  > .csPhotoMoreV61 {
+  border-color: transparent !important;
+  background: var(--ds-soft) !important;
+  color: var(--ds-brand) !important;
+  -webkit-text-fill-color: var(--ds-brand) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumActionStack {
+  display: grid !important;
+  gap: 8px !important;
+  margin: 4px 0 0 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumActionStack
+  > [hidden] {
+  display: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 #leadSaveBtn {
+  width: 100% !important;
+  height: 52px !important;
+  min-height: 52px !important;
+  border-radius: 15px !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 #leadDeleteBtn {
+  width: 100% !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  border: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  color: #c62a3c !important;
+  -webkit-text-fill-color: #c62a3c !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
 }
 </style></body>
 </html>
