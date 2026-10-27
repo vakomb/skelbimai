@@ -1,0 +1,231 @@
+/* Final compact form/detail polish */
+#sheet .premiumFieldsGrid,
+#sheet .vehicleFields,
+#sheet .vehicleRegGrid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+}
+#sheet .premiumFieldsGrid .full,
+#sheet .vehicleFields .vehicleWide,
+#sheet .vehicleRegGrid .wide {
+  grid-column: 1/-1 !important;
+}
+#sheet .vehicleDetails,
+#sheet .vehicleRegData {
+  margin: 0 !important;
+  border: 1px solid var(--ref-line) !important;
+  border-radius: 16px !important;
+  background: #fff !important;
+  overflow: hidden !important;
+  box-shadow: none !important;
+}
+#sheet .vehicleDetails > summary,
+#sheet .vehicleRegData > summary {
+  min-height: 52px !important;
+  padding: 0 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-size: 14.5px !important;
+  line-height: 1.1 !important;
+  font-weight: 850 !important;
+  list-style: none !important;
+}
+#sheet .vehicleDetails > summary::-webkit-details-marker,
+#sheet .vehicleRegData > summary::-webkit-details-marker {
+  display: none !important;
+}
+#sheet .vehicleInfo {
+  padding: 0 11px 7px !important;
+}
+.vehicleInfo > div {
+  padding: 8px 0 !important;
+}
+.vehicleInfo dt {
+  font-size: 11.5px !important;
+}
+.vehicleInfo dd {
+  font-size: 12.5px !important;
+}
+#sheet .vehicleFields,
+#sheet .vehicleRegBody {
+  padding: 10px 11px 3px !important;
+  border-top: 1px solid #edf0f3 !important;
+}
+.vehicleRegBody .vehicleRegGrid {
+  padding: 0 !important;
+}
+#sheet .vehicleDocInputs {
+  padding: 7px 11px 11px !important;
+  gap: 7px !important;
+}
+.vehicleDocPicker {
+  min-height: 44px !important;
+  padding: 7px 9px !important;
+  border: 1px dashed #dbe3eb !important;
+  border-radius: 12px !important;
+  background: #f9fbfc !important;
+}
+.vehicleDocPicker > span {
+  font-size: 12px !important;
+  font-weight: 780 !important;
+}
+.vehicleDocPicker small {
+  font-size: 10px !important;
+}
+#sheet .vehicleDocList {
+  padding: 0 11px !important;
+}
+.vehicleDocRow {
+  margin: 0 !important;
+  padding: 8px 0 !important;
+}
+.vehicleDocDownload strong {
+  font-size: 12px !important;
+}
+.vehicleDocDownload span {
+  font-size: 10px !important;
+}
+.vehicleDocRemove {
+  font-size: 20px !important;
+  min-height: 32px !important;
+}
+#sheet .vehicleSdkDisplay {
+  margin: 0 0 8px !important;
+  padding: 9px 10px !important;
+  border: 1px solid var(--ref-line) !important;
+  border-radius: 14px !important;
+  background: #f7f9fb !important;
+}
+.vehicleSdkDisplay > div > span {
+  font-size: 10px !important;
+}
+.vehicleSdkDisplay strong {
+  font-size: 14px !important;
+}
+.vehicleSdkBadge {
+  font-size: 10px !important;
+  padding: 5px 8px !important;
+  border-radius: 9px !important;
+}
+#sheet .vehicleStatusRow {
+  gap: 5px !important;
+  margin: 0 0 8px !important;
+}
+.vehicleStatusChip {
+  min-height: 27px !important;
+  padding: 4px 8px !important;
+  font-size: 10px !important;
+  border-radius: 999px !important;
+}
+#sheet .sheetRecommendation {
+  min-height: 44px !important;
+  padding: 8px 10px !important;
+  border-radius: 13px !important;
+}
+.sheetRecommendation span {
+  display: none !important;
+}
+.sheetRecommendation strong {
+  font-size: 13px !important;
+}
+.sheetRecommendation b {
+  font-size: 12px !important;
+} /* Sale confirmation */
+.saleModal {
+  background: rgba(14, 27, 45, 0.46) !important;
+  backdrop-filter: blur(9px) !important;
+  padding: 14px !important;
+}
+.saleModalCard {
+  width: min(100%, 402px) !important;
+  border: 0 !important;
+  border-radius: 22px !important;
+  background: #fff !important;
+  padding: 14px !important;
+  box-shadow: 0 24px 70px rgba(12, 25, 43, 0.18) !important;
+}
+.saleModalHead {
+  margin-bottom: 9px !important;
+}
+.saleModalEyebrow {
+  display: none !important;
+}
+.saleModalHead h3 {
+  font-size: 21px !important;
+  letter-spacing: -0.035em !important;
+}
+.saleModalCarName {
+  padding: 9px 10px !important;
+  border-radius: 13px !important;
+  background: #f5f8fa !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+} /* Lock screen follows the same product language */
+.appLock {
+  background:
+    radial-gradient(circle at 80% 15%, rgba(220, 232, 248, 0.7), transparent 26%), #fbfdff !important;
+  padding: 18px !important;
+}
+.appLockCard {
+  width: min(100%, 390px) !important;
+  border: 1px solid var(--ref-line) !important;
+  border-radius: 24px !important;
+  padding: 20px 16px !important;
+  background: #fff !important;
+  box-shadow: 0 20px 60px rgba(18, 35, 56, 0.1) !important;
+}
+.appLockBrand {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 16px !important;
+  background: linear-gradient(130deg, #17304f, #274866) !important;
+  color: #fff !important;
+}
+.appLockEyebrow {
+  color: #a57f47 !important;
+  font-size: 10px !important;
+  letter-spacing: 0.16em !important;
+}
+.appLockCard h2 {
+  font-size: 22px !important;
+}
+.appLockCard > p {
+  display: none !important;
+}
+.appLockInput {
+  min-height: 50px !important;
+  border-radius: 14px !important;
+  border-color: var(--ref-line) !important;
+}
+.appLockButton {
+  width: 100% !important;
+  margin-top: 9px !important;
+} /* Toasts */
+.toastWrap {
+  bottom: calc(88px + env(safe-area-inset-bottom)) !important;
+  width: min(92vw, 400px) !important;
+}
+.toast {
+  min-height: 45px !important;
+  padding: 9px 12px !important;
+  border-radius: 14px !important;
+  background: #14263e !important;
+  color: #fff !important;
+  border: 0 !important;
+  box-shadow: 0 10px 28px rgba(13, 28, 47, 0.18) !important;
+  font-size: 12.5px !important;
+}
+@media (max-width: 390px) {
+  #sheet .premiumFieldsGrid,
+  #sheet .vehicleFields,
+  #sheet .vehicleRegGrid {
+    grid-template-columns: 1fr !important;
+  }
+  #sheet .premiumFieldsGrid .full,
+  #sheet .vehicleFields .vehicleWide,
+  #sheet .vehicleRegGrid .wide {
+    grid-column: auto !important;
+  }
+}

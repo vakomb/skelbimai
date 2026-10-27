@@ -1,0 +1,437 @@
+#autoEasierLogin[hidden] {
+  display: none !important;
+}
+.autoEasierLogin {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  padding: env(safe-area-inset-top) 20px max(20px, env(safe-area-inset-bottom));
+  background: #f9fbff;
+  color: #101827;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  isolation: isolate;
+}
+.autoEasierLoginBackdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: radial-gradient(
+    ellipse at 50% 48%,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.7) 46%,
+    rgba(247, 250, 255, 0.85) 100%
+  );
+}
+.autoEasierLoginBackdrop:before,
+.autoEasierLoginBackdrop:after {
+  position: absolute;
+  content: "";
+  pointer-events: none;
+}
+.autoEasierLoginBackdrop:before {
+  left: -17%;
+  top: -17%;
+  width: 84%;
+  height: 37%;
+  border-radius: 0 0 78% 0;
+  background: linear-gradient(145deg, #9ac8ff 0%, #c9e0ff 54%, rgba(226, 239, 255, 0.1) 100%);
+  clip-path: ellipse(74% 78% at 0 0);
+  filter: drop-shadow(0 12px 28px rgba(83, 151, 236, 0.1));
+}
+.autoEasierLoginBackdrop:after {
+  right: -21%;
+  bottom: -18%;
+  width: 91%;
+  height: 43%;
+  border-radius: 76% 0 0 0;
+  background: linear-gradient(325deg, #91c2ff 0%, #c6ddff 48%, rgba(225, 238, 255, 0.1) 100%);
+  clip-path: ellipse(75% 78% at 100% 100%);
+}
+.autoEasierLoginStage {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 0;
+  padding: 8px 0 20px;
+}
+.autoEasierLoginContent {
+  display: grid;
+  justify-items: center;
+  width: min(100%, 500px);
+  transform: translateY(-1.5vh);
+}
+.autoEasierWordmark {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  width: 100%;
+  margin: 0 0 clamp(28px, 6.2vh, 58px);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  font-size: clamp(42px, 10vw, 66px);
+  font-style: italic;
+  font-weight: 1000;
+  letter-spacing: -0.075em;
+  line-height: 0.95;
+  white-space: nowrap;
+  text-shadow: 0 2px 0 rgba(17, 24, 39, 0.025);
+}
+.autoEasierWordmark span {
+  color: #101010;
+}
+.autoEasierWordmark b {
+  color: #0879ed;
+  font-weight: 1000;
+}
+.autoEasierLoginCard {
+  box-sizing: border-box;
+  display: grid;
+  gap: 14px;
+  width: 100%;
+  padding: clamp(20px, 4.2vw, 34px);
+  border: 1px solid rgba(255, 255, 255, 0.94);
+  border-radius: 34px;
+  background: rgba(255, 255, 255, 0.83);
+  box-shadow:
+    0 22px 58px rgba(64, 132, 218, 0.15),
+    0 2px 8px rgba(35, 66, 105, 0.035);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.autoEasierField {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) 48px;
+  align-items: center;
+  min-width: 0;
+  min-height: 68px;
+  padding: 0 5px;
+  border: 1px solid #e8eef7;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: inset 0 1px 2px rgba(25, 62, 112, 0.025);
+}
+.autoEasierFieldIcon {
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #f1f6fd;
+  color: #164887;
+}
+.autoEasierFieldIcon svg {
+  width: 28px;
+  height: 28px;
+  stroke: currentColor;
+  stroke-width: 2.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.autoEasierField input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  height: 58px;
+  padding: 0 12px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #14233a;
+  font:
+    600 17px/1.2 Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+.autoEasierField input::placeholder {
+  color: #7789a4;
+  opacity: 1;
+  font-weight: 500;
+}
+.autoEasierField:focus-within {
+  border-color: #a9c9f2;
+  box-shadow: 0 0 0 3px rgba(48, 132, 230, 0.09);
+}
+.autoEasierPasswordToggle {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #7789a4;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.autoEasierPasswordToggle svg {
+  width: 25px;
+  height: 25px;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.autoEasierPasswordToggle .eyeSlash {
+  display: block;
+}
+.autoEasierPasswordToggle[aria-pressed="true"] .eyeSlash {
+  display: none;
+}
+.autoEasierSubmit {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 68px;
+  margin-top: 7px;
+  padding: 0 56px;
+  border: 1px solid rgba(73, 157, 255, 0.68);
+  border-radius: 23px;
+  background: linear-gradient(110deg, #118cff 0%, #0878eb 54%, #0068db 100%);
+  box-shadow:
+    0 10px 23px rgba(0, 108, 229, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  color: #fff;
+  font:
+    750 19px/1 Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  cursor: pointer;
+  transition:
+    transform 0.16s ease,
+    filter 0.16s ease,
+    box-shadow 0.16s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.autoEasierSubmit svg {
+  position: absolute;
+  right: 23px;
+  width: 23px;
+  height: 23px;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.autoEasierSubmit:active {
+  transform: scale(0.985);
+  filter: brightness(0.98);
+  box-shadow: 0 5px 13px rgba(0, 108, 229, 0.17);
+}
+.autoEasierSubmit:disabled {
+  opacity: 0.72;
+  cursor: progress;
+}
+.autoEasierAuthLinks {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin: 0 5px;
+}
+.autoEasierAuthLinks button {
+  min-height: 36px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #0756bf;
+  font:
+    650 13px/1.2 Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+}
+.autoEasierAuthLinks button:active {
+  opacity: 0.68;
+}
+.autoEasierConfirmField[hidden],
+.autoEasierAuthLinks button[hidden],
+#autoEasierEmailField[hidden] {
+  display: none !important;
+}
+.autoEasierAuthMessage {
+  margin: 1px 5px 0;
+  color: #b4233b;
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 650;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.autoEasierAuthMessage.is-success {
+  color: #16803c;
+}
+.autoEasierAuthMessage[hidden] {
+  display: none;
+}
+.autoEasierSessionControl {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 650;
+}
+.autoEasierSessionEmail {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.autoEasierSessionControl button {
+  min-height: 40px;
+  padding: 0 13px;
+  border: 1px solid #f1cbd0;
+  border-radius: 11px;
+  background: #fff5f5;
+  color: #b4233b;
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+}
+.autoEasierSubscription {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  min-height: 58px;
+  margin: 0 0 clamp(20px, 5vh, 48px);
+  padding: 0 10px;
+  color: #0756bf;
+  text-decoration: none;
+  font-size: 17px;
+  line-height: 1.2;
+  font-weight: 750;
+  -webkit-tap-highlight-color: transparent;
+}
+.autoEasierSubscription svg {
+  width: 28px;
+  height: 28px;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.autoEasierSubscription b {
+  font-size: 30px;
+  line-height: 0.8;
+  font-weight: 500;
+}
+.autoEasierSubscription:active {
+  opacity: 0.72;
+}
+body:has(#autoEasierLogin:not([hidden])) {
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+}
+@media (max-width: 390px) {
+  .autoEasierLogin {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .autoEasierWordmark {
+    font-size: clamp(40px, 10.5vw, 48px);
+    margin-bottom: clamp(24px, 5.5vh, 42px);
+  }
+  .autoEasierLoginCard {
+    padding: 18px;
+    border-radius: 30px;
+    gap: 12px;
+  }
+  .autoEasierField {
+    grid-template-columns: 54px minmax(0, 1fr) 42px;
+    min-height: 64px;
+  }
+  .autoEasierFieldIcon {
+    width: 46px;
+    height: 46px;
+  }
+  .autoEasierField input {
+    font-size: 16px;
+  }
+  .autoEasierSubmit {
+    min-height: 62px;
+    border-radius: 21px;
+    font-size: 18px;
+  }
+  .autoEasierSubscription {
+    font-size: 16px;
+    gap: 12px;
+  }
+}
+@media (max-height: 700px) {
+  .autoEasierLogin {
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+  .autoEasierLoginContent {
+    transform: none;
+  }
+  .autoEasierWordmark {
+    margin-bottom: 22px;
+    font-size: clamp(38px, 8vw, 52px);
+  }
+  .autoEasierLoginCard {
+    padding: 16px;
+    gap: 10px;
+  }
+  .autoEasierField {
+    min-height: 58px;
+  }
+  .autoEasierFieldIcon {
+    width: 42px;
+    height: 42px;
+  }
+  .autoEasierField input {
+    height: 52px;
+  }
+  .autoEasierSubmit {
+    min-height: 58px;
+  }
+  .autoEasierSubscription {
+    min-height: 44px;
+    margin-bottom: 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .autoEasierSubmit {
+    transition: none !important;
+  }
+}

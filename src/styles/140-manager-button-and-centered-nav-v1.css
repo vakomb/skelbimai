@@ -1,0 +1,204 @@
+/* The sample's white canvas is intentionally omitted; only the button treatment is carried into the app. */
+#view-garage .garageRefMenu {
+  display: grid !important;
+  gap: 10px !important;
+  margin: 0 0 17px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+#view-garage .garageRefWhat,
+#view-accounting .accountingManagerButton,
+#view-menu .menuManagerButton {
+  box-sizing: border-box !important;
+  position: relative !important;
+  isolation: isolate !important;
+  display: grid !important;
+  grid-template-columns: 52px minmax(0, 1fr) 26px !important;
+  align-items: center !important;
+  gap: 14px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 82px !important;
+  margin: 0 !important;
+  padding: 12px 18px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(87, 145, 214, 0.26) !important;
+  border-radius: 24px !important;
+  background: linear-gradient(112deg, #0b2344 0%, #123c70 56%, #1e5ca4 100%) !important;
+  color: #fff !important;
+  text-align: left !important;
+  box-shadow:
+    0 10px 24px rgba(13, 49, 91, 0.19),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease !important;
+  -webkit-tap-highlight-color: transparent;
+}
+#view-garage .garageRefWhat::after,
+#view-accounting .accountingManagerButton::after,
+#view-menu .menuManagerButton::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  background:
+    radial-gradient(ellipse at 82% 110%, rgba(75, 151, 255, 0.3), transparent 47%),
+    linear-gradient(100deg, transparent 52%, rgba(255, 255, 255, 0.035)) !important;
+  pointer-events: none !important;
+}
+#view-garage .garageRefWhatIcon,
+#view-accounting .accountingManagerButton .garageRefWhatIcon,
+#view-menu .menuManagerButton .garageRefWhatIcon {
+  position: relative !important;
+  z-index: 1 !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 52px !important;
+  height: 52px !important;
+  border: 1px solid rgba(126, 183, 255, 0.28) !important;
+  border-radius: 18px !important;
+  background: linear-gradient(145deg, #2378e8, #1250aa) !important;
+  color: #fff !important;
+  box-shadow:
+    0 5px 15px rgba(0, 79, 180, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+}
+#view-garage .garageRefWhatIcon svg,
+#view-accounting .accountingManagerButton .garageRefWhatIcon svg,
+#view-menu .menuManagerButton .garageRefWhatIcon svg {
+  display: block !important;
+  width: 39px !important;
+  height: 39px !important;
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 2.1 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  color: #fff !important;
+}
+#view-garage .garageRefWhat strong,
+#view-accounting .accountingManagerButton strong,
+#view-menu .menuManagerButton strong {
+  position: relative !important;
+  z-index: 1 !important;
+  min-width: 0 !important;
+  color: #fff !important;
+  font-size: clamp(18px, 5vw, 22px) !important;
+  line-height: 1.12 !important;
+  font-weight: 780 !important;
+  letter-spacing: -0.025em !important;
+  white-space: normal !important;
+}
+#view-garage .garageRefWhatArrow,
+#view-accounting .accountingManagerButton .garageRefWhatArrow,
+#view-menu .menuManagerButton .garageRefWhatArrow {
+  position: relative !important;
+  z-index: 1 !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 26px !important;
+  height: 32px !important;
+  color: rgba(255, 255, 255, 0.95) !important;
+  font-size: 32px !important;
+  font-weight: 350 !important;
+  line-height: 1 !important;
+}
+#view-garage .garageRefWhat:hover,
+#view-accounting .accountingManagerButton:hover,
+#view-menu .menuManagerButton:hover {
+  filter: brightness(1.04) !important;
+  box-shadow:
+    0 12px 27px rgba(13, 49, 91, 0.23),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+}
+#view-garage .garageRefWhat:active,
+#view-accounting .accountingManagerButton:active,
+#view-menu .menuManagerButton:active {
+  transform: scale(0.985) !important;
+  box-shadow: 0 5px 13px rgba(13, 49, 91, 0.18) !important;
+}
+#view-garage .garageRefWhat:focus-visible,
+#view-accounting .accountingManagerButton:focus-visible,
+#view-menu .menuManagerButton:focus-visible {
+  outline: 3px solid #75b5ff !important;
+  outline-offset: 3px !important;
+} /* Keep the Accounting manager action aligned with Garage. */
+#view-accounting .accountingManagerWrap {
+  width: 100% !important;
+  margin: 0 0 10px !important;
+} /* Center the three equal navigation slots on every view. */
+body:has(.view.active) .navWrap {
+  box-sizing: border-box !important;
+  display: flex !important;
+  justify-content: center !important;
+  width: 100% !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+body:has(.view.active) .navWrap .nav {
+  box-sizing: border-box !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  align-items: stretch !important;
+  justify-items: stretch !important;
+  width: min(100%, 430px) !important;
+  max-width: 430px !important;
+  min-width: 0 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+  gap: 0 !important;
+}
+body:has(.view.active) .navWrap .nav .navBtn {
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding-left: 2px !important;
+  padding-right: 2px !important;
+  justify-self: stretch !important;
+}
+@media (max-width: 390px) {
+  #view-garage .garageRefWhat,
+  #view-accounting .accountingManagerButton,
+  #view-menu .menuManagerButton {
+    grid-template-columns: 46px minmax(0, 1fr) 22px !important;
+    min-height: 74px !important;
+    padding: 10px 14px !important;
+    gap: 11px !important;
+    border-radius: 21px !important;
+  }
+  #view-garage .garageRefWhatIcon {
+    width: 46px !important;
+    height: 46px !important;
+    border-radius: 16px !important;
+  }
+  #view-garage .garageRefWhatIcon svg {
+    width: 35px !important;
+    height: 35px !important;
+  }
+  #view-garage .garageRefWhat strong {
+    font-size: 18px !important;
+  }
+  #view-garage .garageRefWhatArrow {
+    width: 22px !important;
+    font-size: 29px !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #view-garage .garageRefWhat,
+  #view-accounting .accountingManagerButton,
+  #view-menu .menuManagerButton {
+    transition: none !important;
+  }
+}

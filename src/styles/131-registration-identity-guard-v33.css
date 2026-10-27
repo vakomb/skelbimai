@@ -1,0 +1,104 @@
+.registrationMismatchBackdropV33 {
+  position: fixed;
+  inset: 0;
+  z-index: 10050;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(7px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 14px 14px calc(14px + env(safe-area-inset-bottom));
+}
+.registrationMismatchCardV33 {
+  width: min(100%, 430px);
+  border-radius: 24px;
+  background: #fff;
+  border: 1px solid #e1e6ec;
+  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.24);
+  padding: 18px;
+  color: #14253a;
+}
+.registrationMismatchIconV33 {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: #fff0f2;
+  color: #b3263b;
+  font-size: 23px;
+  font-weight: 950;
+  margin-bottom: 11px;
+}
+.registrationMismatchCardV33 h3 {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.registrationMismatchCardV33 p {
+  margin: 8px 0 0;
+  color: #66768a;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.registrationMismatchCardV33 p strong {
+  color: #14253a;
+}
+.registrationMismatchDiffsV33 {
+  margin-top: 13px;
+  display: grid;
+  gap: 6px;
+}
+.registrationMismatchDiffV33 {
+  min-height: 42px;
+  border-radius: 12px;
+  border: 1px solid #e6ebf0;
+  background: #f8fafc;
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) 18px minmax(0, 1fr);
+  align-items: center;
+  gap: 5px;
+  padding: 7px 9px;
+  font-size: 10.5px;
+}
+.registrationMismatchDiffV33 span {
+  color: #7b8796;
+  font-weight: 800;
+}
+.registrationMismatchDiffV33 strong {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #24384e;
+}
+.registrationMismatchDiffV33 b {
+  text-align: center;
+  color: #b3263b;
+}
+.registrationMismatchActionsV33 {
+  display: grid;
+  gap: 8px;
+  margin-top: 15px;
+}
+.registrationMismatchActionsV33 .btn {
+  width: 100%;
+}
+html[data-theme="dark"] .registrationMismatchCardV33 {
+  background: #111827;
+  border-color: #263247;
+  color: #f8fafc;
+}
+html[data-theme="dark"] .registrationMismatchCardV33 p,
+html[data-theme="dark"] .registrationMismatchDiffV33 span {
+  color: #aeb9c7;
+}
+html[data-theme="dark"] .registrationMismatchCardV33 p strong,
+html[data-theme="dark"] .registrationMismatchDiffV33 strong {
+  color: #f8fafc;
+}
+html[data-theme="dark"] .registrationMismatchDiffV33 {
+  background: #162033;
+  border-color: #263247;
+}

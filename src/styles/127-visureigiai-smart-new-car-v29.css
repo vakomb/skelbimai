@@ -1,0 +1,186 @@
+/* ===== New car: manual or registration certificate OCR ===== */
+#addCarPanel .newCarModeV29 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 4px;
+  margin: 0 0 10px;
+  border: 1px solid #e1e8ef;
+  border-radius: 14px;
+  background: #f5f8fb;
+}
+#addCarPanel .newCarModeV29 button {
+  min-height: 42px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  background: transparent;
+  color: #617187;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+#addCarPanel .newCarModeV29 button.active {
+  border-color: #d7e5f1;
+  background: #fff;
+  color: #17324d;
+  box-shadow: 0 2px 7px rgba(21, 48, 73, 0.05);
+}
+#addCarPanel .newCarScanV29 {
+  margin: 0 0 11px;
+}
+#addCarPanel .newCarScanV29[hidden] {
+  display: none !important;
+}
+#addCarPanel .newCarScanActionsV29 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+#addCarPanel .newCarScanBtnV29 {
+  min-height: 70px;
+  padding: 9px;
+  border: 1px solid #d8e7f4;
+  border-radius: 14px;
+  background: linear-gradient(120deg, #eef7ff, #fbfdff);
+  color: #174f89;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+}
+#addCarPanel .newCarScanBtnV29 span {
+  font-size: 19px;
+  line-height: 1;
+}
+#addCarPanel .newCarScanBtnV29 strong {
+  font-size: 12.5px;
+  font-weight: 850;
+}
+#addCarPanel .newCarScanBtnV29 input {
+  display: none;
+}
+#addCarPanel .newCarScanPreviewV29 {
+  display: none;
+  width: 100%;
+  height: 126px;
+  margin-top: 8px;
+  overflow: hidden;
+  border: 1px solid #e1e7ed;
+  border-radius: 13px;
+  background: #eef2f5;
+}
+#addCarPanel .newCarScanPreviewV29.show {
+  display: block;
+}
+#addCarPanel .newCarScanPreviewV29 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+#addCarPanel .newCarScanStateV29 {
+  min-height: 0;
+  margin-top: 7px;
+  color: #617187;
+  font-size: 11px;
+  line-height: 1.3;
+  font-weight: 650;
+}
+#addCarPanel .newCarScanStateV29:empty {
+  display: none;
+}
+#addCarPanel .newCarDetectedV29 {
+  display: none;
+  margin-top: 7px;
+  padding: 9px 10px;
+  border: 1px solid #dce8f3;
+  border-radius: 12px;
+  background: #f7fbff;
+}
+#addCarPanel .newCarDetectedV29.show {
+  display: block;
+}
+#addCarPanel .newCarDetectedV29 strong {
+  display: block;
+  color: #12253a;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: -0.015em;
+}
+#addCarPanel .newCarDetectedV29 span {
+  display: block;
+  margin-top: 4px;
+  color: #60748a;
+  font-size: 10px;
+  line-height: 1.35;
+  font-weight: 650;
+}
+#addCarPanel .newCarEssentialsV29 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+#addCarPanel .newCarEssentialsV29 .field:first-child {
+  grid-column: 1/-1;
+}
+#addCarPanel .newCarEssentialsV29 .field {
+  margin-bottom: 0;
+}
+#addCarPanel[data-add-mode="scan"] .sdkFields .field:last-child {
+  display: none !important;
+}
+#addCarPanel[data-add-mode="scan"] .sdkFields .field:first-child {
+  grid-column: 1/-1 !important;
+}
+#addCarPanel[data-add-mode="scan"] #newVehicletaUntil,
+#addCarPanel[data-add-mode="scan"] #newVehicleinsuranceUntil,
+#addCarPanel[data-add-mode="scan"] #newVehicleaskingPrice,
+#addCarPanel[data-add-mode="scan"] #newVehiclesource,
+#addCarPanel[data-add-mode="scan"] #newVehiclelistingStatus,
+#addCarPanel[data-add-mode="scan"] #newVehiclelistingDate {
+  display: none !important;
+}
+#addCarPanel[data-add-mode="scan"] #newVehicletaUntil.closest,
+#addCarPanel[data-add-mode="scan"] #newVehicleinsuranceUntil.closest {
+  display: none !important;
+} /* Hide the parent fields for scan-only simplicity. */
+#addCarPanel[data-add-mode="scan"] .vehicleDetails .field:has(#newVehicletaUntil),
+#addCarPanel[data-add-mode="scan"] .vehicleDetails .field:has(#newVehicleinsuranceUntil),
+#addCarPanel[data-add-mode="scan"] .vehicleDetails .field:has(#newVehicleaskingPrice),
+#addCarPanel[data-add-mode="scan"] .vehicleDetails .field:has(#newVehiclesource),
+#addCarPanel[data-add-mode="scan"] .vehicleDetails .field:has(#newVehiclelistingStatus),
+#addCarPanel[data-add-mode="scan"] .vehicleDetails .field:has(#newVehiclelistingDate) {
+  display: none !important;
+}
+#addCarPanel[data-add-mode="scan"] .vehicleDocuments {
+  display: none !important;
+}
+#addCarPanel .vehicleDetails {
+  margin-top: 9px !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
+}
+#addCarPanel .vehicleDetails > summary {
+  min-height: 44px !important;
+  padding: 0 10px !important;
+  font-size: 12.5px !important;
+  font-weight: 820 !important;
+}
+#addCarPanel .sdkFields {
+  margin-top: 8px !important;
+}
+#addCarPanel #addCarBtn {
+  margin-top: 10px !important;
+}
+@media (max-width: 390px) {
+  #addCarPanel .newCarModeV29 button {
+    font-size: 11.5px;
+  }
+  #addCarPanel .newCarScanBtnV29 {
+    min-height: 66px;
+  }
+}

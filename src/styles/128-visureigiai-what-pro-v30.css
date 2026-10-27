@@ -1,0 +1,255 @@
+/* Ką daryti? — actionable work center */
+.garageWhatHeroWrapV30,
+.garageWhatRowWrapV30 {
+  position: relative;
+}
+.garageWhatHeroMainV30 {
+  width: 100%;
+  padding: 0;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+}
+.garageWhatHeroMainV30 .garageWhatDetailV30 {
+  display: block;
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.garageWhatManageV30 {
+  position: absolute;
+  z-index: 6;
+  width: 44px;
+  height: 44px;
+  border: 1px solid #dfe7ee;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #52657a;
+  font: inherit;
+  font-size: 17px;
+  font-weight: 900;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 5px 16px rgba(18, 38, 61, 0.08);
+}
+.garageWhatHeroWrapV30 > .garageWhatManageV30 {
+  right: 11px;
+  top: 11px;
+}
+.garageWhatRowWrapV30 > .garageWhatManageV30 {
+  right: 9px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.garageWhatRowWrapV30 .garageWhatRow {
+  padding-right: 56px !important;
+}
+.garageWhatRowDetailV30 {
+  display: block !important;
+  margin-top: 4px;
+  color: #6d7c8d !important;
+  font-size: 10.5px !important;
+  font-weight: 650 !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.garageWhatCopy strong {
+  padding-right: 2px;
+}
+.garageWhatSide {
+  margin-right: 0;
+}
+.whatQuickSheetV30 {
+  display: grid;
+  gap: 11px;
+}
+.whatQuickTitleV30 {
+  padding: 3px 2px 5px;
+}
+.whatQuickTitleV30 strong {
+  display: block;
+  color: #0d1b2e;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  line-height: 1.16;
+}
+.whatQuickTitleV30 span {
+  display: block;
+  margin-top: 5px;
+  color: #6a7a8e;
+  font-size: 11.5px;
+  font-weight: 650;
+  line-height: 1.35;
+}
+.whatQuickGridV30 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.whatQuickGridV30 .field {
+  margin: 0;
+}
+.whatQuickGridV30 .whatWideV30 {
+  grid-column: 1/-1;
+}
+.whatQuickGridV30 label,
+.whatQuickSheetV30 > .field label {
+  font-size: 11px !important;
+  font-weight: 750 !important;
+  color: #66758a !important;
+}
+.whatQuickGridV30 .input,
+.whatQuickSheetV30 > .field .input {
+  min-height: 47px !important;
+  background: #fff !important;
+  border-color: #dfe6ed !important;
+}
+.whatPrimaryV30 {
+  width: 100% !important;
+  min-height: 48px !important;
+  background: linear-gradient(120deg, #eef7ff, #fbfdff) !important;
+  border: 1px solid #d5e6f6 !important;
+  color: #174f89 !important;
+  -webkit-text-fill-color: #174f89 !important;
+  box-shadow: none !important;
+}
+.whatDocInputsV30 {
+  display: grid;
+  gap: 8px;
+}
+.whatDocPickerV30 {
+  min-height: 62px;
+  padding: 9px 11px;
+  border: 1px dashed #cbddeb;
+  border-radius: 14px;
+  background: #f7fbff;
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  align-items: center;
+  column-gap: 8px;
+  cursor: pointer;
+}
+.whatDocPickerV30 > span {
+  grid-row: 1/3;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: #e9f4fc;
+  color: #175a8e;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  font-weight: 900;
+}
+.whatDocPickerV30 strong {
+  font-size: 13px;
+  color: #17324d;
+  font-weight: 850;
+}
+.whatDocPickerV30 small {
+  min-height: 12px;
+  margin-top: 3px;
+  color: #708094;
+  font-size: 9.8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.whatDocPickerV30 input {
+  display: none;
+}
+.whatChoiceListV30 {
+  display: grid;
+  gap: 8px;
+}
+.whatChoiceListV30 > button,
+.whatChoiceListV30 > .whatCallLinkV30 {
+  width: 100%;
+  min-height: 58px;
+  padding: 8px 10px;
+  border: 1px solid #e0e7ee;
+  border-radius: 15px;
+  background: #fff;
+  color: #13243a;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  align-items: center;
+  gap: 9px;
+  text-align: left;
+  font: inherit;
+}
+.whatChoiceListV30 > button > b,
+.whatChoiceListV30 > .whatCallLinkV30 > b {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: #eef6fd;
+  color: #174f89;
+  display: grid;
+  place-items: center;
+  font-size: 17px;
+}
+.whatChoiceListV30 > button strong,
+.whatChoiceListV30 > .whatCallLinkV30 strong {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 850;
+}
+.whatChoiceListV30 > button small,
+.whatChoiceListV30 > .whatCallLinkV30 small {
+  display: block;
+  margin-top: 3px;
+  color: #6d7c8d;
+  font-size: 10.5px;
+  font-weight: 650;
+}
+.whatChoiceListV30 > button.dangerSoftV30 {
+  border-color: #f0d9dd;
+  background: #fffafb;
+}
+.whatChoiceListV30 > button.dangerSoftV30 > b {
+  background: #fff0f2;
+  color: #b42335;
+}
+.whatSnoozeGridV30 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+}
+.whatSnoozeGridV30 button {
+  min-height: 45px;
+  border: 1px solid #dce5ed;
+  border-radius: 13px;
+  background: #f7f9fb;
+  color: #334a62;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+}
+.whatDismissForeverV30 {
+  width: 100%;
+  min-height: 45px;
+  border: 1px solid #f1d9dd;
+  border-radius: 13px;
+  background: #fffafb;
+  color: #b42335;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 850;
+}
+@media (max-width: 390px) {
+  .whatQuickGridV30 {
+    grid-template-columns: 1fr;
+  }
+  .whatQuickGridV30 .whatWideV30 {
+    grid-column: auto;
+  }
+  .garageWhatRowWrapV30 .garageWhatRow {
+    padding-right: 52px !important;
+  }
+}

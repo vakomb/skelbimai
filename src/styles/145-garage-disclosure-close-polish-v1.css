@@ -1,0 +1,254 @@
+#view-garage-leads.garageInlinePanel.garageInlineOpen,
+#view-customers.garageInlinePanel.garageInlineOpen {
+  max-height: none !important;
+}
+#garageTasksSection.is-closing {
+  display: grid !important;
+  animation: garageTaskCollapse 0.2s ease both;
+}
+@keyframes garageTaskCollapse {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 80vh;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-5px);
+    max-height: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #garageTasksSection.is-closing {
+    animation: none !important;
+  }
+} /* Shared disclosure surface and footer controls for Garage and Accounting. */
+body:has(#view-garage.active) .app {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 460px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+body:has(#view-garage.active) .nav {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 430px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+#view-accounting .accountingRefWorkspace {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  margin: 11px 0 !important;
+}
+#view-accounting .accountingRefWorkspace > .accountingWorkspace,
+#view-garage #garageTasksSection.is-open,
+#view-garage #view-garage-leads.garageInlinePanel.garageInlineOpen,
+#view-garage #view-customers.garageInlinePanel.garageInlineOpen,
+#view-garage #addCarPanel {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  padding: 16px !important;
+  border: 1px solid var(--line, #dce6e3) !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  color: var(--text, #18252b) !important;
+  box-shadow: 0 4px 14px rgba(18, 38, 61, 0.045) !important;
+  font-family: inherit !important;
+  transform: none !important;
+  transition: none !important;
+}
+#view-accounting .accountingRefWorkspace > .accountingWorkspace {
+  margin: 0 !important;
+}
+#view-garage #garageTasksSection.is-open {
+  display: grid !important;
+  gap: 12px !important;
+  margin: 12px 0 !important;
+  overflow: visible !important;
+}
+#view-garage #garageTasksSection > .sectionHead,
+#view-accounting .accountingWorkspaceHead,
+#view-garage #addCarPanel > .sectionHead,
+#view-garage #view-garage-leads.garageInlinePanel > .sectionHead,
+#view-garage #view-customers.garageInlinePanel .contactsHead {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  min-width: 0 !important;
+  margin: 0 0 13px !important;
+  padding: 0 0 11px !important;
+  border-bottom: 1px solid var(--line, #dce6e3) !important;
+  background: transparent !important;
+}
+#view-garage #garageTasksSection > .sectionHead h2,
+#view-accounting .accountingWorkspaceHead h3,
+#view-garage #addCarPanel > .sectionHead h2,
+#view-garage #view-garage-leads.garageInlinePanel > .sectionHead h2,
+#view-garage #view-customers.garageInlinePanel .contactsHead h2 {
+  margin: 0 !important;
+  color: var(--text, #18252b) !important;
+  font-family: inherit !important;
+  font-size: 22px !important;
+  line-height: 1.2 !important;
+  font-weight: 760 !important;
+  letter-spacing: -0.03em !important;
+}
+#view-accounting .accountingWorkspace .field,
+#view-garage #garageTasksSection .field,
+#view-garage #addCarPanel .field,
+#view-garage .garageInlinePanel .field {
+  display: grid !important;
+  gap: 6px !important;
+  min-width: 0 !important;
+  margin: 0 0 12px !important;
+}
+#view-accounting .accountingWorkspace .field > label,
+#view-garage #garageTasksSection .field > label,
+#view-garage #addCarPanel .field > label,
+#view-garage .garageInlinePanel .field > label {
+  display: block !important;
+  margin: 0 !important;
+  color: var(--muted, #68767d) !important;
+  font-family: inherit !important;
+  font-size: 14px !important;
+  line-height: 1.25 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+}
+#view-accounting .accountingWorkspace .field .input,
+#view-garage #garageTasksSection .field .input,
+#view-garage #addCarPanel .field .input,
+#view-garage .garageInlinePanel .field .input {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 48px !important;
+  margin: 0 !important;
+  padding: 0 13px !important;
+  border: 1px solid var(--line, #dce6e3) !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  color: var(--text, #18252b) !important;
+  font-family: inherit !important;
+  font-size: 15px !important;
+  line-height: 1.3 !important;
+  font-weight: 500 !important;
+  box-shadow: none !important;
+}
+#view-accounting .accountingWorkspace .field textarea.input,
+#view-garage #garageTasksSection .field textarea.input,
+#view-garage #addCarPanel .field textarea.input,
+#view-garage .garageInlinePanel .field textarea.input {
+  min-height: 96px !important;
+  padding: 12px 13px !important;
+  resize: vertical !important;
+}
+#view-accounting .accountingWorkspace .accountingMoneyForm,
+#view-garage #garageTasksSection .otherTaskFormPro {
+  display: grid !important;
+  gap: 10px !important;
+  min-width: 0 !important;
+}
+#view-accounting .accountingWorkspace .btn,
+#view-garage #addCarPanel #addCarBtn,
+#view-garage #garageTasksSection #garageTaskForm button[type="submit"],
+#view-garage #view-garage-leads #addGarageLeadPanel button[type="submit"] {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  min-height: 48px !important;
+  margin: 3px 0 0 !important;
+  padding: 0 16px !important;
+  border-radius: 14px !important;
+  font-family: inherit !important;
+  font-size: 15px !important;
+  line-height: 1.2 !important;
+  font-weight: 750 !important;
+}
+.appCloseAction,
+.garageTaskClose,
+.garageInlineClose,
+.accountingWorkspaceClose {
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  align-self: center !important;
+  justify-self: center !important;
+  width: max-content !important;
+  max-width: 100% !important;
+  min-width: 112px !important;
+  min-height: 44px !important;
+  margin: 15px auto 0 !important;
+  padding: 0 18px !important;
+  border: 1px solid #f0cfd3 !important;
+  border-radius: 13px !important;
+  background: #fff3f4 !important;
+  color: #a12d3d !important;
+  font-family: inherit !important;
+  font-size: 14px !important;
+  line-height: 1.2 !important;
+  font-weight: 750 !important;
+  text-align: center !important;
+  box-shadow: 0 1px 2px rgba(105, 20, 35, 0.04) !important;
+  transition:
+    background-color 0.16s ease,
+    border-color 0.16s ease,
+    transform 0.16s ease !important;
+  cursor: pointer !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+#view-accounting .accountingWorkspaceClose {
+  order: 2 !important;
+  margin: 15px auto 0 !important;
+}
+#view-garage #garageTasksSection .garageTaskClose {
+  grid-column: 1/-1 !important;
+  margin: 3px auto 0 !important;
+}
+#view-garage #garageTaskForm .garageTaskClose {
+  margin: 8px auto 0 !important;
+}
+#view-garage #addCarPanel #cancelAddCarBtn {
+  min-height: 44px !important;
+  margin: 14px auto 0 !important;
+}
+#view-garage .garageInlinePanel .garageInlineClose {
+  margin: 15px auto 0 !important;
+}
+#view-accounting .accountingWorkspace .accountingWorkspaceHead span,
+#view-garage #garageTasksSection .sectionHead > span {
+  font-family: inherit !important;
+  font-size: 13px !important;
+  line-height: 1.3 !important;
+  font-weight: 650 !important;
+}
+#view-garage #garageTasksSection .panel.taskGroup {
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 10px !important;
+  border: 1px solid var(--line, #dce6e3) !important;
+  border-radius: 15px !important;
+  background: #f8fafc !important;
+  box-shadow: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  #view-accounting .accountingRefWorkspace,
+  #view-accounting .accountingRefWorkspace *,
+  #view-garage #garageTasksSection,
+  #view-garage #garageTasksSection *,
+  #view-garage .garageInlinePanel,
+  #view-garage .garageInlinePanel * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}

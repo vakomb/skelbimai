@@ -1,0 +1,32 @@
+{
+  "theme": "light",
+  "cars": [
+    {
+      "id": "car-demo-1", "name": "Nissan X-Trail", "imageSrc": "", "photos": [], "notes": "",
+      "buyPrice": 4500, "soldPrice": null, "netProfit": 0, "soldAt": null, "soldDateISO": null,
+      "createdDateISO": "2026-10-10", "createdAt": "2026-10-10 10:00", "status": "aktyvus",
+      "vin": "JN1TANT31U0000001", "year": 2008, "mileage": 245000, "plate": "ABC123", "askingPrice": 6200,
+      "taStatus": "valid", "taUntil": "2027-05-01", "insuranceStatus": "unknown", "sdkStatus": "submitted",
+      "checklist": [
+        { "id": "t1", "name": "Plovimas", "done": true, "expense": 25, "dueDate": "2026-10-12", "doneAt": "2026-10-12 12:00" },
+        { "id": "t2", "name": "Stabdžių kaladėlės", "done": false, "expense": 0, "dueDate": "2026-10-20" },
+        { "id": "t3", "name": "Nuotraukos skelbimui", "done": false, "expense": 0, "dueDate": "2026-10-27" }
+      ]
+    },
+    {
+      "id": "car-demo-2", "name": "Toyota RAV4", "imageSrc": "", "photos": [], "notes": "",
+      "buyPrice": 7000, "soldPrice": 9100, "netProfit": 1900, "soldAt": "2026-10-20 15:00", "soldDateISO": "2026-10-20",
+      "createdDateISO": "2026-09-28", "createdAt": "2026-09-28 09:00", "status": "parduotas",
+      "checklist": [ { "id": "t4", "name": "Poliravimas", "done": true, "expense": 200, "dueDate": "" } ]
+    }
+  ],
+  "garageTasks": [
+    { "id": "g1", "title": "Paskambinti draudimui", "xp": 0, "coins": 0, "dueDate": "2026-10-27", "priority": "urgent", "category": "Skambutis", "notes": "", "done": false, "doneDate": "", "createdAt": "2026-10-25", "completedAt": null },
+    { "id": "g2", "title": "Sutvarkyti dokumentus", "xp": 0, "coins": 0, "dueDate": "2026-11-02", "priority": "normal", "category": "Dokumentai", "notes": "", "done": false, "doneDate": "", "createdAt": "2026-10-25", "completedAt": null }
+  ],
+  "leadVariants": [
+    { "id": "l1", "make": "Mitsubishi", "model": "Pajero", "year": 2006, "fuel": "Dyzelis", "phone": "+37060000000", "city": "Kaunas", "initialPrice": 3000, "targetPrice": 2500, "expectedSalePrice": 4200, "followDays": 2, "nextCallDate": "2026-10-28", "taStatus": "unknown", "insuranceStatus": "unknown", "notes": "Derybos", "photos": [], "createdDateISO": "2026-10-26" }
+  ],
+  "finances": { "monthKey": "2026-10", "budgetBalance": 12000, "transactions": [ { "id": "f1", "type": "expense", "amount": 120, "title": "Reklama", "note": "", "date": "2026-10-15", "createdAt": "2026-10-15" } ], "debts": [], "debtLedger": [] },
+  "accounting": { "email": "info@visureigiai.lt", "queue": ["car-demo-2"], "history": [] }
+}
