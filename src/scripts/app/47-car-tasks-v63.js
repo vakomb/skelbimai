@@ -68,8 +68,6 @@ function ctTasksPolishV63(sheet, car) {
       list.append(r);
     });
   }
-  if (!pending.length && !finished.length && !list.querySelector(".ctEmptyV63"))
-    list.insertAdjacentHTML("beforeend", '<p class="ctEmptyV63">Užduočių dar nėra</p>');
   // Nauja užduotis – čia pat
   const add = block.querySelector("#addChecklistBtn");
   if (add && car.status !== "parduotas" && !block.querySelector(".ctFormV63")) {

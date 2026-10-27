@@ -229,6 +229,10 @@ Vadybininkas nebesiūlo „Kodėl dar ne skelbime?“ ir kainos peržiūros paga
   - pirmiausia rodomos naudotojo užduotys, Vadybininko darbai šiam automobiliui – po mygtuku „Vadybininko užduotys“ (senas `.carManagerSystemList` paslėptas);
   - paspaudus darbą, atidaromas `openWhatItemV30` langas, o jį uždarius (`closeSheet`) grįžtama į tą pačią kortelę (`cmReturnCarV66`).
 
+## Nuotraukų užpildymas (v67)
+
+`51-photo-fill-v67.js`: kortelių ir sąrašų šablonai naudoja `photoUrlCache[ref] || ""`. Jei kortelė atidaroma anksčiau, nei nuotrauka įkeliama iš IndexedDB ar debesies, paveikslėlis likdavo tuščias. Dabar po `renderCarSheet`, `openGarageLeadSheet` ir `render()` kiekvienas tuščias paveikslėlis (miniatiūros, viršutinė nuotrauka, sąrašų kortelės) užpildomas per `photoGet`. Patikrinta dirbtinai sulėtinus IndexedDB. Automobilio kortelėje nebėra užrašo „Užduočių dar nėra“.
+
 ## Perrašymų grandinės (svarbu!)
 
 Programa augo sluoksniais: nauja versija **perrašo** seną funkciją (`render = async function () { await __renderPP(); … }`). Todėl:
