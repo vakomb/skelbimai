@@ -398,3 +398,19 @@ renderCarSheet = function (car) {
   const sell = sheet.querySelector("#sellCarBtn");
   if (sell && /parduoti/i.test(sell.textContent)) sell.textContent = "Parduoti";
 };
+
+// ---------- Vadybininkas be skelbimų priminimų (v54) ----------
+// Skelbimo būsenos laukas pašalintas iš formų, todėl priminimai „Kodėl dar ne skelbime?“ ir kainos peržiūra pagal
+// skelbimo dienas nebeturi prasmės.
+const __workCenterItemsV54 = workCenterItems;
+workCenterItems = function () {
+  return __workCenterItemsV54().filter(it => !/:(listing|price-review)$/.test(it.key || ""));
+};
+window.__autoEasierWorkCountV1 = () => workCenterItems().length;
+const __carRecommendationV54 = carRecommendation;
+carRecommendation = function (car) {
+  const r = __carRecommendationV54(car);
+  if (r && /^Įkelti skelbimą|^Peržiūrėti kainą · stovi/.test(r.text))
+    return { ...r, text: "Paruoštas pardavimui", base: 35 };
+  return r;
+};

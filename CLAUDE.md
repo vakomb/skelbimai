@@ -9,7 +9,8 @@ Kalba su vartotoju: **lietuvių**. Programėlė skirta telefonui (iPhone 15 Pro 
 3. Nekeisk `src/vendor/` ir `reference/`.
 4. `src/scripts/app/*.js` yra **vienas bendras scope**, sujungtas eilės tvarka. Nėra `import/export`. Kintamieji ir funkcijos iš 01–31 matomi visur. Naujas failas gauna kitą numerį (`33-…js`), nes eilė svarbi. Faile negali būti `return` aukščiausiame lygyje.
 5. Prieš keisdamas funkciją, pažiūrėk [`docs/OVERRIDES.md`](docs/OVERRIDES.md). Daug funkcijų perrašomos vėlesniuose failuose, o galioja **paskutinė** versija. Pakeitimas ankstyvoje versijoje dažnai nieko nekeičia.
-6. CSS: blokų tvarka yra kaskada. Norėdamas pakeisti išvaizdą, rask, kuris **vėliausias** blokas nustato tą savybę (`grep -n "selektorius" src/styles/*.css | tail`), ir keisk ten. Neįdėk naujo bloko anksčiau už tą, kurį nori perrašyti.
+6. Bendras stilius (šriftai, mygtukai, laukai, kortelės) keičiamas tik `src/styles/166-design-system-v54.css` su jo prefiksu. Jame nenustatyk `display` bendroms klasėms. Po pakeitimų paleisk `node tools/screens.mjs` ir peržiūrėk nuotraukas.
+7. CSS: blokų tvarka yra kaskada. Norėdamas pakeisti išvaizdą, rask, kuris **vėliausias** blokas nustato tą savybę (`grep -n "selektorius" src/styles/*.css | tail`), ir keisk ten. Neįdėk naujo bloko anksčiau už tą, kurį nori perrašyti.
 7. Literalus `</style>` ar `</script>` šaltinio faile sulaužytų puslapį. Build tai patikrina ir sustoja.
 8. Duomenų struktūra (`state`) yra sinchronizuojama su Supabase ir saugoma vartotojų telefonuose. **Nepervadink ir netrink laukų**. Naujus laukus pridėk su numatyta reikšme `defaultState()` ir `loadState()` (`06-state-and-history.js`).
 9. Po kodo pakeitimų paleisk `npm run format`.

@@ -19,7 +19,9 @@ nes deklaracijos „iškeliamos“ – hoisting), `reassigned` = `X = function�
 | `renderCustomers` | 13-customers-and-backup:21 (function) → 21-contacts:113 (reassigned) |
 | `vehicleFields` | 14-vehicle-fields-documents:67 (function) → 24-accounting-v3-pp-chooser:219 (reassigned) → 24-accounting-v3-pp-chooser:558 (reassigned) → 30-registration-review-v41:736 (reassigned) → 31-registration-v42-v43:453 (reassigned) → 34-registration-ui:164 (reassigned) |
 | `readVehicleFields` | 14-vehicle-fields-documents:84 (function) → 24-accounting-v3-pp-chooser:207 (reassigned) → 24-accounting-v3-pp-chooser:567 (reassigned) → 30-registration-review-v41:746 (reassigned) → 31-registration-v42-v43:462 (reassigned) → 34-registration-ui:173 (reassigned) |
+| `carRecommendation` | 15-work-center:20 (function) → 35-car-ui-v51:411 (reassigned) |
 | `workCenterMissingFieldsV30` | 15-work-center:118 (function) → 30-registration-review-v41:953 (reassigned) |
+| `workCenterItems` | 15-work-center:153 (function) → 35-car-ui-v51:406 (reassigned) |
 | `shareAccountingCars` | 16-accounting-package:158 (function) → 20-accounting-share:91 (reassigned) → 20-accounting-share:234 (reassigned) → 24-accounting-v3-pp-chooser:55 (reassigned) |
 | `renderAccountingCenter` | 16-accounting-package:229 (function) → 18-pp-contract-generator:459 (reassigned) → 20-accounting-share:151 (reassigned) → 20-accounting-share:320 (reassigned) → 24-accounting-v3-pp-chooser:119 (reassigned) → 24-accounting-v3-pp-chooser:134 (reassigned) → 24-accounting-v3-pp-chooser:296 (reassigned) → 24-accounting-v3-pp-chooser:461 (reassigned) → 25-accounting-v8-transactions-reports:533 (reassigned) |
 | `ppLoadOcr` | 18-pp-contract-generator:91 (function) → 19-pp-pdf-offline-and-ocr:562 (reassigned) |

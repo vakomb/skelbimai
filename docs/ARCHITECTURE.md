@@ -102,6 +102,16 @@ Testas: `node tools/test-car-forms.mjs` (forma, TA data, redagavimas, duomenų i
 
 Testai: `node tools/test-contract.mjs` (per vietinį HTTP serverį, sukuria `.verify/contract.pdf`), `node tools/sheet-gallery.mjs`.
 
+## Dizaino sistema (v54)
+
+`src/styles/166-design-system-v54.css` yra **paskutinis** CSS sluoksnis ir vienintelė vieta, kur keičiama bendra išvaizda: spalvų ir dydžių tokenai (`--ds-*`), šriftų minimumai (tekstas ≥ 12 px, laukai 16 px, etiketės 13 px), laukai (48 px, apvalumas 13 px), mygtukai (48 px; pagrindinis – mėlynas gradientas, antrinis – baltas su rėmeliu), atidaromi skydeliai (Užduotys, Variantai, Kontaktai, Naujas auto, Buhalterija, Meniu) kaip vienodos kortelės su vienoda antrašte ir ramiu „Uždaryti“, ženkleliai, iššokantys langai.
+
+Visos taisyklės turi prefiksą `html:not(#ae):not(#af) body:not(#ae):not(#af)` (+4 ID specifiškumo), kad laimėtų prieš ~160 senų sluoksnių. Bendrose taisyklėse **nenustatoma `display`**, nes daug elementų slepiami `style="display:none"`.
+
+Įrankiai: `node tools/screens.mjs` (visų 24 ekranų ir langų nuotraukos), `node tools/ui-audit.mjs` (per mažas tekstas ir maži mygtukai), `python3 tools/contact-sheet.py` (nuotraukų suvestinė).
+
+Vadybininkas nebesiūlo „Kodėl dar ne skelbime?“ ir kainos peržiūros pagal skelbimo dienas, nes skelbimo laukas pašalintas (`35-car-ui-v51.js`).
+
 ## Perrašymų grandinės (svarbu!)
 
 Programa augo sluoksniais: nauja versija **perrašo** seną funkciją (`render = async function () { await __renderPP(); … }`). Todėl:
