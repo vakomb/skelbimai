@@ -92,7 +92,7 @@ const form = await page.evaluate(() =>
 const msg = await page.evaluate(() => document.getElementById("newVehicleregMsg").textContent);
 await page.evaluate(() => document.getElementById("newVehicleregCard").scrollIntoView());
 await page.screenshot({ path: path.join(shots, "addcar-scanned.png") });
-await page.fill("#carBuyPrice", "4500");
+await page.fill("#newVehiclebuyPrice", "4500");
 await tap("#addCarBtn");
 await page.waitForTimeout(1500);
 const saved = await page.evaluate(() => {

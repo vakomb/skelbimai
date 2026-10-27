@@ -82,6 +82,17 @@ Senieji OCR moduliai `28–31` vis dar įkeliami (kiti moduliai naudoja jų paga
 
 **Testavimas** (`tools/regscan/`): `test-regscan.mjs` paleidžia tikrą variklį Chromium naršyklėje, o OCR vietoje Tesseract.js atlieka vietinis `tesseract`. `grid-regscan.mjs` ir `score-grid.mjs` padeda parinkti paruošimo variantus, `test-ui.mjs` tikrina visą formą. Tikrų liudijimų nuotraukose yra asmens duomenų, todėl jos **nelaikomos repozitorijoje** – testams nurodomas aplankas už jo ribų.
 
+## Automobilio formos ir kortelė (v51)
+
+`src/scripts/app/35-car-ui-v51.js` + `src/styles/164-car-ui-v51.css`:
+
+- **Nauja forma ir redagavimas** naudoja vieną komponentą `carFormHTMLV51(p, car, "new"|"edit")`. Jame yra registracijos liudijimo kortelė (skenavimas ir laukai), pirkimo kaina, rida, TA ir draudimas (pasirinkimas „Galioja / Negalioja / Nežinoma“, o data atsiranda tik pasirinkus „Galioja“), SDK. Naujame automobilyje dar yra nuotraukos ir dokumentai, redagavime – pastabos.
+- Nuskaitymą atlieka `readCarFormV51(p)`. Pavadinimas visada = markė + modelis, `year` gaunamas iš pirmosios registracijos datos.
+- Laukai **planuojama pardavimo kaina, pasiūlymo kanalas, skelbimas / skelbimo data, pagaminimo metai, pavadinimas** formose nerodomi. Esamų automobilių šios reikšmės lieka nepakeistos, nes forma grąžina tik savo laukus.
+- **Kortelė** (`renderCarSheet` apvalkalas): viršuje rodomas informacijos blokas (numeris, TA, draudimo ir SDK būsenos, pagrindiniai faktai, VIN), po jo pinigai, užduotys, nuotraukos, dokumentai ir veiksmai. Senas „Daugiau informacijos“ blokas paslėptas, bet DOM'e paliktas suderinamumui. Nuotraukas ir dokumentus tvarko pati kortelė, todėl redagavimo formoje jų nėra.
+
+Testas: `node tools/test-car-forms.mjs` (forma, TA data, redagavimas, duomenų išsaugojimas, biudžetas).
+
 ## Perrašymų grandinės (svarbu!)
 
 Programa augo sluoksniais: nauja versija **perrašo** seną funkciją (`render = async function () { await __renderPP(); … }`). Todėl:

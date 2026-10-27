@@ -4,35 +4,32 @@
 // Dalis bendro app IIFE: visi src/scripts/app/*.js failai sujungiami eilės tvarka į vieną scope (žr. ARCHITECTURE.md).
 
 const REG_FIELDS_V50 = [
-  { key: "regMake", scan: "make", label: "Markė", code: "D.1", max: 40, placeholder: "Nissan" },
-  { key: "regModel", scan: "model", label: "Modelis", code: "D.3", max: 60, placeholder: "Murano" },
+  { key: "regMake", scan: "make", label: "Markė", code: "D.1", max: 40 },
+  { key: "regModel", scan: "model", label: "Modelis", code: "D.3", max: 60 },
   {
     key: "registrationDoc",
     scan: "regDoc",
-    label: "Liudijimo serija ir nr.",
+    label: "Liudijimo nr.",
     code: "",
     max: 12,
-    caps: true,
-    placeholder: "K1281961"
+    caps: true
   },
   {
     key: "plate",
     scan: "plate",
-    label: "Valstybinis nr.",
+    label: "Valst. numeris",
     code: "A",
     max: 10,
-    caps: true,
-    placeholder: "ABC123"
+    caps: true
   },
   {
     key: "vin",
     scan: "vin",
-    label: "VIN kodas",
+    label: "VIN",
     code: "E",
     max: 17,
     caps: true,
-    wide: true,
-    placeholder: "17 simbolių"
+    wide: true
   },
   {
     key: "firstRegistrationDate",
@@ -44,12 +41,11 @@ const REG_FIELDS_V50 = [
   {
     key: "engineCc",
     scan: "engineCc",
-    label: "Variklio tūris, cm³",
+    label: "Tūris, cm³",
     code: "P.1",
     type: "number",
     min: 0,
-    max: 20000,
-    placeholder: "1998"
+    max: 20000
   },
   {
     key: "powerKw",
@@ -58,8 +54,7 @@ const REG_FIELDS_V50 = [
     code: "P.2",
     type: "number",
     min: 0,
-    max: 2000,
-    placeholder: "110"
+    max: 2000
   },
   {
     key: "fuelType",
@@ -68,8 +63,7 @@ const REG_FIELDS_V50 = [
     code: "P.3",
     max: 40,
     list: true,
-    wide: true,
-    placeholder: "Dyzelinas"
+    wide: true
   }
 ];
 const REG_FUELS_V50 = [
@@ -132,10 +126,10 @@ function regCardHTMLV50(p, c = {}) {
         f.list ? `list="${p}regFuelList"` : "",
         `data-reg-input="${f.key}"`
       ].join(" ");
-    return `<div class="field regFieldV50 ${f.wide ? "regWideV50" : ""}" data-reg-field="${f.key}"><label for="${id}">${escapeHTML(f.label)}${f.code ? `<em>${f.code}</em>` : ""}</label><input ${attrs}><small class="regHintV50"></small></div>`;
+    return `<div class="field regFieldV50 ${f.wide ? "regWideV50" : ""}" data-reg-field="${f.key}"><label for="${id}">${escapeHTML(f.label)}</label><input ${attrs}><small class="regHintV50"></small></div>`;
   }).join("");
   return `<section class="regCardV50" id="${p}regCard" aria-label="Registracijos liudijimo duomenys">
-    <div class="regCardHeadV50"><span class="regCardIcoV50">${regIconV50("doc")}</span><div><strong>Registracijos liudijimas</strong><span>Nufotografuokite liudijimą – duomenys užsipildys automatiškai</span></div></div>
+    <div class="regCardHeadV50"><span class="regCardIcoV50">${regIconV50("doc")}</span><div><strong>Registracijos liudijimas</strong></div></div>
     <div class="regScanBtnsV50">
       <label class="regScanBtnV50 primary">${regIconV50("camera")}<span>Fotografuoti</span><input id="${p}regCamera" type="file" accept="image/*" capture="environment"></label>
       <label class="regScanBtnV50">${regIconV50("gallery")}<span>Iš galerijos</span><input id="${p}regGallery" type="file" accept="image/*"></label>
@@ -612,7 +606,7 @@ openWhatMissingDataV30 = function (item) {
   if (!regRelated || !grid) return;
   grid.insertAdjacentHTML(
     "beforebegin",
-    `<section class="regCardV50 regCardCompactV50" id="whatRegregCard"><div class="regCardHeadV50"><span class="regCardIcoV50">${regIconV50("doc")}</span><div><strong>Užpildyti iš registracijos liudijimo</strong><span>Nufotografuokite liudijimą – trūkstami laukai užsipildys</span></div></div><div class="regScanBtnsV50"><label class="regScanBtnV50 primary">${regIconV50("camera")}<span>Fotografuoti</span><input id="whatRegregCamera" type="file" accept="image/*" capture="environment"></label><label class="regScanBtnV50">${regIconV50("gallery")}<span>Iš galerijos</span><input id="whatRegregGallery" type="file" accept="image/*"></label></div><div class="regScanStatusV50" id="whatRegregStatus" hidden><div class="regScanTopV50"><img id="whatRegregPreview" alt=""><div><span class="regScanMsgV50" id="whatRegregMsg"></span><div class="regScanBarV50"><i id="whatRegregBar"></i></div></div></div></div></section>`
+    `<section class="regCardV50 regCardCompactV50" id="whatRegregCard"><div class="regCardHeadV50"><span class="regCardIcoV50">${regIconV50("doc")}</span><div><strong>Registracijos liudijimas</strong></div></div><div class="regScanBtnsV50"><label class="regScanBtnV50 primary">${regIconV50("camera")}<span>Fotografuoti</span><input id="whatRegregCamera" type="file" accept="image/*" capture="environment"></label><label class="regScanBtnV50">${regIconV50("gallery")}<span>Iš galerijos</span><input id="whatRegregGallery" type="file" accept="image/*"></label></div><div class="regScanStatusV50" id="whatRegregStatus" hidden><div class="regScanTopV50"><img id="whatRegregPreview" alt=""><div><span class="regScanMsgV50" id="whatRegregMsg"></span><div class="regScanBarV50"><i id="whatRegregBar"></i></div></div></div></div></section>`
   );
   let scanned = null,
     scannedFile = null;
@@ -673,6 +667,14 @@ openWhatMissingDataV30 = function (item) {
             await regDocumentFromFileV50(scannedFile, patch.registrationDoc || saved.registrationDoc)
           ];
       } catch (err) {}
+      // Markė ir modelis gražiu formatu, pavadinimas = markė + modelis.
+      const mk = regPrettyMakeV50(patch.regMake || saved.regMake || ""),
+        md = regPrettyModelV50(patch.regModel || saved.regModel || "");
+      if (mk || md) {
+        patch.regMake = mk;
+        patch.regModel = md;
+        patch.name = [mk, md].filter(Boolean).join(" ");
+      }
       if (Object.keys(patch).length) {
         Object.assign(saved, patch);
         saveState();

@@ -43571,35 +43571,32 @@ const RegScan = (() => {
 // Dalis bendro app IIFE: visi src/scripts/app/*.js failai sujungiami eilės tvarka į vieną scope (žr. ARCHITECTURE.md).
 
 const REG_FIELDS_V50 = [
-  { key: "regMake", scan: "make", label: "Markė", code: "D.1", max: 40, placeholder: "Nissan" },
-  { key: "regModel", scan: "model", label: "Modelis", code: "D.3", max: 60, placeholder: "Murano" },
+  { key: "regMake", scan: "make", label: "Markė", code: "D.1", max: 40 },
+  { key: "regModel", scan: "model", label: "Modelis", code: "D.3", max: 60 },
   {
     key: "registrationDoc",
     scan: "regDoc",
-    label: "Liudijimo serija ir nr.",
+    label: "Liudijimo nr.",
     code: "",
     max: 12,
-    caps: true,
-    placeholder: "K1281961"
+    caps: true
   },
   {
     key: "plate",
     scan: "plate",
-    label: "Valstybinis nr.",
+    label: "Valst. numeris",
     code: "A",
     max: 10,
-    caps: true,
-    placeholder: "ABC123"
+    caps: true
   },
   {
     key: "vin",
     scan: "vin",
-    label: "VIN kodas",
+    label: "VIN",
     code: "E",
     max: 17,
     caps: true,
-    wide: true,
-    placeholder: "17 simbolių"
+    wide: true
   },
   {
     key: "firstRegistrationDate",
@@ -43611,12 +43608,11 @@ const REG_FIELDS_V50 = [
   {
     key: "engineCc",
     scan: "engineCc",
-    label: "Variklio tūris, cm³",
+    label: "Tūris, cm³",
     code: "P.1",
     type: "number",
     min: 0,
-    max: 20000,
-    placeholder: "1998"
+    max: 20000
   },
   {
     key: "powerKw",
@@ -43625,8 +43621,7 @@ const REG_FIELDS_V50 = [
     code: "P.2",
     type: "number",
     min: 0,
-    max: 2000,
-    placeholder: "110"
+    max: 2000
   },
   {
     key: "fuelType",
@@ -43635,8 +43630,7 @@ const REG_FIELDS_V50 = [
     code: "P.3",
     max: 40,
     list: true,
-    wide: true,
-    placeholder: "Dyzelinas"
+    wide: true
   }
 ];
 const REG_FUELS_V50 = [
@@ -43699,10 +43693,10 @@ function regCardHTMLV50(p, c = {}) {
         f.list ? `list="${p}regFuelList"` : "",
         `data-reg-input="${f.key}"`
       ].join(" ");
-    return `<div class="field regFieldV50 ${f.wide ? "regWideV50" : ""}" data-reg-field="${f.key}"><label for="${id}">${escapeHTML(f.label)}${f.code ? `<em>${f.code}</em>` : ""}</label><input ${attrs}><small class="regHintV50"></small></div>`;
+    return `<div class="field regFieldV50 ${f.wide ? "regWideV50" : ""}" data-reg-field="${f.key}"><label for="${id}">${escapeHTML(f.label)}</label><input ${attrs}><small class="regHintV50"></small></div>`;
   }).join("");
   return `<section class="regCardV50" id="${p}regCard" aria-label="Registracijos liudijimo duomenys">
-    <div class="regCardHeadV50"><span class="regCardIcoV50">${regIconV50("doc")}</span><div><strong>Registracijos liudijimas</strong><span>Nufotografuokite liudijimą – duomenys užsipildys automatiškai</span></div></div>
+    <div class="regCardHeadV50"><span class="regCardIcoV50">${regIconV50("doc")}</span><div><strong>Registracijos liudijimas</strong></div></div>
     <div class="regScanBtnsV50">
       <label class="regScanBtnV50 primary">${regIconV50("camera")}<span>Fotografuoti</span><input id="${p}regCamera" type="file" accept="image/*" capture="environment"></label>
       <label class="regScanBtnV50">${regIconV50("gallery")}<span>Iš galerijos</span><input id="${p}regGallery" type="file" accept="image/*"></label>
@@ -44179,7 +44173,7 @@ openWhatMissingDataV30 = function (item) {
   if (!regRelated || !grid) return;
   grid.insertAdjacentHTML(
     "beforebegin",
-    `<section class="regCardV50 regCardCompactV50" id="whatRegregCard"><div class="regCardHeadV50"><span class="regCardIcoV50">${regIconV50("doc")}</span><div><strong>Užpildyti iš registracijos liudijimo</strong><span>Nufotografuokite liudijimą – trūkstami laukai užsipildys</span></div></div><div class="regScanBtnsV50"><label class="regScanBtnV50 primary">${regIconV50("camera")}<span>Fotografuoti</span><input id="whatRegregCamera" type="file" accept="image/*" capture="environment"></label><label class="regScanBtnV50">${regIconV50("gallery")}<span>Iš galerijos</span><input id="whatRegregGallery" type="file" accept="image/*"></label></div><div class="regScanStatusV50" id="whatRegregStatus" hidden><div class="regScanTopV50"><img id="whatRegregPreview" alt=""><div><span class="regScanMsgV50" id="whatRegregMsg"></span><div class="regScanBarV50"><i id="whatRegregBar"></i></div></div></div></div></section>`
+    `<section class="regCardV50 regCardCompactV50" id="whatRegregCard"><div class="regCardHeadV50"><span class="regCardIcoV50">${regIconV50("doc")}</span><div><strong>Registracijos liudijimas</strong></div></div><div class="regScanBtnsV50"><label class="regScanBtnV50 primary">${regIconV50("camera")}<span>Fotografuoti</span><input id="whatRegregCamera" type="file" accept="image/*" capture="environment"></label><label class="regScanBtnV50">${regIconV50("gallery")}<span>Iš galerijos</span><input id="whatRegregGallery" type="file" accept="image/*"></label></div><div class="regScanStatusV50" id="whatRegregStatus" hidden><div class="regScanTopV50"><img id="whatRegregPreview" alt=""><div><span class="regScanMsgV50" id="whatRegregMsg"></span><div class="regScanBarV50"><i id="whatRegregBar"></i></div></div></div></div></section>`
   );
   let scanned = null,
     scannedFile = null;
@@ -44240,6 +44234,14 @@ openWhatMissingDataV30 = function (item) {
             await regDocumentFromFileV50(scannedFile, patch.registrationDoc || saved.registrationDoc)
           ];
       } catch (err) {}
+      // Markė ir modelis gražiu formatu, pavadinimas = markė + modelis.
+      const mk = regPrettyMakeV50(patch.regMake || saved.regMake || ""),
+        md = regPrettyModelV50(patch.regModel || saved.regModel || "");
+      if (mk || md) {
+        patch.regMake = mk;
+        patch.regModel = md;
+        patch.name = [mk, md].filter(Boolean).join(" ");
+      }
       if (Object.keys(patch).length) {
         Object.assign(saved, patch);
         saveState();
@@ -44309,6 +44311,407 @@ registrationScanUnifiedV42 = registrationScanAdapterV50;
 registrationCertificateScanV31 = registrationScanAdapterV50;
 window.__visureigiaiRegistrationScanV31 = registrationScanAdapterV50;
 window.AutoEasierRegScan = RegScan;
+
+// Automobilio formos ir kortelė (v51): vienoda, minimalistinė naujo automobilio forma ir redagavimas,
+// aiški automobilio kortelė. Pavadinimas visada = markė + modelis; pagaminimo metai – iš pirmosios registracijos.
+// Nebenaudojami laukai (planuojama kaina, pasiūlymo kanalas, skelbimas) formose nerodomi, bet esami duomenys nenutrinami.
+// Dalis bendro app IIFE: visi src/scripts/app/*.js failai sujungiami eilės tvarka į vieną scope (žr. ARCHITECTURE.md).
+
+const CF_STATUS_V51 = [
+  ["valid", "Galioja"],
+  ["invalid", "Negalioja"],
+  ["unknown", "Nežinoma"]
+];
+
+function cfStatusFieldV51(p, key, untilKey, label, c = {}) {
+  const v = ["valid", "invalid"].includes(c[key]) ? c[key] : "unknown";
+  return `<div class="cfStatusV51" data-cf-status="${key}">
+    <span class="cfLabelV51" id="${p}${key}Label">${label}</span>
+    <div class="cfSegV51" role="radiogroup" aria-labelledby="${p}${key}Label">${CF_STATUS_V51.map(
+      ([val, t]) =>
+        `<button type="button" role="radio" aria-checked="${val === v}" data-seg-value="${val}">${t}</button>`
+    ).join("")}</div>
+    <input type="hidden" id="${p}${key}" value="${v}">
+    <div class="field cfUntilV51" ${v === "valid" ? "" : 'style="display:none !important"'}><label for="${p}${untilKey}">Galioja iki</label><input class="input" type="date" id="${p}${untilKey}" value="${escapeHTML(c[untilKey] || "")}"></div>
+  </div>`;
+}
+function cfNumberV51(id, label, value, { decimal = false, placeholder = "" } = {}) {
+  return `<div class="field"><label for="${id}">${label}</label><input class="input" id="${id}" type="number" min="0" step="${decimal ? "0.01" : "1"}" inputmode="${decimal ? "decimal" : "numeric"}" value="${value ?? ""}" placeholder="${placeholder}"></div>`;
+}
+function cfPhotoPickerV51(p) {
+  return `<section class="cfCardV51"><label class="cfPhotoPickV51" for="${p}photos"><span class="cfPhotoIcoV51">${regIconV50("gallery")}</span><strong>Nuotraukos</strong><em id="${p}photosCount"></em><input id="${p}photos" type="file" accept="image/*" multiple></label><div class="cfPhotoThumbsV51" id="${p}photosThumbs"></div></section>`;
+}
+// mode: "new" | "edit"
+function carFormHTMLV51(p, c = {}, mode = "new") {
+  const sold = mode === "edit" && c.status === "parduotas";
+  return `<div class="cfFormV51" id="${p}form">
+    ${regCardHTMLV50(p, c)}
+    <section class="cfCardV51"><div class="cfGridV51">
+      ${cfNumberV51(p + "buyPrice", "Pirkimo kaina, €", mode === "edit" ? Number(c.buyPrice || 0) : "", { decimal: true })}
+      ${sold ? cfNumberV51(p + "soldPrice", "Pardavimo kaina, €", Number(c.soldPrice || 0), { decimal: true }) : ""}
+      ${cfNumberV51(p + "mileage", "Rida, km", c.mileage ?? "")}
+    </div></section>
+    <section class="cfCardV51">
+      ${cfStatusFieldV51(p, "taStatus", "taUntil", "Techninė apžiūra", c)}
+      ${cfStatusFieldV51(p, "insuranceStatus", "insuranceUntil", "Draudimas", c)}
+      <div class="cfGridV51 cfSdkV51">
+        <div class="field"><label for="${p}sdk">SDK</label><input class="input" id="${p}sdk" value="${escapeHTML(c.sdk || "")}" maxlength="32" autocomplete="off" autocapitalize="characters" spellcheck="false"></div>
+        <div class="field"><label for="${p}sdkStatus">SDK būsena</label><select class="input ${sdkClass(c.sdkStatus)}" id="${p}sdkStatus">${SDK_STATES.map(([v, t]) => `<option value="${v}"${v === (c.sdkStatus || "unset") ? " selected" : ""}>${t}</option>`).join("")}</select></div>
+      </div>
+    </section>
+    ${
+      mode === "new"
+        ? cfPhotoPickerV51(p) + `<section class="cfCardV51 cfDocsV51">${documentFields(p, {})}</section>`
+        : `<section class="cfCardV51"><div class="field"><label for="${p}notes">Pastabos</label><textarea class="input" id="${p}notes" rows="3">${escapeHTML(c.notes || "")}</textarea></div></section>`
+    }
+  </div>`;
+}
+function bindCarFormV51(p, c = {}, opts = {}) {
+  const root = document.getElementById(p + "form");
+  if (!root) return;
+  root.querySelectorAll("[data-cf-status]").forEach(box => {
+    const key = box.dataset.cfStatus,
+      hidden = document.getElementById(p + key),
+      until = box.querySelector(".cfUntilV51"),
+      date = until?.querySelector("input");
+    box.querySelectorAll("[data-seg-value]").forEach(btn =>
+      btn.addEventListener("click", () => {
+        hidden.value = btn.dataset.segValue;
+        box
+          .querySelectorAll("[data-seg-value]")
+          .forEach(b => b.setAttribute("aria-checked", String(b === btn)));
+        const valid = hidden.value === "valid";
+        if (until) {
+          if (valid) until.style.removeProperty("display");
+          else until.style.setProperty("display", "none", "important");
+        }
+        if (!valid && date) date.value = "";
+      })
+    );
+  });
+  const sdkSel = document.getElementById(p + "sdkStatus");
+  if (sdkSel) sdkSel.onchange = () => (sdkSel.className = "input " + sdkClass(sdkSel.value));
+  const sdk = document.getElementById(p + "sdk");
+  sdk?.addEventListener("change", () => {
+    if (sdk.value.trim() && sdkSel && sdkSel.value === "unset") {
+      sdkSel.value = "submitted";
+      sdkSel.onchange();
+    }
+  });
+  const photos = document.getElementById(p + "photos");
+  if (photos) {
+    const urls = [];
+    photos.addEventListener("change", () => {
+      urls.splice(0).forEach(u => URL.revokeObjectURL(u));
+      const files = Array.from(photos.files || []).filter(f => /^image\//.test(f.type));
+      document.getElementById(p + "photosCount").textContent = files.length ? String(files.length) : "";
+      document.getElementById(p + "photosThumbs").innerHTML = files
+        .slice(0, 8)
+        .map(f => {
+          const u = URL.createObjectURL(f);
+          urls.push(u);
+          return `<img src="${u}" alt="">`;
+        })
+        .join("");
+    });
+  }
+  if (root.querySelector(".vehicleDocuments")) bindVehicleFields(p, c);
+  regBindCardV50(p, typeof opts === "function" ? opts : () => opts);
+}
+function cfValueV51(p, k) {
+  return (document.getElementById(p + k)?.value || "").trim();
+}
+// Formos duomenys -> automobilio laukai (tik formoje esantys laukai; kiti automobilio duomenys nepaliečiami).
+function readCarFormV51(p) {
+  const v = k => cfValueV51(p, k);
+  const make = v("regMake"),
+    model = v("regModel");
+  if (!make && !model) throw Error("Įrašykite markę ir modelį arba nuskenuokite liudijimą.");
+  const buy = Number(v("buyPrice"));
+  if (!Number.isFinite(buy) || buy <= 0) throw Error("Įrašykite pirkimo kainą.");
+  const int = (k, label, max) => {
+    const s = v(k);
+    if (s === "") return null;
+    const n = Number(s);
+    if (!Number.isInteger(n) || n < 0 || n > max) throw Error(`Patikrinkite: ${label}.`);
+    return n;
+  };
+  const vin = v("vin").toUpperCase().replace(/\s+/g, "");
+  if (vin && !/^[A-HJ-NPR-Z0-9]{17}$/.test(vin)) throw Error("VIN turi būti 17 simbolių (be I, O, Q).");
+  const reg = v("registrationDoc")
+    .toUpperCase()
+    .replace(/[^A-Z0-9]/g, "");
+  if (reg && !/^[A-Z][0-9]{5,8}$/.test(reg))
+    throw Error("Patikrinkite liudijimo seriją ir numerį, pvz. K1281961.");
+  const first = v("firstRegistrationDate");
+  if (first && (!/^\d{4}-\d{2}-\d{2}$/.test(first) || first > todayISO()))
+    throw Error("Patikrinkite pirmosios registracijos datą.");
+  const status = (k, untilK, label) => {
+    const s = ["valid", "invalid"].includes(v(k)) ? v(k) : "unknown";
+    const until = s === "valid" ? v(untilK) : "";
+    if (s === "valid" && !until) throw Error(`Nurodykite, iki kada galioja ${label}.`);
+    return [s, until];
+  };
+  const [taStatus, taUntil] = status("taStatus", "taUntil", "techninė apžiūra");
+  const [insuranceStatus, insuranceUntil] = status("insuranceStatus", "insuranceUntil", "draudimas");
+  const sdk = v("sdk").toUpperCase();
+  const out = {
+    name: [make, model].filter(Boolean).join(" "),
+    regMake: make,
+    regModel: model,
+    registrationDoc: reg,
+    plate: v("plate").toUpperCase().replace(/\s+/g, ""),
+    vin,
+    firstRegistrationDate: first,
+    engineCc: int("engineCc", "variklio tūris", 20000),
+    powerKw: int("powerKw", "galia", 2000),
+    fuelType: v("fuelType"),
+    buyPrice: buy,
+    mileage: int("mileage", "rida", 3000000),
+    taStatus,
+    taUntil,
+    insuranceStatus,
+    insuranceUntil,
+    sdk,
+    sdkStatus: v("sdkStatus") || (sdk ? "submitted" : "unset")
+  };
+  if (first) out.year = Number(first.slice(0, 4));
+  if (document.getElementById(p + "notes")) out.notes = v("notes");
+  if (document.getElementById(p + "soldPrice")) {
+    const sold = Number(v("soldPrice"));
+    if (!Number.isFinite(sold) || sold <= 0) throw Error("Įrašykite pardavimo kainą.");
+    out.soldPrice = sold;
+  }
+  return out;
+}
+
+// ---------- Naujas automobilis ----------
+function installCarFormNewV51() {
+  const panel = document.getElementById("addCarPanel");
+  if (!panel || panel.dataset.formV51 === "1") return;
+  panel.dataset.formV51 = "1";
+  const head = panel.querySelector(":scope > .sectionHead");
+  [...panel.children].forEach(ch => ch !== head && ch.remove());
+  panel.insertAdjacentHTML(
+    "beforeend",
+    carFormHTMLV51("newVehicle", {}, "new") +
+      `<button class="btn cfSaveV51" id="addCarBtn" type="button">Išsaugoti automobilį</button>`
+  );
+  bindCarFormV51("newVehicle", {}, { nameInputId: "" });
+  const reset = () => {
+    panel.querySelector("#newVehicleform")?.remove();
+    document.getElementById("addCarBtn")?.remove();
+    panel.dataset.formV51 = "";
+    delete regScanFilesV50.newVehicle;
+    installCarFormNewV51();
+  };
+  const cancel = document.getElementById("cancelAddCarBtn");
+  if (cancel && !cancel.dataset.cfV51) {
+    cancel.dataset.cfV51 = "1";
+    cancel.addEventListener("click", () => setTimeout(reset, 350));
+  }
+  const btn = document.getElementById("addCarBtn");
+  btn.onclick = async () => {
+    if (btn.disabled) return;
+    try {
+      const data = readCarFormV51("newVehicle");
+      btn.disabled = true;
+      btn.textContent = "Išsaugoma…";
+      let docs = await collectDocuments("newVehicle");
+      const scanned = regScanFilesV50.newVehicle;
+      if (scanned && !docs.some(d => d.kind === "registration"))
+        docs = [await regDocumentFromFileV50(scanned, data.registrationDoc), ...docs];
+      const photos = [];
+      for (const f of Array.from(document.getElementById("newVehiclephotos")?.files || [])) {
+        const key = await storeImageFile(f);
+        if (!key) throw Error("Nepavyko pridėti nuotraukos.");
+        photos.push(key);
+        await photoGet(key);
+      }
+      const c = {
+        id: uid(),
+        ...data,
+        source: "",
+        listingStatus: "not-listed",
+        listingDate: "",
+        askingPrice: null,
+        documents: docs,
+        photos,
+        imageSrc: photos[0] || "",
+        notes: "",
+        soldPrice: null,
+        netProfit: 0,
+        soldAt: null,
+        soldDateISO: null,
+        createdDateISO: todayISO(),
+        createdAt: nowLabel(),
+        status: "aktyvus",
+        checklist: []
+      };
+      state.cars.unshift(c);
+      ensureFinanceCollections();
+      state.finances.budgetBalance -= c.buyPrice;
+      if (!saveState()) {
+        state.cars = state.cars.filter(x => x !== c);
+        state.finances.budgetBalance += c.buyPrice;
+        throw Error("Nepavyko išsaugoti automobilio.");
+      }
+      addHistory("Automobilis nupirktas", `${c.name} • ${moneyFmt(c.buyPrice)}`, "🚗", {
+        kind: "car",
+        id: c.id,
+        label: "Atidaryti automobilį"
+      });
+      saveState();
+      if (typeof window.__garageHideAddCarSmooth === "function") window.__garageHideAddCarSmooth();
+      else panel.style.display = "none";
+      const show = document.getElementById("showAddCarFormBtn");
+      if (show) show.style.display = "block";
+      reset();
+      render();
+      toast("Automobilis pridėtas", "✓");
+    } catch (e) {
+      toast(e.message || "Nepavyko pridėti automobilio", "!");
+    } finally {
+      const b = document.getElementById("addCarBtn");
+      if (b) {
+        b.disabled = false;
+        b.textContent = "Išsaugoti automobilį";
+      }
+    }
+  };
+}
+installCarFormNewV51();
+
+// ---------- Redagavimas ----------
+openCarEditSheet = function (id) {
+  const car = (state.cars || []).find(c => c.id === id);
+  if (!car) return;
+  const view = { ...car, regMake: car.regMake, regModel: car.regModel };
+  if (!view.regMake && !view.regModel && car.name) {
+    const parts = String(car.name).trim().split(/\s+/);
+    view.regMake = parts.shift() || "";
+    view.regModel = parts.join(" ");
+  }
+  openSheet(
+    `<div class="sheetHead cfHeadV51"><h3>Redaguoti automobilį</h3><button class="closeBtn" id="closeCarEdit" type="button" aria-label="Uždaryti">✕</button></div>` +
+      carFormHTMLV51("editVehicle", view, "edit") +
+      `<button class="btn cfSaveV51" id="saveCarEdit" type="button">Išsaugoti</button>`
+  );
+  document.getElementById("sheet").scrollTop = 0;
+  document.getElementById("closeCarEdit").onclick = () => {
+    delete regScanFilesV50.editVehicle;
+    renderCarSheet(car);
+  };
+  bindCarFormV51("editVehicle", car, () => ({ car, nameInputId: "" }));
+  const save = document.getElementById("saveCarEdit");
+  save.onclick = async () => {
+    if (save.disabled) return;
+    const old = JSON.parse(JSON.stringify(car)),
+      oldBalance = state.finances.budgetBalance;
+    try {
+      const data = readCarFormV51("editVehicle");
+      save.disabled = true;
+      const scanned = regScanFilesV50.editVehicle;
+      if (scanned && !(car.documents || []).some(d => d.kind === "registration"))
+        data.documents = [
+          ...(car.documents || []),
+          await regDocumentFromFileV50(scanned, data.registrationDoc)
+        ];
+      Object.assign(car, data);
+      ensureFinanceCollections();
+      state.finances.budgetBalance += Number(old.buyPrice || 0) - car.buyPrice;
+      if (data.soldPrice != null) {
+        car.netProfit = carNetProfit(car);
+        state.finances.budgetBalance += data.soldPrice - Number(old.soldPrice || 0);
+      }
+      if (!saveState()) {
+        Object.keys(car).forEach(k => delete car[k]);
+        Object.assign(car, old);
+        state.finances.budgetBalance = oldBalance;
+        throw Error("Nepavyko išsaugoti automobilio.");
+      }
+      delete regScanFilesV50.editVehicle;
+      addHistory("Automobilis atnaujintas", car.name, "🚗");
+      saveState();
+      render();
+      openCar(car.id);
+      toast("Išsaugota", "✓");
+    } catch (e) {
+      toast(e.message, "!");
+    } finally {
+      save.disabled = false;
+    }
+  };
+};
+
+// ---------- Automobilio kortelė ----------
+function cdChipV51(text, cls = "") {
+  return `<span class="cdChipV51 ${cls}">${escapeHTML(text)}</span>`;
+}
+function cdInfoHTMLV51(car) {
+  const ta = vehicleStatusState(car.taStatus || "unknown", car.taUntil || "");
+  const ins = vehicleStatusState(car.insuranceStatus || "unknown", car.insuranceUntil || "");
+  const sdkLabel = SDK_STATES.find(x => x[0] === (car.sdkStatus || "unset"))?.[1] || "Nesutvarkyta";
+  const sdkTone = { sdkDone: "good", sdkLate: "bad", sdkPending: "warn", sdkUnset: "neutral" }[
+    sdkClass(car.sdkStatus)
+  ];
+  const chips = [
+    car.plate ? cdChipV51(car.plate, "plate") : "",
+    cdChipV51("TA " + (ta.cls === "neutral" ? "nežinoma" : ta.label.toLowerCase()), ta.cls),
+    cdChipV51("Draudimas " + (ins.cls === "neutral" ? "nežinomas" : ins.label.toLowerCase()), ins.cls),
+    cdChipV51("SDK " + sdkLabel.toLowerCase(), sdkTone)
+  ].join("");
+  const engine = [car.engineCc ? `${car.engineCc} cm³` : "", car.powerKw ? `${car.powerKw} kW` : ""]
+    .filter(Boolean)
+    .join(" · ");
+  const facts = [
+    ["Pirmoji registracija", car.firstRegistrationDate || (car.year ? String(car.year) : "")],
+    [
+      "Rida",
+      car.mileage != null && car.mileage !== "" ? `${Number(car.mileage).toLocaleString("lt-LT")} km` : ""
+    ],
+    ["Variklis", engine],
+    ["Kuras", car.fuelType],
+    ["Liudijimas", car.registrationDoc || car.regDoc],
+    ["VIN", car.vin, "wide mono"]
+  ].filter(([, v]) => v);
+  return `<section class="cdInfoV51" id="cdInfoV51"><div class="cdChipsV51">${chips}</div>${
+    facts.length
+      ? `<dl class="cdFactsV51">${facts.map(([l, v, cls = ""]) => `<div class="${cls}"><dt>${escapeHTML(l)}</dt><dd>${escapeHTML(String(v))}</dd></div>`).join("")}</dl>`
+      : ""
+  }</section>`;
+}
+const __renderCarSheetV51 = renderCarSheet;
+renderCarSheet = function (car) {
+  __renderCarSheetV51(car);
+  if (!car) return;
+  const sheet = document.getElementById("sheet");
+  const body = sheet?.querySelector(".premiumDetailBody");
+  if (!body) return;
+  sheet.classList.add("carSheetV51");
+  body.querySelector("#cdInfoV51")?.remove();
+  body.insertAdjacentHTML("afterbegin", cdInfoHTMLV51(car));
+  const info = body.querySelector("#cdInfoV51");
+  const money = body.querySelector(".carBottomCostGrid, .premiumResultGrid");
+  if (money) info.after(money);
+  // Nuotraukos – atskira sekcija po užduočių; senas „Daugiau informacijos“ ir SDK blokas nebereikalingi.
+  const photos = body.querySelector("#carDetailPhotos");
+  const tasks = body.querySelector(".carTasksBlock");
+  if (photos && tasks) tasks.after(photos);
+  body.querySelector("#carDetailInfo")?.setAttribute("hidden", "");
+  // Be nuotraukų didelis tuščias paveikslėlio laukas nereikalingas – nuotraukas galima pridėti žemiau.
+  const hero = sheet.querySelector(".premiumHero");
+  if (hero && hero.querySelector(".premiumHeroEmpty")) hero.style.setProperty("display", "none", "important");
+  body.querySelector(".vehicleSdkDisplay")?.setAttribute("hidden", "");
+  const edit = sheet.querySelector("#editCarInfoBtn");
+  if (edit) edit.textContent = "Redaguoti";
+  const pp = sheet.querySelector(".carPpBottomBtn");
+  if (pp) pp.textContent = "PP sutartis";
+  const del = sheet.querySelector("#deleteCarBtn");
+  if (del) del.textContent = "Ištrinti";
+  const sell = sheet.querySelector("#sellCarBtn");
+  if (sell && /parduoti/i.test(sell.textContent)) sell.textContent = "Parduoti";
+};
 
 })();
 </script><script id="visureigiai-product-system-v15-js">(function () {
@@ -53597,6 +54000,431 @@ body {
 #sheet .regFieldV50.regCheckV50 input.input {
   border-color: #e3b65c !important;
   background: #fff8eb !important;
+}
+</style><style id="car-ui-v51">/* Automobilio formos ir kortelė (v51). Minimalistinė, mobiliajam pritaikyta sistema. */
+:root {
+  --cf-ink: #12233a;
+  --cf-muted: #6b7a8e;
+  --cf-line: #e3e9f0;
+  --cf-soft: #f4f7fa;
+  --cf-brand: #174a8b;
+  --cf-brand-2: #1f5aa6;
+  --cf-good: #1d8a52;
+  --cf-good-bg: #eaf7f0;
+  --cf-warn: #9a6a0c;
+  --cf-warn-bg: #fff5df;
+  --cf-bad: #c03d3d;
+  --cf-bad-bg: #fdeeee;
+}
+
+/* ---------- Formos ---------- */
+.cfFormV51 {
+  display: grid;
+  gap: 10px;
+}
+.cfFormV51 .regCardV50 {
+  margin: 0;
+}
+.cfCardV51 {
+  padding: 14px;
+  border: 1px solid var(--cf-line);
+  border-radius: 18px;
+  background: #fff;
+}
+.cfGridV51 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 10px;
+}
+.cfGridV51 .field,
+.cfCardV51 > .field {
+  margin: 0 !important;
+  min-width: 0;
+}
+.cfGridV51 .field + .field:nth-child(n + 3) {
+  margin-top: 10px !important;
+}
+.cfFormV51 .field > label,
+.cfLabelV51 {
+  display: block;
+  margin: 0 0 6px !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: var(--cf-muted) !important;
+}
+.cfFormV51 .input {
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  border-radius: 13px !important;
+  font-size: 16px !important;
+}
+.cfFormV51 textarea.input {
+  min-height: 84px;
+  resize: vertical;
+}
+/* Būsenos: Galioja / Negalioja / Nežinoma + data, jei galioja */
+.cfStatusV51 + .cfStatusV51,
+.cfStatusV51 + .cfSdkV51 {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--cf-line);
+}
+.cfSegV51 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  padding: 3px;
+  border-radius: 13px;
+  background: var(--cf-soft);
+  border: 1px solid var(--cf-line);
+}
+.cfSegV51 button {
+  min-height: 40px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--cf-muted);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+.cfSegV51 button[aria-checked="true"] {
+  background: #fff;
+  color: var(--cf-ink);
+  box-shadow: 0 1px 3px rgba(18, 35, 58, 0.12);
+}
+.cfSegV51 button[data-seg-value="valid"][aria-checked="true"] {
+  color: var(--cf-good);
+}
+.cfSegV51 button[data-seg-value="invalid"][aria-checked="true"] {
+  color: var(--cf-bad);
+}
+.cfUntilV51 {
+  margin-top: 10px !important;
+  animation: cfRevealV51 0.22s ease;
+}
+#addCarPanel .cfUntilV51[hidden],
+#sheet .cfUntilV51[hidden] {
+  display: none !important;
+}
+@keyframes cfRevealV51 {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* Nuotraukos */
+.cfPhotoPickV51 {
+  position: relative;
+  display: flex !important;
+  align-items: center;
+  gap: 11px;
+  margin: 0 !important;
+  cursor: pointer;
+  color: var(--cf-ink) !important;
+}
+.cfPhotoPickV51 strong {
+  flex: 1;
+  font-size: 15px;
+  color: var(--cf-ink);
+}
+.cfPhotoPickV51 em {
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 800;
+  min-width: 22px;
+  padding: 2px 7px;
+  border-radius: 99px;
+  background: #e8f0fb;
+  color: var(--cf-brand);
+  text-align: center;
+}
+.cfPhotoPickV51 em:empty {
+  display: none;
+}
+.cfPhotoPickV51::after {
+  content: "+";
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--cf-brand);
+}
+.cfPhotoPickV51 input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  cursor: pointer;
+}
+.cfPhotoIcoV51 {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: #e8f0fb;
+  color: var(--cf-brand);
+}
+.cfPhotoIcoV51 svg {
+  width: 20px;
+  height: 20px;
+}
+.cfPhotoThumbsV51 {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+}
+.cfPhotoThumbsV51:not(:empty) {
+  margin-top: 12px;
+}
+.cfPhotoThumbsV51 img {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 11px;
+}
+/* Dokumentai (suskleista) */
+.cfDocsV51 {
+  padding: 0;
+  overflow: hidden;
+}
+.cfDocsV51 .vehicleDocuments {
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.cfDocsV51 .vehicleDocuments > summary {
+  padding: 15px 14px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: var(--cf-ink) !important;
+}
+/* Išsaugoti */
+#view-garage #addCarPanel #addCarBtn.cfSaveV51,
+#modalBackdrop #sheet #saveCarEdit.cfSaveV51 {
+  -webkit-text-fill-color: #fff !important;
+  opacity: 1 !important;
+  display: block !important;
+  width: 100% !important;
+  min-height: 52px !important;
+  margin: 12px 0 0 !important;
+  border: 0 !important;
+  border-radius: 15px !important;
+  background: linear-gradient(180deg, var(--cf-brand-2), var(--cf-brand)) !important;
+  color: #fff !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  box-shadow: 0 8px 20px rgba(23, 74, 139, 0.18) !important;
+}
+#sheet .cfHeadV51 {
+  margin-bottom: 12px;
+}
+#sheet .cfHeadV51 h3 {
+  margin: 0;
+  font-size: 20px;
+  color: var(--cf-ink);
+}
+@media (max-width: 360px) {
+  .cfGridV51 {
+    grid-template-columns: 1fr;
+  }
+  .cfGridV51 .field + .field {
+    margin-top: 10px !important;
+  }
+}
+
+/* ---------- Automobilio kortelė ---------- */
+.cdInfoV51 {
+  padding: 14px;
+  border: 1px solid var(--cf-line);
+  border-radius: 18px;
+  background: #fff;
+  margin-bottom: 10px;
+}
+.cdChipsV51 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.cdChipV51 {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 99px;
+  background: var(--cf-soft);
+  color: var(--cf-muted);
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.cdChipV51.good {
+  background: var(--cf-good-bg);
+  color: var(--cf-good);
+}
+.cdChipV51.warn {
+  background: var(--cf-warn-bg);
+  color: var(--cf-warn);
+}
+.cdChipV51.bad {
+  background: var(--cf-bad-bg);
+  color: var(--cf-bad);
+}
+.cdChipV51.plate {
+  background: #fff;
+  border: 1.5px solid var(--cf-ink);
+  border-radius: 7px;
+  color: var(--cf-ink);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+.cdFactsV51 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 12px;
+  margin: 14px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--cf-line);
+}
+.cdFactsV51 > div {
+  min-width: 0;
+}
+.cdFactsV51 > div.wide {
+  grid-column: 1 / -1;
+}
+.cdFactsV51 dt {
+  margin: 0 0 3px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cf-muted);
+}
+.cdFactsV51 dd {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--cf-ink);
+  overflow-wrap: anywhere;
+}
+.cdFactsV51 .mono dd {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+}
+#sheet.carSheetV51 .carBottomCostGrid,
+#sheet.carSheetV51 .premiumResultGrid {
+  margin: 0 0 10px !important;
+}
+#sheet.carSheetV51 #carDetailPhotos {
+  margin: 10px 0 !important;
+}
+#sheet.carSheetV51 [hidden] {
+  display: none !important;
+}
+/* Užduočių eilutės: pavadinimas per visą plotį, išlaidų laukelis kompaktiškas */
+#modalBackdrop #sheet.carSheetV51 .premiumChecklist .carTaskRow {
+  display: grid !important;
+  grid-template-columns: 26px minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  column-gap: 10px !important;
+  padding: 11px 10px !important;
+}
+#modalBackdrop #sheet.carSheetV51 .premiumChecklist .carTaskRow > label {
+  display: contents !important;
+}
+#modalBackdrop #sheet.carSheetV51 .premiumChecklist .carTaskMain {
+  grid-column: 2 !important;
+  min-width: 0 !important;
+}
+#modalBackdrop #sheet.carSheetV51 .premiumChecklist .carTaskMain strong {
+  font-size: 15px !important;
+  line-height: 1.25 !important;
+  overflow-wrap: break-word !important;
+  word-break: normal !important;
+  hyphens: auto;
+}
+#modalBackdrop #sheet.carSheetV51 .premiumChecklist .carTaskActions {
+  grid-column: 3 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  width: auto !important;
+}
+#modalBackdrop #sheet.carSheetV51 .premiumChecklist .carTaskExpenseInput {
+  width: 76px !important;
+  min-width: 76px !important;
+  max-width: 76px !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  padding: 6px 8px !important;
+  border-radius: 11px !important;
+  font-size: 14px !important;
+  text-align: right !important;
+}
+
+/* Kortelės veiksmai: aiški hierarchija */
+#modalBackdrop #sheet.carSheetV51 .carBottomActions {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 8px !important;
+  margin-top: 12px !important;
+}
+#modalBackdrop #sheet.carSheetV51 .carBottomActions > * {
+  margin: 0 !important;
+}
+#modalBackdrop #sheet.carSheetV51 .carBottomActions .carSellBottom {
+  grid-column: 1 / -1 !important;
+  order: -1;
+}
+#modalBackdrop #sheet.carSheetV51 .carBottomActions button {
+  width: 100% !important;
+  min-height: 48px !important;
+  border-radius: 14px !important;
+  font-size: 15px !important;
+  font-weight: 750 !important;
+  box-shadow: none !important;
+}
+#modalBackdrop #sheet.carSheetV51 .carBottomActions #sellCarBtn {
+  border: 0 !important;
+  background: linear-gradient(180deg, #1f9d5f, #188450) !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+#modalBackdrop #sheet.carSheetV51 .carBottomActions #sellCarBtn:disabled {
+  opacity: 0.55 !important;
+}
+#modalBackdrop #sheet.carSheetV51 .carBottomActions .carPpBottomBtn,
+#modalBackdrop #sheet.carSheetV51 .carBottomActions #editCarInfoBtn {
+  border: 1px solid var(--cf-line) !important;
+  background: #fff !important;
+  background-image: none !important;
+  color: var(--cf-ink) !important;
+  -webkit-text-fill-color: var(--cf-ink) !important;
+}
+#modalBackdrop #sheet.carSheetV51 .carBottomActions #deleteCarBtn {
+  grid-column: 1 / -1 !important;
+  min-height: 42px !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--cf-bad) !important;
+  -webkit-text-fill-color: var(--cf-bad) !important;
+  font-weight: 700 !important;
 }
 </style></body>
 </html>
