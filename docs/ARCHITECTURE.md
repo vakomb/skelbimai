@@ -241,6 +241,19 @@ Vadybininkas nebesiūlo „Kodėl dar ne skelbime?“ ir kainos peržiūros paga
   - **dokumentai** (`readDocumentFile`): JPG ir WebP perkoduojami tuo pačiu formatu (0,88), pavadinimas išlieka. Pavyzdys: 3,3 MB → 468 KB;
   - PDF ir PNG nekeičiami.
 
+## Kortelės blokai, juosta ir „Laukia pateikimo“ (v69)
+
+- **Nuotraukų blokas** (`phLayoutV69` faile `42-car-sheet-v61.js`, naudoja ir variantai):
+  - antraštėje dešinėje „Atsisiųsti“;
+  - po nuotraukomis viena eilutė: punktyrinis „＋ Pridėti nuotraukų“ ir „Visos (N)“ / „Mažiau“.
+- **Automobilio kortelė** (`53-v69.js`, `178-v69.css`):
+  - rodomas pirmas dokumentas, kiti – „Rodyti visus (N)“;
+  - kainos trimis stulpeliais: Pirkimo kaina / Išlaidos / Savikaina;
+  - antraštė neprilipdyta;
+  - visų blokų pavadinimai 19 px, kaip „Užduotys“.
+- **Buhalterija:** „Laukia pateikimo“ sugrupuota pagal automobilį (nuotrauka, pavadinimas, numeris, skaičius). Eilutėse rodomas dokumento pavadinimas ir mygtukas „Pridėti“. Rodomos 3 grupės, kitos – „Rodyti visus“. Planšetėje ir kompiuteryje – 2 stulpeliai.
+- **Telefono apačios juosta:** nepermatomas baltas fonas iki pat ekrano apačios, viršuje plona linija.
+
 ## Perrašymų grandinės (svarbu!)
 
 Programa augo sluoksniais: nauja versija **perrašo** seną funkciją (`render = async function () { await __renderPP(); … }`). Todėl:

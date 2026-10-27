@@ -45,27 +45,15 @@ function lsPhotosV62(sheet, lead) {
   if (!media || !grid) return;
   const count = grid.querySelectorAll(":scope > .premiumThumb").length;
   media.classList.toggle("lsNoPhotosV62", !count);
-  const open = lsPhotosOpenV62.has(lead.id);
-  grid.classList.toggle("csPhotosCollapsedV61", count > 4 && !open);
-  const oldRow = media.querySelector(".csPhotoActionsV61");
-  const keep = oldRow?.querySelector("#downloadLeadPhotos");
-  if (keep) media.append(keep);
-  oldRow?.remove();
-  const dl = sheet.querySelector("#downloadLeadPhotos");
-  if (!count) {
-    if (dl) dl.hidden = true;
-    return;
-  }
-  if (dl) {
-    dl.hidden = false;
-    dl.textContent = "Atsisiųsti visas";
-  }
-  const row = document.createElement("div");
-  row.className = "csPhotoActionsV61" + (count > 4 ? " two" : "");
-  if (count > 4)
-    row.innerHTML = `<button type="button" class="csPhotoMoreV61" data-ls-photos-toggle="${escapeHTML(lead.id)}">${open ? "Rodyti mažiau" : `Rodyti visas (${count})`}</button>`;
-  if (dl) row.append(dl);
-  grid.after(row);
+  phLayoutV69(
+    media,
+    grid,
+    sheet.querySelector("#downloadLeadPhotos"),
+    "ls-photos-toggle",
+    lead.id,
+    lsPhotosOpenV62.has(lead.id),
+    4
+  );
 }
 const __openGarageLeadSheetV62 = openGarageLeadSheet;
 openGarageLeadSheet = function (leadId) {

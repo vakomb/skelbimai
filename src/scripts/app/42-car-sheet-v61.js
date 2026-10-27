@@ -15,31 +15,56 @@ const CS_PHOTO_LIMIT_V61 = 4;
 const csPhotosOpenV61 = new Set();
 const CS_DOC_ICON_V61 =
   '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>';
+// v69: viena kompaktiška eilutė po nuotraukomis – „＋ Pridėti nuotraukų“ (punktyrinis) ir „Visos (N)“;
+// „Atsisiųsti“ – antraštėje dešinėje, matomas visada, kai yra nuotraukų.
+const PH_DL_ICON_V69 =
+  '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 11 5 5 5-5"/><path d="M5 20h14"/></svg>';
+function phLayoutV69(media, grid, dl, attr, id, open, limit = CS_PHOTO_LIMIT_V61) {
+  const count = grid.querySelectorAll(":scope > .premiumThumb").length;
+  grid.classList.toggle("csPhotosCollapsedV61", count > limit && !open);
+  const old = media.querySelector(".csPhotoActionsV61");
+  if (old) {
+    const keep = old.querySelector("#downloadCarPhotos, #downloadLeadPhotos");
+    if (keep) media.append(keep);
+    old.remove();
+  }
+  const head = media.querySelector(":scope > .premiumSectionHead");
+  if (dl) {
+    dl.hidden = !count;
+    dl.classList.add("phDlV69");
+    if (!dl.querySelector("svg")) dl.innerHTML = PH_DL_ICON_V69 + "<span>Atsisiųsti</span>";
+    dl.setAttribute("aria-label", "Atsisiųsti visas nuotraukas");
+    if (head && dl.parentElement !== head) head.append(dl);
+  }
+  let bar = media.querySelector(".phBarV69");
+  if (!bar) {
+    bar = document.createElement("div");
+    bar.className = "phBarV69";
+  }
+  if (bar.previousElementSibling !== grid) grid.after(bar);
+  const up = media.querySelector(".premiumUpload");
+  if (up && up.parentElement !== bar) bar.prepend(up);
+  bar.querySelector(".csPhotoMoreV61")?.remove();
+  if (count > limit)
+    bar.insertAdjacentHTML(
+      "beforeend",
+      `<button type="button" class="csPhotoMoreV61" data-${attr}="${escapeHTML(id)}" aria-expanded="${open}">${
+        open ? "Mažiau" : `Visos (${count})`
+      }</button>`
+    );
+}
 function csPhotosV61(sheet, car) {
   const media = sheet.querySelector("#carDetailPhotos");
   const grid = media?.querySelector(".carPhotoGrid, .premiumThumbGrid");
   if (!media || !grid) return;
-  const count = grid.querySelectorAll(":scope > .premiumThumb").length;
-  const open = csPhotosOpenV61.has(car.id);
-  grid.classList.toggle("csPhotosCollapsedV61", count > CS_PHOTO_LIMIT_V61 && !open);
-  // „Atsisiųsti visas“ išlieka visada: prieš perkuriant eilutę grąžinamas į sekciją
-  const oldRow = media.querySelector(".csPhotoActionsV61");
-  const keep = oldRow?.querySelector("#downloadCarPhotos");
-  if (keep) media.append(keep);
-  oldRow?.remove();
-  const dl = media.querySelector("#downloadCarPhotos");
-  const more =
-    count > CS_PHOTO_LIMIT_V61
-      ? `<button type="button" class="csPhotoMoreV61" data-cs-photos-toggle="${escapeHTML(car.id)}">${
-          open ? "Rodyti mažiau" : `Rodyti visas (${count})`
-        }</button>`
-      : "";
-  if (!more && !dl) return;
-  const row = document.createElement("div");
-  row.className = "csPhotoActionsV61" + (more && dl ? " two" : "");
-  row.innerHTML = more;
-  if (dl) row.append(dl);
-  grid.after(row);
+  phLayoutV69(
+    media,
+    grid,
+    media.querySelector("#downloadCarPhotos"),
+    "cs-photos-toggle",
+    car.id,
+    csPhotosOpenV61.has(car.id)
+  );
 }
 function csDocsV61(sheet) {
   const docs = sheet.querySelector("#carDetailDocuments");

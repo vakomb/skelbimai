@@ -347,8 +347,20 @@ html:not(#ae):not(#af)
   position: absolute !important;
   z-index: 2 !important;
 }
-html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 #carDetailPhotos .premiumThumbGrid > .premiumThumb,
-html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumMedia .premiumThumbGrid > .premiumThumb {
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  #carDetailPhotos
+  .premiumThumbGrid
+  > .premiumThumb,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .premiumThumbGrid
+  > .premiumThumb {
   aspect-ratio: auto !important;
   height: auto !important;
 }
