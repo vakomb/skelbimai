@@ -11,7 +11,7 @@ function lcPlateHTMLV61(plate) {
     ? `<span class="lcPlateV61" aria-label="Valstybinis numeris ${escapeHTML(v)}"><i aria-hidden="true">LT</i><b>${escapeHTML(v)}</b></span>`
     : "";
 }
-const CS_PHOTO_LIMIT_V61 = 3;
+const CS_PHOTO_LIMIT_V61 = 4;
 const csPhotosOpenV61 = new Set();
 const CS_DOC_ICON_V61 =
   '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>';
@@ -22,7 +22,11 @@ function csPhotosV61(sheet, car) {
   const count = grid.querySelectorAll(":scope > .premiumThumb").length;
   const open = csPhotosOpenV61.has(car.id);
   grid.classList.toggle("csPhotosCollapsedV61", count > CS_PHOTO_LIMIT_V61 && !open);
-  media.querySelector(".csPhotoActionsV61")?.remove();
+  // „Atsisiųsti visas“ išlieka visada: prieš perkuriant eilutę grąžinamas į sekciją
+  const oldRow = media.querySelector(".csPhotoActionsV61");
+  const keep = oldRow?.querySelector("#downloadCarPhotos");
+  if (keep) media.append(keep);
+  oldRow?.remove();
   const dl = media.querySelector("#downloadCarPhotos");
   const more =
     count > CS_PHOTO_LIMIT_V61

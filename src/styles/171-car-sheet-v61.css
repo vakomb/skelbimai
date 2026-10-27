@@ -84,7 +84,7 @@ html:not(#ae):not(#af)
   #modalBackdrop
   #sheet
   .premiumThumbGrid.csPhotosCollapsedV61
-  > .premiumThumb:nth-child(n + 4) {
+  > .premiumThumb:nth-child(n + 5) {
   display: none !important;
 }
 html:not(#ae):not(#af)

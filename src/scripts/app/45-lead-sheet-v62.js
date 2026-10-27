@@ -1,6 +1,6 @@
 // Varianto kortelė (v62): tvarkinga suvestinė (telefonas, miestas, kitas skambutis, „Skambinti“, trys kainos),
 // redagavimo laukai sugrupuoti į korteles (Automobilis, Pardavėjas, Kainos, Būklė, Pastabos), nuotraukų rodomos
-// pirmos trys. Laukų id ir mygtukų veiksmai – tie patys (openGarageLeadSheet). Stilius – 173-polish-v62.css.
+// pirmos keturios. Laukų id ir mygtukų veiksmai – tie patys (openGarageLeadSheet). Stilius – 173-polish-v62.css.
 const lsPhotosOpenV62 = new Set();
 const LS_GROUPS_V62 = [
   [
@@ -46,8 +46,11 @@ function lsPhotosV62(sheet, lead) {
   const count = grid.querySelectorAll(":scope > .premiumThumb").length;
   media.classList.toggle("lsNoPhotosV62", !count);
   const open = lsPhotosOpenV62.has(lead.id);
-  grid.classList.toggle("csPhotosCollapsedV61", count > 3 && !open);
-  media.querySelector(".csPhotoActionsV61")?.remove();
+  grid.classList.toggle("csPhotosCollapsedV61", count > 4 && !open);
+  const oldRow = media.querySelector(".csPhotoActionsV61");
+  const keep = oldRow?.querySelector("#downloadLeadPhotos");
+  if (keep) media.append(keep);
+  oldRow?.remove();
   const dl = sheet.querySelector("#downloadLeadPhotos");
   if (!count) {
     if (dl) dl.hidden = true;
@@ -58,8 +61,8 @@ function lsPhotosV62(sheet, lead) {
     dl.textContent = "Atsisiųsti visas";
   }
   const row = document.createElement("div");
-  row.className = "csPhotoActionsV61" + (count > 3 ? " two" : "");
-  if (count > 3)
+  row.className = "csPhotoActionsV61" + (count > 4 ? " two" : "");
+  if (count > 4)
     row.innerHTML = `<button type="button" class="csPhotoMoreV61" data-ls-photos-toggle="${escapeHTML(lead.id)}">${open ? "Rodyti mažiau" : `Rodyti visas (${count})`}</button>`;
   if (dl) row.append(dl);
   grid.after(row);

@@ -218,6 +218,17 @@ Vadybininkas nebesiūlo „Kodėl dar ne skelbime?“ ir kainos peržiūros paga
   - mažose kortelėse pavadinimai kairėje, sumos centre;
   - telefono apačios juostos matmenys vienodi visuose puslapiuose.
 
+## Kortelių nuotraukos ir Vadybininko užduotys kortelėje (v66)
+
+- **Mažos kortelės:** skaičių pavadinimai ir sumos lygiuojami kairėje (`177-v66.css`).
+- **Nuotraukos automobilio ir varianto kortelėse:**
+  - po 4 eilutėje, kvadratinės; „Rodyti visas (N)“ atskleidžia likusias;
+  - „Atsisiųsti visas“ visada lieka (prieš perkuriant eilutę mygtukas grąžinamas į sekciją);
+  - „Pridėti nuotraukų“ – punktyrinis, virš šių mygtukų.
+- **Vadybininko užduotys kortelėje** (`50-car-manager-v66.js`):
+  - pirmiausia rodomos naudotojo užduotys, Vadybininko darbai šiam automobiliui – po mygtuku „Vadybininko užduotys“ (senas `.carManagerSystemList` paslėptas);
+  - paspaudus darbą, atidaromas `openWhatItemV30` langas, o jį uždarius (`closeSheet`) grįžtama į tą pačią kortelę (`cmReturnCarV66`).
+
 ## Perrašymų grandinės (svarbu!)
 
 Programa augo sluoksniais: nauja versija **perrašo** seną funkciją (`render = async function () { await __renderPP(); … }`). Todėl:
