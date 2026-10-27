@@ -431,3 +431,22 @@ html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .carListPhoto im
   padding: 0 !important;
   margin: 0 !important;
 }
+/* v63: skaičiai ir jų pavadinimai – savo langelio centre */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefFacts > div,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantFacts > div,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefFacts > div:first-child,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantFacts > div:first-child {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 4px !important;
+  text-align: center !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefFacts small,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefFacts strong,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantFacts small,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantFacts strong {
+  max-width: 100% !important;
+  text-align: center !important;
+}

@@ -19,6 +19,7 @@ const TK_MONTHS_V62 = [
 ];
 let tkTabV62 = "";
 let tkExpenseOpenV62 = "";
+let tkWasOpenV63 = false;
 function tkDayDiffV62(due) {
   const a = parseISODateLocal(todayISO()),
     b = parseISODateLocal(due);
@@ -82,7 +83,7 @@ function tkRowV62(item, { showCar = true } = {}) {
   const due = tkDueV62(item.due);
   const key = `${item.kind}:${item.carId || ""}:${item.id}`;
   const meta = [
-    showCar && item.kind === "car" ? `<em>${escapeHTML(item.car.name || "Automobilis")}</em>` : "",
+    showCar && item.kind === "car" ? tkCarTagV63(item.car) : "",
     `<i class="tkDue ${due.cls}">${escapeHTML(due.text)}</i>`,
     item.kind === "task" && item.priority === "urgent" ? '<i class="tkTag urgent">Skubu</i>' : "",
     item.kind === "task" && item.priority === "important" ? '<i class="tkTag">Svarbu</i>' : ""
@@ -99,6 +100,44 @@ function tkRowV62(item, { showCar = true } = {}) {
       <button type="button" class="tkBodyV62" ${item.kind === "car" ? "data-tk-open" : "data-tk-noop"}><strong>${escapeHTML(item.title)}</strong><span class="tkMetaV62">${meta}</span>${item.notes ? `<small>${escapeHTML(item.notes)}</small>` : ""}</button>
       ${item.kind === "car" ? `<span class="tkChevV62" aria-hidden="true">${TK_ICON_V62.chev}</span>` : `<button type="button" class="tkDelV62" data-tk-del aria-label="Ištrinti „${escapeHTML(item.title)}“">${TK_ICON_V62.x}</button>`}
     </div>${expense}
+  </div>`;
+}
+function tkCarNameV63(car) {
+  return (
+    [regPrettyMakeV50(car.regMake), regPrettyModelV50(car.regModel)].filter(Boolean).join(" ") ||
+    car.name ||
+    "Automobilis"
+  );
+}
+function tkCarTagV63(car) {
+  return `<span class="tkCarV63">${lcPlateHTMLV61(car.plate)}<em>${escapeHTML(tkCarNameV63(car))}</em></span>`;
+}
+// Šiandienos pažanga: kiek atlikta iš šiandien suplanuotų (žiedas + tekstas)
+function tkProgressHTMLV63(items) {
+  const now = todayISO();
+  const doneDay = d => String(d || "").slice(0, 10) === now;
+  const done =
+    (state.garageTasks || []).filter(t => t.done && doneDay(t.doneDate)).length +
+    (state.cars || []).reduce(
+      (n, c) => n + (c.checklist || []).filter(i => i.done && doneDay(i.doneDateISO || i.doneAt)).length,
+      0
+    );
+  const left = items.today.length;
+  const late = items.today.filter(i => i.due < now).length;
+  const total = done + left;
+  const pct = total ? Math.round((done / total) * 100) : 100;
+  const C = 2 * Math.PI * 19;
+  const title = !total
+    ? "Šiandien užduočių nėra"
+    : left
+      ? `Šiandien liko ${left}`
+      : "Šiandien viskas atlikta";
+  const sub = total ? `Atlikta ${done} iš ${total}` : "Galite pridėti naują užduotį skiltyje „Kitos“";
+  return `<div class="tkProgV63${!left && total ? " allDone" : ""}">
+    <svg class="tkRingV63" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="19" class="bg"/><circle cx="24" cy="24" r="19" class="fg" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${(C * (1 - pct / 100)).toFixed(1)}"/></svg>
+    <span class="tkPctV63">${pct}%</span>
+    <div class="tkProgTextV63"><strong>${escapeHTML(title)}</strong><span>${escapeHTML(sub)}</span></div>
+    ${late ? `<b class="tkLateV63">${late} vėluoja</b>` : ""}
   </div>`;
 }
 function tkEmptyV62(text) {
@@ -122,7 +161,7 @@ function tkListHTMLV62(tab, items) {
   return [...groups.values()]
     .map(list => {
       const car = list[0].car;
-      return `<div class="tkGroupV62"><button type="button" class="tkGroupHeadV62" data-tk-car-open="${escapeHTML(car.id)}"><strong>${escapeHTML(car.name || "Automobilis")}</strong>${typeof lcPlateHTMLV61 === "function" ? lcPlateHTMLV61(car.plate) : ""}<b>${list.length}</b></button>${list.map(i => tkRowV62(i, { showCar: false })).join("")}</div>`;
+      return `<div class="tkGroupV62"><button type="button" class="tkGroupHeadV62" data-tk-car-open="${escapeHTML(car.id)}">${lcPlateHTMLV61(car.plate)}<strong>${escapeHTML(tkCarNameV63(car))}</strong><b>${list.length}</b></button>${list.map(i => tkRowV62(i, { showCar: false })).join("")}</div>`;
     })
     .join("");
 }
@@ -134,7 +173,7 @@ function tkRenderV62() {
   if (!hub) {
     hub = document.createElement("div");
     hub.className = "tkHubV62";
-    hub.innerHTML = `<div class="tkTabsV62" role="tablist"></div><div class="tkListV62"></div>
+    hub.innerHTML = `<div class="tkProgSlotV63"></div><div class="tkTabsV62" role="tablist"></div><div class="tkListV62"></div>
       <div class="tkComposerV62">
         <button type="button" class="tkAddV62" data-tk-add aria-expanded="false">${TK_ICON_V62.plus}<span>Nauja užduotis</span></button>
         <form class="tkFormV62" hidden>
@@ -150,8 +189,10 @@ function tkRenderV62() {
     else section.prepend(hub);
   }
   const items = tkItemsV62();
-  if (!["today", "autos", "custom"].includes(tkTabV62))
-    tkTabV62 = items.today.length ? "today" : items.auto.length ? "autos" : "custom";
+  const isOpen = section.classList.contains("is-open");
+  if (isOpen && !tkWasOpenV63) tkTabV62 = "today";
+  tkWasOpenV63 = isOpen;
+  if (!["today", "autos", "custom"].includes(tkTabV62)) tkTabV62 = "today";
   const tabs = [
     ["today", "Šiandien", items.today.length],
     ["autos", "Auto", items.auto.length],
@@ -163,6 +204,8 @@ function tkRenderV62() {
         `<button type="button" role="tab" data-tk-tab="${k}" aria-selected="${k === tkTabV62}" class="${k === "today" && n ? "hasDue" : ""}"><span>${t}</span><b>${n}</b></button>`
     )
     .join("");
+  hub.querySelector(".tkProgSlotV63").innerHTML = tkProgressHTMLV63(items);
+  hub.dataset.tab = tkTabV62;
   const list = hub.querySelector(".tkListV62");
   list.dataset.tab = tkTabV62;
   list.innerHTML = tkListHTMLV62(tkTabV62 === "autos" ? "autos" : tkTabV62, items);
@@ -248,7 +291,7 @@ document.addEventListener(
       document.getElementById("tkNewTitleV62")?.focus();
       return;
     }
-    tkTabV62 = due && due <= todayISO() ? "today" : "custom";
+    tkTabV62 = "custom";
     if (addGarageTask(title, 0, 0, due, "normal", "Bendra", "")) {
       const form = e.target.closest(".tkFormV62");
       form.reset();

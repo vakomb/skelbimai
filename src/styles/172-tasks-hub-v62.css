@@ -427,3 +427,125 @@ html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkSaveV62 {
     transform: translateY(-3px);
   }
 }
+
+/* ---------- v63: pažanga, automobilis su numeriu, nauja užduotis tik „Kitos“ ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkHubV62:not([data-tab="custom"]) .tkComposerV62 {
+  display: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkProgV63 {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 48px minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin: 0 0 12px !important;
+  padding: 12px 14px !important;
+  border-radius: 18px !important;
+  background: linear-gradient(135deg, #f3f7fd, #eef3fa) !important;
+  border: 1px solid #e1e9f4 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkProgV63.allDone {
+  background: linear-gradient(135deg, #f0faf4, #e9f7ef) !important;
+  border-color: #d3ecdf !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkRingV63 {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  width: 48px !important;
+  height: 48px !important;
+  transform: rotate(-90deg) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkRingV63 circle {
+  fill: none !important;
+  stroke-width: 4.5 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkRingV63 .bg {
+  stroke: rgba(23, 74, 139, 0.12) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkRingV63 .fg {
+  stroke: var(--ds-brand) !important;
+  stroke-linecap: round !important;
+  transition: stroke-dashoffset 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkProgV63.allDone .tkRingV63 .fg {
+  stroke: #1fa463 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkProgV63.allDone .tkRingV63 .bg {
+  stroke: rgba(31, 164, 99, 0.15) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkPctV63 {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  justify-self: center !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  color: var(--ds-ink) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkProgTextV63 {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+  min-width: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkProgTextV63 strong {
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  color: var(--ds-ink) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkProgTextV63 span {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkLateV63 {
+  padding: 5px 10px !important;
+  border-radius: 999px !important;
+  background: #fdecee !important;
+  color: #c62a3c !important;
+  font-size: 12.5px !important;
+  font-weight: 800 !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkCarV63 {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkCarV63 em {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+  color: var(--ds-ink-2, #3b4a5e) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkMetaV62 > .tkCarV63 {
+  max-width: 78% !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkCarV63 .lcPlateV61,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupHeadV62 .lcPlateV61 {
+  height: 22px !important;
+  border-width: 1.2px !important;
+  border-radius: 5px !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkCarV63 .lcPlateV61 i,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupHeadV62 .lcPlateV61 i {
+  width: 13px !important;
+  padding-bottom: 3px !important;
+  font-size: 6.5px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkCarV63 .lcPlateV61 b,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupHeadV62 .lcPlateV61 b {
+  padding: 0 6px 0 5px !important;
+  font-size: 12px !important;
+  letter-spacing: 0.05em !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkMetaV62 {
+  row-gap: 4px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupHeadV62 {
+  gap: 9px !important;
+}

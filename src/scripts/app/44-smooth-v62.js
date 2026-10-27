@@ -1,6 +1,5 @@
 // Sklandumas (v62): Garažo „Variantai“, „Kontaktai“ ir „Užduotys“ atsidaro be viso puslapio perpiešimo
-// (render()), todėl puslapis nešokinėja į viršų, o nuotraukos nekraunamos iš naujo. Puslapių perjungimas
-// apačios juostoje – švelnus įėjimas ir slinkimas į viršų. Stilius – 173-polish-v62.css.
+// (render()), todėl puslapis nešokinėja į viršų, o nuotraukos nekraunamos iš naujo. Stilius – 173-polish-v62.css.
 function smPanelToggleV62(panelId, action, expandedKey) {
   const panel = document.getElementById(panelId);
   if (!panel) return false;
@@ -43,37 +42,3 @@ openGarageTasks = function (forceOpen) {
   tkRenderV62();
 };
 window.__closeGarageTaskHubV1 = () => openGarageTasks(false);
-
-// Puslapių perjungimas
-window.addEventListener(
-  "click",
-  e => {
-    const btn = e.target.closest(".navBtn[data-view]");
-    if (!btn) return;
-    const before = document.querySelector(".view.active")?.id;
-    requestAnimationFrame(() =>
-      requestAnimationFrame(() => {
-        const view = document.querySelector(".view.active");
-        if (!view || view.id === before) return;
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-        view.classList.remove("pgInV62");
-        void view.offsetWidth;
-        view.classList.add("pgInV62");
-        view.addEventListener("animationend", () => view.classList.remove("pgInV62"), { once: true });
-      })
-    );
-  },
-  true
-);
-
-// Nuotraukos dekoduojamos fone – sąrašai neužstringa
-new MutationObserver(list => {
-  for (const m of list)
-    m.addedNodes.forEach(n => {
-      if (n.nodeType !== 1) return;
-      (n.tagName === "IMG" ? [n] : n.querySelectorAll?.("img") || []).forEach(img => {
-        if (!img.hasAttribute("decoding")) img.decoding = "async";
-      });
-    });
-}).observe(document.body, { childList: true, subtree: true });

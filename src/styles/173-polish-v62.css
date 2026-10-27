@@ -151,9 +151,6 @@ html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 
 }
 
 /* ---------- Aktyvių automobilių kortelė: du skaičiai ---------- */
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app #activeCarGrid .carListCard .garageRefFacts {
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-}
 
 /* ---------- Apačios juosta: vienodas šriftas, keičiasi tik spalva ---------- */
 html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn,
@@ -180,17 +177,6 @@ html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn.active {
 html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn .ico svg {
   transition: none !important;
 }
-/* Puslapio įėjimas */
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .view.pgInV62 {
-  animation: pgInV62 0.22s cubic-bezier(0.2, 0.7, 0.2, 1) both !important;
-}
-@keyframes pgInV62 {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-}
-
 /* ---------- Skydeliai atsidaro vienodai sklandžiai ---------- */
 html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage #garageTasksSection.is-open,
 html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .garageInlinePanel.garageInlineOpen,

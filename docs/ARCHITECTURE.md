@@ -158,13 +158,27 @@ Vadybininkas nebesiūlo „Kodėl dar ne skelbime?“ ir kainos peržiūros paga
 - **Varianto kortelė** (`45-lead-sheet-v62.js`): suvestinė (telefonas, miestas, metai, kitas skambutis, žalias „Skambinti“, centruotos kainos Prašo / Siūlome / Pelnas). Laukai sugrupuoti į korteles Automobilis, Pardavėjas, Kainos, Būklė ir Pastabos (id nepakeisti). Nuotraukų rodomos pirmos trys.
 - **Sklandumas** (`44-smooth-v62.js`):
   - Garažo „Variantai“, „Kontaktai“ ir „Užduotys“ atsidaro be viso `render()`, todėl puslapis nešokinėja, o nuotraukos nekraunamos iš naujo;
-  - perjungiant puslapius juostoje apačioje – švelnus įėjimas ir grįžimas į viršų (slenka `body`);
   - juostos šriftas visada 12 px / 650, keičiasi tik spalva.
 - **Kita** (`173-polish-v62.css`):
   - automobilio kortelės antraštė: numeris ir pavadinimas kairėje;
   - SDK plytelė balta su dokumento ženklu;
   - kainų skaičiai centruoti;
   - aktyvių automobilių kortelėse nebėra „Tikslas“.
+
+## Puslapių perjungimas ir užduotys (v63)
+
+- **Apačios juosta** (`46-nav-v63.js`): paspaudus Garažas, Buhalterija ar Meniu, visas `render()` nebekviečiamas. Anksčiau jis perpiešdavo visus ekranus, nuotraukas ir juostos ikonas (`homeReferenceNavV12`), todėl ekranas mirksėjo. Dabar perjungiamas tik `.view.active` ir juostos būsena, o slinkimo vieta nekeičiama. Patikrinta, kad turinys sutampa su pilno `render()` rezultatu.
+- **Sąrašų kortelės:** aktyviuose – Pirkta, Išlaidos, Savikaina (`carTotalCost`). Visų kortelių skaičiai centruoti.
+- **Užduočių skydelis:**
+  - atidarius visada rodomas „Šiandien“;
+  - viršuje pažangos žiedas (atlikta šiandien iš visų šiandienos) ir „N vėluoja“;
+  - automobilio užduotyse – numeris ir markė bei modelis;
+  - „Nauja užduotis“ (tik ne automobilio) rodoma tik skiltyje „Kitos“.
+- **Automobilio kortelės užduotys** (`47-car-tasks-v63.js`, `174-car-tasks-v63.css`):
+  - pažangos juosta, apvalūs žymėjimai, terminai spalva;
+  - atliktos sudėtos į suskleidžiamą „Atlikta“;
+  - nauja užduotis įvedama čia pat;
+  - `openCar` tos pačios kortelės slinkimo vietą išlaiko.
 
 ## Perrašymų grandinės (svarbu!)
 
