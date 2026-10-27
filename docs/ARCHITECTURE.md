@@ -233,6 +233,14 @@ Vadybininkas nebesiūlo „Kodėl dar ne skelbime?“ ir kainos peržiūros paga
 
 `51-photo-fill-v67.js`: kortelių ir sąrašų šablonai naudoja `photoUrlCache[ref] || ""`. Jei kortelė atidaroma anksčiau, nei nuotrauka įkeliama iš IndexedDB ar debesies, paveikslėlis likdavo tuščias. Dabar po `renderCarSheet`, `openGarageLeadSheet` ir `render()` kiekvienas tuščias paveikslėlis (miniatiūros, viršutinė nuotrauka, sąrašų kortelės) užpildomas per `photoGet`. Patikrinta dirbtinai sulėtinus IndexedDB. Automobilio kortelėje nebėra užrašo „Užduočių dar nėra“.
 
+## Miniatiūros ir suspaudimas (v68)
+
+- **Kortelių nuotraukų miniatiūros** (`177-v66.css`, v68 blokas): kvadratas sudaromas `::before { padding-top: 100% }` būdu, o mygtukas ir paveikslėlis išdėstomi absoliučiai. „Safari“ neperskaičiuodavo 100 % aukščio `aspect-ratio` dėžutėje, todėl nuotraukos būdavo nematomos.
+- **Suspaudimas** (`52-compress-v68.js`):
+  - **nuotraukos** (`compressPhoto`): iki 2400 px, WebP 0,86 (jei naršyklė nesukuria WebP – JPEG); originalas paliekamas, jei suspaustas failas nebūtų bent 10 % mažesnis. Pavyzdys: 3,3 MB → 215 KB, 2400×1800;
+  - **dokumentai** (`readDocumentFile`): JPG ir WebP perkoduojami tuo pačiu formatu (0,88), pavadinimas išlieka. Pavyzdys: 3,3 MB → 468 KB;
+  - PDF ir PNG nekeičiami.
+
 ## Perrašymų grandinės (svarbu!)
 
 Programa augo sluoksniais: nauja versija **perrašo** seną funkciją (`render = async function () { await __renderPP(); … }`). Todėl:

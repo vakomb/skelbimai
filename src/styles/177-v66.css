@@ -270,3 +270,85 @@ html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlo
 html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmChevV66 {
   color: #b3bdc9 !important;
 }
+
+/* v68: miniatiūros – patikimas kvadratas visose naršyklėse („Safari“ neperskaičiuoja 100 % aukščio
+   aspect-ratio dėžutėje, todėl nuotraukos būdavo nematomos). Vaikai išdėstomi absoliučiai. */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .premiumThumbGrid > .premiumThumb {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  aspect-ratio: auto !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border-radius: 11px !important;
+  background: var(--ds-soft) !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .premiumThumbGrid
+  > .premiumThumb::before {
+  content: "" !important;
+  display: block !important;
+  padding-top: 100% !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .premiumThumbGrid
+  > .premiumThumb
+  > button:first-child {
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  aspect-ratio: auto !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .premiumThumbGrid > .premiumThumb img {
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  min-height: 0 !important;
+  aspect-ratio: auto !important;
+  object-fit: cover !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .premiumThumbGrid.csPhotosCollapsedV61
+  > .premiumThumb:nth-child(n + 5) {
+  display: none !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .premiumThumbGrid
+  > .premiumThumb
+  > .premiumThumbDelete {
+  position: absolute !important;
+  z-index: 2 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 #carDetailPhotos .premiumThumbGrid > .premiumThumb,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumMedia .premiumThumbGrid > .premiumThumb {
+  aspect-ratio: auto !important;
+  height: auto !important;
+}

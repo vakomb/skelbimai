@@ -9,6 +9,7 @@ nes deklaracijos „iškeliamos“ – hoisting), `reassigned` = `X = function�
 | Funkcija | Grandinė (failas:eilutė) |
 |---|---|
 | `daysBetweenISO` | 01-core-utils:67 (function) → 15-work-center:4 (function) |
+| `compressPhoto` | 03-photo-storage:123 (function) → 52-compress-v68:70 (reassigned) |
 | `openGarageLeadsPage` | 04-garage-leads:174 (function) → 44-smooth-v62:20 (reassigned) |
 | `openGarageContacts` | 04-garage-leads:206 (function) → 44-smooth-v62:29 (reassigned) |
 | `openGarageTasks` | 04-garage-leads:231 (function) → 44-smooth-v62:34 (reassigned) |
@@ -25,6 +26,7 @@ nes deklaracijos „iškeliamos“ – hoisting), `reassigned` = `X = function�
 | `renderCustomers` | 13-customers-and-backup:21 (function) → 21-contacts:113 (reassigned) |
 | `vehicleFields` | 14-vehicle-fields-documents:67 (function) → 24-accounting-v3-pp-chooser:219 (reassigned) → 24-accounting-v3-pp-chooser:558 (reassigned) → 30-registration-review-v41:736 (reassigned) → 31-registration-v42-v43:453 (reassigned) → 34-registration-ui:164 (reassigned) |
 | `readVehicleFields` | 14-vehicle-fields-documents:84 (function) → 24-accounting-v3-pp-chooser:207 (reassigned) → 24-accounting-v3-pp-chooser:567 (reassigned) → 30-registration-review-v41:746 (reassigned) → 31-registration-v42-v43:462 (reassigned) → 34-registration-ui:173 (reassigned) |
+| `readDocumentFile` | 14-vehicle-fields-documents:166 (function) → 52-compress-v68:78 (reassigned) |
 | `carRecommendation` | 15-work-center:20 (function) → 35-car-ui-v51:417 (reassigned) |
 | `workCenterMissingFieldsV30` | 15-work-center:118 (function) → 30-registration-review-v41:953 (reassigned) |
 | `workCenterItems` | 15-work-center:153 (function) → 35-car-ui-v51:412 (reassigned) |
