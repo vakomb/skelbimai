@@ -180,6 +180,25 @@ Vadybininkas nebesiūlo „Kodėl dar ne skelbime?“ ir kainos peržiūros paga
   - nauja užduotis įvedama čia pat;
   - `openCar` tos pačios kortelės slinkimo vietą išlaiko.
 
+## Planšetė ir kompiuteris (v64)
+
+`175-responsive-v64.css`: telefono vaizdas (iki 767 px) nepakeistas (patikrinta pikselis į pikselį). Visos taisyklės yra tik `@media (min-width: …)` blokuose, o ekranas parenkamas automatiškai pagal plotį.
+
+- **Planšetė (768–1099 px):**
+  - turinys iki 900 px;
+  - plytelės – 4 stulpeliai, meniu – 3;
+  - automobiliai, variantai ir dokumentų eilė – 2 stulpeliais;
+  - juosta apačioje plaukioja centre (iki 520 px);
+  - kortelės – 680 px pločio.
+- **Kompiuteris (nuo 1100 px):**
+  - šoninis meniu 256 px kairėje, viršuje logotipas ir įmonė (`.topbar` fiksuotas; `.app` gauna `isolation: auto`);
+  - turinys iki 1220 px (nuo 1560 px – 1320 px);
+  - automobiliai tinklelyje `auto-fill, minmax(360px, 1fr)`;
+  - automobilio ir varianto kortelės bei formos atsidaro skydelyje dešinėje (600 px);
+  - nuo 1400 px „Vadybininkas“ ir plytelės vienoje eilėje;
+  - užvedus pele – švelnus pakėlimas.
+- Testas: `node tools/test-responsive.mjs`.
+
 ## Perrašymų grandinės (svarbu!)
 
 Programa augo sluoksniais: nauja versija **perrašo** seną funkciją (`render = async function () { await __renderPP(); … }`). Todėl:
