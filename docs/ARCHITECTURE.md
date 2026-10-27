@@ -199,6 +199,25 @@ Vadybininkas nebesiūlo „Kodėl dar ne skelbime?“ ir kainos peržiūros paga
   - užvedus pele – švelnus pakėlimas.
 - Testas: `node tools/test-responsive.mjs`.
 
+## Užduoties atlikimas, Vadybininkas ir smulkūs patobulinimai (v65)
+
+- **Vienas atlikimo skydelis** (`48-task-complete-v65.js`). Jis rodomas automobilio kortelėje (paspaudus varnelę ar eilutę), Garažo užduotyse ir Vadybininke. Skydelyje yra „Kaina, €“, „Prisegti čekį“ ir „Atlikta“.
+  - Kai kaina > 0 ir čekis prisegtas, užduotis atliekama automatiškai.
+  - Be kainos užduotis atliekama mygtuku „Atlikta“.
+  - Kaina be čekio neleidžiama – rodomas priminimas.
+  - Išsaugoma per `accountingReadAttachmentsV8` ir `completeCarTaskWithExpenseV24` (išlaida su čekiu patenka į Buhalteriją). Po to atnaujinama kortelė (`renderCarSheet`, išlaikant slinkimą) ir `render()`.
+- **Vadybininkas** (`49-manager-v65.js`): antraštė ir suvestinė (Darbai / Vėluoja / Šiandien). Automobilio užduoties eilutė (`car:<id>:task:<id>`) atidaro atlikimo skydelį su nuoroda „Atidaryti kortelę“.
+- **Automobilio kortelė:**
+  - antraštėje centre markė ir modelis (21 px);
+  - numeris perkeltas į duomenų sąrašą („Valstybinis numeris“);
+  - užduotys didesnės, be išlaidų laukelio eilutėje;
+  - nuotraukos 4:3, „Pridėti nuotraukų“ didesnis ir apačioje.
+- **Parduoti automobiliai** atsidaro be `render()` (vėliavėlė `soldLiteV65` faile `46-nav-v63.js`).
+- **Kita** (`176-v65.css`):
+  - visų skilčių ir skydelių pavadinimai 21 px;
+  - mažose kortelėse pavadinimai kairėje, sumos centre;
+  - telefono apačios juostos matmenys vienodi visuose puslapiuose.
+
 ## Perrašymų grandinės (svarbu!)
 
 Programa augo sluoksniais: nauja versija **perrašo** seną funkciją (`render = async function () { await __renderPP(); … }`). Todėl:

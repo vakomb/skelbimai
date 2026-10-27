@@ -95,7 +95,8 @@ renderCarSheet = function (car) {
   if (!sheet || !car) return;
   sheet.classList.add("carSheetV61");
   const spacer = sheet.querySelector(".premiumSheetHead .cdHeadSpacerV55");
-  if (spacer) spacer.innerHTML = lcPlateHTMLV61(car.plate);
+  // v65: numeris – duomenų sąraše („Valstybinis numeris“), antraštėje tik markė ir modelis centre
+  if (spacer) spacer.innerHTML = "";
   csPhotosV61(sheet, car);
   csDocsV61(sheet);
 };

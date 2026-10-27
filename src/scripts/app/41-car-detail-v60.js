@@ -44,8 +44,12 @@ cdInfoHTMLV51 = function (car) {
   ].filter(([, v]) => v);
   const vin = String(car.vin || "").trim();
   const specs =
-    rows.length || vin
-      ? `<dl class="cdSpecsV60">${rows
+    rows.length || vin || car.plate
+      ? `<dl class="cdSpecsV60">${
+          car.plate
+            ? `<div class="cdPlateRowV65"><dt>Valstybinis numeris</dt><dd>${lcPlateHTMLV61(car.plate)}</dd></div>`
+            : ""
+        }${rows
           .map(([l, v]) => `<div><dt>${escapeHTML(l)}</dt><dd>${escapeHTML(String(v))}</dd></div>`)
           .join("")}${
           vin

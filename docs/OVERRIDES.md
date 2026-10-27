@@ -21,7 +21,7 @@ nes deklaracijos „iškeliamos“ – hoisting), `reassigned` = `X = function�
 | `closeSheet` | 09-cars-and-sale:432 (function) → 39-profile-onboarding-v57:177 (reassigned) |
 | `renderGarageStatsPage` | 10-render:4 (function) → 17-stats-period-boot:59 (reassigned) |
 | `renderFinancePage` | 10-render:138 (function) → 25-accounting-v8-transactions-reports:517 (reassigned) |
-| `render` | 10-render:185 (function) → 18-pp-contract-generator:469 (reassigned) → 24-accounting-v3-pp-chooser:551 (reassigned) → 27-home-reference-v12-v19:92 (reassigned) → 32-unified-garage-tasks-and-boot:135 (reassigned) → 39-profile-onboarding-v57:241 (reassigned) → 43-tasks-hub-v62:316 (reassigned) → 46-nav-v63:43 (reassigned) |
+| `render` | 10-render:185 (function) → 18-pp-contract-generator:469 (reassigned) → 24-accounting-v3-pp-chooser:551 (reassigned) → 27-home-reference-v12-v19:92 (reassigned) → 32-unified-garage-tasks-and-boot:135 (reassigned) → 39-profile-onboarding-v57:241 (reassigned) → 43-tasks-hub-v62:316 (reassigned) → 46-nav-v63:48 (reassigned) |
 | `renderCustomers` | 13-customers-and-backup:21 (function) → 21-contacts:113 (reassigned) |
 | `vehicleFields` | 14-vehicle-fields-documents:67 (function) → 24-accounting-v3-pp-chooser:219 (reassigned) → 24-accounting-v3-pp-chooser:558 (reassigned) → 30-registration-review-v41:736 (reassigned) → 31-registration-v42-v43:453 (reassigned) → 34-registration-ui:164 (reassigned) |
 | `readVehicleFields` | 14-vehicle-fields-documents:84 (function) → 24-accounting-v3-pp-chooser:207 (reassigned) → 24-accounting-v3-pp-chooser:567 (reassigned) → 30-registration-review-v41:746 (reassigned) → 31-registration-v42-v43:462 (reassigned) → 34-registration-ui:173 (reassigned) |
@@ -42,6 +42,7 @@ nes deklaracijos „iškeliamos“ – hoisting), `reassigned` = `X = function�
 | `ppOcrWorker` | 19-pp-pdf-offline-and-ocr:589 (function) → 30-registration-review-v41:434 (reassigned) |
 | `accountingDirectEntries` | 20-accounting-share:4 (function) → 20-accounting-share:206 (reassigned) → 24-accounting-v3-pp-chooser:17 (reassigned) |
 | `renderCompanyHome` | 22-other-tasks-and-home:237 (function) → 24-accounting-v3-pp-chooser:399 (reassigned) → 27-home-reference-v12-v19:32 (reassigned) → 27-home-reference-v12-v19:158 (reassigned) |
+| `renderGarageWhatApp` | 23-garage-what-manager:34 (function) → 49-manager-v65:43 (reassigned) |
 | `openWhatMissingDataV30` | 23-garage-what-manager:56 (function) → 30-registration-review-v41:961 (reassigned) → 34-registration-ui:595 (reassigned) |
 | `accountingPpChooserV3` | 24-accounting-v3-pp-chooser:281 (function) → 24-accounting-v3-pp-chooser:448 (reassigned) |
 | `newCarExtractYearV29` | 28-new-car-smart-add-v29:13 (function) → 29-registration-parse-v35-v36:317 (reassigned) |

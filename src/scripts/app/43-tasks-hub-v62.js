@@ -91,8 +91,8 @@ function tkRowV62(item, { showCar = true } = {}) {
     .filter(Boolean)
     .join("");
   const expense =
-    tkExpenseOpenV62 === key
-      ? `<div class="tkExpenseV62"><label for="tkExpenseInput">Išlaidos</label><div class="tkExpenseFieldV62"><input id="tkExpenseInput" class="input" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0"><span>€</span></div><button type="button" class="tkExpenseOkV62" data-tk-confirm>Atlikta</button><button type="button" class="tkExpenseCancelV62" data-tk-cancel aria-label="Atšaukti">${TK_ICON_V62.x}</button></div>`
+    tkExpenseOpenV62 === key && item.kind === "car"
+      ? tcPanelHTMLV65(item.carId, item.id, { openCarLink: true })
       : "";
   return `<div class="tkRowV62 ${due.cls}${expense ? " expanded" : ""}" data-tk-kind="${item.kind}" data-tk-id="${escapeHTML(item.id)}" ${item.carId ? `data-tk-car="${escapeHTML(item.carId)}"` : ""} data-tk-key="${escapeHTML(key)}">
     <div class="tkRowMainV62">
@@ -209,7 +209,7 @@ function tkRenderV62() {
   const list = hub.querySelector(".tkListV62");
   list.dataset.tab = tkTabV62;
   list.innerHTML = tkListHTMLV62(tkTabV62 === "autos" ? "autos" : tkTabV62, items);
-  if (tkExpenseOpenV62) list.querySelector("#tkExpenseInput")?.focus({ preventScroll: true });
+  if (tkExpenseOpenV62) list.querySelector("[data-tc-amount]")?.focus({ preventScroll: true });
 }
 async function tkCompleteV62(row) {
   const kind = row.dataset.tkKind,

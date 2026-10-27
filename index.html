@@ -46167,8 +46167,12 @@ cdInfoHTMLV51 = function (car) {
   ].filter(([, v]) => v);
   const vin = String(car.vin || "").trim();
   const specs =
-    rows.length || vin
-      ? `<dl class="cdSpecsV60">${rows
+    rows.length || vin || car.plate
+      ? `<dl class="cdSpecsV60">${
+          car.plate
+            ? `<div class="cdPlateRowV65"><dt>Valstybinis numeris</dt><dd>${lcPlateHTMLV61(car.plate)}</dd></div>`
+            : ""
+        }${rows
           .map(([l, v]) => `<div><dt>${escapeHTML(l)}</dt><dd>${escapeHTML(String(v))}</dd></div>`)
           .join("")}${
           vin
@@ -46295,7 +46299,8 @@ renderCarSheet = function (car) {
   if (!sheet || !car) return;
   sheet.classList.add("carSheetV61");
   const spacer = sheet.querySelector(".premiumSheetHead .cdHeadSpacerV55");
-  if (spacer) spacer.innerHTML = lcPlateHTMLV61(car.plate);
+  // v65: numeris – duomenų sąraše („Valstybinis numeris“), antraštėje tik markė ir modelis centre
+  if (spacer) spacer.innerHTML = "";
   csPhotosV61(sheet, car);
   csDocsV61(sheet);
 };
@@ -46411,8 +46416,8 @@ function tkRowV62(item, { showCar = true } = {}) {
     .filter(Boolean)
     .join("");
   const expense =
-    tkExpenseOpenV62 === key
-      ? `<div class="tkExpenseV62"><label for="tkExpenseInput">Išlaidos</label><div class="tkExpenseFieldV62"><input id="tkExpenseInput" class="input" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0"><span>€</span></div><button type="button" class="tkExpenseOkV62" data-tk-confirm>Atlikta</button><button type="button" class="tkExpenseCancelV62" data-tk-cancel aria-label="Atšaukti">${TK_ICON_V62.x}</button></div>`
+    tkExpenseOpenV62 === key && item.kind === "car"
+      ? tcPanelHTMLV65(item.carId, item.id, { openCarLink: true })
       : "";
   return `<div class="tkRowV62 ${due.cls}${expense ? " expanded" : ""}" data-tk-kind="${item.kind}" data-tk-id="${escapeHTML(item.id)}" ${item.carId ? `data-tk-car="${escapeHTML(item.carId)}"` : ""} data-tk-key="${escapeHTML(key)}">
     <div class="tkRowMainV62">
@@ -46529,7 +46534,7 @@ function tkRenderV62() {
   const list = hub.querySelector(".tkListV62");
   list.dataset.tab = tkTabV62;
   list.innerHTML = tkListHTMLV62(tkTabV62 === "autos" ? "autos" : tkTabV62, items);
-  if (tkExpenseOpenV62) list.querySelector("#tkExpenseInput")?.focus({ preventScroll: true });
+  if (tkExpenseOpenV62) list.querySelector("[data-tc-amount]")?.focus({ preventScroll: true });
 }
 async function tkCompleteV62(row) {
   const kind = row.dataset.tkKind,
@@ -46883,9 +46888,14 @@ function navSwitchV63() {
   }
   saveState();
 }
+let soldLiteV65 = false;
 window.addEventListener(
   "click",
   e => {
+    if (e.target.closest("#toggleSoldCarsBtn")) {
+      soldLiteV65 = true;
+      setTimeout(() => (soldLiteV65 = false), 0);
+    }
     const btn = e.target.closest(".navBtn[data-view]");
     if (!btn) return;
     navTargetV63 = btn.dataset.view;
@@ -46895,6 +46905,17 @@ window.addEventListener(
 );
 const __renderNavV63 = render;
 render = function () {
+  // Parduoti automobiliai: tik parodome / paslepiame jau paruoštą sąrašą (be viso perpiešimo)
+  if (soldLiteV65) {
+    soldLiteV65 = false;
+    const panel = document.getElementById("soldCarsPanel");
+    if (panel) {
+      const open = !!state.ui?.soldCarsOpen;
+      panel.style.display = open ? "block" : "none";
+      document.getElementById("toggleSoldCarsBtn")?.setAttribute("aria-expanded", String(open));
+    }
+    return Promise.resolve();
+  }
   if (navTargetV63 && state.selectedView === navTargetV63 && state.selectedView !== "home") {
     navTargetV63 = "";
     navSwitchV63();
@@ -47066,6 +47087,241 @@ document.addEventListener(
     sheet.scrollTop = top;
     render();
     toast("Užduotis pridėta", "✓");
+  },
+  true
+);
+
+// Automobilio užduoties atlikimas (v65) – vienas skydelis visur (automobilio kortelė, Garažo užduotys,
+// Vadybininkas): „Kaina, €“ + „Prisegti čekį“ + „Atlikta“. Įvedus kainą ir prisegus čekį, užduotis
+// pažymima atlikta automatiškai; be kainos – paspaudus „Atlikta“. Išlaida su čekiu patenka į Buhalteriją
+// (completeCarTaskWithExpenseV24), visi sąrašai atnaujinami iš tų pačių duomenų. Stilius – 176-v65.css.
+let tcOpenKeyV65 = "";
+function tcKeyV65(carId, itemId) {
+  return `${carId}:${itemId}`;
+}
+function tcPanelHTMLV65(carId, itemId, { openCarLink = false } = {}) {
+  const car = (state.cars || []).find(c => c.id === carId);
+  const item = car?.checklist?.find(i => i.id === itemId);
+  if (!car || !item || item.done) return "";
+  const k = escapeHTML(tcKeyV65(carId, itemId));
+  return `<div class="tcPanelV65" data-tc-car="${escapeHTML(carId)}" data-tc-item="${escapeHTML(itemId)}">
+    <div class="tcFieldsV65">
+      <label class="tcAmountV65"><span>Kaina</span><input type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" data-tc-amount aria-label="Kaina, €"><em>€</em></label>
+      <label class="tcFileV65"><input type="file" accept="image/*,application/pdf" multiple data-tc-file><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5 12.5 20a5 5 0 0 1-7-7L14 4.5a3.3 3.3 0 0 1 4.7 4.7L10.2 17.7a1.7 1.7 0 0 1-2.4-2.4L15.5 7.6"/></svg><span data-tc-file-label>Prisegti čekį</span></label>
+    </div>
+    <p class="tcHintV65" data-tc-hint>Įvedus kainą ir prisegus čekį – atlikta automatiškai</p>
+    <div class="tcActionsV65">
+      ${openCarLink ? `<button type="button" class="tcLinkV65" data-tc-open-car="${escapeHTML(carId)}">Atidaryti kortelę</button>` : `<button type="button" class="tcLinkV65" data-tc-cancel="${k}">Atšaukti</button>`}
+      <button type="button" class="tcDoneV65" data-tc-done>Atlikta</button>
+    </div>
+  </div>`;
+}
+function tcRefreshV65(carId) {
+  const sheet = document.getElementById("sheet");
+  const car = (state.cars || []).find(c => c.id === carId);
+  const backdrop = document.getElementById("modalBackdrop");
+  if (car && sheet?.dataset.carV63 === carId && backdrop?.classList.contains("show")) {
+    const top = sheet.scrollTop;
+    renderCarSheet(car);
+    sheet.scrollTop = top;
+  }
+  render();
+}
+async function tcCompleteV65(panel) {
+  if (!panel || panel.dataset.busy) return;
+  const car = (state.cars || []).find(c => c.id === panel.dataset.tcCar);
+  const item = car?.checklist?.find(i => i.id === panel.dataset.tcItem);
+  if (!car || !item || item.done) return;
+  const amount = Math.max(0, Number(panel.querySelector("[data-tc-amount]")?.value || 0));
+  const fileInput = panel.querySelector("[data-tc-file]");
+  const hasFile = !!fileInput?.files?.length;
+  if (amount > 0 && !hasFile) {
+    const hint = panel.querySelector("[data-tc-hint]");
+    if (hint) {
+      hint.textContent = "Išlaidai reikia čekio – prisekite jį";
+      hint.classList.add("warn");
+    }
+    fileInput?.click();
+    return;
+  }
+  panel.dataset.busy = "1";
+  const done = panel.querySelector("[data-tc-done]");
+  if (done) done.textContent = "Saugoma…";
+  let attachments = [];
+  try {
+    if (hasFile) attachments = await accountingReadAttachmentsV8(fileInput, "receipt");
+    await completeCarTaskWithExpenseV24(car, item, amount, attachments);
+    saveState();
+    tcOpenKeyV65 = "";
+    tkExpenseOpenV62 = "";
+    panel.classList.add("isDone");
+    await new Promise(r => setTimeout(r, 220));
+    tcRefreshV65(car.id);
+    toast(amount > 0 ? `Atlikta · ${moneyFmt(amount)} į Buhalteriją` : "Užduotis atlikta", "✓");
+  } catch (e) {
+    await Promise.all(attachments.map(a => photoDelete(a.key).catch(() => {})));
+    delete panel.dataset.busy;
+    if (done) done.textContent = "Atlikta";
+    toast(e?.message || "Nepavyko išsaugoti", "!");
+  }
+}
+// Įvykiai
+document.addEventListener(
+  "change",
+  e => {
+    const panel = e.target.closest?.(".tcPanelV65");
+    if (!panel) return;
+    if (e.target.matches("[data-tc-file]")) {
+      const n = e.target.files?.length || 0;
+      const label = panel.querySelector("[data-tc-file-label]");
+      if (label) label.textContent = n ? (n === 1 ? e.target.files[0].name : `${n} failai`) : "Prisegti čekį";
+      panel.classList.toggle("hasFile", !!n);
+      const amount = Number(panel.querySelector("[data-tc-amount]")?.value || 0);
+      if (n && amount > 0) tcCompleteV65(panel);
+      else if (n) panel.querySelector("[data-tc-amount]")?.focus({ preventScroll: true });
+    }
+    if (e.target.matches("[data-tc-amount]")) {
+      const amount = Number(e.target.value || 0);
+      if (amount > 0 && panel.querySelector("[data-tc-file]")?.files?.length) tcCompleteV65(panel);
+    }
+  },
+  true
+);
+document.addEventListener(
+  "keydown",
+  e => {
+    if (e.key === "Enter" && e.target.matches?.(".tcPanelV65 [data-tc-amount]")) {
+      e.preventDefault();
+      tcCompleteV65(e.target.closest(".tcPanelV65"));
+    }
+  },
+  true
+);
+document.addEventListener(
+  "click",
+  e => {
+    const panel = e.target.closest(".tcPanelV65");
+    if (!panel) return;
+    if (e.target.closest("[data-tc-done]")) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      tcCompleteV65(panel);
+      return;
+    }
+    const open = e.target.closest("[data-tc-open-car]");
+    if (open) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      openCar(open.dataset.tcOpenCar);
+      return;
+    }
+    if (e.target.closest("[data-tc-cancel]")) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      tcOpenKeyV65 = "";
+      tcToggleInlineV65(null);
+      return;
+    }
+    // Kiti paspaudimai skydelyje neturi atidaryti kortelės ar pažymėti eilutės
+    e.stopPropagation();
+  },
+  true
+);
+// Skydelio įterpimas po bet kurios eilutės (automobilio kortelė, Vadybininkas)
+function tcToggleInlineV65(anchor, carId, itemId, opts) {
+  document.querySelectorAll(".tcPanelV65.inlineV65").forEach(p => p.remove());
+  document.querySelectorAll(".tcOpenV65").forEach(n => n.classList.remove("tcOpenV65"));
+  if (!anchor) return;
+  const key = tcKeyV65(carId, itemId);
+  if (tcOpenKeyV65 === key && anchor.dataset.tcWasOpen === "1") {
+    tcOpenKeyV65 = "";
+    anchor.dataset.tcWasOpen = "";
+    return;
+  }
+  const html = tcPanelHTMLV65(carId, itemId, opts);
+  if (!html) return;
+  tcOpenKeyV65 = key;
+  document.querySelectorAll("[data-tc-was-open]").forEach(n => (n.dataset.tcWasOpen = ""));
+  anchor.dataset.tcWasOpen = "1";
+  anchor.classList.add("tcOpenV65");
+  anchor.insertAdjacentHTML("afterend", html);
+  const panel = anchor.nextElementSibling;
+  panel.classList.add("inlineV65");
+  panel.querySelector("[data-tc-amount]")?.focus({ preventScroll: true });
+}
+// Automobilio kortelė: varnelė ar eilutė atidaro skydelį (nebeperjungiama iš karto)
+document.addEventListener(
+  "click",
+  e => {
+    const row = e.target.closest("#sheet .carTasksBlock.ctV63 .ctRowV63:not(.isDone)");
+    if (!row || e.target.closest(".carTaskActions")) return;
+    const cb = row.querySelector('input[type="checkbox"]');
+    if (!cb || cb.disabled) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    tcToggleInlineV65(row, cb.dataset.car, cb.dataset.item, {});
+  },
+  true
+);
+
+// Vadybininkas (v65): aiški antraštė ir suvestinė (darbai / vėluoja / šiandien). Automobilio užduotis
+// paspaudus, čia pat išslenka atlikimo skydelis (kaina, čekis, „Atlikta“) – tas pats kaip automobilio kortelėje
+// ir Garažo užduotyse (48-task-complete-v65.js), todėl duomenys visur sutampa.
+const VD_TASK_RE_V65 = /^car:([^:]+):task:(.+)$/;
+const VD_CHECK_V65 =
+  '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.8 2.8L16.5 9.5"/></svg>';
+function vdTaskOfV65(el) {
+  const m = VD_TASK_RE_V65.exec(el?.dataset?.whatOpen || "");
+  if (!m) return null;
+  const car = (state.cars || []).find(c => c.id === m[1]);
+  const item = car?.checklist?.find(i => i.id === m[2]);
+  return car && item && !item.done ? { car, item } : null;
+}
+function vdEnhanceV65() {
+  const page = document.querySelector("#garageWhatRoot .garageWhatPage");
+  if (!page) return;
+  page.classList.add("vdV65");
+  const all = [...page.querySelectorAll("[data-what-open]")];
+  const items = tkItemsV62();
+  const now = todayISO();
+  const late = items.today.filter(i => i.due < now).length;
+  page.querySelector(".vdSumV65")?.remove();
+  page
+    .querySelector(".garageWhatHead")
+    ?.insertAdjacentHTML(
+      "afterend",
+      `<div class="vdSumV65"><div><b>${all.length}</b><span>Darbai</span></div><div class="${late ? "late" : ""}"><b>${late}</b><span>Vėluoja</span></div><div><b>${items.today.length}</b><span>Šiandien</span></div></div>`
+    );
+  all.forEach(el => {
+    const t = vdTaskOfV65(el);
+    if (!t) return;
+    el.classList.add("vdTaskV65");
+    const side = el.querySelector(".garageWhatSide, .garageWhatHeroBottom > span");
+    if (side && !side.querySelector("svg")) side.innerHTML = VD_CHECK_V65;
+    if (tcOpenKeyV65 === tcKeyV65(t.car.id, t.item.id)) {
+      const wrap = el.closest(".garageWhatRowWrapV30, .garageWhatHeroWrapV30") || el;
+      tcOpenKeyV65 = "";
+      tcToggleInlineV65(wrap, t.car.id, t.item.id, { openCarLink: true });
+    }
+  });
+}
+const __renderGarageWhatAppV65 = renderGarageWhatApp;
+renderGarageWhatApp = function () {
+  const r = __renderGarageWhatAppV65.apply(this, arguments);
+  vdEnhanceV65();
+  return r;
+};
+document.addEventListener(
+  "click",
+  e => {
+    const el = e.target.closest("#garageWhatRoot [data-what-open]");
+    if (!el) return;
+    const t = vdTaskOfV65(el);
+    if (!t) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    const wrap = el.closest(".garageWhatRowWrapV30, .garageWhatHeroWrapV30") || el;
+    tcToggleInlineV65(wrap, t.car.id, t.item.id, { openCarLink: true });
   },
   true
 );
@@ -61712,10 +61968,6 @@ html:not(#ae):not(#af)
     gap: 16px !important;
   }
   /* Antraštės tarp skilčių */
-  html:not(#ae):not(#af) body:not(#ae):not(#af) .app .view > .section > .sectionHead h2,
-  html:not(#ae):not(#af) body:not(#ae):not(#af) .app .accountingRefPendingSection .sectionHead h2 {
-    font-size: 20px !important;
-  }
   html:not(#ae):not(#af) body:not(#ae):not(#af) .app .view > .section {
     margin-top: 26px !important;
   }
@@ -61845,6 +62097,679 @@ html:not(#ae):not(#af)
 @media (min-width: 1560px) {
   html:not(#ae):not(#af) body:not(#ae):not(#af) .app {
     max-width: 1320px !important;
+  }
+}
+</style><style id="v65">/* v65: užduoties atlikimo skydelis, kortelės antraštė ir numeris, užduotys, nuotraukos, pavadinimai, juosta. */
+
+/* ---------- Užduoties atlikimo skydelis (visur vienodas) ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .tcPanelV65 {
+  display: block !important;
+  margin: 2px 0 12px !important;
+  padding: 12px !important;
+  border: 1px solid #e1e9f4 !important;
+  border-radius: 16px !important;
+  background: #f5f8fc !important;
+  animation: tcInV65 0.22s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .tcPanelV65.isDone {
+  opacity: 0 !important;
+  transform: translateY(-4px) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .tkRowV62 .tcPanelV65 {
+  margin: -2px 0 12px 40px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .tcFieldsV65 {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+  gap: 8px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .tcAmountV65 {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  min-width: 0 !important;
+  height: 50px !important;
+  margin: 0 !important;
+  padding: 0 14px !important;
+  border: 1px solid var(--ds-line-2) !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  cursor: text !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .tcAmountV65:focus-within {
+  border-color: var(--ds-brand) !important;
+  box-shadow: 0 0 0 3px rgba(23, 74, 139, 0.12) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .tcAmountV65 span {
+  flex: none !important;
+  margin-right: 8px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .tcAmountV65 input {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  color: var(--ds-ink) !important;
+  text-align: right !important;
+  -moz-appearance: textfield !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .tcAmountV65 input::-webkit-outer-spin-button,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .tcAmountV65 input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .tcAmountV65 em {
+  flex: none !important;
+  margin-left: 6px !important;
+  font-style: normal !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .tcFileV65 {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  min-width: 0 !important;
+  height: 50px !important;
+  margin: 0 !important;
+  padding: 0 12px !important;
+  border: 1px dashed #b9c8dc !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  color: var(--ds-brand) !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  overflow: hidden !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .tcFileV65 input[type="file"] {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .tcFileV65 span {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .tcPanelV65.hasFile .tcFileV65 {
+  border-style: solid !important;
+  border-color: #cfe9db !important;
+  background: #effaf4 !important;
+  color: #12754a !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .tcHintV65 {
+  margin: 8px 2px 0 !important;
+  font-size: 12.5px !important;
+  line-height: 1.35 !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .tcHintV65.warn {
+  color: #b26b00 !important;
+  font-weight: 700 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .tcActionsV65 {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  margin: 10px 0 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .tcLinkV65 {
+  height: 44px !important;
+  min-height: 44px !important;
+  margin: 0 !important;
+  padding: 0 8px !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--ds-muted) !important;
+  -webkit-text-fill-color: currentColor !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .tcLinkV65[data-tc-open-car] {
+  color: var(--ds-brand) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .tcDoneV65 {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 132px !important;
+  height: 46px !important;
+  min-height: 46px !important;
+  margin: 0 !important;
+  padding: 0 22px !important;
+  border: 0 !important;
+  border-radius: 14px !important;
+  background: #1fa463 !important;
+  background-image: none !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  box-shadow: 0 6px 16px rgba(31, 164, 99, 0.22) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .tcDoneV65:active {
+  transform: scale(0.97) !important;
+}
+@keyframes tcInV65 {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+/* ---------- Automobilio kortelė: markė ir modelis centre, numeris – duomenų sąraše ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV61 .premiumSheetHead {
+  display: grid !important;
+  grid-template-columns: 40px minmax(0, 1fr) 40px !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV61
+  .premiumSheetHead
+  .cdHeadSpacerV55,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV61
+  .premiumSheetHead
+  .cdHeadSpacerV55:empty {
+  display: block !important;
+  grid-column: 1 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV61
+  .premiumSheetHead
+  .premiumSheetTitle {
+  grid-column: 2 !important;
+  text-align: center !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV61 .premiumSheetHead h3 {
+  font-size: 21px !important;
+  text-align: center !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV61 .premiumSheetHead .closeBtn {
+  grid-column: 3 !important;
+  justify-self: end !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .cdInfoV60
+  .cdSpecsV60
+  > .cdPlateRowV65
+  dd {
+  overflow: visible !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .cdInfoV60
+  .cdSpecsV60
+  > .cdPlateRowV65
+  .lcPlateV61 {
+  height: 30px !important;
+  border-radius: 7px !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .cdInfoV60
+  .cdSpecsV60
+  > .cdPlateRowV65
+  .lcPlateV61
+  b {
+  font-size: 15.5px !important;
+}
+
+/* ---------- Automobilio kortelės užduotys – didesnės, švaresnės ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock.ctV63 .ctRowV63 {
+  min-height: 66px !important;
+  cursor: pointer !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock.ctV63 .ctRowV63.tcOpenV65 {
+  border-bottom-color: transparent !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .carTasksBlock.ctV63
+  .ctRowV63
+  input[type="checkbox"] {
+  width: 28px !important;
+  height: 28px !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .carTasksBlock.ctV63
+  .ctRowV63.tcOpenV65
+  input[type="checkbox"] {
+  border-color: #1fa463 !important;
+  background-color: #effaf4 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock.ctV63 .carTaskMain strong {
+  font-size: 16.5px !important;
+  font-weight: 700 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock.ctV63 .ctMetaV63 {
+  font-size: 14px !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .carTasksBlock.ctV63
+  .ctRowV63
+  .carTaskExpenseInput {
+  display: none !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .carTasksBlock.ctV63
+  .carTasksSectionHead
+  h4 {
+  font-size: 19px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock.ctV63 .ctDoneToggleV63 {
+  font-size: 15px !important;
+}
+
+/* ---------- Nuotraukos – kompaktiškiau, didesnis „Pridėti nuotraukų“ ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 #carDetailPhotos,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumMedia {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  #carDetailPhotos
+  > .premiumSectionHead,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  > .premiumSectionHead {
+  order: 0 !important;
+  margin: 0 0 10px !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  #carDetailPhotos
+  > .premiumThumbGrid,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  > .premiumThumbGrid {
+  order: 1 !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 6px !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  #carDetailPhotos
+  .premiumThumb,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumMedia .premiumThumb {
+  aspect-ratio: 4 / 3 !important;
+  height: auto !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  #carDetailPhotos
+  .premiumThumb
+  img,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  #carDetailPhotos
+  .premiumThumb
+  button {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  #carDetailPhotos
+  > .csPhotoActionsV61,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  > .csPhotoActionsV61 {
+  order: 2 !important;
+  margin: 8px 0 0 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailPhotos
+  > .csPhotoActionsV61
+  > button,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  > .csPhotoActionsV61
+  > button {
+  height: 40px !important;
+  min-height: 40px !important;
+  font-size: 14.5px !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  #carDetailPhotos
+  > .premiumUpload,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  > .premiumUpload {
+  order: 3 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  min-height: 54px !important;
+  margin: 10px 0 0 !important;
+  border: 0 !important;
+  border-radius: 15px !important;
+  background: #eef4fc !important;
+  color: var(--ds-brand) !important;
+  font-size: 16.5px !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailPhotos.cdNoPhotosV55
+  > .premiumUpload,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia.lsNoPhotosV62
+  > .premiumUpload {
+  margin-top: 0 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  #carDetailPhotos
+  > .premiumUpload
+  strong,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  > .premiumUpload
+  strong {
+  font-size: 16.5px !important;
+  font-weight: 800 !important;
+  color: var(--ds-brand) !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailPhotos
+  > .premiumUpload
+  .premiumUploadIcon,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  > .premiumUpload
+  .premiumUploadIcon {
+  font-size: 22px !important;
+  font-weight: 700 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  #carDetailPhotos
+  > .premiumUpload:active,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  > .premiumUpload:active {
+  background: #e2ecf9 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  #carDetailPhotos
+  .premiumMediaActions {
+  order: 4 !important;
+}
+
+/* ---------- Mažos kortelės: pavadinimai kairėje, sumos centre ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefFacts > div,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantFacts > div,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefFacts > div:first-child,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantFacts > div:first-child {
+  align-items: stretch !important;
+  text-align: left !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefFacts small,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantFacts small {
+  text-align: left !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefFacts strong,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantFacts strong {
+  text-align: center !important;
+}
+
+/* ---------- Parduoti automobiliai – greitas, švelnus atidarymas ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage #soldCarsPanel {
+  animation: pnInV62 0.22s cubic-bezier(0.2, 0.7, 0.2, 1) both !important;
+}
+
+/* ---------- Pavadinimai: skilčių ir išskleidžiamų skydelių – vienodo dydžio ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .view > .section > .sectionHead h2,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .accountingRefPendingSection .sectionHead h2,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .accountingWorkspaceHead > h3,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .menuDisclosureHead > strong,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage #addCarPanel > .sectionHead > h2,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .garageInlinePanel > .sectionHead > h2,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage #garageTasksSection > .sectionHead > h2,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage #view-customers .contactsHead > h2,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageWhatHead h2 {
+  font-size: 21px !important;
+  line-height: 1.2 !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .garageRefSoldToggle strong {
+  font-size: 17px !important;
+  font-weight: 800 !important;
+}
+
+/* ---------- Vadybininkas ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageWhatPage.vdV65 .garageWhatHead {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  min-height: 44px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageWhatPage.vdV65 .garageWhatHead h2,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageWhatPage.vdV65 .garageWhatHeadTitle {
+  display: block !important;
+  margin: 0 !important;
+  color: var(--ds-ink) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageWhatPage.vdV65 .garageWhatBack {
+  height: 36px !important;
+  min-height: 36px !important;
+  padding: 0 16px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: var(--ds-soft) !important;
+  color: var(--ds-ink-2) !important;
+  -webkit-text-fill-color: currentColor !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .vdSumV65 {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+  margin: 0 0 4px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .vdSumV65 > div {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 2px !important;
+  padding: 10px 6px !important;
+  border: 1px solid var(--ds-line) !important;
+  border-radius: 16px !important;
+  background: #fff !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .vdSumV65 b {
+  font-size: 22px !important;
+  line-height: 1.1 !important;
+  font-weight: 800 !important;
+  color: var(--ds-ink) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .vdSumV65 span {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .vdSumV65 > .late {
+  border-color: #f3d3d7 !important;
+  background: #fdf1f2 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .vdSumV65 > .late b {
+  color: #c62a3c !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageWhatPage .vdTaskV65 .garageWhatSide,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageWhatPage .vdTaskV65 .garageWhatHeroBottom > span {
+  color: #1fa463 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  .app
+  .garageWhatPage
+  .garageWhatRowWrapV30.tcOpenV65
+  > .garageWhatRow,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  .app
+  .garageWhatPage
+  .garageWhatHeroWrapV30.tcOpenV65
+  > .garageWhatHero {
+  border-color: #cfe9db !important;
+  box-shadow: 0 0 0 3px rgba(31, 164, 99, 0.1) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageWhatPage > .garageWhatList > .tcPanelV65,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageWhatPage > .tcPanelV65 {
+  margin: 0 !important;
+  background: #fff !important;
+}
+
+/* ---------- Apačios juosta (telefonas): vienodi dydžiai visuose puslapiuose ---------- */
+@media (max-width: 767px) {
+  html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap {
+    padding: 3px 10px calc(6px + env(safe-area-inset-bottom)) !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+  html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav {
+    height: 74px !important;
+    min-height: 74px !important;
+    padding: 6px 6px 4px !important;
+    gap: 0 !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    box-shadow: 0 -1px 0 rgba(13, 25, 42, 0.07) !important;
+  }
+  html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn,
+  html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn.active,
+  html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn[aria-current="page"] {
+    height: 64px !important;
+    min-height: 64px !important;
+    padding: 7px 3px 9px !important;
+    gap: 4px !important;
+  }
+  html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn .ico {
+    width: 26px !important;
+    height: 26px !important;
+  }
+  html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn .ico svg {
+    width: 24px !important;
+    height: 24px !important;
+    stroke-width: 1.75 !important;
   }
 }
 </style></body>

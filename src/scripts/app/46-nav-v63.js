@@ -29,9 +29,14 @@ function navSwitchV63() {
   }
   saveState();
 }
+let soldLiteV65 = false;
 window.addEventListener(
   "click",
   e => {
+    if (e.target.closest("#toggleSoldCarsBtn")) {
+      soldLiteV65 = true;
+      setTimeout(() => (soldLiteV65 = false), 0);
+    }
     const btn = e.target.closest(".navBtn[data-view]");
     if (!btn) return;
     navTargetV63 = btn.dataset.view;
@@ -41,6 +46,17 @@ window.addEventListener(
 );
 const __renderNavV63 = render;
 render = function () {
+  // Parduoti automobiliai: tik parodome / paslepiame jau paruoštą sąrašą (be viso perpiešimo)
+  if (soldLiteV65) {
+    soldLiteV65 = false;
+    const panel = document.getElementById("soldCarsPanel");
+    if (panel) {
+      const open = !!state.ui?.soldCarsOpen;
+      panel.style.display = open ? "block" : "none";
+      document.getElementById("toggleSoldCarsBtn")?.setAttribute("aria-expanded", String(open));
+    }
+    return Promise.resolve();
+  }
   if (navTargetV63 && state.selectedView === navTargetV63 && state.selectedView !== "home") {
     navTargetV63 = "";
     navSwitchV63();
