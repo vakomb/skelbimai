@@ -118,6 +118,10 @@ Vadybininkas nebesiūlo „Kodėl dar ne skelbime?“ ir kainos peržiūros paga
 - **Automobilio kortelė** (`38-car-card-v55.js`, `167-car-card-v55.css`): antraštė „markė modelis“ centre, ✕ dešinėje; sekcija „Užduotys“ su skaitikliu (pvz. 1/3); visos sekcijos vienodos baltos kortelės; kainos vienoje kortelėje; be emoji; nuotraukų sekcija be tuščio laukelio.
 - Tinkleliai (`cfGridV51`, `grid2`, datų eilutės) naudoja `minmax(0,1fr)`, todėl datos ir laiko laukai neišlenda už kortelės.
 
+## Naudotojo duomenys (v57)
+
+`39-profile-onboarding-v57.js`: kai programėlė tampa matoma (prisijungimo ir PIN langai uždaryti), o `state.profile` neužpildytas, atidaromas privalomas langas „Jūsų duomenys“. Jame pasirenkama „Fizinis asmuo“ (vardas, asmens kodas, telefonas, el. paštas, adresas) arba „Įmonė“ (dar įmonės kodas ir atstovas). Langas neužsidaro, kol duomenys neišsaugoti. Profilis sinchronizuojamas į `state.accounting.pp.company` (PP sutartis) ir atgal, o antraštėje dešinėje rodomas vardas arba pavadinimas (kitiems nei Visureigiai – inicialai vietoj logotipo). Nustatymuose yra mygtukas „Mano duomenys“. Testas: `node tools/test-profile.mjs`.
+
 ## Perrašymų grandinės (svarbu!)
 
 Programa augo sluoksniais: nauja versija **perrašo** seną funkciją (`render = async function () { await __renderPP(); … }`). Todėl:

@@ -539,3 +539,215 @@ html:not(#ae):not(#af)
   > .premiumResultGrid {
   padding: 14px 12px !important;
 }
+
+/* ---------- Sugeneruota sutartis (v56) ---------- */
+.ctResultOpenV56 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #c6e9d5;
+  border-radius: 18px;
+  background: #f1faf5;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.ctResultOpenV56 img {
+  width: 48px;
+  height: 66px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(18, 35, 58, 0.15);
+}
+.ctResultOpenV56 strong {
+  display: block;
+  font-size: 16px;
+  color: #12233a;
+}
+.ctResultOpenV56 em {
+  font-style: normal;
+  font-size: 14px;
+  font-weight: 700;
+  color: #174a8b;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .ctResultV52 {
+  display: block !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .ctResultV52[hidden] {
+  display: none !important;
+}
+.ctOverlayV56 {
+  position: fixed;
+  inset: 0;
+  z-index: 100800;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(12, 22, 36, 0);
+  transition: background 0.2s ease;
+}
+.ctOverlayV56.show {
+  background: rgba(12, 22, 36, 0.45);
+}
+.ctPanelV56 {
+  width: min(480px, 100%);
+  padding: 22px 16px calc(16px + env(safe-area-inset-bottom));
+  border-radius: 26px 26px 0 0;
+  background: #fff;
+  text-align: center;
+  transform: translateY(100%);
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 -12px 40px rgba(12, 22, 36, 0.2);
+}
+.ctOverlayV56.show .ctPanelV56 {
+  transform: none;
+}
+.ctDoneIcoV56 {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  background: #e9f7ef;
+  color: #1d8a52;
+}
+.ctDoneIcoV56 svg {
+  width: 30px;
+  height: 30px;
+}
+.ctPanelV56 h3 {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 800;
+  color: #12233a;
+}
+.ctPanelV56 p {
+  margin: 4px 0 14px;
+  font-size: 14px;
+  color: #66768a;
+}
+.ctThumbV56 {
+  display: block;
+  margin: 0 auto 16px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.ctThumbV56 img {
+  width: 150px;
+  height: 212px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(18, 35, 58, 0.18);
+}
+.ctActionsV56 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.ctBtnV56 {
+  min-height: 52px;
+  border: 1px solid #d6dee8;
+  border-radius: 15px;
+  background: #fff;
+  color: #12233a;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 750;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.ctBtnV56.primary {
+  grid-column: 1 / -1;
+  border: 0;
+  background: linear-gradient(180deg, #1f5aa6, #174a8b);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(23, 74, 139, 0.18);
+}
+.ctBtnV56.ghost {
+  grid-column: 1 / -1;
+  min-height: 44px;
+  border: 0;
+  color: #66768a;
+}
+.ctActionsV56 > .ctBtnV56:nth-child(2):nth-last-child(2) {
+  grid-column: 1 / -1;
+}
+.ctViewerV56 {
+  position: fixed;
+  inset: 0;
+  z-index: 100900;
+  display: flex;
+  flex-direction: column;
+  background: #eef2f6;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.ctViewerV56.show {
+  opacity: 1;
+}
+.ctViewerHeadV56 {
+  display: grid;
+  grid-template-columns: 40px 1fr 40px;
+  align-items: center;
+  padding: calc(10px + env(safe-area-inset-top)) 10px 10px;
+  background: #fff;
+  border-bottom: 1px solid #e3e9f0;
+}
+.ctViewerHeadV56 strong {
+  text-align: center;
+  font-size: 16px;
+  color: #12233a;
+}
+.ctViewerHeadV56 .closeBtn {
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  background: #f3f6f9;
+  font-size: 16px;
+}
+.ctViewerPagesV56 {
+  flex: 1;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px 10px calc(20px + env(safe-area-inset-bottom));
+}
+.ctViewerPagesV56 img {
+  display: block;
+  width: 100%;
+  margin: 0 0 10px;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(18, 35, 58, 0.12);
+  background: #fff;
+}
+
+/* ---------- Naudotojo duomenys (v57) ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .pfFieldsV57 .field.pfErrV57 input.input {
+  border-color: #e08a8a !important;
+  box-shadow: 0 0 0 3px #fbe3e3 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .pfFieldsV57 .field:last-child {
+  margin-bottom: 0 !important;
+}
+.pfInitialsV57 {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #e9f0fa;
+  color: #174a8b;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}

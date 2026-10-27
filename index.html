@@ -28884,6 +28884,7 @@ html[data-theme="dark"] .registrationMismatchDiffV33 {
   <div class="view" id="view-settings">
     <div class="sectionHead"><h2>Nustatymai</h2><span>Įmonės aplinka</span></div>
     <div class="panel pad companyStorage"><strong>Duomenys šiame įrenginyje</strong><p>Įrašai, nuotraukos ir dokumentai saugomi šioje naršyklėje. Atsarginė kopija apima visus priedus. Tarp darbuotojų duomenys automatiškai nesinchronizuojami.</p><div class="btnRow"><button class="btn" id="backupCompany">Atsarginė kopija</button><button class="btn secondary" id="restoreCompany">Atkurti kopiją</button></div><input type="file" id="restoreFile" accept="application/json,.json" hidden><p id="backupStatus" role="status"></p></div>
+    <div class="panel pad profileSettingsPanelV57" style="margin-top:12px"><button class="btn secondary" type="button" data-profile-edit style="width:100%">Mano duomenys</button></div>
     <div class="panel pad securitySettingsPanel" style="margin-top:12px">
       <div class="securitySettingsHead"><div><span class="securityEyebrow">DUOMENŲ SAUGUMAS</span><strong>Programėlės užraktas</strong><p>PIN apsaugo klientų kontaktus, sutartis ir kitus įmonės duomenis nuo atsitiktinės prieigos šiame įrenginyje.</p></div><span class="securityStateBadge" id="securityStateBadge">Išjungta</span></div>
       <div class="securitySettingsActions"><button class="btn" id="securityPinBtn" type="button">Nustatyti PIN</button><button class="btn secondary" id="lockNowBtn" type="button" hidden>Užrakinti dabar</button></div>
@@ -45355,10 +45356,85 @@ function ctVehicleHTMLV55(car) {
     }</section>`
   );
 }
+// ---------- Sugeneruotos sutarties langas: peržiūra, siuntimas, atsisiuntimas (v56) ----------
+function ctShareSupportedV56(file) {
+  try {
+    return !!(navigator.canShare && navigator.canShare({ files: [file] }));
+  } catch (e) {
+    return false;
+  }
+}
+function ctDownloadV56(blob, fileName) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = fileName;
+  a.rel = "noopener";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
+}
+function ctOpenResultV56({ blob, pages, fileName, number, attached }) {
+  document.getElementById("ctResultV56")?.remove();
+  const file = new File([blob], fileName, { type: "application/pdf" });
+  const canShare = ctShareSupportedV56(file);
+  const ov = document.createElement("div");
+  ov.id = "ctResultV56";
+  ov.className = "ctOverlayV56";
+  ov.innerHTML = `<div class="ctPanelV56" role="dialog" aria-modal="true" aria-label="Sutartis paruošta">
+    <div class="ctDoneIcoV56"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></div>
+    <h3>Sutartis paruošta</h3>
+    <p>${escapeHTML(number)}${attached ? " · prisegta prie automobilio" : ""}</p>
+    <button type="button" class="ctThumbV56" data-ct-view><img src="${pages[0].toDataURL("image/jpeg", 0.7)}" alt="Sutarties peržiūra"></button>
+    <div class="ctActionsV56">
+      <button type="button" class="ctBtnV56 primary" data-ct-send>${canShare ? "Siųsti" : "Atsisiųsti"}</button>
+      <button type="button" class="ctBtnV56" data-ct-view>Peržiūrėti</button>
+      ${canShare ? '<button type="button" class="ctBtnV56" data-ct-download>Atsisiųsti į telefoną</button>' : ""}
+      <button type="button" class="ctBtnV56 ghost" data-ct-close>Uždaryti</button>
+    </div>
+  </div>`;
+  document.body.appendChild(ov);
+  requestAnimationFrame(() => ov.classList.add("show"));
+  const close = () => {
+    ov.classList.remove("show");
+    setTimeout(() => ov.remove(), 200);
+  };
+  ov.addEventListener("click", async e => {
+    if (e.target === ov || e.target.closest("[data-ct-close]")) return close();
+    if (e.target.closest("[data-ct-view]")) return ctOpenViewerV56(pages, number);
+    if (e.target.closest("[data-ct-download]")) return ctDownloadV56(blob, fileName);
+    if (e.target.closest("[data-ct-send]")) {
+      if (!canShare) return ctDownloadV56(blob, fileName);
+      // Sistemos meniu: el. paštas, žinutės, WhatsApp, Viber, „Įrašyti į Failus“ ir kt.
+      try {
+        await navigator.share({ files: [file], title: number });
+      } catch (err) {
+        if (err && err.name !== "AbortError") ctDownloadV56(blob, fileName);
+      }
+    }
+  });
+}
+function ctOpenViewerV56(pages, number) {
+  document.getElementById("ctViewerV56")?.remove();
+  const v = document.createElement("div");
+  v.id = "ctViewerV56";
+  v.className = "ctViewerV56";
+  v.innerHTML = `<div class="ctViewerHeadV56"><span></span><strong>${escapeHTML(number)}</strong><button type="button" class="closeBtn" aria-label="Uždaryti">✕</button></div><div class="ctViewerPagesV56">${pages
+    .map(c => `<img src="${c.toDataURL("image/jpeg", 0.85)}" alt="">`)
+    .join("")}</div>`;
+  document.body.appendChild(v);
+  requestAnimationFrame(() => v.classList.add("show"));
+  v.querySelector(".closeBtn").onclick = () => {
+    v.classList.remove("show");
+    setTimeout(() => v.remove(), 200);
+  };
+}
 function openContractSheetV52({ carId = "" } = {}) {
   const cars = (state.cars || []).slice();
   let car = cars.find(c => c.id === carId) || null;
   const co = ppCompany();
+  const coPerson = state.profile?.type === "person";
   const defaultRole = c =>
     !c
       ? "buyer"
@@ -45375,12 +45451,17 @@ function openContractSheetV52({ carId = "" } = {}) {
             `<option value="${escapeHTML(c.id)}" ${car && c.id === car.id ? "selected" : ""}>${escapeHTML(c.name || "Automobilis")}${c.plate ? " · " + escapeHTML(c.plate) : ""}</option>`
         )
         .join("")}</select></div>
-      <div class="ctMt"><span class="cfLabelV51">Mano įmonė</span>${ctSegV52(
+      <div class="ctMt"><span class="cfLabelV51">${coPerson ? "Aš" : "Mano įmonė"}</span>${ctSegV52(
         "role",
-        [
-          ["buyer", "Perka"],
-          ["seller", "Parduoda"]
-        ],
+        coPerson
+          ? [
+              ["buyer", "Perku"],
+              ["seller", "Parduodu"]
+            ]
+          : [
+              ["buyer", "Perka"],
+              ["seller", "Parduoda"]
+            ],
         defaultRole(car)
       )}</div>
     </section>
@@ -45416,12 +45497,12 @@ function openContractSheetV52({ carId = "" } = {}) {
         </div>
       </div>
     </section>
-    <details class="cfCardV51 ctMoreV52" ${co.address && co.code ? "" : "open"}><summary>Mano įmonės duomenys</summary>
-      ${ctField("ctCoName", "Pavadinimas", co.name)}
-      <div class="cfGridV51">${ctField("ctCoCode", "Įmonės kodas", co.code)}${ctField("ctCoPhone", "Telefonas", co.phone)}</div>
-      ${ctField("ctCoEmail", "El. paštas", co.email || "")}
+    <details class="cfCardV51 ctMoreV52" ${co.address && co.code ? "" : "open"}><summary>${coPerson ? "Mano duomenys" : "Mano įmonės duomenys"}</summary>
+      ${ctField("ctCoName", coPerson ? "Vardas, pavardė" : "Pavadinimas", co.name)}
+      <div class="cfGridV51">${ctField("ctCoCode", coPerson ? "Asmens kodas" : "Įmonės kodas", co.code, 'inputmode="numeric"')}${ctField("ctCoPhone", "Telefonas", co.phone, 'type="tel" inputmode="tel"')}</div>
+      ${ctField("ctCoEmail", "El. paštas", co.email || "", 'type="email" inputmode="email"')}
       ${ctField("ctCoAddress", "Adresas", co.address || "")}
-      ${ctField("ctCoRep", "Atstovas", co.representative || "")}
+      ${coPerson ? "" : ctField("ctCoRep", "Atstovas", co.representative || "")}
     </details>
   </div>
   <button class="btn cfSaveV51" id="ctGenerate" type="button">Sukurti sutartį</button>
@@ -45503,8 +45584,10 @@ function openContractSheetV52({ carId = "" } = {}) {
         representative: val("ctCoRep")
       };
       Object.assign(state.accounting.pp.company, company);
+      if (state.profile && typeof profileSyncFromCompanyV57 === "function")
+        profileSyncFromCompanyV57(company);
       const us = {
-        type: "company",
+        type: coPerson ? "person" : "company",
         name: company.name,
         code: company.code,
         address: company.address,
@@ -45582,15 +45665,11 @@ function openContractSheetV52({ carId = "" } = {}) {
         "🧾"
       );
       saveState();
-      const url = URL.createObjectURL(blob);
       const res = $("ctResult");
       res.hidden = false;
-      res.innerHTML = `<img src="${pages[0].toDataURL("image/jpeg", 0.6)}" alt=""><div><strong>Sutartis paruošta</strong><span>${attached ? "Prisegta prie automobilio" : escapeHTML(d.number)}</span></div><div class="ctResultBtnsV52"><a class="btn" id="ctDownload" href="${url}" download="${escapeHTML(fileName)}">Atsisiųsti</a><button class="btn secondary" id="ctShare" type="button">Dalintis</button></div>`;
-      const file = new File([blob], fileName, { type: "application/pdf" });
-      const share = $("ctShare");
-      if (!(navigator.canShare && navigator.canShare({ files: [file] }))) share.remove();
-      else share.onclick = () => navigator.share({ files: [file], title: d.number }).catch(() => {});
-      res.scrollIntoView({ behavior: "smooth", block: "center" });
+      res.innerHTML = `<button type="button" class="ctResultOpenV56" id="ctReopen"><img src="${pages[0].toDataURL("image/jpeg", 0.5)}" alt=""><span><strong>Sutartis paruošta</strong><em>Atidaryti</em></span></button>`;
+      $("ctReopen").onclick = () => ctOpenResultV56({ blob, pages, fileName, number: d.number, attached });
+      ctOpenResultV56({ blob, pages, fileName, number: d.number, attached });
       toast("Sutartis sukurta", "✓");
     } catch (e) {
       toast(e.message || "Nepavyko sukurti sutarties", "!");
@@ -45676,6 +45755,269 @@ renderCarSheet = function (car) {
     b.textContent = b.textContent.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]️?\s*/gu, "").trim();
   });
 };
+
+// Naudotojo profilis (v57): prisijungus, kol profilis neužpildytas, rodomas privalomas langas
+// „Jūsų duomenys“ (fizinis asmuo arba įmonė, tie patys laukai kaip PP sutarties šalies duomenys).
+// Profilis saugomas state.profile ir sinchronizuojamas su PP sutarties rekvizitais (state.accounting.pp.company).
+// Antraštėje dešinėje rodomas įmonės pavadinimas arba vardas ir pavardė.
+// Dalis bendro app IIFE: visi src/scripts/app/*.js failai sujungiami eilės tvarka į vieną scope (žr. ARCHITECTURE.md).
+
+const PROFILE_FIELDS_V57 = {
+  person: [
+    ["name", "Vardas, pavardė", ""],
+    ["code", "Asmens kodas", 'inputmode="numeric" maxlength="11"'],
+    ["phone", "Telefonas", 'type="tel" inputmode="tel" autocomplete="tel"'],
+    ["email", "El. paštas", 'type="email" inputmode="email" autocomplete="email"'],
+    ["address", "Adresas", 'autocomplete="street-address"']
+  ],
+  company: [
+    ["name", "Įmonės pavadinimas", 'autocomplete="organization"'],
+    ["code", "Įmonės kodas", 'inputmode="numeric" maxlength="11"'],
+    ["phone", "Telefonas", 'type="tel" inputmode="tel" autocomplete="tel"'],
+    ["email", "El. paštas", 'type="email" inputmode="email" autocomplete="email"'],
+    ["address", "Adresas", 'autocomplete="street-address"'],
+    ["rep", "Atstovas (vardas, pavardė)", 'autocomplete="name"']
+  ]
+};
+let profileOpenV57 = false;
+
+function profileIsCompleteV57(p = state.profile) {
+  if (!p || !p.done || !["person", "company"].includes(p.type)) return false;
+  return PROFILE_FIELDS_V57[p.type].every(([k]) => String(p[k] || "").trim());
+}
+function profileDisplayNameV57() {
+  const p = state.profile;
+  return profileIsCompleteV57(p) ? String(p.name).trim() : "";
+}
+// Profilis -> PP sutarties rekvizitai
+function profileSyncToCompanyV57(p = state.profile) {
+  if (!p) return;
+  ensureAccounting();
+  state.accounting.pp =
+    state.accounting.pp && typeof state.accounting.pp === "object" ? state.accounting.pp : {};
+  state.accounting.pp.company = {
+    ...(state.accounting.pp.company || {}),
+    name: p.name || "",
+    code: p.code || "",
+    phone: p.phone || "",
+    email: p.email || "",
+    address: p.address || "",
+    representative: p.type === "company" ? p.rep || "" : ""
+  };
+}
+// PP sutartyje pakeisti rekvizitai -> profilis
+function profileSyncFromCompanyV57(co) {
+  if (!state.profile) return;
+  Object.assign(state.profile, {
+    name: co.name || state.profile.name,
+    code: co.code || state.profile.code,
+    phone: co.phone || state.profile.phone,
+    email: co.email || state.profile.email,
+    address: co.address || state.profile.address,
+    rep: state.profile.type === "company" ? co.representative || state.profile.rep : ""
+  });
+  profileApplyBrandV57();
+}
+// Esamiems naudotojams laukai užpildomi iš jau turimų rekvizitų (tik jei verslas jau naudojamas).
+function profileInitialV57() {
+  if (state.profile && typeof state.profile === "object") return { type: "company", ...state.profile };
+  const co = state.accounting?.pp?.company;
+  const used = (state.cars || []).length > 0;
+  if (co && used)
+    return {
+      type: "company",
+      name: co.name || "",
+      code: co.code || "",
+      phone: co.phone || "",
+      email: co.email || "",
+      address: co.address || "",
+      rep: co.representative || ""
+    };
+  return { type: "company", email: window.__autoEasierUserEmail || "" };
+}
+
+function profileFieldsHTMLV57(type, p) {
+  return PROFILE_FIELDS_V57[type]
+    .map(([k, label, attrs]) => {
+      const f = `<div class="field"><label for="pf_${k}">${label}</label><input class="input" id="pf_${k}" value="${escapeHTML(p[k] || "")}" autocomplete="off" ${attrs}></div>`;
+      return f;
+    })
+    .join("");
+}
+function openProfileSheetV57({ required = true } = {}) {
+  const p = profileInitialV57();
+  let type = ["person", "company"].includes(p.type) ? p.type : "company";
+  profileOpenV57 = true;
+  openSheet(`<div class="sheetHead cfHeadV51 ctHeadV55"><span></span><h3>Jūsų duomenys</h3>${
+    required
+      ? "<span></span>"
+      : '<button class="closeBtn" id="pfClose" type="button" aria-label="Uždaryti">✕</button>'
+  }</div>
+  <div class="cfFormV51 pfFormV57" id="pfform">
+    <section class="cfCardV51">
+      ${ctSegV52(
+        "pftype",
+        [
+          ["person", "Fizinis asmuo"],
+          ["company", "Įmonė"]
+        ],
+        type
+      )}
+      <div class="pfFieldsV57 ctMt" id="pfFields">${profileFieldsHTMLV57(type, p)}</div>
+    </section>
+  </div>
+  <button class="btn cfSaveV51" id="pfSave" type="button">${required ? "Tęsti" : "Išsaugoti"}</button>`);
+  const sheet = document.getElementById("sheet");
+  sheet.classList.add("pfSheetV57");
+  sheet.scrollTop = 0;
+  const read = () => {
+    const out = {};
+    for (const [k] of PROFILE_FIELDS_V57[type])
+      out[k] = (document.getElementById("pf_" + k)?.value || "").trim();
+    return out;
+  };
+  const draft = { ...p };
+  sheet.querySelectorAll('[data-ct-seg="pftype"] [data-seg-value]').forEach(btn =>
+    btn.addEventListener("click", () => {
+      Object.assign(draft, read());
+      type = btn.dataset.segValue;
+      document.getElementById("ct_pftype").value = type;
+      sheet
+        .querySelectorAll('[data-ct-seg="pftype"] [data-seg-value]')
+        .forEach(b => b.setAttribute("aria-checked", String(b === btn)));
+      document.getElementById("pfFields").innerHTML = profileFieldsHTMLV57(type, draft);
+    })
+  );
+  document.getElementById("pfClose")?.addEventListener("click", () => {
+    profileOpenV57 = false;
+    closeSheet();
+  });
+  document.getElementById("pfSave").onclick = () => {
+    const v = read();
+    const missing = PROFILE_FIELDS_V57[type].find(([k]) => !v[k]);
+    sheet.querySelectorAll(".pfFieldsV57 .field").forEach(f => f.classList.remove("pfErrV57"));
+    if (missing) {
+      const el = document.getElementById("pf_" + missing[0]);
+      el?.closest(".field")?.classList.add("pfErrV57");
+      el?.focus();
+      toast(`Įrašykite: ${missing[1].toLowerCase()}`, "!");
+      return;
+    }
+    if (v.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email)) {
+      document.getElementById("pf_email")?.closest(".field")?.classList.add("pfErrV57");
+      toast("Patikrinkite el. pašto adresą", "!");
+      return;
+    }
+    if (type === "person" && !/^\d{11}$/.test(v.code)) {
+      document.getElementById("pf_code")?.closest(".field")?.classList.add("pfErrV57");
+      toast("Asmens kodą sudaro 11 skaitmenų", "!");
+      return;
+    }
+    state.profile = {
+      type,
+      ...v,
+      ...(type === "person" ? { rep: "" } : {}),
+      done: true,
+      updatedAt: nowLabel()
+    };
+    profileSyncToCompanyV57();
+    saveState();
+    profileOpenV57 = false;
+    sheet.classList.remove("pfSheetV57");
+    closeSheet();
+    profileApplyBrandV57();
+    render();
+    toast("Duomenys išsaugoti", "✓");
+  };
+}
+// Privalomo lango negalima uždaryti (fono paspaudimu ar Escape), kol duomenys neišsaugoti.
+const __closeSheetProfileV57 = closeSheet;
+closeSheet = function () {
+  if (profileOpenV57 && !profileIsCompleteV57() && document.getElementById("pfform")) return;
+  profileOpenV57 = false;
+  document.getElementById("sheet")?.classList.remove("pfSheetV57");
+  return __closeSheetProfileV57.apply(this, arguments);
+};
+// Antraštės pavadinimas (dešinėje viršuje) ir kiti prekės ženklo užrašai.
+function profileApplyBrandV57() {
+  const name = profileDisplayNameV57();
+  if (!name) return;
+  const initials = name
+    .replace(/,?\s*(UAB|MB|IĮ|AB|VšĮ)\b/gi, "")
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map(w => w[0])
+    .join("")
+    .toUpperCase();
+  const isVisureigiai = /visureigiai/i.test(name);
+  document.querySelectorAll(".autoEasierCompanyNameV4").forEach(el => {
+    if (el.textContent !== name) el.textContent = name;
+  });
+  document.querySelectorAll(".autoEasierCompanyMarkV4").forEach(el => {
+    if (isVisureigiai) {
+      if (el.dataset.pfInitials) {
+        el.innerHTML = el.dataset.pfOrig || el.innerHTML;
+        delete el.dataset.pfInitials;
+      }
+    } else if (el.dataset.pfInitials !== initials) {
+      if (!el.dataset.pfOrig) el.dataset.pfOrig = el.innerHTML;
+      el.innerHTML = `<span class="pfInitialsV57">${escapeHTML(initials || "•")}</span>`;
+      el.dataset.pfInitials = initials;
+    }
+  });
+  document
+    .querySelectorAll(".garageRefBrand > span, .accountingRefBrand > span, .productRefBrand > span")
+    .forEach(el => {
+      if (el.children.length === 0 && el.textContent !== name) el.textContent = name;
+    });
+  document.querySelector(".app>.topbar")?.setAttribute("aria-label", "AutoEasier — " + name);
+}
+// Ar programėlė jau matoma (prisijungimo langas uždarytas)?
+function profileAppVisibleV57() {
+  const gate = document.getElementById("autoEasierLogin");
+  const lock = document.getElementById("appLock");
+  return (!gate || gate.hidden) && (!lock || lock.hidden);
+}
+function profileCheckV57() {
+  profileApplyBrandV57();
+  // Duomenys atkeliavo iš debesies, kol langas buvo atidarytas – uždarome jį.
+  if (
+    profileIsCompleteV57() &&
+    profileOpenV57 &&
+    document.getElementById("pfform") &&
+    !document.getElementById("pfClose")
+  ) {
+    profileOpenV57 = false;
+    closeSheet();
+    return;
+  }
+  if (profileIsCompleteV57() || profileOpenV57 || !profileAppVisibleV57()) return;
+  openProfileSheetV57({ required: true });
+}
+const __renderProfileV57 = render;
+render = function () {
+  const r = __renderProfileV57.apply(this, arguments);
+  Promise.resolve(r).then(() => setTimeout(profileCheckV57, 0));
+  return r;
+};
+for (const id of ["autoEasierLogin", "appLock"]) {
+  const el = document.getElementById(id);
+  if (el)
+    new MutationObserver(() => setTimeout(profileCheckV57, 50)).observe(el, {
+      attributes: true,
+      attributeFilter: ["hidden"]
+    });
+}
+setTimeout(profileCheckV57, 300);
+// Nustatymuose – galimybė pakeisti duomenis.
+document.addEventListener("click", e => {
+  const b = e.target.closest?.("[data-profile-edit]");
+  if (!b) return;
+  e.preventDefault();
+  openProfileSheetV57({ required: false });
+});
+window.AutoEasierProfile = { open: openProfileSheetV57, isComplete: profileIsCompleteV57 };
 
 })();
 </script><script id="visureigiai-product-system-v15-js">(function () {
@@ -52924,6 +53266,7 @@ body:has(#autoEasierLogin:not([hidden])) {
   }
   const bootstrapWorkspace = async session => {
     activeSessionUserId = session.user.id;
+    window.__autoEasierUserEmail = session.user.email || "";
     accountId = session.user.id;
     workspaceRevision = 0;
     downloadedMedia.clear();
@@ -56818,6 +57161,218 @@ html:not(#ae):not(#af)
   .premiumDetailBody
   > .premiumResultGrid {
   padding: 14px 12px !important;
+}
+
+/* ---------- Sugeneruota sutartis (v56) ---------- */
+.ctResultOpenV56 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #c6e9d5;
+  border-radius: 18px;
+  background: #f1faf5;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.ctResultOpenV56 img {
+  width: 48px;
+  height: 66px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(18, 35, 58, 0.15);
+}
+.ctResultOpenV56 strong {
+  display: block;
+  font-size: 16px;
+  color: #12233a;
+}
+.ctResultOpenV56 em {
+  font-style: normal;
+  font-size: 14px;
+  font-weight: 700;
+  color: #174a8b;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .ctResultV52 {
+  display: block !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .ctResultV52[hidden] {
+  display: none !important;
+}
+.ctOverlayV56 {
+  position: fixed;
+  inset: 0;
+  z-index: 100800;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(12, 22, 36, 0);
+  transition: background 0.2s ease;
+}
+.ctOverlayV56.show {
+  background: rgba(12, 22, 36, 0.45);
+}
+.ctPanelV56 {
+  width: min(480px, 100%);
+  padding: 22px 16px calc(16px + env(safe-area-inset-bottom));
+  border-radius: 26px 26px 0 0;
+  background: #fff;
+  text-align: center;
+  transform: translateY(100%);
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 -12px 40px rgba(12, 22, 36, 0.2);
+}
+.ctOverlayV56.show .ctPanelV56 {
+  transform: none;
+}
+.ctDoneIcoV56 {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  background: #e9f7ef;
+  color: #1d8a52;
+}
+.ctDoneIcoV56 svg {
+  width: 30px;
+  height: 30px;
+}
+.ctPanelV56 h3 {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 800;
+  color: #12233a;
+}
+.ctPanelV56 p {
+  margin: 4px 0 14px;
+  font-size: 14px;
+  color: #66768a;
+}
+.ctThumbV56 {
+  display: block;
+  margin: 0 auto 16px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.ctThumbV56 img {
+  width: 150px;
+  height: 212px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(18, 35, 58, 0.18);
+}
+.ctActionsV56 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.ctBtnV56 {
+  min-height: 52px;
+  border: 1px solid #d6dee8;
+  border-radius: 15px;
+  background: #fff;
+  color: #12233a;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 750;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.ctBtnV56.primary {
+  grid-column: 1 / -1;
+  border: 0;
+  background: linear-gradient(180deg, #1f5aa6, #174a8b);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(23, 74, 139, 0.18);
+}
+.ctBtnV56.ghost {
+  grid-column: 1 / -1;
+  min-height: 44px;
+  border: 0;
+  color: #66768a;
+}
+.ctActionsV56 > .ctBtnV56:nth-child(2):nth-last-child(2) {
+  grid-column: 1 / -1;
+}
+.ctViewerV56 {
+  position: fixed;
+  inset: 0;
+  z-index: 100900;
+  display: flex;
+  flex-direction: column;
+  background: #eef2f6;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.ctViewerV56.show {
+  opacity: 1;
+}
+.ctViewerHeadV56 {
+  display: grid;
+  grid-template-columns: 40px 1fr 40px;
+  align-items: center;
+  padding: calc(10px + env(safe-area-inset-top)) 10px 10px;
+  background: #fff;
+  border-bottom: 1px solid #e3e9f0;
+}
+.ctViewerHeadV56 strong {
+  text-align: center;
+  font-size: 16px;
+  color: #12233a;
+}
+.ctViewerHeadV56 .closeBtn {
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  background: #f3f6f9;
+  font-size: 16px;
+}
+.ctViewerPagesV56 {
+  flex: 1;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px 10px calc(20px + env(safe-area-inset-bottom));
+}
+.ctViewerPagesV56 img {
+  display: block;
+  width: 100%;
+  margin: 0 0 10px;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(18, 35, 58, 0.12);
+  background: #fff;
+}
+
+/* ---------- Naudotojo duomenys (v57) ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .pfFieldsV57 .field.pfErrV57 input.input {
+  border-color: #e08a8a !important;
+  box-shadow: 0 0 0 3px #fbe3e3 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .pfFieldsV57 .field:last-child {
+  margin-bottom: 0 !important;
+}
+.pfInitialsV57 {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #e9f0fa;
+  color: #174a8b;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
 }
 </style></body>
 </html>

@@ -583,10 +583,85 @@ function ctVehicleHTMLV55(car) {
     }</section>`
   );
 }
+// ---------- Sugeneruotos sutarties langas: peržiūra, siuntimas, atsisiuntimas (v56) ----------
+function ctShareSupportedV56(file) {
+  try {
+    return !!(navigator.canShare && navigator.canShare({ files: [file] }));
+  } catch (e) {
+    return false;
+  }
+}
+function ctDownloadV56(blob, fileName) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = fileName;
+  a.rel = "noopener";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
+}
+function ctOpenResultV56({ blob, pages, fileName, number, attached }) {
+  document.getElementById("ctResultV56")?.remove();
+  const file = new File([blob], fileName, { type: "application/pdf" });
+  const canShare = ctShareSupportedV56(file);
+  const ov = document.createElement("div");
+  ov.id = "ctResultV56";
+  ov.className = "ctOverlayV56";
+  ov.innerHTML = `<div class="ctPanelV56" role="dialog" aria-modal="true" aria-label="Sutartis paruošta">
+    <div class="ctDoneIcoV56"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></div>
+    <h3>Sutartis paruošta</h3>
+    <p>${escapeHTML(number)}${attached ? " · prisegta prie automobilio" : ""}</p>
+    <button type="button" class="ctThumbV56" data-ct-view><img src="${pages[0].toDataURL("image/jpeg", 0.7)}" alt="Sutarties peržiūra"></button>
+    <div class="ctActionsV56">
+      <button type="button" class="ctBtnV56 primary" data-ct-send>${canShare ? "Siųsti" : "Atsisiųsti"}</button>
+      <button type="button" class="ctBtnV56" data-ct-view>Peržiūrėti</button>
+      ${canShare ? '<button type="button" class="ctBtnV56" data-ct-download>Atsisiųsti į telefoną</button>' : ""}
+      <button type="button" class="ctBtnV56 ghost" data-ct-close>Uždaryti</button>
+    </div>
+  </div>`;
+  document.body.appendChild(ov);
+  requestAnimationFrame(() => ov.classList.add("show"));
+  const close = () => {
+    ov.classList.remove("show");
+    setTimeout(() => ov.remove(), 200);
+  };
+  ov.addEventListener("click", async e => {
+    if (e.target === ov || e.target.closest("[data-ct-close]")) return close();
+    if (e.target.closest("[data-ct-view]")) return ctOpenViewerV56(pages, number);
+    if (e.target.closest("[data-ct-download]")) return ctDownloadV56(blob, fileName);
+    if (e.target.closest("[data-ct-send]")) {
+      if (!canShare) return ctDownloadV56(blob, fileName);
+      // Sistemos meniu: el. paštas, žinutės, WhatsApp, Viber, „Įrašyti į Failus“ ir kt.
+      try {
+        await navigator.share({ files: [file], title: number });
+      } catch (err) {
+        if (err && err.name !== "AbortError") ctDownloadV56(blob, fileName);
+      }
+    }
+  });
+}
+function ctOpenViewerV56(pages, number) {
+  document.getElementById("ctViewerV56")?.remove();
+  const v = document.createElement("div");
+  v.id = "ctViewerV56";
+  v.className = "ctViewerV56";
+  v.innerHTML = `<div class="ctViewerHeadV56"><span></span><strong>${escapeHTML(number)}</strong><button type="button" class="closeBtn" aria-label="Uždaryti">✕</button></div><div class="ctViewerPagesV56">${pages
+    .map(c => `<img src="${c.toDataURL("image/jpeg", 0.85)}" alt="">`)
+    .join("")}</div>`;
+  document.body.appendChild(v);
+  requestAnimationFrame(() => v.classList.add("show"));
+  v.querySelector(".closeBtn").onclick = () => {
+    v.classList.remove("show");
+    setTimeout(() => v.remove(), 200);
+  };
+}
 function openContractSheetV52({ carId = "" } = {}) {
   const cars = (state.cars || []).slice();
   let car = cars.find(c => c.id === carId) || null;
   const co = ppCompany();
+  const coPerson = state.profile?.type === "person";
   const defaultRole = c =>
     !c
       ? "buyer"
@@ -603,12 +678,17 @@ function openContractSheetV52({ carId = "" } = {}) {
             `<option value="${escapeHTML(c.id)}" ${car && c.id === car.id ? "selected" : ""}>${escapeHTML(c.name || "Automobilis")}${c.plate ? " · " + escapeHTML(c.plate) : ""}</option>`
         )
         .join("")}</select></div>
-      <div class="ctMt"><span class="cfLabelV51">Mano įmonė</span>${ctSegV52(
+      <div class="ctMt"><span class="cfLabelV51">${coPerson ? "Aš" : "Mano įmonė"}</span>${ctSegV52(
         "role",
-        [
-          ["buyer", "Perka"],
-          ["seller", "Parduoda"]
-        ],
+        coPerson
+          ? [
+              ["buyer", "Perku"],
+              ["seller", "Parduodu"]
+            ]
+          : [
+              ["buyer", "Perka"],
+              ["seller", "Parduoda"]
+            ],
         defaultRole(car)
       )}</div>
     </section>
@@ -644,12 +724,12 @@ function openContractSheetV52({ carId = "" } = {}) {
         </div>
       </div>
     </section>
-    <details class="cfCardV51 ctMoreV52" ${co.address && co.code ? "" : "open"}><summary>Mano įmonės duomenys</summary>
-      ${ctField("ctCoName", "Pavadinimas", co.name)}
-      <div class="cfGridV51">${ctField("ctCoCode", "Įmonės kodas", co.code)}${ctField("ctCoPhone", "Telefonas", co.phone)}</div>
-      ${ctField("ctCoEmail", "El. paštas", co.email || "")}
+    <details class="cfCardV51 ctMoreV52" ${co.address && co.code ? "" : "open"}><summary>${coPerson ? "Mano duomenys" : "Mano įmonės duomenys"}</summary>
+      ${ctField("ctCoName", coPerson ? "Vardas, pavardė" : "Pavadinimas", co.name)}
+      <div class="cfGridV51">${ctField("ctCoCode", coPerson ? "Asmens kodas" : "Įmonės kodas", co.code, 'inputmode="numeric"')}${ctField("ctCoPhone", "Telefonas", co.phone, 'type="tel" inputmode="tel"')}</div>
+      ${ctField("ctCoEmail", "El. paštas", co.email || "", 'type="email" inputmode="email"')}
       ${ctField("ctCoAddress", "Adresas", co.address || "")}
-      ${ctField("ctCoRep", "Atstovas", co.representative || "")}
+      ${coPerson ? "" : ctField("ctCoRep", "Atstovas", co.representative || "")}
     </details>
   </div>
   <button class="btn cfSaveV51" id="ctGenerate" type="button">Sukurti sutartį</button>
@@ -731,8 +811,10 @@ function openContractSheetV52({ carId = "" } = {}) {
         representative: val("ctCoRep")
       };
       Object.assign(state.accounting.pp.company, company);
+      if (state.profile && typeof profileSyncFromCompanyV57 === "function")
+        profileSyncFromCompanyV57(company);
       const us = {
-        type: "company",
+        type: coPerson ? "person" : "company",
         name: company.name,
         code: company.code,
         address: company.address,
@@ -810,15 +892,11 @@ function openContractSheetV52({ carId = "" } = {}) {
         "🧾"
       );
       saveState();
-      const url = URL.createObjectURL(blob);
       const res = $("ctResult");
       res.hidden = false;
-      res.innerHTML = `<img src="${pages[0].toDataURL("image/jpeg", 0.6)}" alt=""><div><strong>Sutartis paruošta</strong><span>${attached ? "Prisegta prie automobilio" : escapeHTML(d.number)}</span></div><div class="ctResultBtnsV52"><a class="btn" id="ctDownload" href="${url}" download="${escapeHTML(fileName)}">Atsisiųsti</a><button class="btn secondary" id="ctShare" type="button">Dalintis</button></div>`;
-      const file = new File([blob], fileName, { type: "application/pdf" });
-      const share = $("ctShare");
-      if (!(navigator.canShare && navigator.canShare({ files: [file] }))) share.remove();
-      else share.onclick = () => navigator.share({ files: [file], title: d.number }).catch(() => {});
-      res.scrollIntoView({ behavior: "smooth", block: "center" });
+      res.innerHTML = `<button type="button" class="ctResultOpenV56" id="ctReopen"><img src="${pages[0].toDataURL("image/jpeg", 0.5)}" alt=""><span><strong>Sutartis paruošta</strong><em>Atidaryti</em></span></button>`;
+      $("ctReopen").onclick = () => ctOpenResultV56({ blob, pages, fileName, number: d.number, attached });
+      ctOpenResultV56({ blob, pages, fileName, number: d.number, attached });
       toast("Sutartis sukurta", "✓");
     } catch (e) {
       toast(e.message || "Nepavyko sukurti sutarties", "!");

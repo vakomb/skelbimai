@@ -684,6 +684,7 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
   }
   const bootstrapWorkspace = async session => {
     activeSessionUserId = session.user.id;
+    window.__autoEasierUserEmail = session.user.email || "";
     accountId = session.user.id;
     workspaceRevision = 0;
     downloadedMedia.clear();
