@@ -122,6 +122,10 @@ Vadybininkas nebesiūlo „Kodėl dar ne skelbime?“ ir kainos peržiūros paga
 
 `39-profile-onboarding-v57.js`: kai programėlė tampa matoma (prisijungimo ir PIN langai uždaryti), o `state.profile` neužpildytas, atidaromas privalomas langas „Jūsų duomenys“. Jame pasirenkama „Fizinis asmuo“ (vardas, asmens kodas, telefonas, el. paštas, adresas) arba „Įmonė“ (dar įmonės kodas ir atstovas). Langas neužsidaro, kol duomenys neišsaugoti. Profilis sinchronizuojamas į `state.accounting.pp.company` (PP sutartis) ir atgal, o antraštėje dešinėje rodomas vardas arba pavadinimas (kitiems nei Visureigiai – inicialai vietoj logotipo). Nustatymuose yra mygtukas „Mano duomenys“. Testas: `node tools/test-profile.mjs`.
 
+## Išskleidžiami skydeliai (v59)
+
+`40-panel-heads-v59.js` ir `169-panel-heads-v59.css`: visų išskleidžiamų skydelių (Garažas: Užduotys, Kontaktai, Variantai, Pridėti automobilį; Buhalterija: įplauka, išlaida, ataskaitos; Meniu: statistika, finansai, kontaktai, istorija, nustatymai) antraštė vienoda. Kairėje paspausto mygtuko pavadinimas (19 px), dešinėje „Uždaryti“ (96×36 px). Po antrašte eina linija, skydelio vidinis tarpas 12 px. Papildomi elementai („Pridėti kontaktą“, ataskaitų laikotarpis) perkeliami po antrašte. „Pridėti automobilį“ gavo `#cancelAddCarBtn`, o antras plytelės paspaudimas skydelį suskleidžia. `phNormalizeV59()` paleidžiama per MutationObserver po kiekvieno perpiešimo. Testas: `node tools/test-panels.mjs`.
+
 ## Perrašymų grandinės (svarbu!)
 
 Programa augo sluoksniais: nauja versija **perrašo** seną funkciją (`render = async function () { await __renderPP(); … }`). Todėl:
