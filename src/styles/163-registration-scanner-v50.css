@@ -1,0 +1,237 @@
+/* Registracijos liudijimo kortelė ir skeneris (v50). Naudojama naujame automobilyje, redagavime ir Vadybininke. */
+.regCardV50 {
+  margin: 12px 0 14px;
+  padding: 14px;
+  border: 1px solid #dfe6ee;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #f8fafd 0%, #ffffff 100%);
+  box-shadow: 0 1px 2px rgba(16, 32, 56, 0.04);
+}
+.regCardHeadV50 {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 12px;
+}
+.regCardHeadV50 strong {
+  display: block;
+  font-size: 15px;
+  line-height: 1.25;
+  color: #13243a;
+}
+.regCardHeadV50 span:not(.regCardIcoV50) {
+  display: block;
+  margin-top: 2px;
+  font-size: 12.5px;
+  line-height: 1.35;
+  color: #607086;
+}
+.regCardIcoV50 {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: #e8f0fb;
+  color: #1d4f91;
+}
+.regCardIcoV50 svg,
+.regScanBtnV50 svg {
+  width: 20px;
+  height: 20px;
+}
+.regScanBtnsV50 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.regScanBtnV50 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 12px;
+  border: 1px solid #cfd9e5;
+  border-radius: 13px;
+  background: #fff;
+  color: #1b3555;
+  font-size: 14px;
+  font-weight: 750;
+  cursor: pointer;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+.regScanBtnV50.primary {
+  border-color: #174a8b;
+  background: linear-gradient(180deg, #1f5aa6 0%, #174a8b 100%);
+  color: #fff;
+}
+.regScanBtnV50:active {
+  transform: scale(0.985);
+}
+.regScanBtnV50 input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.regBusyV50 .regScanBtnV50 {
+  opacity: 0.55;
+  pointer-events: none;
+}
+.regScanStatusV50 {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 13px;
+  background: #f1f5fa;
+  border: 1px solid #e1e8f0;
+}
+.regScanStatusV50[hidden] {
+  display: none;
+}
+.regScanTopV50 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.regScanTopV50 img {
+  flex: none;
+  width: 46px;
+  height: 58px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #dfe6ee;
+}
+.regScanTopV50 > div {
+  flex: 1;
+  min-width: 0;
+}
+.regScanMsgV50 {
+  display: block;
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 650;
+  color: #2b3e55;
+}
+.regScanBarV50 {
+  height: 5px;
+  margin-top: 7px;
+  border-radius: 99px;
+  background: #dbe4ee;
+  overflow: hidden;
+}
+.regScanBarV50 i {
+  display: block;
+  height: 100%;
+  width: 3%;
+  border-radius: inherit;
+  background: #1f5aa6;
+  transition: width 0.35s ease;
+}
+.regScanStatusV50[data-tone="good"] {
+  background: #ecf8f1;
+  border-color: #c6e9d5;
+}
+.regScanStatusV50[data-tone="good"] .regScanBarV50 i {
+  background: #1f9d5b;
+}
+.regScanStatusV50[data-tone="warn"] {
+  background: #fff8ea;
+  border-color: #f1ddb0;
+}
+.regScanStatusV50[data-tone="warn"] .regScanBarV50 i {
+  background: #d39a20;
+}
+.regScanStatusV50[data-tone="bad"] {
+  background: #fdf0f0;
+  border-color: #f1cccc;
+}
+.regScanStatusV50[data-tone="bad"] .regScanBarV50 i {
+  background: #c94848;
+}
+.regGridV50 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 10px;
+  margin-top: 12px;
+}
+.regFieldV50 {
+  min-width: 0;
+  margin-bottom: 10px !important;
+}
+.regFieldV50.regWideV50,
+.regFieldV50[data-reg-field="firstRegistrationDate"] {
+  grid-column: 1 / -1;
+}
+.regFieldV50 label {
+  display: flex !important;
+  align-items: center;
+  gap: 6px;
+}
+.regFieldV50 label em {
+  font-style: normal;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  padding: 1px 5px;
+  border-radius: 6px;
+  background: #eef2f7;
+  color: #6a7a8f;
+}
+.regFieldV50 input {
+  width: 100%;
+  min-width: 0;
+}
+.regFieldV50.regFilledV50 input {
+  border-color: #9fd5b6 !important;
+  background: #f3fbf6 !important;
+}
+.regFieldV50.regCheckV50 input {
+  border-color: #e7c378 !important;
+  background: #fffaf0 !important;
+}
+.regHintV50 {
+  display: block;
+  margin-top: 4px;
+  font-size: 11.5px;
+  line-height: 1.3;
+  color: #8a6416;
+}
+.regHintV50:empty {
+  display: none;
+}
+.regFieldV50.regCheckV50 .regHintV50:empty::after {
+  content: "Patikrinkite reikšmę";
+}
+.regFieldV50.regCheckV50 .regHintV50:empty {
+  display: block;
+}
+.regCardCompactV50 {
+  margin: 4px 0 12px;
+}
+.whatQuickGridV30 .field.regFilledV50 input {
+  border-color: #9fd5b6 !important;
+  background: #f3fbf6 !important;
+}
+@media (max-width: 360px) {
+  .regGridV50 {
+    grid-template-columns: 1fr;
+  }
+}
+/* Didesnis specifiškumas – kad senesnės formų taisyklės su !important neužgožtų būsenos spalvų. */
+#addCarPanel .regFieldV50.regFilledV50 input.input,
+#sheet .regFieldV50.regFilledV50 input.input,
+#sheet .whatQuickGridV30 .field.regFilledV50 input.input {
+  border-color: #8fcfaa !important;
+  background: #f1faf5 !important;
+}
+#addCarPanel .regFieldV50.regCheckV50 input.input,
+#sheet .regFieldV50.regCheckV50 input.input {
+  border-color: #e3b65c !important;
+  background: #fff8eb !important;
+}

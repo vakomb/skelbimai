@@ -13,6 +13,8 @@ Kalba su vartotoju: **lietuvių**. Programėlė skirta telefonui (iPhone 15 Pro 
 7. Literalus `</style>` ar `</script>` šaltinio faile sulaužytų puslapį. Build tai patikrina ir sustoja.
 8. Duomenų struktūra (`state`) yra sinchronizuojama su Supabase ir saugoma vartotojų telefonuose. **Nepervadink ir netrink laukų**. Naujus laukus pridėk su numatyta reikšme `defaultState()` ir `loadState()` (`06-state-and-history.js`).
 9. Po kodo pakeitimų paleisk `npm run format`.
+10. Registracijos liudijimo skenavimas yra tik `33-registration-scanner.js` (variklis) ir `34-registration-ui.js` (formos). Senų OCR modulių `28–31` neplėsk. Po variklio pakeitimų paleisk `node tools/regscan/test-regscan.mjs <nuotraukų aplankas> <truth.json>`. Nuotraukos su asmens duomenimis neturi patekti į repozitoriją.
+11. Repozitorija viešai matoma GitHub'e, o Vercel diegia iš `main` šakos per `vercel.json` (`node tools/build.mjs --out index.html`). Šakninis `index.html` ir `dist/` yra surinkimo rezultatas.
 
 ## Kur ką rasti
 

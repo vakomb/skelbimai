@@ -12,7 +12,9 @@
     "verify:code": "node tools/build.mjs && node tools/verify-ast.mjs .verify/baseline.html dist/index.html",
     "verify:browser": "node tools/build.mjs && node tools/verify-browser.mjs .verify/baseline.html dist/index.html",
     "verify": "npm run check && npm run verify:code && npm run verify:browser",
-    "verify:original": "node tools/build.mjs && node tools/verify-ast.mjs reference/index.original.html dist/index.html && node tools/verify-browser.mjs reference/index.original.html dist/index.html"
+    "verify:original": "node tools/build.mjs && node tools/verify-ast.mjs reference/index.original.html dist/index.html && node tools/verify-browser.mjs reference/index.original.html dist/index.html",
+    "test:regscan": "node tools/regscan/test-regscan.mjs",
+    "test:regscan-ui": "node tools/regscan/test-ui.mjs"
   },
   "devDependencies": {
     "acorn": "^8.12.0",

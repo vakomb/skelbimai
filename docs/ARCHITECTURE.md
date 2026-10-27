@@ -63,6 +63,25 @@ Nuotraukos ir dokumentai **nėra** `state`. Jie saugomi IndexedDB (`03-photo-sto
 - **Buhalterija**: savaitės paketas (`16`), ataskaitos pagal laikotarpį ZIP su CSV ir dokumentais (`25`, `134`, `135`), dalinimasis per Web Share arba atsisiuntimas.
 - **Vadybininkas**: `15-work-center` (`workCenterItems`, `workScore`) ir `23-garage-what-manager` (kortelės, veiksmų langai).
 
+## Registracijos liudijimo skeneris (v50)
+
+Nuo v50 skenavimas parašytas iš naujo, dviem failais:
+
+- `src/scripts/app/33-registration-scanner.js` – variklis `RegScan` (be priklausomybių nuo programėlės):
+  1. nuotrauka sumažinama iki 2200 px, ištaisomas pasvirimas (projekcijos metodu, ±20°);
+  2. sukuriamas „tamsumo“ žemėlapis pagal šviesį (Y) lyginant su vietiniu fonu, todėl dingsta žalias / geltonas fonas, raštas, šešėliai;
+  3. Tesseract.js (CDN, `eng`) skaito 4 kontrasto variantus, kiekvieno rezultatą parseris paverčia kandidatais;
+  4. kandidatai sujungiami balsavimu, o trūkstami laukai papildomai skaitomi iš atskirų eilučių (2× padidinta);
+  5. jei pirmas praėjimas beveik nieko neranda, bandomos 90°, 270° ir 180° kryptys.
+  Parseris atpažįsta etiketes (A, B, B.1, D.1, D.3, E, P.1, P.2, P.3) su OCR klaidomis (D↔0, 1↔l, B↔8…) ir pagal reikšmių formą, kai etiketės nematyti. Jis tikrina VIN (17 simbolių, be I/O/Q), numerį (AAA999), datas, galios ir tūrio santykį.
+- `src/scripts/app/34-registration-ui.js` – kortelė „Registracijos liudijimas“ (fotografuoti / iš galerijos + laukai) ir prijungimas prie: naujo automobilio formos, automobilio redagavimo, Vadybininko „Užpildyti trūkstamus duomenis“, PP sutarties generatoriaus ir automobilio kortelės peržiūros.
+
+Automobilio laukai iš liudijimo: `regMake` (D.1), `regModel` (D.3), `registrationDoc` (serija ir nr., pvz. `K1281961` arba `J016663`), `vin` (E), `plate` (A), `firstRegistrationDate` (B; jei B nenurodyta – B.1), `engineCc` (P.1), `powerKw` (P.2), `fuelType` (P.3). Pavadinimas = markė + modelis.
+
+Senieji OCR moduliai `28–31` vis dar įkeliami (kiti moduliai naudoja jų pagalbines funkcijas), bet skenavimą jau perima v50.
+
+**Testavimas** (`tools/regscan/`): `test-regscan.mjs` paleidžia tikrą variklį Chromium naršyklėje, o OCR vietoje Tesseract.js atlieka vietinis `tesseract`. `grid-regscan.mjs` ir `score-grid.mjs` padeda parinkti paruošimo variantus, `test-ui.mjs` tikrina visą formą. Tikrų liudijimų nuotraukose yra asmens duomenų, todėl jos **nelaikomos repozitorijoje** – testams nurodomas aplankas už jo ribų.
+
 ## Perrašymų grandinės (svarbu!)
 
 Programa augo sluoksniais: nauja versija **perrašo** seną funkciją (`render = async function () { await __renderPP(); … }`). Todėl:

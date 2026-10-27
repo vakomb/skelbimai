@@ -42485,6 +42485,1831 @@ try {
   console.warn("PRO MAX render", e);
 }
 
+// Registracijos liudijimo skeneris (v50, parašytas iš naujo): nuotraukos paruošimas, OCR ir laukų atpažinimas.
+// Veikia su naujo (K1234567) ir seno (J 123456) tipo Lietuvos liudijimais, kreivomis ir neryškiomis nuotraukomis.
+// Dalis bendro app IIFE: visi src/scripts/app/*.js failai sujungiami eilės tvarka į vieną scope (žr. ARCHITECTURE.md).
+//
+// Viešas API:  RegScan.scan(fileOrBlob, { onProgress }) -> Promise<{ values, fields, passes, complete }>
+//              RegScan.parse(lines)  (gryna funkcija, naudojama ir testuose)
+// `values` raktai: make, model, regDoc, vin, plate, firstRegistrationDate, firstRegistrationLithuaniaDate,
+//                  modelYear, engineCc, powerKw, fuelType
+
+const RegScan = (() => {
+  // ---------- Žinynai ----------
+  const MAKES = [
+    ["Alfa Romeo", "ALFA ROMEO", "ALFAROMEO"],
+    ["Audi"],
+    ["BMW"],
+    ["BYD"],
+    ["Cadillac"],
+    ["Chevrolet"],
+    ["Chrysler"],
+    ["Citroën", "CITROEN"],
+    ["Cupra"],
+    ["Dacia"],
+    ["Daewoo"],
+    ["Daihatsu"],
+    ["Dodge"],
+    ["DS", "DS AUTOMOBILES"],
+    ["Fiat"],
+    ["Ford"],
+    ["Genesis"],
+    ["Honda"],
+    ["Hyundai"],
+    ["Infiniti"],
+    ["Isuzu"],
+    ["Iveco"],
+    ["Jaguar"],
+    ["Jeep"],
+    ["Kia"],
+    ["Lada", "VAZ"],
+    ["Lancia"],
+    ["Land Rover", "LAND ROVER", "LANDROVER"],
+    ["Lexus"],
+    ["Lincoln"],
+    ["Maserati"],
+    ["Mazda"],
+    ["Mercedes-Benz", "MERCEDES BENZ", "MERCEDESBENZ", "MERCEDES"],
+    ["MG"],
+    ["Mini"],
+    ["Mitsubishi"],
+    ["Nissan"],
+    ["Opel"],
+    ["Peugeot"],
+    ["Polestar"],
+    ["Porsche"],
+    ["RAM"],
+    ["Renault"],
+    ["Rover"],
+    ["Saab"],
+    ["Seat"],
+    ["Škoda", "SKODA"],
+    ["Smart"],
+    ["SsangYong", "SSANGYONG", "SSANG YONG"],
+    ["Subaru"],
+    ["Suzuki"],
+    ["Tesla"],
+    ["Toyota"],
+    ["Volkswagen", "VOLKSWAGEN", "VW"],
+    ["Volvo"],
+    ["Chery"],
+    ["Geely"],
+    ["Great Wall", "GREAT WALL"],
+    ["Haval"],
+    ["Hummer"],
+    ["GMC"],
+    ["Abarth"],
+    ["Alpine"],
+    ["Aston Martin", "ASTON MARTIN"],
+    ["Bentley"],
+    ["Ferrari"],
+    ["Lamborghini"],
+    ["Rolls-Royce", "ROLLS ROYCE"],
+    ["MAN"],
+    ["DAF"],
+    ["Scania"],
+    ["Lynk & Co", "LYNK"],
+    ["Aixam"],
+    ["Microcar"],
+    ["Ligier"],
+    ["Piaggio"],
+    ["Mahindra"],
+    ["Tata"],
+    ["Proton"],
+    ["UAZ"],
+    ["GAZ"]
+  ].map(([name, ...aliases]) => ({
+    name,
+    keys: [name, ...aliases].map(k => fold(k).replace(/[^A-Z0-9]/g, ""))
+  }));
+  const FUELS = [
+    ["BENZINAS", "Benzinas"],
+    ["DYZELINAS", "Dyzelinas"],
+    ["ELEKTRA", "Elektra"],
+    ["DUJOS", "Dujos"],
+    ["VANDENILIS", "Vandenilis"],
+    ["ETANOLIS", "Etanolis"],
+    ["HIBRIDAS", "Hibridas"]
+  ];
+
+  // ---------- Pagalbinės ----------
+  function fold(s) {
+    return String(s || "")
+      .normalize("NFD")
+      .replace(/[̀-ͯ]/g, "")
+      .toUpperCase();
+  }
+  function lev(a, b) {
+    if (a === b) return 0;
+    const m = a.length,
+      n = b.length;
+    if (!m || !n) return m || n;
+    let prev = Array.from({ length: n + 1 }, (_, i) => i);
+    for (let i = 1; i <= m; i++) {
+      const cur = [i];
+      for (let j = 1; j <= n; j++)
+        cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+      prev = cur;
+    }
+    return prev[n];
+  }
+  const TO_DIGIT = {
+    O: "0",
+    D: "0",
+    Q: "0",
+    U: "0",
+    I: "1",
+    L: "1",
+    T: "1",
+    J: "1",
+    Z: "2",
+    S: "5",
+    B: "8",
+    G: "6",
+    A: "4",
+    E: "3"
+  };
+  const TO_LETTER = { 0: "O", 1: "I", 2: "Z", 4: "A", 5: "S", 6: "G", 7: "T", 8: "B", 3: "E" };
+  const asDigits = s => [...s].map(c => (/\d/.test(c) ? c : (TO_DIGIT[c] ?? c))).join("");
+  const asLetters = s => [...s].map(c => (/[A-Z]/.test(c) ? c : (TO_LETTER[c] ?? c))).join("");
+  const alnum = s => fold(s).replace(/[^A-Z0-9]/g, "");
+  const thisYear = () => new Date().getFullYear();
+
+  // ---------- Etikečių atpažinimas (A, B, B.1, D.1, E, P.1 ...) ----------
+  // OCR dažnai painioja: D↔0/O, 1↔l/I/|, B↔8, P↔R; skliaustai ir taškai gali dingti.
+  const LABELS = [
+    ["B.1", /^[B8][.,:]?[1IL|]$/],
+    ["B.2", /^[B8][.,:]?2$/],
+    ["B", /^[B8]$/],
+    ["D.1", /^[D0O][.,:]?[1ILT|]$/],
+    ["D.2", /^[D0O][.,:]?2$/],
+    ["D.3", /^[D0O][.,:]?[3S]$/],
+    ["I.1", /^[I1L|][.,:]?[1IL|]$/],
+    ["I", /^[I1L|]$/],
+    ["A", /^[A4]$/],
+    ["E", /^[E€£]$/],
+    ["P.1", /^[PR][.,:]?[1IL|A]$/],
+    ["P.2", /^[PR][.,:]?2$/],
+    ["P.3", /^[PR][.,:]?3$/],
+    ["P.4", /^[PR][.,:]?4$/],
+    ["P.5", /^[PR][.,:]?5$/],
+    ["F.1", /^F[.,:]?[1IL|]$/],
+    ["F.2", /^F[.,:]?2$/],
+    ["F.3", /^F[.,:]?3$/],
+    ["F.4", /^F[.,:]?4$/],
+    ["F.5", /^F[.,:]?5$/],
+    ["G", /^G$/],
+    ["H", /^H$/],
+    ["J", /^J$/],
+    ["J.1", /^J[.,:]?[1IL]$/],
+    ["J.2", /^J[.,:]?2$/],
+    ["K", /^K$/],
+    ["K.1", /^K[.,:]?[1IL]$/],
+    ["Q", /^Q$/],
+    ["R", /^R$/],
+    ["S.1", /^[S5][.,:]?[1IL]$/],
+    ["S.2", /^[S5][.,:]?2$/],
+    ["T", /^T$/],
+    ["V.7", /^V[.,:]?7$/],
+    ["V.9", /^V[.,:]?9$/],
+    ["V.10", /^V[.,:]?10$/],
+    ["C.1.1", /^C[.,:]?1[.,:]?[1IL]$/],
+    ["C.1.2", /^C[.,:]?1[.,:]?2$/],
+    ["C.1.3", /^C[.,:]?1[.,:]?3$/]
+  ];
+  function labelOf(token) {
+    const t = fold(token)
+      .replace(/^[()[\]{}'"`’‘“”]+/g, "")
+      .replace(/[()[\]{}'"`’‘“”,;:.]+$/g, "")
+      .replace(/[)\]]/g, "");
+    if (!t || t.length > 6) return null;
+    for (const [key, re] of LABELS) if (re.test(t)) return key;
+    if (/^[B8][.,:]?[7T!4A]$/.test(t)) return "B.1"; // „(B.1)“ dažnai perskaitomas kaip „(8.7)“ / „(Bt)“ / „(8.4)“
+    if (/^[I1L|][.,:]?[7T!]$/.test(t)) return "I.1";
+    return null;
+  }
+  // Eilutę suskaido į segmentus: [{ label, words: [...] }]. Dideli tarpai tarp žodžių reiškia kitą stulpelį
+  // arba OCR šiukšles dokumento krašte, todėl ten pradedamas naujas segmentas be etiketės.
+  function segmentsOf(line) {
+    const words = line.words.filter(w => String(w.text || "").trim());
+    const hs = words
+      .map(w => (w.bbox ? w.bbox.y1 - w.bbox.y0 : 0))
+      .filter(h => h > 0)
+      .sort((a, b) => a - b);
+    const charH = hs.length ? hs[Math.floor(hs.length / 2)] : 0;
+    const segs = [{ label: null, words: [] }];
+    let prev = null;
+    for (const w0 of words) {
+      // „P2135“, „P.12231“ – etiketė suklijuota su reikšme.
+      const glued = fold(w0.text).match(/^([PRF])[.,:]?([1-5])(\d{2,4})$/);
+      if (glued) {
+        segs.push({
+          label: (glued[1] === "F" ? "F." : "P.") + glued[2],
+          words: [{ ...w0, text: glued[3] }],
+          conf: w0.conf
+        });
+        prev = w0;
+        continue;
+      }
+      const w = w0;
+      const key = labelOf(w.text);
+      const gap = prev && w.bbox && prev.bbox && charH ? (w.bbox.x0 - prev.bbox.x1) / charH : 0;
+      if (key) segs.push({ label: key, words: [], conf: w.conf });
+      else if (gap > 5.5) segs.push({ label: null, words: [w], gapSplit: true });
+      else segs[segs.length - 1].words.push(w);
+      prev = w;
+    }
+    // Nuimame silpnus pavienius simbolius segmentų galuose.
+    for (const s of segs)
+      while (
+        s.words.length > 1 &&
+        Number(s.words[s.words.length - 1].conf) < 35 &&
+        alnum(s.words[s.words.length - 1].text).length <= 2
+      )
+        s.words.pop();
+    return segs;
+  }
+
+  // ---------- Laukų tvarkymas ----------
+  function fixPlate(raw) {
+    const t = alnum(raw);
+    if (t.length < 6 || t.length > 8) return "";
+    // Ieškome 6 simbolių lango „AAA999“ (OCR prie numerio kartais prilipdo šiukšlių).
+    for (let i = t.length - 6; i >= 0; i--) {
+      const s = t.slice(i, i + 6);
+      if (!/\d/.test(s.slice(3)) || (s.slice(0, 3).match(/[A-Z]/g) || []).length < 2) continue;
+      const p = asLetters(s.slice(0, 3)) + asDigits(s.slice(3));
+      if (/^[A-Z]{3}\d{3}$/.test(p)) return p;
+    }
+    return "";
+  }
+  const VIN_RE = /^[A-HJ-NPR-Z0-9]{17}$/;
+  function vinCheckDigitOk(v) {
+    const map = {
+      A: 1,
+      B: 2,
+      C: 3,
+      D: 4,
+      E: 5,
+      F: 6,
+      G: 7,
+      H: 8,
+      J: 1,
+      K: 2,
+      L: 3,
+      M: 4,
+      N: 5,
+      P: 7,
+      R: 9,
+      S: 2,
+      T: 3,
+      U: 4,
+      V: 5,
+      W: 6,
+      X: 7,
+      Y: 8,
+      Z: 9
+    };
+    const w = [8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2];
+    let sum = 0;
+    for (let i = 0; i < 17; i++) sum += (/\d/.test(v[i]) ? Number(v[i]) : map[v[i]] || 0) * w[i];
+    const c = sum % 11;
+    return v[8] === (c === 10 ? "X" : String(c));
+  }
+  function fixVin(raw) {
+    // Tikras VIN turi bent 5 skaitmenis jau originaliame tekste (kitaip tai žodis, pvz. „REGISTRACIJOS“).
+    if ((alnum(raw).match(/\d/g) || []).length < 5) return "";
+    let t = alnum(raw).replace(/O/g, "0").replace(/Q/g, "0").replace(/I/g, "1");
+    if (t.length < 17) return "";
+    // VIN pabaigoje (12–17 pozicijos) beveik visada skaitmenys.
+    const fixTail = s => s.slice(0, 12) + asDigits(s.slice(12)).replace(/[^0-9A-Z]/g, "");
+    let best = "";
+    for (let i = 0; i + 17 <= t.length; i++) {
+      const v = fixTail(t.slice(i, i + 17));
+      if (VIN_RE.test(v) && /\d/.test(v) && /[A-Z]/.test(v)) {
+        best = v;
+        break;
+      }
+    }
+    return best;
+  }
+  function vinScore(v) {
+    if (!v) return 0;
+    let s = 1;
+    if (/^\d{4,6}$/.test(v.slice(-5))) s += 0.3;
+    if (vinCheckDigitOk(v)) s += 0.4;
+    if (/^(W|V|S|T|Z|Y|X|J|K|L|1|2|3|4|5|6|7|8|9)/.test(v)) s += 0.1;
+    return s;
+  }
+  function fixDate(raw) {
+    let t = fold(raw).replace(/[—–_]/g, "-").replace(/\s+/g, "");
+    t = t
+      .replace(/[OQDCU]/g, "0")
+      .replace(/[IL|!T]/g, "1")
+      .replace(/S/g, "5")
+      .replace(/Z/g, "2")
+      .replace(/B/g, "8")
+      .replace(/G/g, "6");
+    const m = t.match(/((?:19|20)\d{2})[-.,]?(\d{2})[-.,]?(\d{2})/);
+    if (!m) return "";
+    // OCR šiame šrifte „0“ kartais skaito kaip „9“ / „8“ / „6“: taisome tik jei kitaip data negalima.
+    const fixPart = (s, max) => (Number(s) > max && /[986]/.test(s[0]) ? "0" + s[1] : s);
+    m[2] = fixPart(m[2], 12);
+    m[3] = fixPart(m[3], 31);
+    const [y, mo, d] = [Number(m[1]), Number(m[2]), Number(m[3])];
+    if (y < 1950 || y > thisYear() || mo < 1 || mo > 12 || d < 1 || d > 31) return "";
+    const iso = `${m[1]}-${m[2]}-${m[3]}`;
+    const dt = new Date(y, mo - 1, d);
+    if (dt.getMonth() !== mo - 1 || dt > new Date()) return "";
+    return iso;
+  }
+  function numberIn(words, min, max) {
+    for (const w of words) {
+      const t = fold(w.text).replace(/(CM|KW|KG).*$/i, "");
+      if (!/\d/.test(t)) continue;
+      const d = asDigits(t.replace(/[^A-Z0-9]/g, ""));
+      if (!/^\d+$/.test(d)) continue;
+      const n = Number(d);
+      if (n >= min && n <= max) return n;
+    }
+    return null;
+  }
+  function matchMake(text) {
+    const words = fold(text)
+      .replace(/[^A-Z0-9 &-]/g, " ")
+      .split(/\s+/)
+      .filter(Boolean);
+    let best = null;
+    // Bandome 1–2 žodžių junginius (LAND ROVER, ALFA ROMEO).
+    for (let i = 0; i < words.length; i++) {
+      for (const span of [2, 1]) {
+        if (i + span > words.length) continue;
+        const cand = words
+          .slice(i, i + span)
+          .join("")
+          .replace(/[^A-Z0-9]/g, "");
+        if (cand.length < 2) continue;
+        for (const mk of MAKES)
+          for (const key of mk.keys) {
+            const tol = key.length <= 3 ? 0 : key.length <= 6 ? 1 : 2;
+            const d = Math.min(lev(cand, key), lev(asLetters(cand), key));
+            if (d <= tol && (!best || d < best.d || (d === best.d && key.length > best.len)))
+              best = { name: mk.name, d, len: key.length, index: i, span, key };
+          }
+      }
+    }
+    return best;
+  }
+  function prettyModel(raw, make) {
+    let words = String(raw || "")
+      .replace(/[|_~"“”‘’`]+/g, " ")
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+    // Nuimame markę modelio pradžioje (pvz. „NISSAN MURANO“ -> „MURANO“).
+    if (make && words.length > 1) {
+      const m = matchMake(words.slice(0, 2).join(" "));
+      if (m && m.name === make && m.index === 0) words = words.slice(m.span);
+    }
+    // Atmetame OCR šiukšles pabaigoje (pavieniai simboliai, skyrybos ženklai).
+    while (
+      words.length > 1 &&
+      /^([^A-Za-z0-9]+|[a-z]{1,2}[:.,]?|.{1}[^A-Za-z0-9]+)$/.test(words[words.length - 1])
+    )
+      words.pop();
+    words = words.map(w => w.replace(/^[^A-Za-z0-9]+|[^A-Za-z0-9)]+$/g, "")).filter(Boolean);
+    const allCaps = words.every(w => w === w.toUpperCase());
+    const out = words.map((w, i) => {
+      if (!allCaps) return i === 0 ? w.charAt(0).toUpperCase() + w.slice(1) : w;
+      return w
+        .split("-")
+        .map(p => (/^[A-Z]{4,}$/.test(p) ? p.charAt(0) + p.slice(1).toLowerCase() : p))
+        .join("-");
+    });
+    return out.join(" ").slice(0, 60);
+  }
+  // Modelio pavadinimas: 1–4 žodžiai, be keistų simbolių viduryje, ne ilgesni nei 15 raidžių.
+  function plausibleModel(m) {
+    if (!m) return false;
+    const words = m.split(/\s+/);
+    if (words.length > 4 || m.length > 40) return false;
+    return words.every(
+      w => w.length <= 15 && !/[!?.,;:'"\\]/.test(w.replace(/\.$/, "")) && /[A-Za-z0-9]/.test(w)
+    );
+  }
+  function matchFuel(text, loose = false) {
+    const folded = fold(text).replace(/[^A-Z ]/g, " ");
+    const toks = folded.split(/\s+/).filter(t => t.length >= 4);
+    // Taip pat bandome sujungtus gretimus žodžius („DYZE LINAS“ -> „DYZELINAS“).
+    const parts = folded.split(/\s+/).filter(Boolean);
+    for (let i = 0; i + 1 < parts.length; i++) toks.push(parts[i] + parts[i + 1]);
+    const found = [];
+    for (const t of toks)
+      for (const [key, name] of FUELS) {
+        const tol = key.length >= 8 ? (loose ? 3 : 2) : 1;
+        if (
+          t.length >= key.length - 2 &&
+          t.length <= key.length + 2 &&
+          lev(t, key) <= tol &&
+          !found.includes(name)
+        )
+          found.push(name);
+      }
+    return found.length ? found.join(" / ") : "";
+  }
+
+  // ---------- Pagrindinis parseris ----------
+  // lines: [{ text, words: [{ text, conf, bbox }], bbox }]
+  function parse(lines) {
+    lines = (lines || []).filter(l => l && l.words && l.words.length);
+    const C = {}; // key -> [{ value, score }]
+    const add = (key, value, score) => {
+      if (value === "" || value == null || !score) return;
+      (C[key] ||= []).push({ value, score });
+    };
+    const confOf = ws =>
+      ws.length ? ws.reduce((s, w) => s + (Number(w.conf) || 0), 0) / ws.length / 100 : 0.5;
+    const segLines = lines.map(l => ({ line: l, segs: segmentsOf(l) }));
+    let plateLine = -1,
+      fuelLine = -1,
+      passMake = "";
+    const anchors = {};
+
+    segLines.forEach(({ line, segs }, li) => {
+      const up = fold(line.text);
+      // Liudijimo serija ir numeris: viena raidė + 6 (senas) arba 7 (naujas) skaitmenys, eilutė be kitų laukų.
+      const sm = up.replace(/[^A-Z0-9| ]/g, " ").match(/(?:^|\s)([A-Z|]) ?(\d{6,7})(?=\s|$)/);
+      if (sm && !/KG|CM|KW|\d{4}-\d{2}/.test(up)) {
+        const letter = sm[1] === "|" ? "I" : sm[1];
+        add("regDoc", letter + sm[2], 0.8 + 0.2 * confOf(line.words) - li * 0.004);
+        if (line.bbox && !anchors.regDoc) anchors.regDoc = line.bbox;
+      } else {
+        const sm2 = up.match(/^\W{0,3}([1L|])\s+(\d{6})\W{0,3}$/); // „I 810391“ perskaitytas kaip „1 810391“
+        if (sm2) add("regDoc", "I" + sm2[2], 0.55);
+      }
+      for (const seg of segs) {
+        if (seg.label && line.bbox && !anchors[seg.label]) anchors[seg.label] = line.bbox;
+        const text = seg.words.map(w => w.text).join(" ");
+        const conf = confOf(seg.words);
+        switch (seg.label) {
+          case "A": {
+            if (plateLine < 0) plateLine = li;
+            const p = fixPlate(seg.words[0]?.text || "");
+            if (p) {
+              add("plate", p, 1 + conf);
+              plateLine = li;
+            }
+            break;
+          }
+          case "E": {
+            const v = fixVin(text);
+            // Ilgesnėje eilutėje OCR galėjo įterpti simbolį – tokį kandidatą vertiname silpniau.
+            if (v) add("vin", v, (vinScore(v) + conf) * (alnum(text).length === 17 ? 1 : 0.65));
+            break;
+          }
+          case "D.1": {
+            const m = matchMake(text);
+            if (m) {
+              add("make", m.name, 1.4 - m.d * 0.2 + conf);
+              passMake = m.name;
+            }
+            break;
+          }
+          case "D.3": {
+            const model = prettyModel(text, passMake);
+            if (plausibleModel(model)) add("model", model, 1 + conf);
+            break;
+          }
+          case "B": {
+            const d = fixDate(text);
+            if (d) add("firstRegistrationDate", d, 1.2 + conf);
+            break;
+          }
+          case "B.1": {
+            const d = fixDate(text);
+            if (d) add("firstRegistrationLithuaniaDate", d, 1.2 + conf);
+            break;
+          }
+          case "B.2": {
+            const y = text.match(/\b(19[5-9]\d|20\d{2})\b/);
+            if (y && Number(y[1]) <= thisYear() + 1) add("modelYear", Number(y[1]), 1 + conf);
+            break;
+          }
+          case "P.1": {
+            const n = numberIn(seg.words, 500, 9999);
+            if (n) add("engineCc", n, 1.2 + conf);
+            break;
+          }
+          case "P.2": {
+            const n = numberIn(seg.words, 10, 999);
+            if (n) add("powerKw", n, 1.2 + conf);
+            break;
+          }
+          case "P.3": {
+            const f = matchFuel(text, true);
+            if (f) add("fuelType", f, 1.3 + conf);
+            break;
+          }
+        }
+      }
+      // Datos be aiškių etikečių: seno tipo eilutė „B data (B.1) data (B.2) …“ ir „I data (I.1) data; Nr.“,
+      // naujo tipo „A NR I data H“ ir „B data B.1 data B.2“.
+      const dates = line.words.map(w => fixDate(w.text)).filter(Boolean);
+      if (dates.length >= 2 && !/\d{8}|;/.test(line.text)) {
+        add("firstRegistrationDate", dates[0], 0.8);
+        add("firstRegistrationLithuaniaDate", dates[1], 0.8);
+      }
+      // Etikečių nepavykus perskaityti – atpažįstame pagal reikšmių formą.
+      for (const w of line.words) {
+        const p = fixPlate(w.text);
+        if (p && /^[A-Z]{3}\d{3}$/.test(alnum(w.text).replace(/O/g, "0"))) add("plate", p, 0.45);
+      }
+      // VIN be etiketės: vienas žodis (arba du gretimi, jei OCR perskėlė) be datų ir etikečių.
+      for (let i = 0; i < line.words.length; i++) {
+        const a = line.words[i].text,
+          b = line.words[i + 1]?.text || "";
+        if (/\d{4}-\d{2}|[*/]/.test(a) || labelOf(a)) continue;
+        const single = alnum(a);
+        let v = single.length >= 16 && single.length <= 19 ? fixVin(a) : "";
+        let s = single.length === 17 ? 0.7 : 0.45;
+        if (!v && b && !labelOf(b) && !/\d{4}-\d{2}/.test(b) && (alnum(a) + alnum(b)).length === 17) {
+          v = fixVin(a + b);
+          s = 0.4;
+        }
+        if (v) add("vin", v, vinScore(v) * s);
+      }
+      const fuel = matchFuel(line.text);
+      if (fuel) {
+        add("fuelType", fuel, 0.7);
+        if (fuelLine < 0) fuelLine = li;
+      }
+      if (/\bKW\b|KW$/.test(up) || /\bCM\b|CM3|CM³/.test(up)) {
+        const ws = line.words;
+        for (let i = 0; i < ws.length; i++) {
+          const u = fold(ws[i].text);
+          if (/^CM/.test(u) && i > 0) {
+            const n = numberIn([ws[i - 1]], 500, 9999);
+            if (n) add("engineCc", n, 0.9);
+          }
+          if (/^KW/.test(u) && i > 0) {
+            const n = numberIn([ws[i - 1]], 10, 999);
+            if (n) add("powerKw", n, 0.9);
+          }
+        }
+      }
+    });
+
+    // Variklio eilutė yra tiesiai virš kuro eilutės (P.1 … P.2 …, po to P.3).
+    if (fuelLine > 0) {
+      const ws = segLines[fuelLine - 1].line.words;
+      const nums = ws
+        .map(w => asDigits(alnum(w.text).replace(/(CM3?|KW)$/, "")))
+        .filter(t => /^\d{2,4}$/.test(t))
+        .map(Number);
+      const cc = nums.find(n => n >= 500 && n <= 9999);
+      const kw = nums.find((n, i) => n >= 10 && n <= 999 && i > nums.indexOf(cc));
+      if (cc) add("engineCc", cc, 0.6);
+      if (cc && kw) add("powerKw", kw, 0.6);
+    }
+    // Markė be etiketės: pirmas atpažintas gamintojas po valstybinio numerio eilutės.
+    if (!C.make && plateLine >= 0)
+      for (let li = plateLine; li < Math.min(segLines.length, plateLine + 8); li++) {
+        const m = matchMake(segLines[li].line.text);
+        if (m && m.key.length >= 3) {
+          add("make", m.name, 0.6);
+          break;
+        }
+      }
+    // Modelis be D.3 etiketės: 1–3 eilutės žemiau markės (D.2 eilutę su „/“ praleidžiame).
+    if (!C.model) {
+      const iD1 = segLines.findIndex(s => s.segs.some(g => g.label === "D.1") && matchMake(s.line.text));
+      if (iD1 >= 0)
+        for (let li = iD1 + 1; li < Math.min(segLines.length, iD1 + 4); li++) {
+          const segs = segLines[li].segs.filter(g => g.words.length && !g.gapSplit);
+          const words = (segs.find(g => g.label === "D.3") || segs[segs.length - 1] || { words: [] }).words;
+          const text = words.map(w => w.text).join(" ");
+          const model = prettyModel(text, passMake);
+          if (alnum(text).length >= 2 && !/\/|--/.test(text) && !labelOf(text) && plausibleModel(model)) {
+            add("model", model, 0.5);
+            break;
+          }
+        }
+    }
+    if (fuelLine >= 0 && segLines[fuelLine].line.bbox) anchors.fuel = segLines[fuelLine].line.bbox;
+    Object.defineProperty(C, "anchors", { value: anchors, enumerable: false });
+    return C;
+  }
+
+  // Kelių praėjimų kandidatų sujungimas: laimi reikšmė su didžiausia suminiu balu.
+  function merge(candidateSets) {
+    const all = {};
+    for (const C of candidateSets)
+      for (const [k, list] of Object.entries(C))
+        for (const c of list) {
+          const key = typeof c.value === "string" ? c.value.toUpperCase() : c.value;
+          const slot = ((all[k] ||= {})[key] ||= { value: c.value, score: 0, hits: 0 });
+          slot.score += c.score;
+          slot.hits += 1;
+          if (c.score > (slot.best || 0)) {
+            slot.best = c.score;
+            slot.value = c.value;
+          }
+        }
+    const fields = {};
+    for (const [k, byValue] of Object.entries(all)) {
+      const ranked = Object.values(byValue).sort((a, b) => b.score - a.score);
+      const top = ranked[0];
+      const total = ranked.reduce((s, r) => s + r.score, 0);
+      fields[k] = {
+        value: top.value,
+        score: top.score,
+        hits: top.hits,
+        confidence: Math.min(1, top.score / Math.max(total, 1.5)),
+        alternatives: ranked.slice(1, 3).map(r => r.value)
+      };
+    }
+    const values = {};
+    const v = k => fields[k]?.value ?? "";
+    values.make = v("make");
+    values.model = v("model") ? prettyModel(v("model"), values.make) : "";
+    values.regDoc = v("regDoc");
+    values.vin = v("vin");
+    values.plate = v("plate");
+    values.firstRegistrationLithuaniaDate = v("firstRegistrationLithuaniaDate");
+    values.firstRegistrationDate = v("firstRegistrationDate") || values.firstRegistrationLithuaniaDate;
+    values.firstRegistrationSource = v("firstRegistrationDate")
+      ? "B"
+      : values.firstRegistrationLithuaniaDate
+        ? "B.1"
+        : "";
+    values.modelYear = v("modelYear") || null;
+    values.engineCc = v("engineCc") || null;
+    values.powerKw = v("powerKw") || null;
+    values.fuelType = v("fuelType");
+    // Galios ir tūrio santykis turi būti realus (≈15–175 kW litrui), kitaip silpnesnę reikšmę atmetame.
+    if (values.engineCc && values.powerKw) {
+      const ratio = (values.powerKw / values.engineCc) * 1000;
+      if (ratio < 12 || ratio > 175) {
+        const drop = (fields.powerKw?.score || 0) < (fields.engineCc?.score || 0) ? "powerKw" : "engineCc";
+        values[drop] = null;
+        delete fields[drop];
+      }
+    }
+    return { values, fields };
+  }
+  const REQUIRED = [
+    "make",
+    "model",
+    "regDoc",
+    "vin",
+    "plate",
+    "firstRegistrationDate",
+    "engineCc",
+    "powerKw",
+    "fuelType"
+  ];
+  function completeness(values) {
+    return REQUIRED.filter(k => values[k]).length / REQUIRED.length;
+  }
+
+  // =====================================================================================
+  // Naršyklės dalis: nuotraukos paruošimas ir OCR (Tesseract.js). Visa vykdoma telefone.
+  // =====================================================================================
+  const TESSERACT_URLS = [
+    "https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js",
+    "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js",
+    "https://unpkg.com/tesseract.js@5/dist/tesseract.min.js"
+  ];
+  let tesseractPromise = null,
+    workerPromise = null;
+  function loadScriptOnce(src, timeoutMs = 20000) {
+    return new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      const timer = setTimeout(() => {
+        s.remove();
+        reject(new Error("timeout"));
+      }, timeoutMs);
+      s.src = src;
+      s.async = true;
+      s.onload = () => {
+        clearTimeout(timer);
+        resolve();
+      };
+      s.onerror = () => {
+        clearTimeout(timer);
+        s.remove();
+        reject(new Error("load"));
+      };
+      document.head.appendChild(s);
+    });
+  }
+  function loadTesseract() {
+    if (window.Tesseract?.createWorker) return Promise.resolve(window.Tesseract);
+    if (tesseractPromise) return tesseractPromise;
+    tesseractPromise = (async () => {
+      for (const url of TESSERACT_URLS) {
+        try {
+          await loadScriptOnce(url);
+          if (window.Tesseract?.createWorker) return window.Tesseract;
+        } catch (e) {}
+      }
+      tesseractPromise = null;
+      throw new Error("Nepavyko įkelti OCR modulio. Patikrinkite interneto ryšį.");
+    })();
+    return tesseractPromise;
+  }
+  function getWorker(onProgress) {
+    if (workerPromise) return workerPromise;
+    workerPromise = (async () => {
+      const T = await loadTesseract();
+      const worker = await T.createWorker("eng", 1, {
+        logger: m => {
+          if (m.status === "recognizing text") onProgressRef.current?.({ ocr: m.progress || 0 });
+          else if (/loading|initializ/.test(m.status || "")) onProgressRef.current?.({ loading: m.status });
+        }
+      });
+      return worker;
+    })().catch(e => {
+      workerPromise = null;
+      throw e;
+    });
+    return workerPromise;
+  }
+  const onProgressRef = { current: null };
+
+  async function loadImage(file) {
+    if (window.createImageBitmap) {
+      try {
+        return await createImageBitmap(file, { imageOrientation: "from-image" });
+      } catch (e) {}
+    }
+    const url = URL.createObjectURL(file);
+    try {
+      const img = new Image();
+      img.src = url;
+      await (img.decode ? img.decode() : new Promise((ok, bad) => ((img.onload = ok), (img.onerror = bad))));
+      return img;
+    } finally {
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+  }
+  function makeCanvas(w, h) {
+    const c = document.createElement("canvas");
+    c.width = Math.max(1, Math.round(w));
+    c.height = Math.max(1, Math.round(h));
+    return c;
+  }
+  function drawScaled(src, maxSide) {
+    const w = src.width || src.naturalWidth,
+      h = src.height || src.naturalHeight;
+    const s = Math.min(maxSide / Math.max(w, h), 4);
+    const c = makeCanvas(w * s, h * s);
+    const ctx = c.getContext("2d", { willReadFrequently: true });
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+    ctx.drawImage(src, 0, 0, c.width, c.height);
+    return c;
+  }
+  function rotateCanvas(src, deg) {
+    if (!deg) return src;
+    const r = (deg * Math.PI) / 180,
+      cos = Math.abs(Math.cos(r)),
+      sin = Math.abs(Math.sin(r));
+    const w = src.width,
+      h = src.height;
+    const c = makeCanvas(w * cos + h * sin, w * sin + h * cos);
+    const ctx = c.getContext("2d", { willReadFrequently: true });
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, c.width, c.height);
+    ctx.imageSmoothingQuality = "high";
+    ctx.translate(c.width / 2, c.height / 2);
+    ctx.rotate(r);
+    ctx.drawImage(src, -w / 2, -h / 2);
+    return c;
+  }
+  function boxBlur(a, w, h, r) {
+    if (r < 1) return a;
+    const tmp = new Float32Array(a.length),
+      out = new Float32Array(a.length),
+      n = 2 * r + 1;
+    for (let y = 0; y < h; y++) {
+      let s = 0;
+      const row = y * w;
+      for (let x = -r; x <= r; x++) s += a[row + Math.min(w - 1, Math.max(0, x))];
+      for (let x = 0; x < w; x++) {
+        tmp[row + x] = s / n;
+        s += a[row + Math.min(w - 1, x + r + 1)] - a[row + Math.max(0, x - r)];
+      }
+    }
+    for (let x = 0; x < w; x++) {
+      let s = 0;
+      for (let y = -r; y <= r; y++) s += tmp[Math.min(h - 1, Math.max(0, y)) * w + x];
+      for (let y = 0; y < h; y++) {
+        out[y * w + x] = s / n;
+        s += tmp[Math.min(h - 1, y + r + 1) * w + x] - tmp[Math.max(0, y - r) * w + x];
+      }
+    }
+    return out;
+  }
+  // „Tamsumo“ žemėlapis: kiek pikselis tamsesnis už vietinį foną (kiekvienam kanalui atskirai).
+  // Tai pašalina spalvotą (žalią / geltoną) foną, šešėlius ir netolygų apšvietimą.
+  function darknessMap(canvas) {
+    const w = canvas.width,
+      h = canvas.height;
+    const px = canvas.getContext("2d", { willReadFrequently: true }).getImageData(0, 0, w, h).data;
+    const sw = Math.max(8, Math.round(w / 22)),
+      sh = Math.max(8, Math.round(h / 22));
+    const small = makeCanvas(sw, sh),
+      sctx = small.getContext("2d", { willReadFrequently: true });
+    sctx.imageSmoothingQuality = "high";
+    sctx.drawImage(canvas, 0, 0, sw, sh);
+    const bgc = makeCanvas(w, h),
+      bctx = bgc.getContext("2d", { willReadFrequently: true });
+    bctx.imageSmoothingEnabled = true;
+    bctx.imageSmoothingQuality = "high";
+    bctx.filter = "none";
+    bctx.drawImage(small, 0, 0, w, h);
+    const bg = bctx.getImageData(0, 0, w, h).data;
+    const mean = new Float32Array(w * h),
+      mn = new Float32Array(w * h),
+      luma = new Float32Array(w * h);
+    for (let i = 0, j = 0; j < mean.length; i += 4, j++) {
+      const r0 = Math.min(1.3, px[i] / (bg[i] + 1)),
+        r1 = Math.min(1.3, px[i + 1] / (bg[i + 1] + 1)),
+        r2 = Math.min(1.3, px[i + 2] / (bg[i + 2] + 1));
+      mean[j] = 1 - (r0 + r1 + r2) / 3;
+      mn[j] = 1 - Math.min(r0, r1, r2);
+      // Šviesis (Y) – JPEG jį saugo pilna raiška, todėl jame mažiausiai spalvinio „muaro“ triukšmo.
+      const y = 0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2];
+      const yb = 0.299 * bg[i] + 0.587 * bg[i + 1] + 0.114 * bg[i + 2];
+      luma[j] = 1 - Math.min(1.3, y / (yb + 1));
+    }
+    return { w, h, mean, min: mn, luma };
+  }
+  function grayFrom(map, { channel = "mean", lo = 0.1, hi = 0.5, blur = 1 }) {
+    const { w, h } = map;
+    let d = map[channel];
+    if (blur) d = boxBlur(boxBlur(d, w, h, blur), w, h, blur);
+    const c = makeCanvas(w, h),
+      ctx = c.getContext("2d", { willReadFrequently: true });
+    const img = ctx.createImageData(w, h),
+      o = img.data,
+      k = 255 / (hi - lo);
+    for (let j = 0, i = 0; j < d.length; j++, i += 4) {
+      const v = 255 - Math.max(0, Math.min(255, (d[j] - lo) * k));
+      o[i] = o[i + 1] = o[i + 2] = v;
+      o[i + 3] = 255;
+    }
+    ctx.putImageData(img, 0, 0);
+    return c;
+  }
+  // Pasvirimo kampas: tekstinių eilučių projekcijos dispersijos maksimumas.
+  function estimateSkew(map) {
+    const step = Math.max(1, Math.round(map.w / 700));
+    const pts = [];
+    for (let y = 0; y < map.h; y += step)
+      for (let x = 0; x < map.w; x += step) if (map.mean[y * map.w + x] > 0.28) pts.push(x, y);
+    if (pts.length < 400) return { angle: 0, vertical: false };
+    const score = (deg, vertical) => {
+      const a = (deg * Math.PI) / 180,
+        s = Math.sin(a),
+        c = Math.cos(a),
+        bins = new Map();
+      for (let i = 0; i < pts.length; i += 2) {
+        const x = pts[i],
+          y = pts[i + 1];
+        const v = vertical ? x * c + y * s : y * c - x * s;
+        const b = Math.round(v / (step * 2));
+        bins.set(b, (bins.get(b) || 0) + 1);
+      }
+      let sum = 0;
+      for (const n of bins.values()) sum += n * n;
+      return sum;
+    };
+    const best = vertical => {
+      let bestA = 0,
+        bestS = -1;
+      for (let a = -20; a <= 20; a += 1) {
+        const s = score(a, vertical);
+        if (s > bestS) [bestA, bestS] = [a, s];
+      }
+      for (let a = bestA - 1; a <= bestA + 1; a += 0.2) {
+        const s = score(a, vertical);
+        if (s > bestS) [bestA, bestS] = [a, s];
+      }
+      return { angle: bestA, score: bestS };
+    };
+    // Grąžinamas taisymo kampas (kiek pasukti, kad eilutės taptų horizontalios).
+    return { angle: -best(false).angle };
+  }
+  function linesFromTesseract(data) {
+    let lines = data?.lines;
+    if (!lines?.length && data?.blocks)
+      lines = data.blocks.flatMap(b => (b.paragraphs || []).flatMap(p => p.lines || []));
+    return (lines || []).map(l => ({
+      text: l.text || "",
+      bbox: l.bbox,
+      words: (l.words || []).map(w => ({ text: w.text, conf: w.confidence ?? w.conf ?? 0, bbox: w.bbox }))
+    }));
+  }
+  async function recognize(canvas, psm) {
+    const worker = await getWorker();
+    await worker.setParameters({
+      tessedit_pageseg_mode: String(psm),
+      preserve_interword_spaces: "1",
+      user_defined_dpi: "300"
+    });
+    const r = await worker.recognize(canvas, {}, { text: true, blocks: true });
+    return linesFromTesseract(r?.data);
+  }
+  function cropCanvas(src, box, scale = 2) {
+    const x0 = Math.max(0, Math.floor(box.x0)),
+      y0 = Math.max(0, Math.floor(box.y0));
+    const x1 = Math.min(src.width, Math.ceil(box.x1)),
+      y1 = Math.min(src.height, Math.ceil(box.y1));
+    const c = makeCanvas((x1 - x0) * scale + 40, (y1 - y0) * scale + 40),
+      ctx = c.getContext("2d");
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, c.width, c.height);
+    ctx.imageSmoothingQuality = "high";
+    ctx.drawImage(src, x0, y0, x1 - x0, y1 - y0, 20, 20, (x1 - x0) * scale, (y1 - y0) * scale);
+    return c;
+  }
+  // Paruošimo variantai (parinkti testuojant su tikrais liudijimais): šviesio (Y) kanalas be spalvinio muaro.
+  const VARIANTS = [
+    { channel: "luma", lo: 0.03, hi: 0.3, blur: 1 },
+    { channel: "luma", lo: 0, hi: 0.6, blur: 1 },
+    { channel: "luma", lo: 0.03, hi: 0.36, blur: 0 },
+    { channel: "luma", lo: 0.08, hi: 0.36, blur: 1 }
+  ];
+  // Laukai, kuriuos galima tiksliai perskaityti iš vienos eilutės, jei viso puslapio OCR jų nerado.
+  const LINE_TARGETS = [
+    ["regDoc", ["regDoc"]],
+    ["plate", ["A"]],
+    ["vin", ["E"]],
+    ["make", ["D.1"]],
+    ["model", ["D.3"]],
+    ["firstRegistrationDate", ["B", "B.1"]],
+    ["engineCc", ["P.1", "P.2"]],
+    ["powerKw", ["P.2", "P.1"]],
+    ["fuelType", ["P.3", "fuel"]]
+  ];
+
+  async function scan(file, opts = {}) {
+    const progress = opts.onProgress || (() => {});
+    onProgressRef.current = p => progress({ stage: "ocr", ...p });
+    const started = Date.now(),
+      budget = opts.timeBudgetMs || 45000;
+    progress({ stage: "prepare", message: "Paruošiama nuotrauka…" });
+    const img = await loadImage(file);
+    let base = drawScaled(img, 2200);
+    let map = darknessMap(base);
+    const skew = estimateSkew(map);
+    if (Math.abs(skew.angle) >= 0.4) {
+      base = rotateCanvas(base, skew.angle);
+      map = darknessMap(base);
+    }
+    progress({ stage: "ocr", message: "Įkeliamas atpažinimo modulis…" });
+    await getWorker();
+    const sets = [],
+      grays = [];
+    let result = null,
+      flipped = false;
+    for (let i = 0; i < VARIANTS.length; i++) {
+      progress({
+        stage: "ocr",
+        pass: i + 1,
+        passes: VARIANTS.length,
+        message: `Skaitomas dokumentas (${i + 1}/${VARIANTS.length})…`
+      });
+      const gray = grayFrom(map, VARIANTS[i]);
+      const lines = await recognize(gray, 6);
+      const C = parse(lines);
+      sets.push(C);
+      grays.push(gray);
+      result = merge(sets);
+      // Pasuktas dokumentas (90°, 180°, 270°): po pirmo praėjimo beveik nieko neatpažinta – bandome kitas kryptis.
+      if (i === 0 && completeness(result.values) < 0.34 && !flipped) {
+        flipped = true;
+        let best = { score: completeness(result.values), base, map, C, gray };
+        for (const deg of [90, 270, 180]) {
+          if (Date.now() - started > budget) break;
+          progress({ stage: "ocr", message: "Tikrinama dokumento kryptis…" });
+          const b2 = rotateCanvas(base, deg),
+            m2 = darknessMap(b2);
+          const s2 = estimateSkew(m2);
+          const b3 = Math.abs(s2.angle) >= 0.4 ? rotateCanvas(b2, s2.angle) : b2;
+          const m3 = b3 === b2 ? m2 : darknessMap(b3);
+          const g2 = grayFrom(m3, VARIANTS[0]);
+          const C2 = parse(await recognize(g2, 6));
+          const sc = completeness(merge([C2]).values);
+          if (sc > best.score) best = { score: sc, base: b3, map: m3, C: C2, gray: g2 };
+          if (sc >= 0.6) break;
+        }
+        if (best.base !== base) {
+          base = best.base;
+          map = best.map;
+          sets.length = 0;
+          grays.length = 0;
+          sets.push(best.C);
+          grays.push(best.gray);
+          result = merge(sets);
+        }
+      }
+      if (i >= 1 && completeness(result.values) === 1 && minConfidence(result) >= 0.6) break;
+      if (Date.now() - started > budget) break;
+    }
+    // Tikslinis skaitymas iš atskirų eilučių: trūkstami arba abejotini laukai, taip pat VIN / numeris / liudijimo nr.,
+    // jei praėjimai nesutarė. Eilutė iškerpama, padidinama 3× ir skaitoma kaip viena eilutė (PSM 7) dviem variantais.
+    const needs = LINE_TARGETS.filter(([k]) => {
+      const f = result.fields[k];
+      if (!result.values[k] || (f?.confidence ?? 0) < 0.45) return true;
+      return ["vin", "plate", "regDoc"].includes(k) && (f.alternatives.length > 0 || f.confidence < 0.8);
+    });
+    for (const [key, labels] of needs) {
+      let tries = 0;
+      for (let gi = 0; gi < grays.length && tries < 2; gi++) {
+        if (Date.now() - started > budget) break;
+        const anchors = sets[gi].anchors || {};
+        const box = labels.map(l => anchors[l]).find(Boolean);
+        if (!box) continue;
+        const h = box.y1 - box.y0;
+        const band = { x0: 0, x1: grays[gi].width, y0: box.y0 - h * 0.5, y1: box.y1 + h * 0.5 };
+        progress({ stage: "refine", message: "Tikslinami laukai…" });
+        const lines = await recognize(cropCanvas(grays[gi], band, 3), 7);
+        sets.push(parse(lines));
+        result = merge(sets);
+        tries++;
+      }
+    }
+    result.passes = sets.length;
+    result.complete = completeness(result.values) === 1;
+    result.ms = Date.now() - started;
+    progress({ stage: "done", message: "Baigta" });
+    onProgressRef.current = null;
+    return result;
+  }
+  function minConfidence(result) {
+    return Math.min(...REQUIRED.map(k => result.fields[k === "model" ? "model" : k]?.confidence ?? 0));
+  }
+
+  return {
+    scan,
+    parse,
+    merge,
+    completeness,
+    REQUIRED,
+    VARIANTS,
+    _internals: { darknessMap, grayFrom, estimateSkew, rotateCanvas, drawScaled, loadImage },
+    _t: { fixPlate, fixVin, fixDate, matchMake, prettyModel, matchFuel, labelOf, vinCheckDigitOk }
+  };
+})();
+
+// Registracijos liudijimo duomenys ir skenavimas visoje programėlėje (v50):
+// naujas automobilis, automobilio redagavimas, Vadybininko „trūkstami duomenys“, PP sutarties generatorius,
+// automobilio kortelės peržiūra. Skenavimo variklis – 33-registration-scanner.js (RegScan).
+// Dalis bendro app IIFE: visi src/scripts/app/*.js failai sujungiami eilės tvarka į vieną scope (žr. ARCHITECTURE.md).
+
+const REG_FIELDS_V50 = [
+  { key: "regMake", scan: "make", label: "Markė", code: "D.1", max: 40, placeholder: "Nissan" },
+  { key: "regModel", scan: "model", label: "Modelis", code: "D.3", max: 60, placeholder: "Murano" },
+  {
+    key: "registrationDoc",
+    scan: "regDoc",
+    label: "Liudijimo serija ir nr.",
+    code: "",
+    max: 12,
+    caps: true,
+    placeholder: "K1281961"
+  },
+  {
+    key: "plate",
+    scan: "plate",
+    label: "Valstybinis nr.",
+    code: "A",
+    max: 10,
+    caps: true,
+    placeholder: "ABC123"
+  },
+  {
+    key: "vin",
+    scan: "vin",
+    label: "VIN kodas",
+    code: "E",
+    max: 17,
+    caps: true,
+    wide: true,
+    placeholder: "17 simbolių"
+  },
+  {
+    key: "firstRegistrationDate",
+    scan: "firstRegistrationDate",
+    label: "Pirmoji registracija",
+    code: "B",
+    type: "date"
+  },
+  {
+    key: "engineCc",
+    scan: "engineCc",
+    label: "Variklio tūris, cm³",
+    code: "P.1",
+    type: "number",
+    min: 0,
+    max: 20000,
+    placeholder: "1998"
+  },
+  {
+    key: "powerKw",
+    scan: "powerKw",
+    label: "Galia, kW",
+    code: "P.2",
+    type: "number",
+    min: 0,
+    max: 2000,
+    placeholder: "110"
+  },
+  {
+    key: "fuelType",
+    scan: "fuelType",
+    label: "Kuras",
+    code: "P.3",
+    max: 40,
+    list: true,
+    wide: true,
+    placeholder: "Dyzelinas"
+  }
+];
+const REG_FUELS_V50 = [
+  "Benzinas",
+  "Dyzelinas",
+  "Elektra",
+  "Benzinas / elektra",
+  "Dyzelinas / elektra",
+  "Benzinas / dujos",
+  "Dujos",
+  "Vandenilis",
+  "Etanolis"
+];
+const regScanFilesV50 = {};
+const regAutoNameV50 = {};
+
+function regIconV50(name) {
+  const p = {
+    camera: '<path d="M4 8.5h3l1.6-2.3h6.8L17 8.5h3v10H4z"/><circle cx="12" cy="13.2" r="3.4"/>',
+    gallery:
+      '<rect x="3.5" y="5" width="17" height="14" rx="2.5"/><circle cx="9" cy="10" r="1.6"/><path d="m4.5 17 5-4.6 3.3 3 2.4-2.1 4.3 3.7"/>',
+    doc: '<path d="M7 3.5h7l4 4v13H7z"/><path d="M14 3.5v4h4M9.5 12h6M9.5 15.5h6"/>'
+  }[name];
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+}
+function regCardValueV50(c, key) {
+  if (key === "registrationDoc") return c.registrationDoc || c.regDoc || "";
+  if (key === "regMake") return regPrettyMakeV50(c.regMake || "");
+  if (key === "regModel") return regPrettyModelV50(c.regModel || "");
+  return c[key] ?? "";
+}
+// Senesni įrašai saugojo markę / modelį didžiosiomis raidėmis – rodome gražiai.
+function regPrettyMakeV50(v) {
+  const s = String(v || "").trim();
+  if (!s) return "";
+  if (s !== s.toUpperCase()) return s;
+  const m = RegScan._t.matchMake(s);
+  return m && m.index === 0 && m.d === 0 ? m.name : s;
+}
+function regPrettyModelV50(v) {
+  const s = String(v || "").trim();
+  return s && s === s.toUpperCase() ? RegScan._t.prettyModel(s, "") : s;
+}
+function regCardHTMLV50(p, c = {}) {
+  const fields = REG_FIELDS_V50.map(f => {
+    const id = p + f.key,
+      value = regCardValueV50(c, f.key),
+      attrs = [
+        `class="input"`,
+        `id="${id}"`,
+        `type="${f.type || "text"}"`,
+        `value="${escapeHTML(value)}"`,
+        f.placeholder ? `placeholder="${escapeHTML(f.placeholder)}"` : "",
+        f.type === "number"
+          ? `min="${f.min}" max="${f.max}" step="1" inputmode="numeric"`
+          : f.type === "date"
+            ? ""
+            : `maxlength="${f.max}"`,
+        f.caps ? 'autocapitalize="characters" autocomplete="off" spellcheck="false"' : 'autocomplete="off"',
+        f.list ? `list="${p}regFuelList"` : "",
+        `data-reg-input="${f.key}"`
+      ].join(" ");
+    return `<div class="field regFieldV50 ${f.wide ? "regWideV50" : ""}" data-reg-field="${f.key}"><label for="${id}">${escapeHTML(f.label)}${f.code ? `<em>${f.code}</em>` : ""}</label><input ${attrs}><small class="regHintV50"></small></div>`;
+  }).join("");
+  return `<section class="regCardV50" id="${p}regCard" aria-label="Registracijos liudijimo duomenys">
+    <div class="regCardHeadV50"><span class="regCardIcoV50">${regIconV50("doc")}</span><div><strong>Registracijos liudijimas</strong><span>Nufotografuokite liudijimą – duomenys užsipildys automatiškai</span></div></div>
+    <div class="regScanBtnsV50">
+      <label class="regScanBtnV50 primary">${regIconV50("camera")}<span>Fotografuoti</span><input id="${p}regCamera" type="file" accept="image/*" capture="environment"></label>
+      <label class="regScanBtnV50">${regIconV50("gallery")}<span>Iš galerijos</span><input id="${p}regGallery" type="file" accept="image/*"></label>
+    </div>
+    <div class="regScanStatusV50" id="${p}regStatus" hidden><div class="regScanTopV50"><img id="${p}regPreview" alt=""><div><span class="regScanMsgV50" id="${p}regMsg"></span><div class="regScanBarV50"><i id="${p}regBar"></i></div></div></div></div>
+    <div class="regGridV50">${fields}</div>
+    <datalist id="${p}regFuelList">${REG_FUELS_V50.map(f => `<option value="${escapeHTML(f)}">`).join("")}</datalist>
+  </section>`;
+}
+// Pašalina senus (pasikartojančius) registracijos laukus iš anksčiau sugeneruotos formos.
+function regStripOldFieldsV50(root, p) {
+  for (const key of [
+    "vin",
+    "plate",
+    "registrationDoc",
+    "firstRegistrationDate",
+    "firstRegistrationLithuaniaDate",
+    "modelYear",
+    "registrationType"
+  ]) {
+    const el = root.querySelector("#" + p + key);
+    const card = el?.closest(".regCardV50");
+    if (el && !card) (el.closest(".field") || el).remove();
+  }
+  root.querySelectorAll(`#${p}registrationData, .registrationMetaV41`).forEach(el => el.remove());
+  for (const key of ["regMake", "regModel"]) {
+    const el = root.querySelector("#" + p + key);
+    if (el && !el.closest(".regCardV50")) (el.closest(".field") || el).remove();
+  }
+}
+const __vehicleFieldsRegV50 = vehicleFields;
+vehicleFields = function (p, c = {}) {
+  const html = __vehicleFieldsRegV50(p, c);
+  if (!["newVehicle", "editVehicle"].includes(p)) return html;
+  const tpl = document.createElement("template");
+  tpl.innerHTML = html;
+  regStripOldFieldsV50(tpl.content, p);
+  return regCardHTMLV50(p, c) + tpl.innerHTML;
+};
+const __readVehicleFieldsRegV50 = readVehicleFields;
+readVehicleFields = function (p) {
+  const o = __readVehicleFieldsRegV50(p);
+  if (!document.getElementById(p + "regCard")) return o;
+  const val = k => (document.getElementById(p + k)?.value || "").trim();
+  const b = val("firstRegistrationDate");
+  if (b && (!/^\d{4}-\d{2}-\d{2}$/.test(b) || Number(b.slice(0, 4)) < 1900 || b > todayISO()))
+    throw Error("Patikrinkite pirmosios registracijos datą.");
+  const num = (k, label, max) => {
+    const v = val(k);
+    if (v === "") return null;
+    const n = Number(v);
+    if (!Number.isInteger(n) || n < 0 || n > max) throw Error(`Patikrinkite lauką „${label}“.`);
+    return n;
+  };
+  const plate = val("plate").toUpperCase().replace(/\s+/g, "");
+  return {
+    ...o,
+    plate,
+    regMake: val("regMake"),
+    regModel: val("regModel"),
+    firstRegistrationDate: b,
+    year: o.year ?? (b ? Number(b.slice(0, 4)) : null),
+    engineCc: num("engineCc", "Variklio tūris", 20000),
+    powerKw: num("powerKw", "Galia, kW", 2000),
+    fuelType: val("fuelType")
+  };
+};
+
+// ---------- Skenavimo valdiklis (bendras visoms formoms) ----------
+function regSetStatusV50(p, { msg, pct, tone, preview } = {}) {
+  const box = document.getElementById(p + "regStatus");
+  if (!box) return;
+  box.hidden = false;
+  if (msg != null) document.getElementById(p + "regMsg").textContent = msg;
+  if (pct != null) document.getElementById(p + "regBar").style.width = Math.max(3, Math.min(100, pct)) + "%";
+  box.dataset.tone = tone || "";
+  if (preview) document.getElementById(p + "regPreview").src = preview;
+}
+function regProgressPctV50(e) {
+  if (e.stage === "prepare") return 6;
+  if (e.stage === "ocr" && e.loading) return 12;
+  if (e.stage === "ocr" && e.pass) return 18 + ((e.pass - 1 + (e.ocr || 0)) / e.passes) * 64;
+  if (e.stage === "ocr") return 14;
+  if (e.stage === "refine") return 88;
+  return 100;
+}
+async function regRunScanV50(p, file, { car = null, nameInputId = "" } = {}) {
+  if (!file || !String(file.type || "image/").startsWith("image/")) return null;
+  const card = document.getElementById(p + "regCard");
+  card?.querySelectorAll("[data-reg-field]").forEach(f => f.classList.remove("regFilledV50", "regCheckV50"));
+  card?.querySelectorAll(".regHintV50").forEach(h => (h.textContent = ""));
+  const previewUrl = URL.createObjectURL(file);
+  regSetStatusV50(p, { msg: "Paruošiama nuotrauka…", pct: 4, tone: "busy", preview: previewUrl });
+  card?.classList.add("regBusyV50");
+  try {
+    const result = await RegScan.scan(file, {
+      onProgress: e => regSetStatusV50(p, { msg: e.message, pct: regProgressPctV50(e), tone: "busy" })
+    });
+    const v = result.values;
+    // Kito automobilio liudijimas redaguojant: VIN nesutampa.
+    if (car?.vin && v.vin && car.vin !== v.vin) {
+      const ok = window.confirm(
+        `Nuskaitytas VIN ${v.vin} nesutampa su šio automobilio VIN ${car.vin}.\n\nAr tikrai tai šio automobilio registracijos liudijimas? Spauskite „Gerai“, kad vis tiek užpildytumėte laukus.`
+      );
+      if (!ok) {
+        regSetStatusV50(p, {
+          msg: "Laukai nepakeisti – liudijimas nepriklauso šiam automobiliui.",
+          pct: 100,
+          tone: "bad"
+        });
+        return null;
+      }
+    }
+    let filled = 0;
+    const unsure = [],
+      missing = [];
+    for (const f of REG_FIELDS_V50) {
+      const input = document.getElementById(p + f.key);
+      const value = v[f.scan];
+      const wrap = input?.closest("[data-reg-field]");
+      if (value === "" || value == null) {
+        missing.push(f.label);
+        continue;
+      }
+      if (!input) {
+        // Formoje šio laukelio nėra (pvz. Vadybininke) – reikšmė nuskaityta ir bus išsaugota kartu.
+        filled++;
+        continue;
+      }
+      input.value = String(value);
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      input.dispatchEvent(new Event("change", { bubbles: true }));
+      filled++;
+      const field =
+        result.fields[
+          f.scan === "firstRegistrationDate" && v.firstRegistrationSource === "B.1"
+            ? "firstRegistrationLithuaniaDate"
+            : f.scan
+        ];
+      const conf = field?.confidence ?? 1;
+      const low = conf < 0.45 || (field?.hits === 1 && result.passes > 2);
+      wrap?.classList.add(low ? "regCheckV50" : "regFilledV50");
+      if (low) unsure.push(f.label);
+      if (f.key === "firstRegistrationDate" && v.firstRegistrationSource === "B.1") {
+        const hint = wrap?.querySelector(".regHintV50");
+        if (hint) hint.textContent = "B nenurodyta – įrašyta registracija Lietuvoje (B.1)";
+      }
+    }
+    // Pagaminimo metai – iš pirmosios registracijos, jei dar neįrašyti.
+    const year = document.getElementById(p + "year");
+    if (year && !year.value && v.firstRegistrationDate) year.value = v.firstRegistrationDate.slice(0, 4);
+    // Pavadinimas = Markė + Modelis.
+    const nameInput = nameInputId && document.getElementById(nameInputId);
+    const title = [v.make, v.model].filter(Boolean).join(" ");
+    if (
+      nameInput &&
+      title &&
+      (!nameInput.value.trim() || nameInput.value.trim() === regAutoNameV50[p] || car)
+    ) {
+      nameInput.value = title;
+      regAutoNameV50[p] = title;
+    }
+    regScanFilesV50[p] = file;
+    const total = REG_FIELDS_V50.length;
+    const msg =
+      filled === total && !unsure.length
+        ? `Nuskaityti visi ${total} laukai. Patikrinkite ir išsaugokite.`
+        : `Nuskaityta ${filled} iš ${total} laukų.` +
+          (unsure.length ? ` Patikrinkite: ${unsure.join(", ").replace(/\.$/, "")}.` : "") +
+          (missing.length ? ` Neatpažinta: ${missing.join(", ").replace(/\.$/, "")}.` : "");
+    regSetStatusV50(p, {
+      msg,
+      pct: 100,
+      tone: filled === total && !unsure.length ? "good" : filled >= 5 ? "warn" : "bad"
+    });
+    if (filled < 4)
+      toast("Liudijimas perskaitytas silpnai – nufotografuokite iš arčiau, be atspindžių", "⚠️");
+    else toast(`Nuskaityta ${filled}/${total} laukų`, "✓");
+    return result;
+  } catch (e) {
+    console.warn("Registracijos liudijimo skenavimas", e);
+    regSetStatusV50(p, {
+      msg: (e && e.message) || "Nuskaityti nepavyko. Bandykite dar kartą arba pildykite ranka.",
+      pct: 100,
+      tone: "bad"
+    });
+    toast("Nuskaityti nepavyko", "⚠️");
+    return null;
+  } finally {
+    card?.classList.remove("regBusyV50");
+    setTimeout(() => URL.revokeObjectURL(previewUrl), 60000);
+  }
+}
+function regBindCardV50(p, opts = {}) {
+  const card = document.getElementById(p + "regCard");
+  if (!card || card.dataset.bound === "1") return;
+  card.dataset.bound = "1";
+  for (const id of [p + "regCamera", p + "regGallery"]) {
+    const input = document.getElementById(id);
+    if (input)
+      input.addEventListener("change", async () => {
+        const file = input.files?.[0];
+        input.value = "";
+        if (file) await regRunScanV50(p, file, typeof opts === "function" ? opts() : opts);
+      });
+  }
+  for (const key of ["registrationDoc", "plate", "vin"]) {
+    const el = document.getElementById(p + key);
+    el?.addEventListener("input", () => {
+      const pos = el.selectionStart;
+      el.value = el.value.toUpperCase().replace(/\s+/g, "");
+      try {
+        el.setSelectionRange(pos, pos);
+      } catch (e) {}
+    });
+  }
+  // Pavadinimas sekamas iš markės ir modelio, kol vartotojas jo neperrašė.
+  const nameId = (typeof opts === "function" ? opts() : opts).nameInputId;
+  const sync = () => {
+    const name = nameId && document.getElementById(nameId);
+    const title = [
+      document.getElementById(p + "regMake")?.value.trim(),
+      document.getElementById(p + "regModel")?.value.trim()
+    ]
+      .filter(Boolean)
+      .join(" ");
+    if (name && title && (!name.value.trim() || name.value.trim() === regAutoNameV50[p])) {
+      name.value = title;
+      regAutoNameV50[p] = title;
+    }
+  };
+  document.getElementById(p + "regMake")?.addEventListener("input", sync);
+  document.getElementById(p + "regModel")?.addEventListener("input", sync);
+  card
+    .querySelectorAll("[data-reg-input]")
+    .forEach(el =>
+      el.addEventListener("input", () => el.closest("[data-reg-field]")?.classList.remove("regCheckV50"))
+    );
+}
+async function regDocumentFromFileV50(file, regNo = "") {
+  const blob = await readDocumentFile(file);
+  const key = await putDocument(blob);
+  const ext = blob.type === "image/png" ? ".png" : blob.type === "image/webp" ? ".webp" : ".jpg";
+  return {
+    id: uid(),
+    key,
+    kind: "registration",
+    name: `Registracijos-liudijimas-${String(regNo || "").replace(/[^A-Za-z0-9]/g, "") || todayISO()}${ext}`,
+    type: blob.type,
+    size: blob.size,
+    addedAt: nowLabel(),
+    addedDateISO: todayISO()
+  };
+}
+
+// ---------- Naujas automobilis ----------
+function installNewCarRegistrationV50() {
+  const panel = document.getElementById("addCarPanel");
+  const addBtn = document.getElementById("addCarBtn");
+  if (!panel || !addBtn || panel.dataset.regV50 === "1") return;
+  panel.dataset.regV50 = "1";
+  // Senasis „Pildyti ranka / Iš registracijos liudijimo“ perjungiklis nebereikalingas – skenavimas visada po ranka.
+  panel.querySelector(".newCarModeV29")?.remove();
+  document.getElementById("newCarScanV29")?.remove();
+  panel.dataset.addMode = "manual";
+  regStripOldFieldsV50(panel, "newVehicle");
+  const nameField = document.getElementById("carName")?.closest(".field");
+  (nameField || addBtn).insertAdjacentHTML("beforebegin", regCardHTMLV50("newVehicle", {}));
+  regBindCardV50("newVehicle", { nameInputId: "carName" });
+  const nameLabel = panel.querySelector('label[for="carName"]');
+  if (nameLabel) nameLabel.textContent = "Pavadinimas (markė ir modelis)";
+  const resetCard = () => {
+    delete regScanFilesV50.newVehicle;
+    delete regAutoNameV50.newVehicle;
+    const st = document.getElementById("newVehicleregStatus");
+    if (st) st.hidden = true;
+    panel
+      .querySelectorAll("[data-reg-field]")
+      .forEach(f => f.classList.remove("regFilledV50", "regCheckV50"));
+    panel.querySelectorAll(".regHintV50").forEach(h => (h.textContent = ""));
+  };
+  const cancel = document.getElementById("cancelAddCarBtn");
+  if (cancel) {
+    const old = cancel.onclick;
+    cancel.onclick = e => {
+      resetCard();
+      if (typeof old === "function") return old.call(cancel, e);
+    };
+  }
+  addBtn.onclick = async () => {
+    if (addBtn.disabled) return;
+    const makeV = (document.getElementById("newVehicleregMake")?.value || "").trim();
+    const modelV = (document.getElementById("newVehicleregModel")?.value || "").trim();
+    const name =
+      (document.getElementById("carName")?.value || "").trim() || [makeV, modelV].filter(Boolean).join(" ");
+    const buy = Number(document.getElementById("carBuyPrice")?.value || 0);
+    try {
+      if (!name) throw Error("Nuskenuokite liudijimą arba įrašykite automobilio markę ir modelį.");
+      if (!Number.isFinite(buy) || buy <= 0) throw Error("Įveskite pirkimo kainą.");
+      const extra = readVehicleFields("newVehicle");
+      if (!extra.regMake && !extra.regModel) {
+        const parts = name.split(/\s+/);
+        extra.regMake = regPrettyMakeV50(parts.shift() || "");
+        extra.regModel = parts.join(" ");
+      }
+      addBtn.disabled = true;
+      addBtn.textContent = "Išsaugoma…";
+      let docs = await collectDocuments("newVehicle");
+      const scanned = regScanFilesV50.newVehicle;
+      if (scanned && !docs.some(d => d.kind === "registration"))
+        docs = [await regDocumentFromFileV50(scanned, extra.registrationDoc), ...docs];
+      const photos = [];
+      for (const f of Array.from(document.getElementById("carPhoto")?.files || [])) {
+        const key = await storeImageFile(f);
+        if (!key) throw Error("Nepavyko pridėti nuotraukos.");
+        photos.push(key);
+        await photoGet(key);
+      }
+      const c = {
+        id: uid(),
+        name,
+        ...extra,
+        documents: docs,
+        photos,
+        imageSrc: photos[0] || "",
+        notes: "",
+        buyPrice: buy,
+        soldPrice: null,
+        netProfit: 0,
+        soldAt: null,
+        soldDateISO: null,
+        createdDateISO: todayISO(),
+        createdAt: nowLabel(),
+        status: "aktyvus",
+        checklist: []
+      };
+      state.cars.unshift(c);
+      ensureFinanceCollections();
+      state.finances.budgetBalance -= buy;
+      if (!saveState()) {
+        state.cars = state.cars.filter(x => x !== c);
+        state.finances.budgetBalance += buy;
+        throw Error("Nepavyko išsaugoti automobilio.");
+      }
+      addHistory("Automobilis nupirktas", `${name} • ${moneyFmt(buy)}`, "🚗", {
+        kind: "car",
+        id: c.id,
+        label: "Atidaryti automobilį"
+      });
+      saveState();
+      panel.querySelectorAll("input").forEach(i => {
+        if (i.type !== "file") i.value = "";
+        else i.value = "";
+      });
+      panel.querySelectorAll(".vehicleDocPicker small").forEach(e => (e.textContent = ""));
+      const sdkStatus = document.getElementById("newVehiclesdkStatus");
+      if (sdkStatus) {
+        sdkStatus.value = "unset";
+        sdkStatus.className = "input sdkUnset";
+      }
+      for (const id of ["newVehicletaStatus", "newVehicleinsuranceStatus"]) {
+        const el = document.getElementById(id);
+        if (el) {
+          el.value = "unknown";
+          el.dispatchEvent(new Event("change"));
+        }
+      }
+      const listing = document.getElementById("newVehiclelistingStatus");
+      if (listing) {
+        listing.value = "not-listed";
+        listing.dispatchEvent(new Event("change"));
+      }
+      panel.querySelectorAll("details").forEach(d => (d.open = false));
+      resetCard();
+      if (typeof window.__garageHideAddCarSmooth === "function") window.__garageHideAddCarSmooth();
+      else panel.style.display = "none";
+      const show = document.getElementById("showAddCarFormBtn");
+      if (show) show.style.display = "block";
+      render();
+      toast("Automobilis pridėtas", "✓");
+    } catch (e) {
+      console.warn("Add car v50", e);
+      toast(e.message || "Nepavyko pridėti automobilio", "!");
+    } finally {
+      addBtn.disabled = false;
+      addBtn.textContent = "Išsaugoti automobilį";
+    }
+  };
+}
+installNewCarRegistrationV50();
+
+// ---------- Automobilio redagavimas ----------
+const __openCarEditSheetRegV50 = openCarEditSheet;
+openCarEditSheet = function (id) {
+  __openCarEditSheetRegV50(id);
+  const car = (state.cars || []).find(c => c.id === id);
+  if (!car) return;
+  // Senoji „registracijos dokumento“ įkėlimo OCR logika pašalinama – failas vėl tik prisegamas.
+  const oldInput = document.getElementById("editVehicledoc_registration");
+  if (oldInput) oldInput.replaceWith(oldInput.cloneNode(true));
+  regBindCardV50("editVehicle", () => ({ car, nameInputId: "editCarName" }));
+  const save = document.getElementById("saveCarEdit");
+  if (save && typeof save.onclick === "function") {
+    const base = save.onclick;
+    save.onclick = async e => {
+      const file = regScanFilesV50.editVehicle;
+      const before = (car.documents || []).length;
+      await base.call(save, e);
+      const saved = (state.cars || []).find(c => c.id === id);
+      if (!file || !saved || (saved.documents || []).length < before) return;
+      delete regScanFilesV50.editVehicle;
+      if ((saved.documents || []).some(d => d.kind === "registration")) return;
+      try {
+        saved.documents = [
+          ...(saved.documents || []),
+          await regDocumentFromFileV50(file, saved.registrationDoc)
+        ];
+        saveState();
+        if (window.__openCarId === saved.id || document.querySelector("#sheet .premiumDetail"))
+          openCar(saved.id);
+      } catch (err) {
+        console.warn("Registracijos dokumento prisegimas", err);
+      }
+    };
+  }
+};
+
+// ---------- Automobilio kortelė: registracijos duomenų peržiūra ----------
+const __renderCarSheetRegV50 = renderCarSheet;
+renderCarSheet = function (car) {
+  __renderCarSheetRegV50(car);
+  const list = document.querySelector("#sheet .vehicleInfo");
+  if (!list || !car) return;
+  list
+    .querySelectorAll("[data-registration-v42-view],[data-registration-v41-view],[data-reg-view-v50]")
+    .forEach(el => el.remove());
+  list.querySelectorAll("dt").forEach(dt => {
+    if (/^Registracijos liudijimo serija/.test(dt.textContent.trim())) dt.parentElement?.remove();
+  });
+  const engine = [car.engineCc ? `${car.engineCc} cm³` : "", car.powerKw ? `${car.powerKw} kW` : ""]
+    .filter(Boolean)
+    .join(" · ");
+  const rows = [
+    ["Markė", regPrettyMakeV50(car.regMake)],
+    ["Modelis", regPrettyModelV50(car.regModel)],
+    ["Registracijos liudijimas", car.registrationDoc || car.regDoc],
+    ["Pirmoji registracija", car.firstRegistrationDate],
+    ["Variklis", engine],
+    ["Kuras", car.fuelType]
+  ].filter(([, v]) => v !== "" && v != null);
+  list.insertAdjacentHTML(
+    "afterbegin",
+    rows
+      .map(
+        ([l, v]) => `<div data-reg-view-v50><dt>${escapeHTML(l)}</dt><dd>${escapeHTML(String(v))}</dd></div>`
+      )
+      .join("")
+  );
+};
+
+// ---------- Vadybininkas: „Užpildyti trūkstamus duomenis“ ----------
+const __openWhatMissingDataRegV50 = openWhatMissingDataV30;
+openWhatMissingDataV30 = function (item) {
+  __openWhatMissingDataRegV50(item);
+  const car = (state.cars || []).find(c => c.id === item.id);
+  const sheet = document.querySelector("#sheet .whatQuickSheetV30");
+  if (!car || !sheet) return;
+  sheet.querySelector(".whatRegScanV31")?.remove(); // senasis skeneris
+  const grid = sheet.querySelector(".whatQuickGridV30");
+  const keys = [...sheet.querySelectorAll('[id^="what_"]')].map(el => el.id.slice(5));
+  const regRelated = keys.some(k =>
+    ["vin", "plate", "registrationDoc", "year", "regMake", "regModel"].includes(k)
+  );
+  if (!regRelated || !grid) return;
+  grid.insertAdjacentHTML(
+    "beforebegin",
+    `<section class="regCardV50 regCardCompactV50" id="whatRegregCard"><div class="regCardHeadV50"><span class="regCardIcoV50">${regIconV50("doc")}</span><div><strong>Užpildyti iš registracijos liudijimo</strong><span>Nufotografuokite liudijimą – trūkstami laukai užsipildys</span></div></div><div class="regScanBtnsV50"><label class="regScanBtnV50 primary">${regIconV50("camera")}<span>Fotografuoti</span><input id="whatRegregCamera" type="file" accept="image/*" capture="environment"></label><label class="regScanBtnV50">${regIconV50("gallery")}<span>Iš galerijos</span><input id="whatRegregGallery" type="file" accept="image/*"></label></div><div class="regScanStatusV50" id="whatRegregStatus" hidden><div class="regScanTopV50"><img id="whatRegregPreview" alt=""><div><span class="regScanMsgV50" id="whatRegregMsg"></span><div class="regScanBarV50"><i id="whatRegregBar"></i></div></div></div></div></section>`
+  );
+  let scanned = null,
+    scannedFile = null;
+  const card = document.getElementById("whatRegregCard");
+  card.dataset.bound = "1";
+  for (const id of ["whatRegregCamera", "whatRegregGallery"]) {
+    const input = document.getElementById(id);
+    input?.addEventListener("change", async () => {
+      const file = input.files?.[0];
+      input.value = "";
+      if (!file) return;
+      const result = await regRunScanV50("whatReg", file, { car });
+      if (!result) return;
+      scanned = result.values;
+      scannedFile = file;
+      const map = {
+        vin: scanned.vin,
+        plate: scanned.plate,
+        registrationDoc: scanned.regDoc,
+        year: scanned.firstRegistrationDate?.slice(0, 4),
+        regMake: scanned.make,
+        regModel: scanned.model
+      };
+      for (const [k, v] of Object.entries(map)) {
+        const el = document.getElementById("what_" + k);
+        if (el && v) {
+          el.value = v;
+          el.closest(".field")?.classList.add("regFilledV50");
+        }
+      }
+    });
+  }
+  const save = document.getElementById("whatSaveMissingV30");
+  if (save && typeof save.onclick === "function") {
+    const base = save.onclick;
+    save.onclick = async e => {
+      await base.call(save, e);
+      if (!scanned || document.getElementById("whatSaveMissingV30")) return; // neišsaugota (klaida) – langas liko atidarytas
+      const saved = (state.cars || []).find(c => c.id === car.id);
+      if (!saved) return;
+      const patch = {};
+      const setIfEmpty = (k, v) => {
+        if ((saved[k] === "" || saved[k] == null) && v !== "" && v != null) patch[k] = v;
+      };
+      setIfEmpty("regMake", scanned.make);
+      setIfEmpty("regModel", scanned.model);
+      setIfEmpty("registrationDoc", scanned.regDoc);
+      setIfEmpty("vin", scanned.vin);
+      setIfEmpty("plate", scanned.plate);
+      setIfEmpty("firstRegistrationDate", scanned.firstRegistrationDate);
+      setIfEmpty("engineCc", scanned.engineCc);
+      setIfEmpty("powerKw", scanned.powerKw);
+      setIfEmpty("fuelType", scanned.fuelType);
+      try {
+        if (scannedFile && !(saved.documents || []).some(d => d.kind === "registration"))
+          patch.documents = [
+            ...(saved.documents || []),
+            await regDocumentFromFileV50(scannedFile, patch.registrationDoc || saved.registrationDoc)
+          ];
+      } catch (err) {}
+      if (Object.keys(patch).length) {
+        Object.assign(saved, patch);
+        saveState();
+        render();
+      }
+    };
+  }
+};
+
+// ---------- PP sutarties generatorius ir seni skenerio įėjimai -> naujas variklis ----------
+ppScanRegistration = async function (file) {
+  const st = document.getElementById("ppScanState"),
+    det = document.getElementById("ppDetected");
+  if (det) {
+    det.classList.remove("show");
+    det.textContent = "";
+  }
+  try {
+    const r = await RegScan.scan(file, {
+      onProgress: e => st && (st.textContent = e.message || "Skaitomas liudijimas…")
+    });
+    const v = r.values;
+    ppApplyVehicleData({
+      vin: v.vin,
+      make: String(v.make || "").toUpperCase(),
+      model: String(v.model || "").toUpperCase(),
+      plate: v.plate,
+      regDoc: v.regDoc
+    });
+    const found = ["vin", "make", "model", "plate", "regDoc"].filter(k => v[k]).length;
+    if (st)
+      st.textContent =
+        found >= 4
+          ? "Nuskaityta. Patikrinkite laukus ir generuokite sutartį."
+          : `Rasta ${found}/5 laukų. Trūkstamus įrašykite ranka.`;
+    if (det) {
+      det.textContent = [v.make, v.model, v.plate, v.vin && `VIN ${v.vin}`, v.regDoc && `Liud. ${v.regDoc}`]
+        .filter(Boolean)
+        .join(" · ");
+      det.classList.toggle("show", !!det.textContent);
+    }
+    toast(`Nuskaityta ${found}/5 laukų`, found >= 3 ? "✓" : "⚠️");
+  } catch (e) {
+    if (st)
+      st.textContent = "Automatinis nuskaitymas nepavyko. Pildykite ranka arba fotografuokite dar kartą.";
+    toast("Nuskaityti nepavyko", "⚠️");
+  }
+};
+// Suderinamumas su senesniais kvietimais (identiteto patikra, kiti moduliai).
+async function registrationScanAdapterV50(file, statusEl) {
+  const r = await RegScan.scan(file, {
+    onProgress: e => statusEl && e.message && (statusEl.textContent = e.message)
+  });
+  const v = r.values;
+  const fields = {};
+  for (const k of ["plate", "make", "model", "vin", "regDoc", "firstRegistrationDate"])
+    if (v[k]) fields[k] = { value: v[k], candidate: v[k], confidence: r.fields[k]?.confidence ?? 0.8 };
+  return {
+    ...v,
+    year: v.firstRegistrationDate ? Number(v.firstRegistrationDate.slice(0, 4)) : null,
+    fields,
+    statusSummary: `Nuskaityta ${Object.keys(fields).length} laukų.`
+  };
+}
+registrationScanUnifiedV41 = registrationScanAdapterV50;
+registrationScanUnifiedV42 = registrationScanAdapterV50;
+registrationCertificateScanV31 = registrationScanAdapterV50;
+window.__visureigiaiRegistrationScanV31 = registrationScanAdapterV50;
+window.AutoEasierRegScan = RegScan;
+
 })();
 </script><script id="visureigiai-product-system-v15-js">(function () {
   const logo = `<svg class="productRefLogo" viewBox="0 0 40 28" fill="none" aria-hidden="true"><path d="M2 24 15 9l6 7 5-6 12 14" stroke="#c19a5b" stroke-width="3.1" stroke-linecap="square" stroke-linejoin="miter"/><path d="m10 24 11-12 10 12" stroke="#c19a5b" stroke-width="2.2" opacity=".68"/></svg>`;
@@ -51535,6 +53360,243 @@ body {
 #view-garage #garageTasksSection .garageUnifiedSectionBody[hidden],
 #view-garage #garageTasksSection .garageUnifiedRows[hidden] {
   display: none !important;
+}
+</style><style id="registration-scanner-v50">/* Registracijos liudijimo kortelė ir skeneris (v50). Naudojama naujame automobilyje, redagavime ir Vadybininke. */
+.regCardV50 {
+  margin: 12px 0 14px;
+  padding: 14px;
+  border: 1px solid #dfe6ee;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #f8fafd 0%, #ffffff 100%);
+  box-shadow: 0 1px 2px rgba(16, 32, 56, 0.04);
+}
+.regCardHeadV50 {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 12px;
+}
+.regCardHeadV50 strong {
+  display: block;
+  font-size: 15px;
+  line-height: 1.25;
+  color: #13243a;
+}
+.regCardHeadV50 span:not(.regCardIcoV50) {
+  display: block;
+  margin-top: 2px;
+  font-size: 12.5px;
+  line-height: 1.35;
+  color: #607086;
+}
+.regCardIcoV50 {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: #e8f0fb;
+  color: #1d4f91;
+}
+.regCardIcoV50 svg,
+.regScanBtnV50 svg {
+  width: 20px;
+  height: 20px;
+}
+.regScanBtnsV50 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.regScanBtnV50 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 12px;
+  border: 1px solid #cfd9e5;
+  border-radius: 13px;
+  background: #fff;
+  color: #1b3555;
+  font-size: 14px;
+  font-weight: 750;
+  cursor: pointer;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+.regScanBtnV50.primary {
+  border-color: #174a8b;
+  background: linear-gradient(180deg, #1f5aa6 0%, #174a8b 100%);
+  color: #fff;
+}
+.regScanBtnV50:active {
+  transform: scale(0.985);
+}
+.regScanBtnV50 input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.regBusyV50 .regScanBtnV50 {
+  opacity: 0.55;
+  pointer-events: none;
+}
+.regScanStatusV50 {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 13px;
+  background: #f1f5fa;
+  border: 1px solid #e1e8f0;
+}
+.regScanStatusV50[hidden] {
+  display: none;
+}
+.regScanTopV50 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.regScanTopV50 img {
+  flex: none;
+  width: 46px;
+  height: 58px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #dfe6ee;
+}
+.regScanTopV50 > div {
+  flex: 1;
+  min-width: 0;
+}
+.regScanMsgV50 {
+  display: block;
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 650;
+  color: #2b3e55;
+}
+.regScanBarV50 {
+  height: 5px;
+  margin-top: 7px;
+  border-radius: 99px;
+  background: #dbe4ee;
+  overflow: hidden;
+}
+.regScanBarV50 i {
+  display: block;
+  height: 100%;
+  width: 3%;
+  border-radius: inherit;
+  background: #1f5aa6;
+  transition: width 0.35s ease;
+}
+.regScanStatusV50[data-tone="good"] {
+  background: #ecf8f1;
+  border-color: #c6e9d5;
+}
+.regScanStatusV50[data-tone="good"] .regScanBarV50 i {
+  background: #1f9d5b;
+}
+.regScanStatusV50[data-tone="warn"] {
+  background: #fff8ea;
+  border-color: #f1ddb0;
+}
+.regScanStatusV50[data-tone="warn"] .regScanBarV50 i {
+  background: #d39a20;
+}
+.regScanStatusV50[data-tone="bad"] {
+  background: #fdf0f0;
+  border-color: #f1cccc;
+}
+.regScanStatusV50[data-tone="bad"] .regScanBarV50 i {
+  background: #c94848;
+}
+.regGridV50 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 10px;
+  margin-top: 12px;
+}
+.regFieldV50 {
+  min-width: 0;
+  margin-bottom: 10px !important;
+}
+.regFieldV50.regWideV50,
+.regFieldV50[data-reg-field="firstRegistrationDate"] {
+  grid-column: 1 / -1;
+}
+.regFieldV50 label {
+  display: flex !important;
+  align-items: center;
+  gap: 6px;
+}
+.regFieldV50 label em {
+  font-style: normal;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  padding: 1px 5px;
+  border-radius: 6px;
+  background: #eef2f7;
+  color: #6a7a8f;
+}
+.regFieldV50 input {
+  width: 100%;
+  min-width: 0;
+}
+.regFieldV50.regFilledV50 input {
+  border-color: #9fd5b6 !important;
+  background: #f3fbf6 !important;
+}
+.regFieldV50.regCheckV50 input {
+  border-color: #e7c378 !important;
+  background: #fffaf0 !important;
+}
+.regHintV50 {
+  display: block;
+  margin-top: 4px;
+  font-size: 11.5px;
+  line-height: 1.3;
+  color: #8a6416;
+}
+.regHintV50:empty {
+  display: none;
+}
+.regFieldV50.regCheckV50 .regHintV50:empty::after {
+  content: "Patikrinkite reikšmę";
+}
+.regFieldV50.regCheckV50 .regHintV50:empty {
+  display: block;
+}
+.regCardCompactV50 {
+  margin: 4px 0 12px;
+}
+.whatQuickGridV30 .field.regFilledV50 input {
+  border-color: #9fd5b6 !important;
+  background: #f3fbf6 !important;
+}
+@media (max-width: 360px) {
+  .regGridV50 {
+    grid-template-columns: 1fr;
+  }
+}
+/* Didesnis specifiškumas – kad senesnės formų taisyklės su !important neužgožtų būsenos spalvų. */
+#addCarPanel .regFieldV50.regFilledV50 input.input,
+#sheet .regFieldV50.regFilledV50 input.input,
+#sheet .whatQuickGridV30 .field.regFilledV50 input.input {
+  border-color: #8fcfaa !important;
+  background: #f1faf5 !important;
+}
+#addCarPanel .regFieldV50.regCheckV50 input.input,
+#sheet .regFieldV50.regCheckV50 input.input {
+  border-color: #e3b65c !important;
+  background: #fff8eb !important;
 }
 </style></body>
 </html>

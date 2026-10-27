@@ -50,4 +50,11 @@ npm run build           # galutinis dist/index.html
 
 `verify` po **refaktoringo** turi būti visiškai žalias. Po **funkcinio pakeitimo** jis parodo, kurie ekranai, DOM ar būsena pasikeitė. Taip matai, kad pasikeitė tik tai, ką norėjai pakeisti.
 
+Registracijos liudijimo skenerio testai (reikia `tesseract` ir nuotraukų aplanko **už repozitorijos ribų**, nes nuotraukose yra asmens duomenų):
+
+```bash
+npm run test:regscan -- <nuotraukų-aplankas> <truth.json>   # kiek laukų atpažinta teisingai
+npm run test:regscan-ui -- <nuotrauka.jpg>                  # visa forma: skenavimas -> išsaugojimas -> redagavimas -> Vadybininkas
+```
+
 `npm run verify:original` palygina su originaliu failu iš `reference/`. Jis žalias, kol nepradėti funkciniai pakeitimai.
