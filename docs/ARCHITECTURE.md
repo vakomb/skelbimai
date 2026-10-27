@@ -126,6 +126,14 @@ Vadybininkas nebesiūlo „Kodėl dar ne skelbime?“ ir kainos peržiūros paga
 
 `40-panel-heads-v59.js` ir `169-panel-heads-v59.css`: visų išskleidžiamų skydelių (Garažas: Užduotys, Kontaktai, Variantai, Pridėti automobilį; Buhalterija: įplauka, išlaida, ataskaitos; Meniu: statistika, finansai, kontaktai, istorija, nustatymai) antraštė vienoda. Kairėje paspausto mygtuko pavadinimas (19 px), dešinėje „Uždaryti“ (96×36 px). Po antrašte eina linija, skydelio vidinis tarpas 12 px. Papildomi elementai („Pridėti kontaktą“, ataskaitų laikotarpis) perkeliami po antrašte. „Pridėti automobilį“ gavo `#cancelAddCarBtn`, o antras plytelės paspaudimas skydelį suskleidžia. `phNormalizeV59()` paleidžiama per MutationObserver po kiekvieno perpiešimo. Testas: `node tools/test-panels.mjs`.
 
+## Sąrašų kortelės ir automobilio kortelės viršus (v60)
+
+- **Sąrašų kortelės** (`168-list-cards-v60.css`): aktyvūs, parduoti automobiliai ir variantai. Kairėje didelė nuotrauka (38 %, 4:3; be nuotraukos rodomas pilkas automobilio ženkliukas). Dešinėje pavadinimas, būsenos ir trys skaičiai su plonais skirtukais. Apačioje tamsus mygtukas „Atidaryti ›“ per visą plotį, o variantuose greta jo „Skambinti“. Nerodoma: rekomendacijos, nuotraukų skaičius, nežinomos TA ir draudimo būsenos, o parduotiems – ir TA bei draudimas. Variantų skaičiai pavadinti „Prašo / Siūlome / Pelnas“ (`10-render.js`).
+- **Automobilio kortelės viršus** (`41-car-detail-v60.js` perrašo `cdInfoHTMLV51`; stilius – `170-car-detail-v60.css`):
+  - numerio ženklas (LT) ir rida;
+  - trys būsenų plytelės: TA, Draudimas ir SDK (spalva pagal būseną, po ja data „iki …“);
+  - duomenų sąrašas: pirmoji registracija, variklis, kuras, liudijimas ir VIN (VIN paspaudus nukopijuojamas).
+
 ## Perrašymų grandinės (svarbu!)
 
 Programa augo sluoksniais: nauja versija **perrašo** seną funkciją (`render = async function () { await __renderPP(); … }`). Todėl:

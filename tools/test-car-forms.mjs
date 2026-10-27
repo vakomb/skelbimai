@@ -94,11 +94,11 @@ await ev(() => {
 await p.waitForTimeout(600);
 const cardOk = await ev(() => ({
   info: !!document.getElementById("cdInfoV51"),
-  chips: document.querySelectorAll(".cdChipV51").length,
+  chips: document.querySelectorAll(".cdStatV60").length,
   oldInfoHidden: document.getElementById("carDetailInfo")?.hidden
 }));
 check(
-  cardOk.info && cardOk.chips >= 3 && cardOk.oldInfoHidden !== false,
+  cardOk.info && cardOk.chips === 3 && cardOk.oldInfoHidden !== false,
   "kortelė: informacijos blokas ir būsenos " + JSON.stringify(cardOk)
 );
 await ev(() => document.getElementById("editCarInfoBtn").click());

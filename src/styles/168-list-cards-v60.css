@@ -1,0 +1,383 @@
+/* Sąrašų kortelės (v60): aktyvūs, parduoti automobiliai ir variantai.
+   Didelė nuotrauka kairėje, pavadinimas, būsenos, trys skaičiai ir aiškus „Atidaryti“ mygtukas per visą plotį.
+   Keičiama tik kortelės išorė (sąrašo vaizdas). */
+
+/* ---------- Kortelė ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app #activeCarGrid,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app #soldCarGrid,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app #garageLeadRoot {
+  gap: 12px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app #activeCarGrid .carListCard,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app #soldCarGrid .carListCard,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app #garageLeadRoot .garageVariantCard {
+  position: relative !important;
+  display: block !important;
+  min-height: 0 !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 12px !important;
+  border: 1px solid var(--ds-line) !important;
+  border-radius: 22px !important;
+  background: #fff !important;
+  box-shadow:
+    0 1px 2px rgba(18, 35, 58, 0.04),
+    0 6px 18px rgba(18, 35, 58, 0.05) !important;
+  overflow: hidden !important;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 0.14s ease,
+    box-shadow 0.14s ease;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app #activeCarGrid .carListCard:active,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app #soldCarGrid .carListCard:active,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app #garageLeadRoot .garageVariantCard:active {
+  transform: scale(0.985);
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefCarMain,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantMain {
+  display: grid !important;
+  grid-template-columns: 38% minmax(0, 1fr) !important;
+  gap: 13px !important;
+  align-items: center !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* ---------- Nuotrauka ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .carListPhoto,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantPhoto {
+  position: relative !important;
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 4 / 3 !important;
+  align-self: center !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  margin: 0 !important;
+  border: 1px solid var(--ds-line) !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  background: var(--ds-soft) !important;
+  order: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .carListPhoto img,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantPhoto img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .carListPhoto .carListNoPhoto,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantPhoto .leadNoPhoto {
+  position: absolute !important;
+  inset: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  width: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  aspect-ratio: auto !important;
+  background: linear-gradient(160deg, #f4f7fb, #e9eef5) !important;
+  color: transparent !important;
+  font-size: 0 !important;
+  line-height: 1 !important;
+  opacity: 1 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .carListPhoto .carListNoPhoto::after,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  .app
+  .garageVariantCard
+  .garageVariantPhoto
+  .leadNoPhoto::after {
+  content: "" !important;
+  width: 46px !important;
+  height: 46px !important;
+  background: #b7c2d0 !important;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 16H3.5a.5.5 0 0 1-.5-.5V13l2-5.2A1.5 1.5 0 0 1 6.4 7h11.2a1.5 1.5 0 0 1 1.4.8L21 13v2.5a.5.5 0 0 1-.5.5H19'/%3E%3Cpath d='M3 13h18'/%3E%3Ccircle cx='7' cy='16.5' r='1.8'/%3E%3Ccircle cx='17' cy='16.5' r='1.8'/%3E%3Cpath d='M8.8 16.5h6.4'/%3E%3C/svg%3E")
+    center / contain no-repeat !important;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 16H3.5a.5.5 0 0 1-.5-.5V13l2-5.2A1.5 1.5 0 0 1 6.4 7h11.2a1.5 1.5 0 0 1 1.4.8L21 13v2.5a.5.5 0 0 1-.5.5H19'/%3E%3Cpath d='M3 13h18'/%3E%3Ccircle cx='7' cy='16.5' r='1.8'/%3E%3Ccircle cx='17' cy='16.5' r='1.8'/%3E%3Cpath d='M8.8 16.5h6.4'/%3E%3C/svg%3E")
+    center / contain no-repeat !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .leadNoPhoto span,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .carListProfit {
+  display: none !important;
+}
+
+/* ---------- Informacija ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .carListInfo,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantInfo {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  gap: 9px !important;
+  min-width: 0 !important;
+  width: auto !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .carListTitle,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .leadListTitle {
+  margin: 0 !important;
+  font-size: 20px !important;
+  line-height: 1.15 !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--ds-ink) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefSoldTitle,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantTitleRow {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 2px !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefSoldTitle .carListTitle,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantTitleRow .leadListTitle {
+  max-width: 100% !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .carListDate,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantYear {
+  flex: none !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  font-size: 14px !important;
+  line-height: 1.2 !important;
+  font-weight: 600 !important;
+  color: var(--ds-muted) !important;
+}
+/* Mažiau informacijos: be rekomendacijų, be nuotraukų skaičiaus, parduotiems – be TA/draudimo */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .cardRecommendation,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantRecommendation,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantChips > span:last-child,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app #soldCarGrid .carListCard .garageRefStatuses,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .vehicleStatusChip.neutral {
+  display: none !important;
+}
+/* Būsenos */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefStatuses,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantChips {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .vehicleStatusChip,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantChips > span {
+  flex: 0 1 auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  height: 29px !important;
+  padding: 0 10px !important;
+  border: 1px solid var(--ds-line) !important;
+  border-radius: 999px !important;
+  background: #f5f7fa !important;
+  color: #4b5b70 !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  line-height: 27px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .vehicleStatusChip.good,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .vehicleStatusChip.warn {
+  border-color: #d3e1f3 !important;
+  background: #eef4fc !important;
+  color: var(--ds-brand) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .vehicleStatusChip.bad {
+  border-color: #f3d3d7 !important;
+  background: #fdf1f2 !important;
+  color: #b42335 !important;
+}
+/* Skaičiai – trys stulpeliai su plonais skirtukais */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefFacts,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantFacts {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 0 !important;
+  margin: 2px 0 0 !important;
+  padding: 11px 0 0 !important;
+  border-top: 1px solid var(--ds-line) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefFacts > div,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantFacts > div {
+  min-width: 0 !important;
+  padding: 0 0 0 8px !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-left: 1px solid var(--ds-line) !important;
+  background: transparent !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefFacts > div:first-child,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantFacts > div:first-child {
+  padding-left: 0 !important;
+  border-left: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefFacts small,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantFacts small {
+  display: block !important;
+  margin: 0 0 3px !important;
+  font-size: 13px !important;
+  line-height: 1.2 !important;
+  font-weight: 600 !important;
+  color: var(--ds-muted) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefFacts strong,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantFacts strong {
+  display: block !important;
+  font-size: 15px !important;
+  line-height: 1.2 !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.015em !important;
+  color: var(--ds-ink) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: clip !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefFacts strong.positiveText,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  .app
+  .garageVariantCard
+  .garageVariantFacts
+  strong.positiveText {
+  color: var(--ds-good) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefFacts strong.negativeText,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  .app
+  .garageVariantCard
+  .garageVariantFacts
+  strong.negativeText {
+  color: var(--ds-bad) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .carPpQuick {
+  display: none !important;
+}
+
+/* ---------- „Atidaryti“ – aiškus mygtukas per visą plotį ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app #activeCarGrid .carListCard > .garageRefOpen,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app #soldCarGrid .carListCard > .garageRefOpen,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantOpen,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantCall {
+  position: static !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+  height: 50px !important;
+  min-height: 50px !important;
+  margin: 12px 0 0 !important;
+  padding: 0 16px !important;
+  border: 0 !important;
+  border-radius: 15px !important;
+  background: #1c2e48 !important;
+  background-image: none !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-size: 17px !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app #activeCarGrid .carListCard > .garageRefOpen > span,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app #soldCarGrid .carListCard > .garageRefOpen > span,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantOpen > span {
+  display: inline-block !important;
+  font-size: 24px !important;
+  line-height: 1 !important;
+  font-weight: 500 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  transform: translateY(-1px) !important;
+}
+
+/* ---------- Variantai: „Skambinti“ ir „Atidaryti“ greta ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantFooter {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+  gap: 10px !important;
+  margin: 12px 0 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  .app
+  .garageVariantCard
+  .garageVariantFooter:has(.garageVariantNoPhone) {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantNoPhone {
+  display: none !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  .app
+  .garageVariantCard
+  .garageVariantFooter
+  > .garageVariantOpen,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  .app
+  .garageVariantCard
+  .garageVariantFooter
+  > .garageVariantCall {
+  margin: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantCall {
+  border: 1px solid var(--ds-line-2) !important;
+  background: #fff !important;
+  color: var(--ds-ink) !important;
+  -webkit-text-fill-color: var(--ds-ink) !important;
+}
+/* Siauresni telefonai (iki 400 px) */
+@media (max-width: 400px) {
+  html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefCarMain,
+  html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantMain {
+    grid-template-columns: 34% minmax(0, 1fr) !important;
+    gap: 11px !important;
+  }
+  html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefFacts strong,
+  html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantFacts strong {
+    font-size: 14px !important;
+  }
+  html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefFacts small,
+  html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantFacts small {
+    font-size: 12px !important;
+  }
+  html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefFacts > div,
+  html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantFacts > div {
+    padding-left: 6px !important;
+  }
+}

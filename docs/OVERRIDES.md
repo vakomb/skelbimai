@@ -51,3 +51,4 @@ nes deklaracijos „iškeliamos“ – hoisting), `reassigned` = `X = function�
 | `registrationReviewV41` | 30-registration-review-v41:527 (function) → 31-registration-v42-v43:410 (reassigned) |
 | `registrationFormResultV41` | 30-registration-review-v41:669 (function) → 31-registration-v42-v43:425 (reassigned) |
 | `registrationScanUnifiedV42` | 31-registration-v42-v43:275 (function) → 34-registration-ui:743 (reassigned) |
+| `cdInfoHTMLV51` | 35-car-ui-v51:337 (function) → 41-car-detail-v60:17 (reassigned) |

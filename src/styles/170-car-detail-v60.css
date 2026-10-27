@@ -1,0 +1,230 @@
+/* Automobilio kortelės viršus (v60): numeris ir rida, būsenų plytelės, duomenų sąrašas. */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .premiumDetailBody > .cdInfoV60 {
+  padding: 14px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdChipsV51,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdFactsV51 {
+  display: none !important;
+}
+/* Numerio ženklas ir rida */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdTopV60 {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  margin: 0 0 14px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdPlateV60 {
+  display: inline-flex !important;
+  align-items: stretch !important;
+  height: 40px !important;
+  border: 1.5px solid #18212f !important;
+  border-radius: 9px !important;
+  background: #fff !important;
+  overflow: hidden !important;
+  box-shadow: 0 1px 2px rgba(18, 35, 58, 0.08) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdPlateV60 i {
+  display: flex !important;
+  align-items: flex-end !important;
+  justify-content: center !important;
+  width: 22px !important;
+  padding: 0 0 5px !important;
+  background: #1f4fa8 !important;
+  color: #fff !important;
+  font-style: normal !important;
+  font-size: 10px !important;
+  line-height: 1 !important;
+  font-weight: 800 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdPlateV60 b {
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 13px 0 12px !important;
+  color: #18212f !important;
+  font-size: 20px !important;
+  line-height: 1 !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.08em !important;
+  font-variant-numeric: tabular-nums !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdMileV60 {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 2px !important;
+  text-align: right !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdMileV60 small {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdMileV60 b {
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.01em !important;
+  color: var(--ds-ink) !important;
+  white-space: nowrap !important;
+}
+/* Būsenų plytelės */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdStatusV60 {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdStatV60 {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 3px !important;
+  min-width: 0 !important;
+  padding: 10px 10px 11px !important;
+  border: 1px solid var(--ds-line) !important;
+  border-radius: 15px !important;
+  background: #f6f8fb !important;
+  --cd-tone: #5b6b80;
+  --cd-dot: #b3bdc9;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdStatV60.good {
+  border-color: #d3ecdf !important;
+  background: #f0f9f4 !important;
+  --cd-tone: #12754a;
+  --cd-dot: #1fa463;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdStatV60.warn {
+  border-color: #f3e2bf !important;
+  background: #fff8ec !important;
+  --cd-tone: #965f05;
+  --cd-dot: #e3a21a;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdStatV60.bad {
+  border-color: #f3d3d7 !important;
+  background: #fdf1f2 !important;
+  --cd-tone: #b42335;
+  --cd-dot: #e04558;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdStatNameV60 {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: 13px !important;
+  line-height: 1.2 !important;
+  font-weight: 600 !important;
+  color: var(--ds-muted) !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdStatNameV60 i {
+  flex: none !important;
+  width: 7px !important;
+  height: 7px !important;
+  border-radius: 50% !important;
+  background: var(--cd-dot) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdStatV60 b {
+  font-size: 15px !important;
+  line-height: 1.2 !important;
+  font-weight: 800 !important;
+  color: var(--cd-tone) !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdStatV60 small {
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+  font-weight: 600 !important;
+  color: var(--ds-muted) !important;
+  white-space: nowrap !important;
+  font-variant-numeric: tabular-nums !important;
+}
+/* Duomenų sąrašas */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdSpecsV60 {
+  display: block !important;
+  margin: 12px 0 -4px !important;
+  padding: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdSpecsV60 > div {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 14px !important;
+  min-height: 46px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-top: 1px solid var(--ds-line) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdSpecsV60 dt {
+  flex: none !important;
+  width: auto !important;
+  max-width: none !important;
+  margin: 0 !important;
+  font-size: 14.5px !important;
+  font-weight: 500 !important;
+  color: var(--ds-muted) !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdSpecsV60 dd {
+  flex: 1 1 auto !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  width: auto !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: var(--ds-ink) !important;
+  text-align: right !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdVinV60 button {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  max-width: 100% !important;
+  min-height: 34px !important;
+  margin: 0 -6px 0 0 !important;
+  padding: 0 6px !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  background: transparent !important;
+  color: var(--ds-ink) !important;
+  font-family: inherit !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  font-variant-numeric: tabular-nums !important;
+  cursor: pointer !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdVinV60 button:active {
+  background: var(--ds-soft) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdVinV60 button span {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdVinV60 button svg {
+  flex: none !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .accountingCarBox .accountingCarHead {
+  display: flex !important;
+  align-items: baseline !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+}
+@media (max-width: 400px) {
+  html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdStatusV60 {
+    gap: 6px !important;
+  }
+  html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdStatV60 {
+    padding: 9px 8px 10px !important;
+  }
+  html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdStatV60 small {
+    font-size: 11px !important;
+  }
+}
