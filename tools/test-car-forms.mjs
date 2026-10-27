@@ -57,6 +57,13 @@ check(
   hiddenBefore === "none" && shownAfter !== "none",
   `TA data atsiranda tik pasirinkus „Galioja“ (${hiddenBefore} → ${shownAfter})`
 );
+await ev(() => document.querySelector('[data-cf-status="insuranceStatus"] [data-seg-value="valid"]').click());
+const datesEnabled = await ev(() =>
+  ["newVehicletaUntil", "newVehicleinsuranceUntil"].map(id => !document.getElementById(id).disabled)
+);
+check(datesEnabled.every(Boolean), "pasirinkus „Galioja“ TA ir draudimo datas galima įvesti " + datesEnabled);
+await p.fill("#newVehicletaUntil", "2027-03-01");
+await ev(() => document.querySelector('[data-cf-status="insuranceStatus"] [data-seg-value="unknown"]').click());
 await ev(() => document.getElementById("addCarBtn").click());
 await p.waitForTimeout(300);
 const toastMsg = await ev(() => document.getElementById("toastWrap").textContent);

@@ -71,9 +71,15 @@ function bindCarFormV51(p, c = {}, opts = {}) {
           if (valid) until.style.removeProperty("display");
           else until.style.setProperty("display", "none", "important");
         }
-        if (!valid && date) date.value = "";
+        if (date) {
+          // Senas surišimas (14-vehicle-fields-documents.js) išjungia datą, kol būsena ne „valid“;
+          // paslėptas laukas change įvykio negauna, todėl įjungiame čia.
+          date.disabled = !valid;
+          if (!valid) date.value = "";
+        }
       })
     );
+    if (date) date.disabled = hidden.value !== "valid";
   });
   const sdkSel = document.getElementById(p + "sdkStatus");
   if (sdkSel) sdkSel.onchange = () => (sdkSel.className = "input " + sdkClass(sdkSel.value));

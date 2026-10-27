@@ -11,8 +11,8 @@ nes deklaracijos „iškeliamos“ – hoisting), `reassigned` = `X = function�
 | `daysBetweenISO` | 01-core-utils:67 (function) → 15-work-center:4 (function) |
 | `downloadAllEntityPhotos` | 05-zip-and-galleries:28 (function) → 05-zip-and-galleries:208 (function) |
 | `openCar` | 09-cars-and-sale:148 (function) → 37-contract-v52:930 (reassigned) |
-| `renderCarSheet` | 09-cars-and-sale:158 (function) → 14-vehicle-fields-documents:303 (reassigned) → 24-accounting-v3-pp-chooser:589 (reassigned) → 30-registration-review-v41:1338 (reassigned) → 31-registration-v42-v43:543 (reassigned) → 34-registration-ui:562 (reassigned) → 35-car-ui-v51:371 (reassigned) → 38-car-card-v55:6 (reassigned) |
-| `openCarEditSheet` | 09-cars-and-sale:247 (function) → 14-vehicle-fields-documents:355 (reassigned) → 30-registration-review-v41:866 (reassigned) → 31-registration-v42-v43:494 (reassigned) → 34-registration-ui:526 (reassigned) → 35-car-ui-v51:272 (reassigned) |
+| `renderCarSheet` | 09-cars-and-sale:158 (function) → 14-vehicle-fields-documents:303 (reassigned) → 24-accounting-v3-pp-chooser:589 (reassigned) → 30-registration-review-v41:1338 (reassigned) → 31-registration-v42-v43:543 (reassigned) → 34-registration-ui:562 (reassigned) → 35-car-ui-v51:377 (reassigned) → 38-car-card-v55:6 (reassigned) → 42-car-sheet-v61:92 (reassigned) |
+| `openCarEditSheet` | 09-cars-and-sale:247 (function) → 14-vehicle-fields-documents:355 (reassigned) → 30-registration-review-v41:866 (reassigned) → 31-registration-v42-v43:494 (reassigned) → 34-registration-ui:526 (reassigned) → 35-car-ui-v51:278 (reassigned) |
 | `closeSheet` | 09-cars-and-sale:432 (function) → 39-profile-onboarding-v57:177 (reassigned) |
 | `renderGarageStatsPage` | 10-render:4 (function) → 17-stats-period-boot:59 (reassigned) |
 | `renderFinancePage` | 10-render:138 (function) → 25-accounting-v8-transactions-reports:517 (reassigned) |
@@ -20,9 +20,9 @@ nes deklaracijos „iškeliamos“ – hoisting), `reassigned` = `X = function�
 | `renderCustomers` | 13-customers-and-backup:21 (function) → 21-contacts:113 (reassigned) |
 | `vehicleFields` | 14-vehicle-fields-documents:67 (function) → 24-accounting-v3-pp-chooser:219 (reassigned) → 24-accounting-v3-pp-chooser:558 (reassigned) → 30-registration-review-v41:736 (reassigned) → 31-registration-v42-v43:453 (reassigned) → 34-registration-ui:164 (reassigned) |
 | `readVehicleFields` | 14-vehicle-fields-documents:84 (function) → 24-accounting-v3-pp-chooser:207 (reassigned) → 24-accounting-v3-pp-chooser:567 (reassigned) → 30-registration-review-v41:746 (reassigned) → 31-registration-v42-v43:462 (reassigned) → 34-registration-ui:173 (reassigned) |
-| `carRecommendation` | 15-work-center:20 (function) → 35-car-ui-v51:411 (reassigned) |
+| `carRecommendation` | 15-work-center:20 (function) → 35-car-ui-v51:417 (reassigned) |
 | `workCenterMissingFieldsV30` | 15-work-center:118 (function) → 30-registration-review-v41:953 (reassigned) |
-| `workCenterItems` | 15-work-center:153 (function) → 35-car-ui-v51:406 (reassigned) |
+| `workCenterItems` | 15-work-center:153 (function) → 35-car-ui-v51:412 (reassigned) |
 | `shareAccountingCars` | 16-accounting-package:158 (function) → 20-accounting-share:91 (reassigned) → 20-accounting-share:234 (reassigned) → 24-accounting-v3-pp-chooser:55 (reassigned) |
 | `renderAccountingCenter` | 16-accounting-package:229 (function) → 18-pp-contract-generator:459 (reassigned) → 20-accounting-share:151 (reassigned) → 20-accounting-share:320 (reassigned) → 24-accounting-v3-pp-chooser:119 (reassigned) → 24-accounting-v3-pp-chooser:134 (reassigned) → 24-accounting-v3-pp-chooser:296 (reassigned) → 24-accounting-v3-pp-chooser:461 (reassigned) → 25-accounting-v8-transactions-reports:533 (reassigned) |
 | `ppLoadOcr` | 18-pp-contract-generator:91 (function) → 19-pp-pdf-offline-and-ocr:562 (reassigned) |
@@ -51,4 +51,4 @@ nes deklaracijos „iškeliamos“ – hoisting), `reassigned` = `X = function�
 | `registrationReviewV41` | 30-registration-review-v41:527 (function) → 31-registration-v42-v43:410 (reassigned) |
 | `registrationFormResultV41` | 30-registration-review-v41:669 (function) → 31-registration-v42-v43:425 (reassigned) |
 | `registrationScanUnifiedV42` | 31-registration-v42-v43:275 (function) → 34-registration-ui:743 (reassigned) |
-| `cdInfoHTMLV51` | 35-car-ui-v51:337 (function) → 41-car-detail-v60:17 (reassigned) |
+| `cdInfoHTMLV51` | 35-car-ui-v51:343 (function) → 41-car-detail-v60:17 (reassigned) |

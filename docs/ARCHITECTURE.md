@@ -134,6 +134,17 @@ Vadybininkas nebesiūlo „Kodėl dar ne skelbime?“ ir kainos peržiūros paga
   - trys būsenų plytelės: TA, Draudimas ir SDK (spalva pagal būseną, po ja data „iki …“);
   - duomenų sąrašas: pirmoji registracija, variklis, kuras, liudijimas ir VIN (VIN paspaudus nukopijuojamas).
 
+## Kortelės (v61)
+
+- **Sąrašų kortelės** dabar visos vienodos (kaip parduotų automobilių): nuotrauka, pavadinimas, numerio ženklas (`lcPlateHTMLV61`) ir trys skaičiai. Nėra „Atidaryti“ mygtuko, nes paspaudžiama visa kortelė, ir nėra datų. Variantuose po pavadinimu yra kompaktiškas žalias „Skambinti“, o metai, miestas ir „liko dienų“ nerodomi. Šablonai yra `10-render.js`, stilius – `168-list-cards-v60.css` (v61 blokas failo gale).
+- **Automobilio kortelė** (`42-car-sheet-v61.js`, `171-car-sheet-v61.css`):
+  - antraštėje kairėje yra numerio ženklas;
+  - būsenų tvarka: SDK, Draudimas, TA;
+  - rida perkelta į duomenų sąrašą (`41-car-detail-v60.js`);
+  - nuotraukų rodomos pirmos trys, o mygtukas „Rodyti visas (N)“ atskleidžia likusias;
+  - dokumentai visada atidaryti; vienas „Pridėti dokumentą“ atskleidžia tipų pasirinkimą.
+- **Klaida ištaisyta:** formose (`35-car-ui-v51.js`) pasirinkus „Galioja“, TA ir draudimo datos laukas likdavo išjungtas. Senas surišimas `14-vehicle-fields-documents.js` jį išjungdavo ir laukdavo `change` įvykio, o paslėptas laukas to įvykio negauna.
+
 ## Perrašymų grandinės (svarbu!)
 
 Programa augo sluoksniais: nauja versija **perrašo** seną funkciją (`render = async function () { await __renderPP(); … }`). Todėl:

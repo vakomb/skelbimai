@@ -381,3 +381,53 @@ html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVar
     padding-left: 6px !important;
   }
 }
+
+/* ---------- v61: be „Atidaryti“ (paspaudžiama visa kortelė), vietoj būsenų – numerio ženklas ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .carListInfo,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantInfo {
+  gap: 10px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .carListInfo > .lcPlateV61 {
+  margin: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefOpen,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantFooter,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantOpen {
+  display: none !important;
+}
+/* Variantai: kompaktiškas „Skambinti“ po pavadinimu */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantInfo > .lcCallV61 {
+  display: inline-flex !important;
+  align-items: center !important;
+  align-self: flex-start !important;
+  gap: 6px !important;
+  width: auto !important;
+  height: 30px !important;
+  min-height: 30px !important;
+  margin: 0 !important;
+  padding: 0 12px 0 10px !important;
+  border: 1px solid #cfe9db !important;
+  border-radius: 999px !important;
+  background: #effaf4 !important;
+  color: #12754a !important;
+  -webkit-text-fill-color: #12754a !important;
+  font-size: 13.5px !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantInfo > .lcCallV61:active {
+  background: #def3e7 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantInfo > .lcCallV61 svg {
+  flex: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantPhoto {
+  padding: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantPhoto img,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .carListPhoto img {
+  padding: 0 !important;
+  margin: 0 !important;
+}

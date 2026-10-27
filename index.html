@@ -31523,7 +31523,7 @@ async function render() {
           const expenses = carChecklistExpenses(car);
           const target = Number(car.askingPrice || 0);
           const src = photoUrlCache[car.imageSrc] || car.imageSrc || "";
-          return `\n        <article class="carListCard garageRefCarCard" data-open-car="${car.id}" role="button" tabindex="0">\n          <div class="garageRefCarMain">\n            <div class="carListPhoto garageRefCarPhoto">\n              ${src ? `<img src="${src}" alt="${escapeHTML(car.name)}" loading="lazy">` : `<div class="carListNoPhoto">🚗</div>`}\n            </div>\n            <div class="carListInfo garageRefCarInfo">\n              <div class="carListTitle">${escapeHTML(car.name)}</div>\n              <div class="vehicleStatusRow cardStatusRow garageRefStatuses">${vehicleStatusChips(car)}</div>\n              <div class="carListFacts garageRefFacts">\n                <div><small>Pirkta</small><strong>${moneyFmt(car.buyPrice)}</strong></div>\n                <div><small>Išlaidos</small><strong>${moneyFmt(expenses)}</strong></div>\n                <div><small>Tikslas</small><strong>${target > 0 ? moneyFmt(target) : "—"}</strong></div>\n              </div>\n            </div>\n          </div>\n          <div class="garageRefOpen">Atidaryti <span>›</span></div>\n        </article>`;
+          return `\n        <article class="carListCard garageRefCarCard" data-open-car="${car.id}" role="button" tabindex="0">\n          <div class="garageRefCarMain">\n            <div class="carListPhoto garageRefCarPhoto">\n              ${src ? `<img src="${src}" alt="${escapeHTML(car.name)}" loading="lazy">` : `<div class="carListNoPhoto">🚗</div>`}\n            </div>\n            <div class="carListInfo garageRefCarInfo">\n              <div class="carListTitle">${escapeHTML(car.name)}</div>\n              ${lcPlateHTMLV61(car.plate)}\n              <div class="carListFacts garageRefFacts">\n                <div><small>Pirkta</small><strong>${moneyFmt(car.buyPrice)}</strong></div>\n                <div><small>Išlaidos</small><strong>${moneyFmt(expenses)}</strong></div>\n                <div><small>Tikslas</small><strong>${target > 0 ? moneyFmt(target) : "—"}</strong></div>\n              </div>\n            </div>\n          </div>\n        </article>`;
         })
         .join("")
     : `<div class="emptyState">Kol kas nėra aktyvių automobilių.</div>`;
@@ -31534,7 +31534,7 @@ async function render() {
           const totalCost = carTotalCost(car);
           const soldPrice = Number(car.soldPrice || 0);
           const src = photoUrlCache[car.imageSrc] || car.imageSrc || "";
-          return `\n        <article class="carListCard sold garageRefCarCard garageRefSoldCard" data-open-car="${car.id}" role="button" tabindex="0">\n          <div class="garageRefCarMain">\n            <div class="carListPhoto garageRefCarPhoto">\n              ${src ? `<img src="${src}" alt="${escapeHTML(car.name)}" loading="lazy">` : `<div class="carListNoPhoto">🚗</div>`}\n              <span class="carListProfit ${profit >= 0 ? "positive" : "negative"}">${profit >= 0 ? "+" : ""}${moneyFmt(profit)}</span>\n            </div>\n            <div class="carListInfo garageRefCarInfo">\n              <div class="garageRefSoldTitle"><div class="carListTitle">${escapeHTML(car.name)}</div><span class="carListDate">${escapeHTML(car.soldDateISO || car.soldAt || "—")}</span></div>\n              <div class="cardRecommendation garageRefRecommendation"><strong>${escapeHTML(carRecommendation(car).text)}</strong></div>\n              <div class="vehicleStatusRow cardStatusRow garageRefStatuses">${vehicleStatusChips(car)}</div>\n              <div class="carListFacts garageRefFacts soldFacts">\n                <div><small>Savikaina</small><strong>${moneyFmt(totalCost)}</strong></div>\n                <div><small>Parduota</small><strong>${moneyFmt(soldPrice)}</strong></div>\n                <div><small>Marža</small><strong class="${profit >= 0 ? "positiveText" : "negativeText"}">${profit >= 0 ? "+" : ""}${moneyFmt(profit)}</strong></div>\n              </div>\n            </div>\n          </div>\n          <div class="garageRefOpen">Atidaryti <span>›</span></div>\n        </article>`;
+          return `\n        <article class="carListCard sold garageRefCarCard garageRefSoldCard" data-open-car="${car.id}" role="button" tabindex="0">\n          <div class="garageRefCarMain">\n            <div class="carListPhoto garageRefCarPhoto">\n              ${src ? `<img src="${src}" alt="${escapeHTML(car.name)}" loading="lazy">` : `<div class="carListNoPhoto">🚗</div>`}\n            </div>\n            <div class="carListInfo garageRefCarInfo">\n              <div class="carListTitle">${escapeHTML(car.name)}</div>\n              ${lcPlateHTMLV61(car.plate)}\n              <div class="carListFacts garageRefFacts soldFacts">\n                <div><small>Savikaina</small><strong>${moneyFmt(totalCost)}</strong></div>\n                <div><small>Parduota</small><strong>${moneyFmt(soldPrice)}</strong></div>\n                <div><small>Marža</small><strong class="${profit >= 0 ? "positiveText" : "negativeText"}">${profit >= 0 ? "+" : ""}${moneyFmt(profit)}</strong></div>\n              </div>\n            </div>\n          </div>\n        </article>`;
         })
         .join("")
     : `<div class="emptyState">Dar nėra parduotų automobilių.</div>`;
@@ -31564,7 +31564,7 @@ async function render() {
             const potential = leadPotentialProfit(lead);
             const phone = String(lead.phone || "").trim();
             const telHref = phone ? `tel:${phone.replace(/(?!^\+)\D/g, "")}` : "";
-            return `\n          <article class="leadListCard garageVariantCard" data-open-lead-card="${lead.id}" role="button" tabindex="0">\n            <div class="garageVariantMain">\n              <div class="leadListPhoto garageVariantPhoto">\n                ${mainPhoto ? `<img src="${mainPhoto}" alt="${escapeHTML(title)}" loading="lazy">` : `<div class="leadNoPhoto">📷<span>Nėra foto</span></div>`}\n              </div>\n              <div class="leadListInfo garageVariantInfo">\n                <div class="garageVariantTitleRow">\n                  <div class="leadListTitle">${escapeHTML(title)}</div>\n                  ${lead.year ? `<span class="garageVariantYear">${escapeHTML(String(lead.year))}</span>` : ""}\n                </div>\n                <div class="cardRecommendation garageVariantRecommendation">\n                  <strong>${escapeHTML(leadRecommendation(lead).text)}</strong>\n                </div>\n                <div class="garageVariantChips">\n                  ${lead.city ? `<span>${escapeHTML(lead.city)}</span>` : ""}\n                  <span>${escapeHTML(garageLeadDaysText(lead))}</span>\n                  <span>📷 ${photos.length}</span>\n                </div>\n                <div class="garageVariantFacts">\n                  <div><small>Prašo</small><strong>${sellerPrice ? moneyFmt(sellerPrice) : "—"}</strong></div>\n                  <div><small>Siūlome</small><strong>${ourPrice ? moneyFmt(ourPrice) : "—"}</strong></div>\n                  <div><small>Pelnas</small><strong class="${potential != null && potential >= 0 ? "positiveText" : potential != null ? "negativeText" : ""}">${potential != null ? (potential >= 0 ? "+" : "") + moneyFmt(potential) : "—"}</strong></div>\n                </div>\n              </div>\n            </div>\n            <div class="garageVariantFooter">\n              ${phone ? `<a class="leadCallBtn garageVariantCall" href="${telHref}" data-lead-call="${lead.id}"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Skambinti</a>` : `<span class="garageVariantNoPhone"></span>`}\n              <span class="garageRefOpen garageVariantOpen">Atidaryti <span>›</span></span>\n            </div>\n          </article>`;
+            return `\n          <article class="leadListCard garageVariantCard" data-open-lead-card="${lead.id}" role="button" tabindex="0">\n            <div class="garageVariantMain">\n              <div class="leadListPhoto garageVariantPhoto">\n                ${mainPhoto ? `<img src="${mainPhoto}" alt="${escapeHTML(title)}" loading="lazy">` : `<div class="leadNoPhoto">📷<span>Nėra foto</span></div>`}\n              </div>\n              <div class="leadListInfo garageVariantInfo">\n                <div class="leadListTitle">${escapeHTML(title)}</div>\n                ${phone ? `<a class="leadCallBtn garageVariantCall lcCallV61" href="${telHref}" data-lead-call="${lead.id}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>Skambinti</a>` : ""}\n                <div class="garageVariantFacts">\n                  <div><small>Prašo</small><strong>${sellerPrice ? moneyFmt(sellerPrice) : "—"}</strong></div>\n                  <div><small>Siūlome</small><strong>${ourPrice ? moneyFmt(ourPrice) : "—"}</strong></div>\n                  <div><small>Pelnas</small><strong class="${potential != null && potential >= 0 ? "positiveText" : potential != null ? "negativeText" : ""}">${potential != null ? (potential >= 0 ? "+" : "") + moneyFmt(potential) : "—"}</strong></div>\n                </div>\n              </div>\n            </div>\n\n          \n          </article>`;
           })
           .join("")
       : `<div class="emptyState">Kol kas nėra įkeltų variantų.</div>`;
@@ -44386,9 +44386,15 @@ function bindCarFormV51(p, c = {}, opts = {}) {
           if (valid) until.style.removeProperty("display");
           else until.style.setProperty("display", "none", "important");
         }
-        if (!valid && date) date.value = "";
+        if (date) {
+          // Senas surišimas (14-vehicle-fields-documents.js) išjungia datą, kol būsena ne „valid“;
+          // paslėptas laukas change įvykio negauna, todėl įjungiame čia.
+          date.disabled = !valid;
+          if (!valid) date.value = "";
+        }
       })
     );
+    if (date) date.disabled = hidden.value !== "valid";
   });
   const sdkSel = document.getElementById(p + "sdkStatus");
   if (sdkSel) sdkSel.onchange = () => (sdkSel.className = "input " + sdkClass(sdkSel.value));
@@ -46116,8 +46122,8 @@ window.addEventListener(
   phNormalizeV59();
 }
 
-// Automobilio kortelės viršus (v60): numerio ženklas ir rida, trys būsenų plytelės (TA, draudimas, SDK)
-// ir ramus duomenų sąrašas (pirmoji registracija, variklis, kuras, liudijimas, VIN su kopijavimu).
+// Automobilio kortelės viršus (v60, v61): trys būsenų plytelės (SDK, draudimas, TA) ir ramus duomenų sąrašas
+// (pirmoji registracija, rida, variklis, kuras, liudijimas, VIN su kopijavimu). Numerio ženklas – antraštėje (42-…v61.js).
 // Pakeičia cdInfoHTMLV51 išvaizdą; id „cdInfoV51“ paliktas, kad veiktų esama tvarka kortelėje. Stilius – 170-car-detail-v60.css.
 const CD_ICONS_V60 = {
   copy: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M15 9V6.5A2.5 2.5 0 0 0 12.5 4h-6A2.5 2.5 0 0 0 4 6.5v6A2.5 2.5 0 0 0 6.5 15H9"/></svg>'
@@ -46144,24 +46150,18 @@ cdInfoHTMLV51 = function (car) {
     car.mileage != null && car.mileage !== "" && Number(car.mileage) > 0
       ? `${Number(car.mileage).toLocaleString("lt-LT")} km`
       : "";
-  const top =
-    car.plate || mileage
-      ? `<div class="cdTopV60">${
-          car.plate
-            ? `<span class="cdPlateV60" aria-label="Valstybinis numeris"><i>LT</i><b>${escapeHTML(String(car.plate).toUpperCase())}</b></span>`
-            : "<span></span>"
-        }${mileage ? `<span class="cdMileV60"><small>Rida</small><b>${escapeHTML(mileage)}</b></span>` : ""}</div>`
-      : "";
-  const status = `<div class="cdStatusV60">${cdStatusTileForV60("TA", car.taStatus, car.taUntil)}${cdStatusTileForV60(
+  // Tvarka: SDK, Draudimas, TA
+  const status = `<div class="cdStatusV60">${cdStatusTileV60("SDK", sdkTone, sdkLabel)}${cdStatusTileForV60(
     "Draudimas",
     car.insuranceStatus,
     car.insuranceUntil
-  )}${cdStatusTileV60("SDK", sdkTone, sdkLabel)}</div>`;
+  )}${cdStatusTileForV60("TA", car.taStatus, car.taUntil)}</div>`;
   const engine = [car.engineCc ? `${car.engineCc} cm³` : "", car.powerKw ? `${car.powerKw} kW` : ""]
     .filter(Boolean)
     .join(" · ");
   const rows = [
     ["Pirmoji registracija", car.firstRegistrationDate || (car.year ? String(car.year) : "")],
+    ["Rida", mileage],
     ["Variklis", engine],
     ["Kuras", car.fuelType],
     ["Liudijimas", car.registrationDoc || car.regDoc]
@@ -46177,7 +46177,7 @@ cdInfoHTMLV51 = function (car) {
             : ""
         }</dl>`
       : "";
-  return `<section class="cdInfoV51 cdInfoV60" id="cdInfoV51">${top}${status}${specs}</section>`;
+  return `<section class="cdInfoV51 cdInfoV60" id="cdInfoV51">${status}${specs}</section>`;
 };
 document.addEventListener("click", e => {
   const btn = e.target.closest("[data-cd-copy]");
@@ -46196,6 +46196,126 @@ document.addEventListener("click", e => {
     } catch (err) {}
     t.remove();
     done();
+  }
+});
+
+// Automobilio kortelė ir sąrašai (v61):
+// – numerio ženklas (lcPlateHTMLV61) – sąrašo kortelėse ir kortelės antraštėje kairėje;
+// – nuotraukos: rodomos pirmos trys, „Rodyti visas“ atskleidžia likusias;
+// – dokumentai: visada atidaryta sekcija, tvarkingos eilutės, vienas „Pridėti dokumentą“ su tipų pasirinkimu.
+// Stilius – 171-car-sheet-v61.css.
+function lcPlateHTMLV61(plate) {
+  const v = String(plate || "")
+    .trim()
+    .toUpperCase();
+  return v
+    ? `<span class="lcPlateV61" aria-label="Valstybinis numeris ${escapeHTML(v)}"><i aria-hidden="true">LT</i><b>${escapeHTML(v)}</b></span>`
+    : "";
+}
+const CS_PHOTO_LIMIT_V61 = 3;
+const csPhotosOpenV61 = new Set();
+const CS_DOC_ICON_V61 =
+  '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>';
+function csPhotosV61(sheet, car) {
+  const media = sheet.querySelector("#carDetailPhotos");
+  const grid = media?.querySelector(".carPhotoGrid, .premiumThumbGrid");
+  if (!media || !grid) return;
+  const count = grid.querySelectorAll(":scope > .premiumThumb").length;
+  const open = csPhotosOpenV61.has(car.id);
+  grid.classList.toggle("csPhotosCollapsedV61", count > CS_PHOTO_LIMIT_V61 && !open);
+  media.querySelector(".csPhotoActionsV61")?.remove();
+  const dl = media.querySelector("#downloadCarPhotos");
+  const more =
+    count > CS_PHOTO_LIMIT_V61
+      ? `<button type="button" class="csPhotoMoreV61" data-cs-photos-toggle="${escapeHTML(car.id)}">${
+          open ? "Rodyti mažiau" : `Rodyti visas (${count})`
+        }</button>`
+      : "";
+  if (!more && !dl) return;
+  const row = document.createElement("div");
+  row.className = "csPhotoActionsV61" + (more && dl ? " two" : "");
+  row.innerHTML = more;
+  if (dl) row.append(dl);
+  grid.after(row);
+}
+function csDocsV61(sheet) {
+  const docs = sheet.querySelector("#carDetailDocuments");
+  if (!docs) return;
+  docs.open = true;
+  docs.classList.add("csDocsV61");
+  const summary = docs.querySelector(":scope > summary");
+  if (summary && !summary.dataset.csV61) {
+    summary.dataset.csV61 = "1";
+    summary.addEventListener("click", e => e.preventDefault());
+  }
+  // Failų ženkliukai: vietoj emoji – plėtinys
+  docs.querySelectorAll(".vehicleDocThumbV32").forEach(t => {
+    if (t.querySelector("img")) return;
+    const row = t.closest("[data-doc-row]");
+    const name = row?.querySelector("strong")?.textContent || "";
+    const ext = (name.split(".").pop() || "").slice(0, 4).toUpperCase();
+    t.textContent = /^[A-Z0-9]{2,4}$/.test(ext) ? ext : "DOC";
+  });
+  docs.querySelectorAll(".vehicleDocDownload").forEach(b => {
+    if (!b.querySelector("svg"))
+      b.innerHTML =
+        '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 11 5 5 5-5"/><path d="M5 20h14"/></svg>';
+  });
+  const inputs = docs.querySelector(".vehicleDocInputs");
+  if (!inputs) return;
+  inputs.querySelectorAll(".vehicleDocPicker > span").forEach(sp => {
+    const t = sp.textContent.replace(/^\s*[＋+]\s*/, "");
+    sp.textContent =
+      {
+        "Pirkimo–pardavimo sutartis": "PP sutartis",
+        "Techninės apžiūros dokumentas": "Techninė apžiūra",
+        "Registracijos dokumentai": "Registracija",
+        "Remonto dokumentai": "Remontas",
+        "Kiti dokumentai": "Kita"
+      }[t] || t;
+  });
+  if (!docs.querySelector(".csDocAddV61")) {
+    const add = document.createElement("button");
+    add.type = "button";
+    add.className = "csDocAddV61";
+    add.setAttribute("aria-expanded", "false");
+    add.innerHTML = `${CS_DOC_ICON_V61}<span>Pridėti dokumentą</span>`;
+    inputs.before(add);
+    if (!docs.querySelector(".vehicleDocRow")) {
+      const empty = document.createElement("p");
+      empty.className = "csDocEmptyV61";
+      empty.textContent = "Dokumentų dar nėra";
+      add.before(empty);
+    }
+  }
+}
+const __renderCarSheetV61 = renderCarSheet;
+renderCarSheet = function (car) {
+  __renderCarSheetV61(car);
+  const sheet = document.getElementById("sheet");
+  if (!sheet || !car) return;
+  sheet.classList.add("carSheetV61");
+  const spacer = sheet.querySelector(".premiumSheetHead .cdHeadSpacerV55");
+  if (spacer) spacer.innerHTML = lcPlateHTMLV61(car.plate);
+  csPhotosV61(sheet, car);
+  csDocsV61(sheet);
+};
+document.addEventListener("click", e => {
+  const toggle = e.target.closest("[data-cs-photos-toggle]");
+  if (toggle) {
+    const id = toggle.dataset.csPhotosToggle;
+    if (csPhotosOpenV61.has(id)) csPhotosOpenV61.delete(id);
+    else csPhotosOpenV61.add(id);
+    const car = state.cars.find(c => c.id === id);
+    const sheet = document.getElementById("sheet");
+    if (car && sheet) csPhotosV61(sheet, car);
+    return;
+  }
+  const add = e.target.closest(".csDocAddV61");
+  if (add) {
+    const open = add.getAttribute("aria-expanded") !== "true";
+    add.setAttribute("aria-expanded", String(open));
+    add.closest(".csDocsV61")?.classList.toggle("csDocPickOpenV61", open);
   }
 });
 
@@ -57937,6 +58057,56 @@ html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVar
     padding-left: 6px !important;
   }
 }
+
+/* ---------- v61: be „Atidaryti“ (paspaudžiama visa kortelė), vietoj būsenų – numerio ženklas ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .carListInfo,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantInfo {
+  gap: 10px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .carListInfo > .lcPlateV61 {
+  margin: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefOpen,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantFooter,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantOpen {
+  display: none !important;
+}
+/* Variantai: kompaktiškas „Skambinti“ po pavadinimu */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantInfo > .lcCallV61 {
+  display: inline-flex !important;
+  align-items: center !important;
+  align-self: flex-start !important;
+  gap: 6px !important;
+  width: auto !important;
+  height: 30px !important;
+  min-height: 30px !important;
+  margin: 0 !important;
+  padding: 0 12px 0 10px !important;
+  border: 1px solid #cfe9db !important;
+  border-radius: 999px !important;
+  background: #effaf4 !important;
+  color: #12754a !important;
+  -webkit-text-fill-color: #12754a !important;
+  font-size: 13.5px !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantInfo > .lcCallV61:active {
+  background: #def3e7 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantInfo > .lcCallV61 svg {
+  flex: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantPhoto {
+  padding: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantPhoto img,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .carListPhoto img {
+  padding: 0 !important;
+  margin: 0 !important;
+}
 </style><style id="panel-heads-v59">/* Vienodos išskleidžiamų skydelių antraštės (v59) – kaip Buhalterijos „Pridėti įplauką“. */
 html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage #garageTasksSection.is-open,
 html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .garageInlinePanel.garageInlineOpen,
@@ -58339,6 +58509,559 @@ html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .accountingC
   }
   html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdStatV60 small {
     font-size: 11px !important;
+  }
+}
+</style><style id="car-sheet-v61">/* v61: numerio ženklas, kortelės antraštė, nuotraukos (pirmos trys), dokumentai. */
+
+/* ---------- Numerio ženklas (bendras) ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .lcPlateV61 {
+  display: inline-flex !important;
+  align-items: stretch !important;
+  align-self: flex-start !important;
+  flex: none !important;
+  height: 28px !important;
+  max-width: 100% !important;
+  border: 1.5px solid #18212f !important;
+  border-radius: 7px !important;
+  background: #fff !important;
+  overflow: hidden !important;
+  box-shadow: 0 1px 1.5px rgba(18, 35, 58, 0.08) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .lcPlateV61 i {
+  display: flex !important;
+  align-items: flex-end !important;
+  justify-content: center !important;
+  flex: none !important;
+  width: 17px !important;
+  padding: 0 0 4px !important;
+  background: #1f4fa8 !important;
+  color: #fff !important;
+  font-style: normal !important;
+  font-size: 8.5px !important;
+  line-height: 1 !important;
+  font-weight: 800 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .lcPlateV61 b {
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 9px 0 8px !important;
+  color: #18212f !important;
+  font-size: 15px !important;
+  line-height: 1 !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.07em !important;
+  white-space: nowrap !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+/* ---------- Kortelės antraštė: ženklas kairėje, pavadinimas centre, ✕ dešinėje ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV61 .premiumSheetHead {
+  grid-template-columns: minmax(96px, 1fr) minmax(0, max-content) minmax(96px, 1fr) !important;
+  gap: 8px !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV61
+  .premiumSheetHead
+  .cdHeadSpacerV55 {
+  grid-column: 1 !important;
+  justify-self: start !important;
+  display: flex !important;
+  align-items: center !important;
+  min-width: 0 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV61
+  .premiumSheetHead
+  .cdHeadSpacerV55
+  .lcPlateV61 {
+  height: 30px !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV61
+  .premiumSheetHead
+  .cdHeadSpacerV55
+  .lcPlateV61
+  b {
+  font-size: 15.5px !important;
+}
+
+/* ---------- Nuotraukos ---------- */
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .premiumThumbGrid.csPhotosCollapsedV61
+  > .premiumThumb:nth-child(n + 4) {
+  display: none !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailPhotos
+  .premiumMediaActions:empty {
+  display: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet #carDetailPhotos .csPhotoActionsV61 {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 8px !important;
+  margin: 10px 0 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet #carDetailPhotos .csPhotoActionsV61.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailPhotos
+  .csPhotoActionsV61
+  > button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  margin: 0 !important;
+  padding: 0 12px !important;
+  border: 1px solid var(--ds-line-2) !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  background-image: none !important;
+  color: var(--ds-ink) !important;
+  -webkit-text-fill-color: var(--ds-ink) !important;
+  font-size: 14.5px !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailPhotos
+  .csPhotoActionsV61
+  > .csPhotoMoreV61 {
+  border-color: transparent !important;
+  background: var(--ds-soft) !important;
+  color: var(--ds-brand) !important;
+  -webkit-text-fill-color: var(--ds-brand) !important;
+}
+
+/* ---------- Dokumentai ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet #carDetailDocuments.csDocsV61 > summary {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  margin: 0 0 12px !important;
+  padding: 0 !important;
+  list-style: none !important;
+  cursor: default !important;
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  color: var(--ds-ink) !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  > summary::-webkit-details-marker,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  > summary::after,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  > summary::before {
+  display: none !important;
+  content: none !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  > summary
+  .vehicleCount {
+  display: inline-grid !important;
+  place-items: center !important;
+  min-width: 26px !important;
+  height: 26px !important;
+  margin: 0 !important;
+  padding: 0 8px !important;
+  border-radius: 999px !important;
+  background: var(--ds-soft) !important;
+  color: var(--ds-ink-2) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  > summary
+  .vehicleCount:empty {
+  display: none !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  .vehicleDocList {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  .vehicleDocRow {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  min-height: 62px !important;
+  margin: 0 !important;
+  padding: 8px 0 !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--ds-line) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  .vehicleDocRow:first-child {
+  border-top: 1px solid var(--ds-line) !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  .vehicleDocPreviewV32 {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  text-align: left !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  .vehicleDocThumbV32 {
+  display: grid !important;
+  place-items: center !important;
+  flex: none !important;
+  width: 44px !important;
+  height: 44px !important;
+  border: 1px solid #d9e3f0 !important;
+  border-radius: 12px !important;
+  background: #eef4fc !important;
+  color: var(--ds-brand) !important;
+  font-size: 11.5px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.03em !important;
+  overflow: hidden !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  .vehicleDocThumbV32
+  img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  .vehicleDocTextV32 {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 3px !important;
+  min-width: 0 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  .vehicleDocTextV32
+  strong {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: var(--ds-ink) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  .vehicleDocTextV32
+  > span {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: var(--ds-muted) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  .vehicleDocActionsV32 {
+  display: flex !important;
+  gap: 6px !important;
+  flex: none !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  .vehicleDocActionsV32
+  > button {
+  display: grid !important;
+  place-items: center !important;
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 11px !important;
+  background: var(--ds-soft) !important;
+  color: var(--ds-ink-2) !important;
+  -webkit-text-fill-color: currentColor !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  .vehicleDocActionsV32
+  > .vehicleDocRemove {
+  background: #fdf1f2 !important;
+  color: #b42335 !important;
+  font-size: 20px !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  .csDocEmptyV61 {
+  margin: 0 0 10px !important;
+  font-size: 14px !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  .csDocAddV61 {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+  min-height: 46px !important;
+  margin: 12px 0 0 !important;
+  padding: 0 14px !important;
+  border: 1px dashed var(--ds-line-2) !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  color: var(--ds-brand) !important;
+  -webkit-text-fill-color: var(--ds-brand) !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  .csDocAddV61[aria-expanded="true"] {
+  border-style: solid !important;
+  border-color: transparent !important;
+  background: var(--ds-soft) !important;
+}
+/* Tipų pasirinkimas – tik paspaudus „Pridėti dokumentą“ */
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  .vehicleDocInputs {
+  display: none !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61.csDocPickOpenV61
+  .vehicleDocInputs {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+  margin: 10px 0 0 !important;
+  padding: 0 !important;
+  animation: csFadeV61 0.18s ease both;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  .vehicleDocPicker {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  min-width: 0 !important;
+  min-height: 46px !important;
+  margin: 0 !important;
+  padding: 8px 12px !important;
+  border: 1px solid var(--ds-line) !important;
+  border-radius: 13px !important;
+  background: #fff !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  .vehicleDocPicker:active {
+  background: var(--ds-soft) !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  .vehicleDocPicker
+  > span {
+  font-size: 14px !important;
+  line-height: 1.25 !important;
+  font-weight: 700 !important;
+  color: var(--ds-ink) !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  .vehicleDocPicker
+  > small {
+  font-size: 12px !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  .vehicleDocPicker
+  > small:empty {
+  display: none !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  #carDetailDocuments.csDocsV61
+  .vehicleDocPicker
+  > input[type="file"] {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+@keyframes csFadeV61 {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+@media (max-width: 400px) {
+  html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV61 .premiumSheetHead {
+    grid-template-columns: minmax(86px, 1fr) minmax(0, max-content) minmax(86px, 1fr) !important;
+    gap: 6px !important;
+  }
+  html:not(#ae):not(#af)
+    body:not(#ae):not(#af)
+    #modalBackdrop
+    #sheet.carSheetV61
+    .premiumSheetHead
+    .cdHeadSpacerV55
+    .lcPlateV61 {
+    height: 27px !important;
+  }
+  html:not(#ae):not(#af)
+    body:not(#ae):not(#af)
+    #modalBackdrop
+    #sheet.carSheetV61
+    .premiumSheetHead
+    .cdHeadSpacerV55
+    .lcPlateV61
+    b {
+    padding: 0 7px 0 6px !important;
+    font-size: 13.5px !important;
+    letter-spacing: 0.05em !important;
+  }
+  html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV61 .premiumSheetHead h3 {
+    font-size: 17px !important;
   }
 }
 </style></body>

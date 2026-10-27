@@ -1,5 +1,5 @@
-// Automobilio kortelės viršus (v60): numerio ženklas ir rida, trys būsenų plytelės (TA, draudimas, SDK)
-// ir ramus duomenų sąrašas (pirmoji registracija, variklis, kuras, liudijimas, VIN su kopijavimu).
+// Automobilio kortelės viršus (v60, v61): trys būsenų plytelės (SDK, draudimas, TA) ir ramus duomenų sąrašas
+// (pirmoji registracija, rida, variklis, kuras, liudijimas, VIN su kopijavimu). Numerio ženklas – antraštėje (42-…v61.js).
 // Pakeičia cdInfoHTMLV51 išvaizdą; id „cdInfoV51“ paliktas, kad veiktų esama tvarka kortelėje. Stilius – 170-car-detail-v60.css.
 const CD_ICONS_V60 = {
   copy: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M15 9V6.5A2.5 2.5 0 0 0 12.5 4h-6A2.5 2.5 0 0 0 4 6.5v6A2.5 2.5 0 0 0 6.5 15H9"/></svg>'
@@ -26,24 +26,18 @@ cdInfoHTMLV51 = function (car) {
     car.mileage != null && car.mileage !== "" && Number(car.mileage) > 0
       ? `${Number(car.mileage).toLocaleString("lt-LT")} km`
       : "";
-  const top =
-    car.plate || mileage
-      ? `<div class="cdTopV60">${
-          car.plate
-            ? `<span class="cdPlateV60" aria-label="Valstybinis numeris"><i>LT</i><b>${escapeHTML(String(car.plate).toUpperCase())}</b></span>`
-            : "<span></span>"
-        }${mileage ? `<span class="cdMileV60"><small>Rida</small><b>${escapeHTML(mileage)}</b></span>` : ""}</div>`
-      : "";
-  const status = `<div class="cdStatusV60">${cdStatusTileForV60("TA", car.taStatus, car.taUntil)}${cdStatusTileForV60(
+  // Tvarka: SDK, Draudimas, TA
+  const status = `<div class="cdStatusV60">${cdStatusTileV60("SDK", sdkTone, sdkLabel)}${cdStatusTileForV60(
     "Draudimas",
     car.insuranceStatus,
     car.insuranceUntil
-  )}${cdStatusTileV60("SDK", sdkTone, sdkLabel)}</div>`;
+  )}${cdStatusTileForV60("TA", car.taStatus, car.taUntil)}</div>`;
   const engine = [car.engineCc ? `${car.engineCc} cm³` : "", car.powerKw ? `${car.powerKw} kW` : ""]
     .filter(Boolean)
     .join(" · ");
   const rows = [
     ["Pirmoji registracija", car.firstRegistrationDate || (car.year ? String(car.year) : "")],
+    ["Rida", mileage],
     ["Variklis", engine],
     ["Kuras", car.fuelType],
     ["Liudijimas", car.registrationDoc || car.regDoc]
@@ -59,7 +53,7 @@ cdInfoHTMLV51 = function (car) {
             : ""
         }</dl>`
       : "";
-  return `<section class="cdInfoV51 cdInfoV60" id="cdInfoV51">${top}${status}${specs}</section>`;
+  return `<section class="cdInfoV51 cdInfoV60" id="cdInfoV51">${status}${specs}</section>`;
 };
 document.addEventListener("click", e => {
   const btn = e.target.closest("[data-cd-copy]");
