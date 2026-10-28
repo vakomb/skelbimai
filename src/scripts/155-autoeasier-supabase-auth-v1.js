@@ -51,10 +51,29 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
       return "Nepavyko prisijungti prie serverio. Patikrinkite interneto ryšį ir bandykite dar kartą.";
     return "Nepavyko. Bandykite dar kartą arba rašykite autoeasier@gmail.com";
   };
+  // v77: grįžtantis vartotojas (išsaugota sesija) mato „Jungiamasi…“, o ne prisijungimo formą
+  const RESTORE_CLASS_V77 = "aeRestoringV77";
+  let restoreTimerV77 = 0;
+  const hasStoredSessionV77 = () => {
+    try {
+      const raw = localStorage.getItem("autoeasier-auth-v1");
+      if (!raw) return false;
+      const saved = JSON.parse(raw);
+      return !!(saved && (saved.refresh_token || saved.access_token || saved.currentSession));
+    } catch (e) {
+      return false;
+    }
+  };
+  const setRestoringV77 = on => {
+    clearTimeout(restoreTimerV77);
+    gate.classList.toggle(RESTORE_CLASS_V77, !!on);
+    if (on) restoreTimerV77 = setTimeout(() => gate.classList.remove(RESTORE_CLASS_V77), 9000);
+  };
   const setMessage = (text, ok = false) => {
     message.textContent = text;
     message.hidden = !text;
     message.classList.toggle("is-success", !!ok);
+    if (text) setRestoringV77(false);
   };
   let paywallUser = "";
   const showGate = () => {
@@ -65,6 +84,7 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
     window.__autoEasierSubscription = null;
     window.AUTOEASIER_APP_DATA?.setReadOnly?.(false);
     window.dispatchEvent(new Event("autoeasier:signed-out"));
+    setRestoringV77(false);
     gate.hidden = false;
     appNodes.forEach(n => {
       n.setAttribute("inert", "");
@@ -73,6 +93,7 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
     document.body.classList.add("autoeasier-auth-locked");
   };
   const showApp = () => {
+    setRestoringV77(false);
     paywallUser = "";
     document.body.classList.remove("autoeasier-paywall");
     gate.hidden = true;
@@ -792,14 +813,18 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
     });
     const c = await loadClient();
     window.AUTOEASIER_WORKSPACE = { downloadMedia };
-    let row = await fetchWorkspaceState(c);
+    // v77: paskyros duomenys ir prenumeratos būsena gaunami lygiagrečiai (viena užklausų kelionė mažiau)
+    const [rowResult, billingResult] = await Promise.allSettled([
+      fetchWorkspaceState(c),
+      c.rpc("account_subscription")
+    ]);
+    if (rowResult.status === "rejected") throw rowResult.reason;
+    let row = rowResult.value;
     const local = sharedState(window.AUTOEASIER_APP_DATA.getState());
     // Prenumerata (v70): be galiojančios prieigos duomenys tik skaitomi, į debesį nerašoma
     let billing = null;
-    try {
-      const res = await c.rpc("account_subscription");
-      if (!res.error) billing = res.data || null;
-    } catch (e) {}
+    if (billingResult.status === "fulfilled" && !billingResult.value?.error)
+      billing = billingResult.value?.data || null;
     const readOnly = !!billing && billing.access === false;
     window.__autoEasierSubscription = billing;
     // Prenumeratos užraktas (v71): kol nepradėtas bandomasis laikotarpis, programėlė neatidaroma ir duomenys neįkeliami
@@ -835,8 +860,11 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
         throw new Error("Nepavyko saugiai išsaugoti paskyros duomenų. Vietinė kopija liko šiame įrenginyje.");
     } else {
       // Jei šiame įrenginyje yra dar neįkeltų pakeitimų (pvz. dirbta be ryšio) – sujungiame, o ne perrašome
+      // Svarbu (v77): žymė ir bazinė kopija nuskaitomos PRIEŠ pritaikant debesies versiją, nes
+      // applySharedPayload jas perrašo. Kitaip bazė sutaptų su debesimi ir sujungimas laimėtų tuščią vietinę būseną.
       const localHash = await hashState(local),
         marker = readMarker(session.user.id),
+        base = marker && marker.hash !== localHash ? readBase(session.user.id) : null,
         remoteShared = sharedState(row.payload),
         unsynced =
           meaningful(window.AUTOEASIER_APP_DATA.getState()) &&
@@ -844,8 +872,8 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
           localHash !== (await hashState(remoteShared));
       await applySharedPayload(row.payload, row.revision, session.user.id);
       if (unsynced && !readOnly) {
-        const base = readBase(session.user.id),
-          merged = mergeThreeWay(base || {}, local, remoteShared, "state", base ? "local" : "remote");
+        // Be bazinės kopijos (naujas įrenginys) – vienodų laukų konfliktuose laimi debesis, sąrašai sujungiami
+        const merged = mergeThreeWay(base || {}, local, remoteShared, "state", base ? "local" : "remote");
         if ((await hashState(merged)) !== (await hashState(remoteShared))) {
           bootBaseline = remoteShared;
           applyingRemote = true;
@@ -860,11 +888,11 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
     workspaceRevision = Number(row?.revision) || workspaceRevision;
     await beginCloudSync(session.user.id);
     await attachWorkspacePanel(session);
-    // Nuotraukų viršeliai paruošiami prieš rodant programėlę (ne ilgiau kaip 2,5 s), likusios – fone
+    // Nuotraukų viršeliai paruošiami prieš rodant programėlę (ne ilgiau kaip 1,5 s), likusios – fone
     try {
       await Promise.race([
         window.AUTOEASIER_APP_DATA.preloadPhotos?.({ coversOnly: true }),
-        new Promise(r => setTimeout(r, 2500))
+        new Promise(r => setTimeout(r, 1500))
       ]);
     } catch (e) {}
     showApp();
@@ -914,12 +942,14 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
     setMessage("");
   } else {
     showGate();
+    if (validConfig() && hasStoredSessionV77()) setRestoringV77(true);
     if (validConfig())
       loadClient()
         .then(async c => {
           const { data, error } = await c.auth.getSession();
           if (error) throw error;
           if (data.session) await safeShowApp(data.session);
+          else setRestoringV77(false);
           c.auth.onAuthStateChange((event, session) => {
             if (event === "PASSWORD_RECOVERY") {
               showGate();
