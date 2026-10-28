@@ -51,34 +51,6 @@ await ev(() => document.querySelector(".tcPanelV65 [data-tc-done]").click());
 await p.waitForTimeout(700);
 const after = await ev(() => document.querySelectorAll('.tkRowV62[data-tk-kind="car"]').length);
 check(after === before - 1, `automobilio užduotis atlikta (${before} → ${after})`);
-// Vadybininkas: automobilio užduotis atliekama čia pat, su kaina ir čekiu
-await ev(() => document.querySelector('[data-open-view="garage-what"]').click());
-await p.waitForTimeout(400);
-const vdBefore = await ev(() => document.querySelectorAll("#garageWhatRoot .vdTaskV65").length);
-check(vdBefore > 0, "Vadybininke – automobilio užduotys");
-await ev(() => document.querySelector("#garageWhatRoot .vdTaskV65").click());
-await p.waitForTimeout(200);
-check(await ev(() => !!document.querySelector("#garageWhatRoot .tcPanelV65")), "Vadybininke išslenka atlikimo skydelis");
-await p.fill("#garageWhatRoot [data-tc-amount]", "30");
-await p.setInputFiles("#garageWhatRoot [data-tc-file]", {
-  name: "cekis.jpg",
-  mimeType: "image/jpeg",
-  buffer: Buffer.from([0xff, 0xd8, 0xff, 0xd9])
-});
-await p.waitForTimeout(1200);
-const vdDone = await ev(() => {
-  const s = JSON.parse(localStorage.getItem("visureigiai_uab_v1"));
-  return s.cars.flatMap(c => c.checklist || []).filter(i => i.done && Number(i.expense) === 30).length;
-});
-check(vdDone === 1, "kaina + čekis – užduotis atlikta automatiškai ir išlaida užfiksuota");
-check(
-  await ev(() =>
-    JSON.parse(localStorage.getItem("visureigiai_uab_v1")).finances.transactions.some(
-      t => t.source === "carTask" && t.amount === 30 && t.attachments?.length
-    )
-  ),
-  "išlaida su čekiu – Buhalterijoje"
-);
 await ev(() => document.querySelector('[data-garage-what-back]')?.click());
 await p.waitForTimeout(300);
 await ev(() => {

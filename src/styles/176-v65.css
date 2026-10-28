@@ -542,8 +542,7 @@ html:not(#ae):not(#af) body:not(#ae):not(#af) .app .menuDisclosureHead > strong,
 html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage #addCarPanel > .sectionHead > h2,
 html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .garageInlinePanel > .sectionHead > h2,
 html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage #garageTasksSection > .sectionHead > h2,
-html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage #view-customers .contactsHead > h2,
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageWhatHead h2 {
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage #view-customers .contactsHead > h2 {
   font-size: 21px !important;
   line-height: 1.2 !important;
   font-weight: 800 !important;
@@ -552,90 +551,6 @@ html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageWhatHead h2 {
 html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .garageRefSoldToggle strong {
   font-size: 17px !important;
   font-weight: 800 !important;
-}
-
-/* ---------- Vadybininkas ---------- */
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageWhatPage.vdV65 .garageWhatHead {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  min-height: 44px !important;
-}
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageWhatPage.vdV65 .garageWhatHead h2,
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageWhatPage.vdV65 .garageWhatHeadTitle {
-  display: block !important;
-  margin: 0 !important;
-  color: var(--ds-ink) !important;
-}
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageWhatPage.vdV65 .garageWhatBack {
-  height: 36px !important;
-  min-height: 36px !important;
-  padding: 0 16px !important;
-  border: 0 !important;
-  border-radius: 999px !important;
-  background: var(--ds-soft) !important;
-  color: var(--ds-ink-2) !important;
-  -webkit-text-fill-color: currentColor !important;
-  font-size: 14px !important;
-  font-weight: 700 !important;
-}
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .vdSumV65 {
-  display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  gap: 8px !important;
-  margin: 0 0 4px !important;
-}
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .vdSumV65 > div {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  gap: 2px !important;
-  padding: 10px 6px !important;
-  border: 1px solid var(--ds-line) !important;
-  border-radius: 16px !important;
-  background: #fff !important;
-}
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .vdSumV65 b {
-  font-size: 22px !important;
-  line-height: 1.1 !important;
-  font-weight: 800 !important;
-  color: var(--ds-ink) !important;
-}
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .vdSumV65 span {
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  color: var(--ds-muted) !important;
-}
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .vdSumV65 > .late {
-  border-color: #f3d3d7 !important;
-  background: #fdf1f2 !important;
-}
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .vdSumV65 > .late b {
-  color: #c62a3c !important;
-}
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageWhatPage .vdTaskV65 .garageWhatSide,
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageWhatPage .vdTaskV65 .garageWhatHeroBottom > span {
-  color: #1fa463 !important;
-}
-html:not(#ae):not(#af)
-  body:not(#ae):not(#af)
-  .app
-  .garageWhatPage
-  .garageWhatRowWrapV30.tcOpenV65
-  > .garageWhatRow,
-html:not(#ae):not(#af)
-  body:not(#ae):not(#af)
-  .app
-  .garageWhatPage
-  .garageWhatHeroWrapV30.tcOpenV65
-  > .garageWhatHero {
-  border-color: #cfe9db !important;
-  box-shadow: 0 0 0 3px rgba(31, 164, 99, 0.1) !important;
-}
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageWhatPage > .garageWhatList > .tcPanelV65,
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageWhatPage > .tcPanelV65 {
-  margin: 0 !important;
-  background: #fff !important;
 }
 
 /* ---------- Apačios juosta (telefonas): vienodi dydžiai visuose puslapiuose ---------- */

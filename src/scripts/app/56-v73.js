@@ -1,40 +1,4 @@
-// v73: trumpesni Vadybininko tekstai, paleidimas į Garažą, kortelė visada atsidaro nuo viršaus.
-const mgShortLabelV73 = {
-  "valst. numeris": "numeris",
-  "registracijos liudijimo nr.": "liudijimas",
-  "pirkimo kaina": "kaina",
-  "registracijos dokumentas": "registracija"
-};
-const mgShortListV73 = (list, max = 3) => {
-  const names = list.map(x => mgShortLabelV73[x.label] || x.label);
-  return names.slice(0, max).join(", ") + (names.length > max ? ` +${names.length - max}` : "");
-};
-const __workCenterItemsV73 = workCenterItems;
-workCenterItems = function () {
-  return __workCenterItemsV73().map(it => {
-    if (it.actionType === "missing-data")
-      return {
-        ...it,
-        action: "Užpildyti duomenis",
-        detail: `PP sutarčiai trūksta: ${mgShortListV73(it.fields || [])}`,
-        cta: "Užpildyti"
-      };
-    if (it.actionType === "missing-docs")
-      return {
-        ...it,
-        action: "Prisegti dokumentus",
-        detail: `Trūksta: ${mgShortListV73(it.missingDocs || [], 2)}`,
-        cta: "Prisegti"
-      };
-    if (it.actionType === "accounting") {
-      const n = (state.cars.find(c => c.id === it.id)?.documents || []).length;
-      return { ...it, action: "Pateikti buhalterei", detail: `Dokumentų: ${n}` };
-    }
-    return it;
-  });
-};
-window.__autoEasierWorkCountV1 = () => workCenterItems().length;
-
+// v73: paleidimas į Garažą, kortelė visada atsidaro nuo viršaus.
 // Kortelė visada atsidaro nuo viršaus
 const __openCarV73 = openCar;
 openCar = function () {
