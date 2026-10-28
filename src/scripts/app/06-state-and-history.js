@@ -52,7 +52,22 @@ const defaultState = () => ({
     menuSections: { shop: false, stats: false }
   }
 });
-let state = loadState();
+// v75: nuotraukų nuorodos į puslapį įterpiamos kaip <img src>; priimamos tik saugios formos (užkerta HTML įterpimą
+// per pažeistą atsarginę kopiją ar debesies duomenis).
+const SAFE_MEDIA_REF = /^(?:(?:photo|doc)_[A-Za-z0-9_-]{1,80}|blob:[^\s"'<>]{1,300}|https:\/\/[^\s"'<>]{1,500}|data:(?:image\/[a-z0-9.+-]{1,20}|application\/pdf);base64,[A-Za-z0-9+\/=]*)$/;
+function sanitizeMediaRefs(s) {
+  const clean = v => (typeof v === "string" && v && !SAFE_MEDIA_REF.test(v) ? "" : v);
+  const fix = o => {
+    if (!o || typeof o !== "object") return;
+    if (Array.isArray(o.photos)) o.photos = o.photos.map(clean).filter(Boolean);
+    if (typeof o.imageSrc === "string") o.imageSrc = clean(o.imageSrc);
+  };
+  (s.cars || []).forEach(fix);
+  (s.leadVariants || []).forEach(fix);
+  (s.customers || []).forEach(fix);
+  return s;
+}
+let state = sanitizeMediaRefs(loadState());
 state.selectedView = "garage";
 state.ui = state.ui || {};
 state.ui.aiChat = Array.isArray(state.ui.aiChat) ? state.ui.aiChat : [];

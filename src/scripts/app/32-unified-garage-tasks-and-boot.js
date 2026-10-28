@@ -158,7 +158,7 @@ window.AUTOEASIER_APP_DATA = {
         JSON.stringify(initial && typeof initial === "object" ? initial : defaultState())
       );
     }
-    state = loadState();
+    state = sanitizeMediaRefs(loadState());
     render();
     return true;
   },
@@ -180,7 +180,7 @@ window.AUTOEASIER_APP_DATA = {
       vibrate: local.vibrate
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
-    state = loadState();
+    state = sanitizeMediaRefs(loadState());
     window.dispatchEvent(new Event("autoeasier:local-save"));
     render();
     return true;

@@ -108,11 +108,33 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
         return;
       }
       const s = existing || document.createElement("script");
-      s.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+      // v75: fiksuota bibliotekos versija (kad CDN atnaujinimas nesugadintų prisijungimo); jei nepasiekiama – atsarginis @2
+      const sdkUrls = [
+        "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.9/dist/umd/supabase.js",
+        "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+      ];
+      let sdkTry = 0;
+      s.src = sdkUrls[0];
       s.async = true;
       s.dataset.autoeasierSupabaseSdk = "true";
-      s.onload = ready;
-      s.onerror = () => reject(new Error("Nepavyko pasiekti Supabase. Patikrinkite interneto ryšį."));
+      s.onload = () => {
+        if (window.supabase?.createClient) ready();
+        else s.onerror();
+      };
+      s.onerror = () => {
+        if (++sdkTry < sdkUrls.length) {
+          s.remove();
+          const next = document.createElement("script");
+          next.src = sdkUrls[sdkTry];
+          next.async = true;
+          next.dataset.autoeasierSupabaseSdk = "true";
+          next.onload = s.onload;
+          next.onerror = s.onerror;
+          document.head.appendChild(next);
+          return;
+        }
+        reject(new Error("Nepavyko pasiekti Supabase. Patikrinkite interneto ryšį."));
+      };
       if (!existing) document.head.appendChild(s);
     }).catch(error => {
       clientPromise = null;

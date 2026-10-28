@@ -57,6 +57,8 @@ statsPage.querySelectorAll("[data-period]").forEach(
     })
 );
 renderGarageStatsPage = function () {
+  if (!state.reportingRange)
+    state.reportingRange = { from: currentMonthKey() + "-01", to: todayISO(), preset: "month" };
   const r = state.reportingRange;
   const within = d =>
     !r.from && !r.to

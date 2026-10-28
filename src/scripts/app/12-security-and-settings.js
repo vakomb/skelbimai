@@ -149,7 +149,7 @@ document.getElementById("vibrateToggle").onclick = () => {
 document.getElementById("resetBtn").onclick = async () => {
   if (
     !window.confirm(
-      "Ištrinti visus įmonės įrašus šiame įrenginyje? Prieš tęsdami išsaugokite atsarginę kopiją."
+      "Ištrinti VISUS įmonės įrašus: automobilius, klientus, užduotis, finansus, buhalterijos eilę, nuotraukas ir dokumentus?\n\nJei esate prisijungę, jie bus ištrinti ir iš jūsų paskyros. Veiksmo atšaukti negalima – prieš tęsdami atsisiųskite atsarginę kopiją."
     )
   )
     return;
@@ -159,7 +159,18 @@ document.getElementById("resetBtn").onclick = async () => {
     toast("Nepavyko ištrinti nuotraukų. Įrašai palikti.");
     return;
   }
-  state = defaultState();
+  // v75: ištrinami tik naudotojo suvesti įmonės įrašai. Nustatymai (tema, garsas, PIN), profilis ir
+  // buhalterės rekvizitai paliekami, o visi vidiniai laukai sukuriami iš naujo, kad programa nesulūžtų.
+  const old = state;
+  const fresh = defaultState();
+  ["theme", "sound", "vibrate", "security", "profile"].forEach(k => {
+    if (old[k] !== undefined) fresh[k] = old[k];
+  });
+  fresh.accounting = { ...fresh.accounting, ...(old.accounting || {}), queue: [], history: [] };
+  fresh.ui = { ...fresh.ui, ...(old.ui || {}), aiChat: [], soldCarsOpen: false, historyOpen: false };
+  fresh.selectedView = "garage";
+  fresh.reportingRange = { from: currentMonthKey() + "-01", to: todayISO(), preset: "month" };
+  state = fresh;
   saveState();
   closeSheet();
   render();
