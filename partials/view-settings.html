@@ -1,0 +1,63 @@
+  <div class="view" id="view-settings">
+    <div class="sectionHead"><h2>Nustatymai</h2><span>Paskyra ir programėlė</span></div>
+
+    <section class="setGroupV71" id="setAccountV71" aria-labelledby="setAccountHV71">
+      <h3 class="setLabelV71" id="setAccountHV71">Paskyra</h3>
+      <div class="panel pad setAccountCardV71" id="setAccountSlotV71">
+        <button class="setProfileRowV71" type="button" data-profile-edit>
+          <span class="setProfileTxtV71"><strong>Mano duomenys</strong><span class="sub" id="setProfileSubV71">Vardas arba įmonė, kontaktai, adresas</span></span>
+          <span class="setProfileBadgeV71" id="setProfileBadgeV71">Neužpildyta</span>
+          <span class="setChevV71" aria-hidden="true">›</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="setGroupV71" aria-labelledby="setSecurityHV71">
+      <h3 class="setLabelV71" id="setSecurityHV71">Sauga</h3>
+      <div class="panel pad securitySettingsPanel">
+        <div class="securitySettingsHead"><div><span class="securityEyebrow">DUOMENŲ SAUGUMAS</span><strong>Programėlės užraktas</strong><p>PIN apsaugo klientų kontaktus, sutartis ir kitus įmonės duomenis nuo atsitiktinės prieigos šiame įrenginyje.</p></div><span class="securityStateBadge" id="securityStateBadge">Išjungta</span></div>
+        <div class="securitySettingsActions"><button class="btn" id="securityPinBtn" type="button">Nustatyti PIN</button><button class="btn secondary" id="lockNowBtn" type="button" hidden>Užrakinti dabar</button></div>
+        <p class="securityFootnote" id="securityStatus">PIN dar nenustatytas.</p>
+      </div>
+    </section>
+
+    <section class="setGroupV71" aria-labelledby="setAccountantHV71">
+      <h3 class="setLabelV71" id="setAccountantHV71">Buhalterija</h3>
+      <div class="panel pad accountantSettingsPanel">
+        <div class="accountantSettingsHead"><strong>Buhalterės el. paštas</strong></div>
+        <div class="accountantSettingsForm">
+          <input class="input" id="settingsAccountantEmail" type="email" inputmode="email" autocomplete="email" placeholder="buhaltere@imone.lt">
+          <button class="btn" id="saveSettingsAccountantEmail" type="button">Išsaugoti</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="setGroupV71" aria-labelledby="setPrefsHV71">
+      <h3 class="setLabelV71" id="setPrefsHV71">Programėlė</h3>
+      <div class="panel pad">
+        <div class="switch">
+          <div><strong>Šviesus / tamsus režimas</strong><div class="sub">Šviesus režimas yra numatytas</div></div>
+          <div class="toggle on" id="themeToggle"></div>
+        </div>
+        <div class="switch">
+          <div><strong>Garsas</strong><div class="sub">Veiksmų patvirtinimai</div></div>
+          <div class="toggle on" id="soundToggle"></div>
+        </div>
+        <div class="switch">
+          <div><strong>Vibracija</strong><div class="sub">Haptinis grįžtamasis ryšys</div></div>
+          <div class="toggle on" id="vibrateToggle"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="setGroupV71" aria-labelledby="setDataHV71">
+      <h3 class="setLabelV71" id="setDataHV71">Duomenys</h3>
+      <div class="panel pad companyStorage"><strong>Atsarginė kopija</strong><p>Duomenys saugomi jūsų paskyroje ir sinchronizuojami tarp įrenginių. Atsarginė kopija – papildomas failas šiame įrenginyje, apima visus priedus.</p><div class="btnRow"><button class="btn" id="backupCompany">Atsarginė kopija</button><button class="btn secondary" id="restoreCompany">Atkurti kopiją</button></div><input type="file" id="restoreFile" accept="application/json,.json" hidden><p id="backupStatus" role="status"></p></div>
+      <div class="panel pad setDangerV71">
+        <div class="switch">
+          <div><strong>Ištrinti įmonės duomenis</strong><div class="sub">Ištrina visus įrašus ir nuotraukas jūsų paskyroje. Veiksmo atšaukti negalima.</div></div>
+          <button class="btn ghost" id="resetBtn">Ištrinti duomenis</button>
+        </div>
+      </div>
+    </section>
+  </div>

@@ -1,0 +1,40 @@
+  <div class="view" id="view-finance">
+    <div class="financeMobileHead">
+      <div><h2>Finansai</h2><span>Biudžetas ir pinigų judėjimas</span></div>
+    </div>
+    <section class="financeSummaryShell">
+      <div class="financeGrid financeMobileGrid" id="financeSummaryGrid"></div>
+    </section>
+    <div class="financeMobileActions">
+      <details class="financeMobileFold" id="financeTxFold">
+        <summary><span class="financeFoldIcon">＋</span><span><strong>Nauja operacija</strong><small>Pajamos arba išlaidos</small></span><span class="financeFoldArrow">›</span></summary>
+        <div class="financeFoldBody">
+          <div class="field"><label>Tipas</label><select class="input" id="financeTxType"><option value="income">Pajamos</option><option value="expense">Išlaidos</option></select></div>
+          <div class="field"><label for="financeTxAmount">Suma</label><input class="input" id="financeTxAmount" type="number" min="0" step="1" inputmode="decimal" placeholder="250" /></div>
+          <div class="field"><label for="financeTxDate">Data</label><input class="input" id="financeTxDate" type="date" /></div>
+          <div class="field"><label for="financeTxTitle">Pavadinimas</label><input class="input" id="financeTxTitle" placeholder="Pvz. Reklama, nuoma, kuras" /></div>
+          <div class="field"><label for="financeTxNote">Pastaba</label><input class="input" id="financeTxNote" placeholder="Papildoma informacija" /></div>
+          <button class="btn financeFullBtn" id="addFinanceTxBtn" type="button">Pridėti operaciją</button>
+        </div>
+      </details>
+      <details class="financeMobileFold" id="financeDebtFold">
+        <summary><span class="financeFoldIcon">€</span><span><strong>Skolos</strong><small>Pridėti arba sumažinti skolą</small></span><span class="financeFoldArrow">›</span></summary>
+        <div class="financeFoldBody">
+          <div class="field"><label>Veiksmas</label><select class="input" id="debtAction"><option value="add">Pridėti skolą</option><option value="subtract">Atimti skolą</option></select></div>
+          <div class="field"><label for="debtPerson">Kam skolinga įmonė</label><input class="input" id="debtPerson" placeholder="Vardas / įmonė" /></div>
+          <div class="field"><label for="debtAmount">Suma</label><input class="input" id="debtAmount" type="number" min="0" step="1" inputmode="decimal" placeholder="100" /></div>
+          <div class="field"><label for="debtDate">Data</label><input class="input" id="debtDate" type="date" /></div>
+          <div class="field"><label for="debtNote">Pastaba</label><input class="input" id="debtNote" placeholder="Kodėl keitėsi skola" /></div>
+          <button class="btn financeFullBtn" id="addDebtBtn" type="button">Išsaugoti skolos veiksmą</button>
+        </div>
+      </details>
+    </div>
+    <section class="financeMobileSection">
+      <div class="financeMobileSectionHead"><h3>Operacijos</h3><span id="financeTxCount">0 įrašų</span></div>
+      <div class="financeList" id="financeTxRoot"></div>
+    </section>
+    <section class="financeMobileSection">
+      <div class="financeMobileSectionHead"><h3>Skolos</h3><span id="financeDebtCount">0 partnerių</span></div>
+      <div class="financeList" id="financeDebtRoot"></div>
+    </section>
+  </div>

@@ -1,0 +1,58 @@
+  <div class="view" id="view-garage-leads">
+    <div class="sectionHead"><h2>Variantai</h2><span>Įkelti variantai</span></div>
+    <div class="section">
+      <div class="panel pad">
+        <div class="garageMenuTitle" style="margin-bottom:12px">
+          <div>
+            <strong>Įkelti variantai</strong>
+            <span></span>
+          </div>
+          <div class="badge info" id="garageLeadCount">0 variantų</div>
+        </div>
+        <div class="garageLeadGrid" id="garageLeadRoot"></div>
+      </div>
+    </div>
+    <div class="section">
+      <button class="btn" id="showAddGarageLeadBtn" type="button" style="width:100%;background:var(--success);color:#fff;border-color:var(--success)">
+        <span class="leadAddIcon" aria-hidden="true">+</span><span>Pridėti dominantį variantą</span>
+      </button>
+      <div class="panel pad" id="addGarageLeadPanel" style="display:none;margin-top:10px">
+        <div class="garageMenuTitle">
+          <div>
+            <strong>Naujas dominantis variantas</strong>
+          </div>
+          <button class="btn secondary appCloseAction" type="button" id="backToGarageBtn">Uždaryti formą</button>
+        </div>
+        <div class="field"><label for="leadMake">Markė</label><input class="input" id="leadMake" placeholder="Nissan" /></div>
+        <div class="grid2">
+          <div class="field"><label for="leadModel">Modelis</label><input class="input" id="leadModel" placeholder="X-Trail" /></div>
+          <div class="field"><label for="leadYear">Metai</label><input class="input" id="leadYear" type="number" min="1900" step="1" placeholder="2008" /></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label for="leadFuel">Kuras</label><input class="input" id="leadFuel" placeholder="Dyzelis" /></div>
+          <div class="field"><label for="leadPhone">Tel. nr.</label><input class="input" id="leadPhone" placeholder="+370..." /></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label for="leadCity">Miestas</label><input class="input" id="leadCity" placeholder="Vilnius" /></div>
+          <div class="field"><label for="leadInitialPrice">Pradinė kaina</label><input class="input" id="leadInitialPrice" type="number" min="0" step="1" placeholder="2000" /></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label for="leadTargetPrice">Mūsų siūlyta kaina</label><input class="input" id="leadTargetPrice" type="number" min="0" step="1" placeholder="1500" /></div>
+          <div class="field"><label for="leadExpectedSalePrice">Numatoma pardavimo kaina</label><input class="input" id="leadExpectedSalePrice" type="number" min="0" step="1" placeholder="3500" /></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label for="leadFollowDays">Po kiek dienų skambinti</label><input class="input" id="leadFollowDays" type="number" min="0" step="1" value="2" /></div>
+          <div class="field"><label for="leadTaStatus">TA</label><select class="input" id="leadTaStatus"><option value="unknown">Nežinoma</option><option value="valid">Galioja</option><option value="invalid">Negalioja</option></select></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label for="leadTaUntil">TA galioja iki</label><input class="input" id="leadTaUntil" type="date" /></div>
+          <div class="field"><label for="leadInsuranceStatus">Draudimas</label><select class="input" id="leadInsuranceStatus"><option value="unknown">Nežinoma</option><option value="valid">Galioja</option><option value="invalid">Negalioja</option></select></div>
+        </div>
+        <div class="field"><label for="leadInsuranceUntil">Draudimas galioja iki</label><input class="input" id="leadInsuranceUntil" type="date" /></div>
+        <div class="field"><label>Defektai ir pastabos</label><textarea class="input" id="leadNotes" rows="4" placeholder="Variklis, kėbulas, derybų stadija, ką sakė, kada skambinti..."></textarea></div>
+        <div class="field"><label for="leadPhotos">Nuotraukos</label><input class="input" id="leadPhotos" type="file" accept="image/*" multiple /></div>
+        <button class="btn" id="addGarageLeadBtn" type="button" style="width:100%">Įkelti variantą</button>
+        <button class="btn secondary appCloseAction" id="cancelAddGarageLeadBtn" type="button" style="width:100%;margin-top:8px">Uždaryti</button>
+      </div>
+    </div>
+  </div>

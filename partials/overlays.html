@@ -1,0 +1,18 @@
+<div class="toastWrap" id="toastWrap"></div>
+<div class="modalBackdrop" id="modalBackdrop">
+  <div class="sheet" id="sheet"></div>
+</div>
+<div class="appLock" id="appLock" hidden aria-hidden="true">
+  <div class="appLockCard" role="dialog" aria-modal="true" aria-labelledby="appLockTitle">
+    <div class="appLockBrand">V</div>
+    <span class="appLockEyebrow">VISUREIGIAI, UAB</span>
+    <h2 id="appLockTitle">Programėlė užrakinta</h2>
+    <p>Įveskite PIN, kad pasiektumėte klientų, automobilių ir dokumentų duomenis.</p>
+    <form id="unlockForm" autocomplete="off">
+      <label for="unlockPin">PIN kodas</label>
+      <input id="unlockPin" class="appLockInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" aria-describedby="unlockError" />
+      <button class="btn appLockButton" type="submit">Atrakinti</button>
+      <div id="unlockError" class="appLockError" role="alert"></div>
+    </form>
+  </div>
+</div>

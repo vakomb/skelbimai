@@ -1,0 +1,73 @@
+  <div class="view" id="view-garage">
+    <div class="garageRefBrandRow">
+      <div class="garageRefBrand">
+        <svg class="garageRefLogo" viewBox="0 0 40 28" fill="none" aria-hidden="true"><path d="M2 24 15 9l6 7 5-6 12 14" stroke="#c19a5b" stroke-width="3.1" stroke-linecap="square" stroke-linejoin="miter"/><path d="m10 24 11-12 10 12" stroke="#c19a5b" stroke-width="2.2" opacity=".68"/></svg>
+        <span></span>
+      </div>
+      <div class="garageRefDate"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="15" rx="2.5"/><path d="M7.5 3v5M16.5 3v5M3.5 10h17"/></svg><span id="garageRefDateText">09-11, pn</span></div>
+    </div>
+    <div style="display:none"><span id="carCount"></span><strong id="monthlyProfitValue"></strong><div id="monthlyProfitFill"></div></div>
+    <div class="garageRefMenu">
+      <button class="garageRefWhat" type="button" data-garage-action="what" aria-label="Atidaryti vadybininką">
+        <span class="garageRefWhatIcon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="15" r="7"/><path d="M10 39c.9-7.2 5.5-11 14-11s13.1 3.8 14 11"/></svg></span>
+        <strong>Vadybininkas</strong><span class="garageRefWhatArrow" aria-hidden="true">›</span>
+      </button>
+      <div class="garageRefMenuGrid">
+        <button class="garageRefTile tileTasks" type="button" data-garage-action="tasks" aria-expanded="false"><span class="garageRefTileIcon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="5" y="3.5" width="14" height="17" rx="2"/><path d="M8 8h7M8 12h4M8 16h3"/><path d="m14 15 1.6 1.6L19 13.2"/></svg></span><strong>Užduotys</strong><span class="garageTaskBadgeSlot" aria-live="polite"></span><span class="garageRefTileArrow">›</span></button>
+        <button class="garageRefTile tileStats" type="button" data-garage-action="contacts" aria-expanded="false"><span class="garageRefTileIcon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 20V12h3v8zM10.5 20V7h3v13zM17 20V3h3v17z"/></svg></span><strong>Kontaktai</strong><span class="garageRefTileArrow">›</span></button>
+        <button class="garageRefTile tileLeads" type="button" data-garage-action="leads" aria-expanded="false"><span class="garageRefTileIcon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 7.5 10.5 3H19a2 2 0 0 1 2 2v8.5L14.5 20 4 9.5z"/><circle cx="16.5" cy="7.5" r="1"/></svg></span><strong>Variantai</strong><span class="garageRefTileArrow">›</span></button>
+        <button class="garageRefTile tileAdd" type="button" data-garage-action="addcar"><span class="garageRefTileIcon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg></span><strong>Pridėti automobilį</strong><span class="garageRefTileArrow">›</span></button>
+      </div>
+    </div>
+    <div class="section garageDisclosurePanel" id="garageTasksSection">
+      <div class="sectionHead"><h2>Užduotys</h2><span id="garageTaskSummary">0 darbų</span></div>
+      <section class="garageUnifiedSection garageTodaySection" id="garageTodaySection"><div class="garageUnifiedSectionHead"><button class="garageUnifiedSectionToggle" type="button" data-task-section-toggle="today" aria-expanded="false" aria-controls="garageTodayTasksRoot"><span class="garageUnifiedSectionLabel"><span class="garageUnifiedDot urgent"></span><span class="garageUnifiedSectionTitle">Šiandien būtina</span></span><b id="garageTodayCount">0</b><span class="garageUnifiedSectionChevron" aria-hidden="true">⌄</span></button></div><div id="garageTodayTasksRoot" class="garageUnifiedRows garageUnifiedSectionBody" hidden></div></section>
+      <div class="garageUnifiedSection" data-task-section="autos"><div class="garageUnifiedSectionHead"><button class="garageUnifiedSectionToggle" type="button" data-task-section-toggle="autos" aria-expanded="false" aria-controls="garageAutosSectionBody"><span class="garageUnifiedSectionLabel"><span class="garageUnifiedDot car"></span><span class="garageUnifiedSectionTitle">Automobilių užduotys</span></span><b id="garageAutoSectionCount">0</b><span class="garageUnifiedSectionChevron" aria-hidden="true">⌄</span></button></div><div class="garageUnifiedSectionBody" id="garageAutosSectionBody" hidden><div class="panel taskGroup">
+        <div class="taskGroupBody" id="garageAutosBody">
+          <div class="taskList" id="garageAutoTasksRoot"></div>
+        </div>
+      </div>
+      </div></div>
+      <div class="garageUnifiedSection garageOtherTasksSection" data-task-section="custom"><div class="garageUnifiedSectionHead"><button class="garageUnifiedSectionToggle" type="button" data-task-section-toggle="custom" aria-expanded="false" aria-controls="garageCustomSectionBody"><span class="garageUnifiedSectionLabel"><span class="garageUnifiedDot other"></span><span class="garageUnifiedSectionTitle">Kitos užduotys</span></span><b id="garageOtherSectionCount">0</b><span class="garageUnifiedSectionChevron" aria-hidden="true">⌄</span></button></div><div class="garageUnifiedSectionBody" id="garageCustomSectionBody" hidden><div class="panel taskGroup">
+        <div class="taskGroupBody" id="garageCustomBody">
+          <form class="panel pad otherTaskFormPro" style="margin:0 16px 16px" id="garageTaskForm">
+            <div class="field"><label for="garageTaskTitle">Užduotis</label><input class="input" id="garageTaskTitle" placeholder="Ką reikia padaryti?" maxlength="180" /></div>
+            <div class="grid2">
+              <div class="field"><label for="garageTaskCategory">Tema</label><select class="input" id="garageTaskCategory"><option>Bendra</option><option>Dokumentai</option><option>Servisas</option><option>Skambutis</option><option>Apžiūra</option><option>Kita</option></select></div>
+              <div class="field"><label for="garageTaskPriority">Prioritetas</label><select class="input" id="garageTaskPriority"><option value="normal">Normalu</option><option value="important">Svarbu</option><option value="urgent">Skubu</option></select></div>
+            </div>
+            <div class="field"><label for="garageTaskDueDate">Terminas</label><input class="input" id="garageTaskDueDate" type="date" /></div>
+            <div class="field"><label for="garageTaskNotes">Pastaba</label><textarea class="input" id="garageTaskNotes" rows="2" maxlength="800" placeholder="Nebūtina"></textarea></div>
+            <button class="btn otherTaskAddBtn" id="addGarageTaskBtn" type="submit">＋ Pridėti užduotį</button>
+          </form>
+          <div class="taskList" id="garageCustomTasksRoot"></div>
+        </div>
+      </div></div></div>
+    </div>
+    <div class="section garageAddCarSection">
+      <button class="btn" id="showAddCarFormBtn" type="button" style="width:100%;background:var(--success);color:#fff;border-color:var(--success)">➕ Pridėti automobilį</button>
+      <div class="panel pad" id="addCarPanel" style="display:none;margin-top:10px">
+        <div class="sectionHead" style="margin-bottom:10px">
+          <h2>Naujas automobilis</h2>
+          
+        </div>
+        <div class="field"><label for="carName">Pavadinimas</label><input class="input" id="carName" placeholder="Nissan X-Trail" /></div>
+        <div class="grid2">
+          <div class="field"><label for="carBuyPrice">Pirkimo kaina</label><input class="input" id="carBuyPrice" type="number" min="0" step="1" placeholder="4500" /></div>
+          <div class="field"><label for="carPhoto">Nuotraukos</label><input class="input" id="carPhoto" type="file" accept="image/*" multiple /></div>
+        </div>
+        <button class="btn" id="addCarBtn" type="button" style="width:100%;background:var(--success);color:#fff;border-color:var(--success)">Išsaugoti automobilį</button> <button class="btn secondary appCloseAction" id="cancelAddCarBtn" type="button">Uždaryti</button>
+      </div>
+    </div>
+    <div class="section">
+      <div class="sectionHead"><h2>Aktyvūs automobiliai</h2><span id="activeCarCount">0 auto</span></div>
+      <div class="carGrid" id="activeCarGrid"></div>
+    </div>
+    <div class="section" id="soldCarsSection">
+      <button class="btn danger garageRefSoldToggle" id="toggleSoldCarsBtn" type="button" style="width:100%"><span class="garageRefSoldIcon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 7.5 10.5 3H19a2 2 0 0 1 2 2v8.5L14.5 20 4 9.5z"/><circle cx="16.5" cy="7.5" r="1"/></svg></span><strong>Parduoti automobiliai</strong><span class="garageRefSoldCount" id="soldCarCount">0</span><span class="garageRefSoldArrow">›</span></button>
+      <div id="soldCarsPanel" style="display:none;margin-top:10px">
+        <div class="sectionHead"><h2>Parduoti automobiliai</h2><span id="soldCarCountLabel">0 auto</span></div>
+        <div class="carGrid" id="soldCarGrid"></div>
+      </div>
+    </div>
+  </div>
