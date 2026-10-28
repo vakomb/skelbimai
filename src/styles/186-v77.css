@@ -199,7 +199,11 @@ html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) :focus-visible {
   outline: 2px solid rgba(40, 76, 162, 0.55) !important;
   outline-offset: 2px !important;
 }
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .input:focus-visible {
+/* Teksto laukai turi savo fokuso rėmelį – papildomo kontūro aplink lauką nereikia (prisijungimas ir visi kiti) */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .input:focus-visible,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) input:focus-visible,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) textarea:focus-visible,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) select:focus-visible {
   outline: none !important;
 }
 @media (hover: hover) and (pointer: fine) {
