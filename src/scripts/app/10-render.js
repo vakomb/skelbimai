@@ -112,7 +112,7 @@ function renderGarageStatsPage() {
               toD = parseISODateLocal(car.soldDateISO);
             return fromD && toD ? Math.max(0, Math.round((toD - fromD) / 864e5)) : null;
           })();
-          const photo = photoUrlCache[car.imageSrc] || car.imageSrc || "";
+          const photo = photoSrcSafe(car.imageSrc);
           return `\n            <article class="soldCarCard">\n              <button class="soldCarImageBtn" type="button" data-open-car="${car.id}" aria-label="Atidaryti ${escapeHTML(car.name || "automobilį")}">\n                <div class="soldCarHero" style="background-image:url('${photo.replace(/'/g, "%27")}')">\n                  <span class="soldCarProfit ${profit >= 0 ? "positive" : "negative"}">${profit >= 0 ? "+" : ""}${moneyFmt(profit)}</span>\n                  <span class="soldCarIndex">${from + idx + 1}</span>\n                </div>\n              </button>\n              <div class="soldCarBody">\n                <div class="soldCarTitleRow">\n                  <h4>${escapeHTML(car.name || "Automobilis")}</h4>\n                  <span class="soldCarDate">${escapeHTML(car.soldDateISO || car.soldAt || "—")}</span>\n                </div>\n                <div class="soldCarNumbers">\n                  <span><small>Pirkta</small><strong>${moneyFmt(totalCost)}</strong></span>\n                  <span><small>Parduota</small><strong>${moneyFmt(soldPrice)}</strong></span>\n                  <span><small>${margin >= 0 ? "Marža" : "Minusas"}</small><strong class="${profit < 0 ? "negativeText" : "positiveText"}">${profit >= 0 ? "+" : ""}${margin}%</strong></span>\n                  <span><small>Laikas</small><strong>${days !== null ? days + " d." : "—"}</strong></span>\n                </div>\n              </div>\n            </article>\n          `;
         })
         .join(
@@ -394,7 +394,7 @@ async function render() {
     ? activeCars
         .map(car => {
           const expenses = carChecklistExpenses(car);
-          const src = photoUrlCache[car.imageSrc] || car.imageSrc || "";
+          const src = photoSrcSafe(car.imageSrc);
           return `\n        <article class="carListCard garageRefCarCard" data-open-car="${car.id}" role="button" tabindex="0">\n          <div class="garageRefCarMain">\n            <div class="carListPhoto garageRefCarPhoto">\n              ${src ? `<img src="${src}" alt="${escapeHTML(car.name)}" loading="lazy">` : `<div class="carListNoPhoto">🚗</div>`}\n            </div>\n            <div class="carListInfo garageRefCarInfo">\n              <div class="carListTitle">${escapeHTML(car.name)}</div>\n              ${lcPlateHTMLV61(car.plate)}\n              <div class="carListFacts garageRefFacts">\n                <div><small>Pirkta</small><strong>${moneyFmt(car.buyPrice)}</strong></div>\n                <div><small>Išlaidos</small><strong>${moneyFmt(expenses)}</strong></div>\n                <div><small>Savikaina</small><strong>${moneyFmt(carTotalCost(car))}</strong></div>\n              </div>\n            </div>\n          </div>\n        </article>`;
         })
         .join("")
@@ -405,7 +405,7 @@ async function render() {
           const profit = car.netProfit != null ? Number(car.netProfit || 0) : carNetProfit(car);
           const totalCost = carTotalCost(car);
           const soldPrice = Number(car.soldPrice || 0);
-          const src = photoUrlCache[car.imageSrc] || car.imageSrc || "";
+          const src = photoSrcSafe(car.imageSrc);
           return `\n        <article class="carListCard sold garageRefCarCard garageRefSoldCard" data-open-car="${car.id}" role="button" tabindex="0">\n          <div class="garageRefCarMain">\n            <div class="carListPhoto garageRefCarPhoto">\n              ${src ? `<img src="${src}" alt="${escapeHTML(car.name)}" loading="lazy">` : `<div class="carListNoPhoto">🚗</div>`}\n            </div>\n            <div class="carListInfo garageRefCarInfo">\n              <div class="carListTitle">${escapeHTML(car.name)}</div>\n              ${lcPlateHTMLV61(car.plate)}\n              <div class="carListFacts garageRefFacts soldFacts">\n                <div><small>Savikaina</small><strong>${moneyFmt(totalCost)}</strong></div>\n                <div><small>Parduota</small><strong>${moneyFmt(soldPrice)}</strong></div>\n                <div><small>Marža</small><strong class="${profit >= 0 ? "positiveText" : "negativeText"}">${profit >= 0 ? "+" : ""}${moneyFmt(profit)}</strong></div>\n              </div>\n            </div>\n          </div>\n        </article>`;
         })
         .join("")
@@ -429,7 +429,7 @@ async function render() {
           .map(lead => {
             const photos = Array.isArray(lead.photos) ? lead.photos.filter(Boolean) : [];
             const raw = photos[0] || lead.imageSrc || "";
-            const mainPhoto = raw ? photoUrlCache[raw] || raw : "";
+            const mainPhoto = photoSrcSafe(raw);
             const title = `${lead.make || ""} ${lead.model || ""}`.trim() || "Neįvardintas variantas";
             const sellerPrice = Number(lead.initialPrice || 0);
             const ourPrice = Number(lead.targetPrice || lead.initialPrice || 0);

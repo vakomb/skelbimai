@@ -500,12 +500,15 @@ function installRegistrationReviewStyleV41() {
     "@media(max-width:620px){.registrationReviewBackdropV41{padding:8px;align-items:flex-start}.registrationReviewCardV41{max-height:96vh;max-height:96dvh;border-radius:16px}.registrationReviewHeadV41,.registrationReviewFootV41{padding:13px}.registrationReviewBodyV41{padding:12px}.registrationReviewHeadV41 h3{font-size:18px}.registrationReviewLabelsV41{display:none}.registrationReviewRowV41{grid-template-columns:minmax(0,1fr) auto;gap:7px 9px;padding:10px}.registrationReviewNameV41{grid-column:1/-1}.registrationReviewCodeV41{grid-column:1;grid-row:2;align-self:center}.registrationReviewRowV41 input[type=text]{grid-column:1/-1;grid-row:3;height:44px}.registrationReviewConfV41{grid-column:2;grid-row:1;text-align:right}.registrationReviewRawV41{grid-column:1/-1;margin:0}.registrationReviewFootV41{display:grid;grid-template-columns:1fr 1fr}.registrationReviewFootV41 button{width:100%;padding:0 8px}.registrationReviewAttachV41{font-size:12px}}";
   document.head.appendChild(style);
 }
+// v74: laisvesnės taisyklės (vardiniai, priekabų, motociklų, tranzitiniai ir užsienio numeriai)
+const plateValidV74 = v => /^[A-Z0-9]{2,10}$/.test(v);
+const regDocValidV74 = v => /^[A-Z]{1,3}\d{5,8}$/.test(v);
 function registrationValidateReviewV41(key, value) {
   const v = String(value || "").trim();
   if (!v) return true;
-  if (key === "plate") return /^[A-Z]{3}\d{3}$/.test(v.toUpperCase());
+  if (key === "plate") return plateValidV74(v.toUpperCase().replace(/[\s-]/g, ""));
   if (key === "vin") return /^[A-HJ-NPR-Z0-9]{17}$/.test(v.toUpperCase());
-  if (key === "regDoc") return /^[A-Z]\d{6,7}$/.test(v.toUpperCase());
+  if (key === "regDoc") return regDocValidV74(v.toUpperCase().replace(/[^A-Z0-9]/g, ""));
   if (key === "firstRegistrationDate" || key === "firstRegistrationLithuaniaDate")
     return !!registrationDateV41(v);
   if (key === "modelYear") return registrationYearValidV41(v);
@@ -1121,6 +1124,8 @@ openWhatMissingDataV30 = function (item) {
   document.getElementById("whatSaveMissingV30").onclick = async () => {
     const btn = document.getElementById("whatSaveMissingV30");
     if (btn.disabled) return;
+    const car = whatFreshV74("cars", item.id);
+    if (!car) return;
     const old = JSON.parse(JSON.stringify(car)),
       oldBalance = Number(state.finances?.budgetBalance || 0);
     let addedDoc = null;
@@ -1145,13 +1150,12 @@ openWhatMissingDataV30 = function (item) {
           patch.sdk = v;
           if (!car.sdkStatus || car.sdkStatus === "unset") patch.sdkStatus = "done";
         } else if (f.key === "plate") {
-          v = v.toUpperCase();
-          if (!/^[A-Z]{3}\d{3}$/.test(v))
-            throw Error("Valstybinis numeris turi būti 3 raidės ir 3 skaitmenys.");
+          v = v.toUpperCase().replace(/[\s-]/g, "");
+          if (!plateValidV74(v)) throw Error("Patikrink valstybinį numerį (2–10 raidžių ir skaitmenų).");
           patch.plate = v;
         } else if (f.key === "registrationDoc") {
           v = v.toUpperCase().replace(/[^A-Z0-9]/g, "");
-          if (!/^[A-Z]\d{6,7}$/.test(v)) throw Error("Patikrink registracijos liudijimo numerį.");
+          if (!regDocValidV74(v)) throw Error("Patikrink registracijos liudijimo numerį.");
           patch.registrationDoc = v;
         } else if (f.key === "year") {
           const n = Number(v),

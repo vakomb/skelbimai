@@ -33922,6 +33922,9 @@ statsPage.querySelectorAll("[data-period]").forEach(
     })
 );
 renderGarageStatsPage = function () {
+  // v74: po „Ištrinti įmonės duomenis“ / tuščios būsenos reportingRange gali nebūti – atkuriama numatytoji reikšmė
+  if (!state.reportingRange)
+    state.reportingRange = { from: currentMonthKey() + "-01", to: todayISO(), preset: "month" };
   const r = state.reportingRange;
   const within = d =>
     !r.from && !r.to
@@ -47471,7 +47474,9 @@ function cmRenderV66(sheet, car) {
           <span class="cmChevV66">${CM_CHEV_V66}</span>
         </button>`
       )
-      .join("")}<button type="button" class="cmAllV74" data-cm-all>Visos Vadybininko užduotys<span aria-hidden="true">›</span></button></div>`;
+      .join(
+        ""
+      )}<button type="button" class="cmAllV74" data-cm-all>Visos Vadybininko užduotys<span aria-hidden="true">›</span></button></div>`;
   block.append(box);
 }
 const __renderCarSheetV66 = renderCarSheet;
@@ -67528,7 +67533,9 @@ html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlo
   border: 1px solid rgba(87, 145, 214, 0.26) !important;
   border-radius: 20px !important;
   background: linear-gradient(112deg, #0b2344 0%, #123c70 56%, #1e5ca4 100%) !important;
-  box-shadow: 0 10px 24px rgba(13, 49, 91, 0.19), inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+  box-shadow:
+    0 10px 24px rgba(13, 49, 91, 0.19),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
   overflow: hidden !important;
 }
 html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmToggleV66 {

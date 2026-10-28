@@ -472,8 +472,9 @@
     item.doneDateISO = item.doneDateISO || v25Today();
     saveState();
   };
+  // v74: ši funkcija yra app IIFE viduje ir iš čia nepasiekiama – tikriname, kad nemestų ReferenceError
   try {
-    ensureCarTaskExpenseTransactionsV24();
+    if (typeof ensureCarTaskExpenseTransactionsV24 === "function") ensureCarTaskExpenseTransactionsV24();
   } catch (e) {
     console.warn(e);
   }

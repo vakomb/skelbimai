@@ -96,8 +96,15 @@ function workCenterVisibleV30(item) {
   if (p.dismissed[key]) return false;
   const until = p.snoozed[key] || "";
   if (until && until > todayISO()) return false;
-  if (until && until <= todayISO()) delete p.snoozed[key];
-  return true;
+  return true; // v74: pasibaigę atidėjimai valomi tik saugant (workCenterPruneV74), skaitymas būsenos nekeičia
+}
+function workCenterPruneV74() {
+  const p = state?.workCenterPrefs?.snoozed;
+  if (!p || typeof p !== "object") return;
+  const now = todayISO();
+  Object.keys(p).forEach(k => {
+    if (p[k] && p[k] <= now) delete p[k];
+  });
 }
 function workCenterSnoozeV30(key, days = 3) {
   if (!key) return;

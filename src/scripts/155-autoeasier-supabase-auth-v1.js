@@ -135,7 +135,13 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
     pollCloudListener = null,
     visibilityListener = null,
     pageHideListener = null,
+    sheetClosedListener = null,
+    remotePending = false,
     lastSyncedPayload = null;
+  // v74: kol atidarytas langas ar redaguojamas laukas, nuotolinių duomenų neprimame (langas laiko seną objektą)
+  const uiBusy = () =>
+    !!document.getElementById("modalBackdrop")?.classList.contains("show") ||
+    /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName || "");
   const uploadedMedia = new Set(),
     downloadedMedia = new Map();
   const SYNC_MARKER = "autoeasier-account-sync-v2";
@@ -486,6 +492,10 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
     if (pollCloudListener) window.removeEventListener("focus", pollCloudListener);
     if (visibilityListener) document.removeEventListener("visibilitychange", visibilityListener);
     if (pageHideListener) window.removeEventListener("pagehide", pageHideListener);
+    if (sheetClosedListener) {
+      window.removeEventListener("autoeasier:sheet-closed", sheetClosedListener);
+      document.removeEventListener("focusout", sheetClosedListener);
+    }
     cloudReady = true;
     localDirty = false;
     cloudConflict = false;
@@ -533,6 +543,11 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
               throw mergeError;
             }
             mediaKeys(remotePayload).forEach(key => uploadedMedia.add(key));
+            if (uiBusy()) {
+              localDirty = true;
+              remotePending = true;
+              throw Object.assign(new Error("Atidėta, kol uždaromas langas"), { deferred: true });
+            }
             applyingRemote = true;
             try {
               window.AUTOEASIER_APP_DATA.replaceState(merged);
@@ -573,6 +588,10 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
             cloudTimer = setTimeout(() => flushCloudSync(), 500);
           }
         } catch (error) {
+          if (error?.deferred) {
+            setSyncStatus("Sinchronizuos uždarius langą", "pending");
+            return;
+          }
           console.error("AutoEasier cloud sync failed", error);
           if (
             error.code === "40001" ||
@@ -609,6 +628,10 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
           cloudTimer = setTimeout(() => flushCloudSync(), 100);
           return;
         }
+        if (uiBusy()) {
+          remotePending = true;
+          return;
+        }
         await applySharedPayload(row.payload, row.revision, userId);
         initialSyncHash = await hashState(sharedState(window.AUTOEASIER_APP_DATA.getState()));
       } catch (error) {
@@ -621,6 +644,16 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
       else flushCloudSync();
     };
     pageHideListener = () => flushCloudSync();
+    sheetClosedListener = () => {
+      setTimeout(() => {
+        if (!remotePending || uiBusy()) return;
+        remotePending = false;
+        if (localDirty) flushCloudSync();
+        else pollCloud();
+      }, 350);
+    };
+    window.addEventListener("autoeasier:sheet-closed", sheetClosedListener);
+    document.addEventListener("focusout", sheetClosedListener);
     window.addEventListener("focus", pollCloudListener);
     document.addEventListener("visibilitychange", visibilityListener);
     window.addEventListener("pagehide", pageHideListener);
@@ -689,7 +722,16 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
     if (pollCloudListener) window.removeEventListener("focus", pollCloudListener);
     if (visibilityListener) document.removeEventListener("visibilitychange", visibilityListener);
     if (pageHideListener) window.removeEventListener("pagehide", pageHideListener);
-    localSaveListener = pollCloudListener = visibilityListener = pageHideListener = null;
+    if (sheetClosedListener) {
+      window.removeEventListener("autoeasier:sheet-closed", sheetClosedListener);
+      document.removeEventListener("focusout", sheetClosedListener);
+    }
+    localSaveListener =
+      pollCloudListener =
+      visibilityListener =
+      pageHideListener =
+      sheetClosedListener =
+        null;
     downloadedMedia.clear();
     uploadedMedia.clear();
     document.getElementById("autoEasierMembersPanel")?.remove();

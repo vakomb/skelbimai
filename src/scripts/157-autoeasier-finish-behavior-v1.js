@@ -41,9 +41,9 @@
     };
   })();
   scheduleBadges();
-  if (document.body)
-    new MutationObserver(scheduleBadges).observe(document.body, { childList: true, subtree: true });
+  // v74: ženkliukas atnaujinamas tik po išsaugojimo, po render() ir per pageshow (be viso body stebėtojo)
   window.addEventListener("autoeasier:local-save", scheduleBadges);
+  window.addEventListener("autoeasier:rendered", scheduleBadges);
   window.addEventListener("pageshow", scheduleBadges);
   function placePpClose() {
     const root = document.getElementById("accountingRoot");

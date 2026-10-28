@@ -150,10 +150,6 @@ function openCar(carId) {
   if (!car) return;
   renderCarSheet(car);
   document.getElementById("modalBackdrop").classList.add("show");
-  const backdrop = document.getElementById("modalBackdrop");
-  backdrop.onclick = e => {
-    if (e.target === backdrop) closeSheet();
-  };
 }
 function renderCarSheet(car) {
   const doneCount = carDoneCount(car);

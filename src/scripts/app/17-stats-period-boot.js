@@ -57,6 +57,9 @@ statsPage.querySelectorAll("[data-period]").forEach(
     })
 );
 renderGarageStatsPage = function () {
+  // v74: po „Ištrinti įmonės duomenis“ / tuščios būsenos reportingRange gali nebūti – atkuriama numatytoji reikšmė
+  if (!state.reportingRange)
+    state.reportingRange = { from: currentMonthKey() + "-01", to: todayISO(), preset: "month" };
   const r = state.reportingRange;
   const within = d =>
     !r.from && !r.to
@@ -161,19 +164,23 @@ const bootRender = () => {
 if (document.readyState === "loading")
   document.addEventListener("DOMContentLoaded", bootRender, { once: true });
 else bootRender();
-window.addEventListener("pageshow", e => {
-  if (e.persisted) {
+// v74: vienas atidėtas perpiešimas (pageshow + visibilitychange + kiti), nepiešiama, kol atidarytas langas ar laukas
+let renderTimerV74 = 0;
+function renderSoonV74() {
+  clearTimeout(renderTimerV74);
+  renderTimerV74 = setTimeout(() => {
+    renderTimerV74 = 0;
+    if (typeof uiBusyV74 === "function" && uiBusyV74()) return;
     try {
       render();
     } catch (e) {}
-  }
+  }, 150);
+}
+window.addEventListener("pageshow", e => {
+  if (e.persisted) renderSoonV74();
 });
 document.addEventListener("visibilitychange", () => {
-  if (document.visibilityState === "visible") {
-    try {
-      render();
-    } catch (e) {}
-  }
+  if (document.visibilityState === "visible") renderSoonV74();
 });
 const runPhotoMaintenance = () =>
   migrateStatePhotos()
