@@ -1,0 +1,278 @@
+/* =====================================================================
+   AutoEasier v78 – Užduočių skydelis pagal automobilį, sutarties langas Garaže,
+   sklandus Vadybininko atidarymas. Paskutinis CSS blokas (5 ID prefiksas).
+   ===================================================================== */
+
+/* ---------- Užduotys: viena grupė – vienas automobilis ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkListV62 {
+  display: grid !important;
+  gap: 10px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkGroupV78 {
+  margin: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid var(--pv-line) !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.03) !important;
+}
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  #view-garage
+  .tkGroupV62.tkGroupV78
+  + .tkGroupV62.tkGroupV78 {
+  margin-top: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkHeadV78 {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  width: 100% !important;
+  min-height: 66px !important;
+  margin: 0 !important;
+  padding: 11px 12px 11px 14px !important;
+  border: 0 !important;
+  border-bottom: 1px solid #eef0f4 !important;
+  border-radius: 0 !important;
+  background: #fafbfd !important;
+  text-align: left !important;
+  color: var(--pv-ink) !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+  transition: background-color 0.16s ease !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage button.tkHeadV78:active {
+  background: #f1f4f8 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkHeadTextV78 {
+  display: grid !important;
+  gap: 6px !important;
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkHeadTextV78 > strong {
+  display: block !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  color: var(--pv-ink) !important;
+  font-size: 15.5px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.012em !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkHeadMetaV78 {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 6px 10px !important;
+  min-width: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkHeadMetaV78 em {
+  color: var(--pv-muted) !important;
+  font-size: 12.5px !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkHeadMetaV78 em.late {
+  color: #c03d3d !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkHeadMetaV78 .lcPlateV61 {
+  height: 22px !important;
+  border-width: 1.2px !important;
+  border-radius: 6px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkHeadMetaV78 .lcPlateV61 i {
+  width: 13px !important;
+  font-size: 7px !important;
+  padding-bottom: 3px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkHeadMetaV78 .lcPlateV61 b {
+  padding: 0 6px 0 5px !important;
+  font-size: 12px !important;
+  letter-spacing: 0.06em !important;
+}
+/* Nuotrauka dešinėje (kol neįkelta – automobilio piktograma) */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkThumbV78 {
+  position: relative !important;
+  display: grid !important;
+  place-items: center !important;
+  flex: 0 0 56px !important;
+  width: 56px !important;
+  height: 42px !important;
+  overflow: hidden !important;
+  border-radius: 11px !important;
+  background: var(--pv-chip) !important;
+  color: #8f98a8 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkThumbV78 > svg {
+  width: 22px !important;
+  height: 22px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkThumbV78 > img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  opacity: 0 !important;
+  transition: opacity 0.2s ease !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkThumbV78 > img[src] {
+  opacity: 1 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkThumbV78.tkIconOnlyV78 {
+  flex-basis: 42px !important;
+  width: 42px !important;
+  border-radius: 13px !important;
+  color: var(--pv-icon) !important;
+}
+/* Eilutės grupės viduje */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkRowsV78 {
+  display: block !important;
+  padding: 2px 12px 2px 14px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkRowsV78 > .tkRowV62 {
+  border-bottom: 1px solid #eef0f4 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkRowsV78 > .tkRowV62:last-child {
+  border-bottom: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkRowsV78 .tkRowMainV62 {
+  min-height: 58px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkRowsV78 .tkBodyV62 strong {
+  color: var(--pv-ink) !important;
+  font-size: 15px !important;
+  font-weight: 650 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkRowsV78 .tkDue {
+  font-size: 12.5px !important;
+  font-weight: 650 !important;
+}
+/* Šiandienos pažanga – ramesnė, be gradiento */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkProgV63 {
+  border: 1px solid var(--pv-line) !important;
+  border-radius: 18px !important;
+  background: #fafbfd !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkProgV63 .tkRingV63 .fg {
+  stroke: var(--pv-brand) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkProgV63.allDone .tkRingV63 .fg {
+  stroke: #1f9d5b !important;
+}
+/* Skirtukai – iOS segmentai */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkTabsV62 {
+  padding: 4px !important;
+  border: 0 !important;
+  border-radius: 14px !important;
+  background: #eef1f6 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkTabsV62 > button {
+  min-height: 38px !important;
+  border-radius: 11px !important;
+  font-size: 14px !important;
+  font-weight: 650 !important;
+  color: var(--pv-muted) !important;
+}
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  #view-garage
+  .tkTabsV62
+  > button[aria-selected="true"] {
+  background: #fff !important;
+  color: var(--pv-ink) !important;
+  box-shadow:
+    0 1px 2px rgba(16, 24, 40, 0.08),
+    0 2px 6px rgba(16, 24, 40, 0.06) !important;
+}
+/* Turinio perjungimas skirtukuose – švelniai */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .tkListV62 {
+  animation: aeFadeUpV78 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) both !important;
+}
+@keyframes aeFadeUpV78 {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 6px, 0);
+  }
+}
+
+/* ---------- Vadybininkas: atsidaro kaip iOS „push“ – sklandžiai iš dešinės ---------- */
+@media (max-width: 767px) {
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app > #view-garage-what.view.active {
+    animation: aePushInV78 0.26s cubic-bezier(0.22, 0.8, 0.24, 1) both !important;
+  }
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app > #view-garage-what.view.active .garageWhatHero,
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  .app
+  > #view-garage-what.view.active
+  .garageWhatRowWrapV30 {
+  animation: aeFadeUpV78 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) both !important;
+}
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  .app
+  > #view-garage-what.view.active
+  .garageWhatRowWrapV30:nth-child(2) {
+  animation-delay: 0.02s !important;
+}
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  .app
+  > #view-garage-what.view.active
+  .garageWhatRowWrapV30:nth-child(3) {
+  animation-delay: 0.04s !important;
+}
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  .app
+  > #view-garage-what.view.active
+  .garageWhatRowWrapV30:nth-child(n + 4) {
+  animation-delay: 0.06s !important;
+}
+@keyframes aePushInV78 {
+  from {
+    opacity: 0;
+    transform: translate3d(18px, 0, 0);
+  }
+}
+
+/* ---------- Sutarties langas ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .ctFormV52 .cfGridV51 {
+  align-items: start !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .ctFormV52 .cfGridV51 > .field {
+  margin-top: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .ctFormV52 .cfCardV51 {
+  padding: 14px !important;
+  border-radius: 20px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .ctFormV52 .ctCardTitleV55,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .ctFormV52 .cfCardV51 > summary,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .ctFormV52 .cfCardV51 h4 {
+  color: var(--pv-ink) !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet #ctGenerate {
+  min-height: 56px !important;
+  border-radius: var(--pv-r-btn) !important;
+  font-size: 17px !important;
+  box-shadow: var(--pv-shadow-brand) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app > #view-garage-what.view.active,
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app > #view-garage-what.view.active * {
+    animation: none !important;
+  }
+}

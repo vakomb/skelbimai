@@ -1,13 +1,24 @@
 (() => {
-  function imageFor(id) {
-    const card = Array.from(
-      document.querySelectorAll("#activeCarGrid [data-open-car],#soldCarGrid [data-open-car]")
-    ).find(x => x.dataset.openCar === id);
-    return card?.querySelector("img")?.getAttribute("src") || "";
+  // v78: viena automobilių nuotraukų lentelė vienam praėjimui (anksčiau kiekvienai užduočiai –
+  // atskira visų kortelių paieška; su šimtais automobilių tai lėtino Garažą kelias sekundes)
+  function imageMap() {
+    const map = new Map();
+    document.querySelectorAll("#activeCarGrid [data-open-car],#soldCarGrid [data-open-car]").forEach(card => {
+      const id = card.dataset.openCar;
+      if (!map.has(id)) map.set(id, card.querySelector("img")?.getAttribute("src") || "");
+    });
+    return map;
   }
+  let dueCacheRaw = null,
+    dueCacheCount = 0;
   function dueVariantCount() {
     try {
-      const s = JSON.parse(localStorage.getItem("visureigiai_uab_v1") || "{}");
+      const raw =
+        localStorage.getItem(window.AUTOEASIER_APP_DATA?.currentStorageKey?.() || "visureigiai_uab_v1") ||
+        "{}";
+      if (raw === dueCacheRaw) return dueCacheCount;
+      dueCacheRaw = raw;
+      const s = JSON.parse(raw);
       const d = s.state || s;
       const d0 = new Date(),
         today =
@@ -16,7 +27,10 @@
           String(d0.getMonth() + 1).padStart(2, "0") +
           "-" +
           String(d0.getDate()).padStart(2, "0");
-      return (d.leadVariants || []).filter(v => v.nextCallDate && v.nextCallDate <= today).length;
+      dueCacheCount = (d.leadVariants || []).filter(
+        v => v && v.nextCallDate && v.nextCallDate <= today
+      ).length;
+      return dueCacheCount;
     } catch (e) {
       return 0;
     }
@@ -66,7 +80,11 @@
           document.querySelector("#view-garage [data-garage-action=tasks]")?.click();
       });
     }
-    section.querySelectorAll(".garageUnifiedTask[data-company-kind=car]").forEach(row => {
+    const carRows = section.querySelectorAll(".garageUnifiedTask[data-company-kind=car]"),
+      carCards = section.querySelectorAll("#garageAutoTasksRoot .garageCarTaskCard"),
+      images = carRows.length || carCards.length ? imageMap() : new Map(),
+      imageFor = id => images.get(id) || "";
+    carRows.forEach(row => {
       const mark = row.querySelector(".garageUnifiedTaskMark"),
         src = imageFor(row.dataset.companyId);
       if (mark && src && !mark.querySelector("img")) {
@@ -79,7 +97,7 @@
         mark.append(img);
       }
     });
-    section.querySelectorAll("#garageAutoTasksRoot .garageCarTaskCard").forEach(card => {
+    carCards.forEach(card => {
       const id = card.querySelector("[data-open-car]")?.dataset.openCar,
         src = id && imageFor(id),
         h = card.querySelector(".garageCarTaskHead");

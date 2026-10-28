@@ -47,6 +47,9 @@ window.addEventListener(
 const __renderNavV63 = render;
 render = function () {
   // Parduoti automobiliai: tik parodome / paslepiame jau paruoštą sąrašą (be viso perpiešimo)
+  // v78: parduotų sąrašas kuriamas tik išskleidus – jei jis dar tuščias, reikia viso perpiešimo
+  const soldGridEmpty = !document.getElementById("soldCarGrid")?.childElementCount;
+  if (soldLiteV65 && state.ui?.soldCarsOpen && soldGridEmpty) soldLiteV65 = false;
   if (soldLiteV65) {
     soldLiteV65 = false;
     const panel = document.getElementById("soldCarsPanel");

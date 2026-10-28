@@ -170,16 +170,44 @@ await ev(() => document.querySelector("#ctClose").click());
 await p.waitForTimeout(300);
 await ev(() => document.querySelector('.navBtn[data-view="garage"]').click());
 await p.waitForTimeout(400);
+// v78: Garažo „Generuoti sutartį“ atidaro sutarties langą čia pat Garaže ir sutartis sugeneruojama
+await ev(() => {
+  document.querySelectorAll("#ctResultV56, .ctResultV56").forEach(n => n.remove());
+  if (typeof window.AutoEasierContract === "object") document.querySelector("#sheet .closeBtn")?.click();
+});
+await ev(() => document.querySelector('.navBtn[data-view="garage"]').click());
+await p.waitForTimeout(300);
 await ev(() => document.querySelector('#view-garage [data-garage-action="contract"]').click());
 await p.waitForTimeout(500);
-const acc = await ev(() => ({
+const g = await ev(() => ({
   view: document.querySelector(".view.active")?.id,
-  sources: [...document.querySelectorAll("[data-pp-source-mode]")].map(b => b.dataset.ppSourceMode).join(",")
+  form: !!document.getElementById("ctform"),
+  sheet: document.getElementById("modalBackdrop")?.classList.contains("show"),
+  car: document.getElementById("ctCar")?.value
 }));
 check(
-  acc.view === "view-accounting" && acc.sources === "car,camera,gallery",
-  "Garažas → Generuoti sutartį atidaro sutarčių generatorių (šaltinio pasirinkimas) " + JSON.stringify(acc)
+  g.view === "view-garage" && g.form && g.sheet && g.car === "",
+  "Garažas → Generuoti sutartį atidaro sutarties langą Garaže " + JSON.stringify(g)
 );
+await ev(() => {
+  const sel = document.getElementById("ctCar");
+  sel.value = "car-demo-1";
+  sel.dispatchEvent(new Event("change", { bubbles: true }));
+});
+await p.waitForTimeout(300);
+await ev(() => {
+  const s = (id, v) => {
+    const el = document.getElementById(id);
+    if (el) el.value = v;
+  };
+  s("ctsdk", "AB12CD34");
+  s("ctregistrationDoc", "K1281961");
+  if (!document.getElementById("ctPrice").value) s("ctPrice", "4500");
+});
+await ev(() => document.getElementById("ctGenerate").click());
+await p.waitForFunction(() => !document.getElementById("ctResult").hidden, null, { timeout: 30000 });
+const gv = await ev(() => document.querySelector(".view.active")?.id);
+check(gv === "view-garage", "sutartis sugeneruota neišėjus iš Garažo");
 check(!errors.length, "be JS klaidų " + errors.join("; "));
 server.close();
 await b.close();

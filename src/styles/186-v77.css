@@ -336,9 +336,9 @@ html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcAgeV
     width: 128px !important;
   }
 }
+/* v78: vienodo pločio stulpeliai – skaičiai lygiuojasi visose kortelėse, per dideli sumažinami (61-v78.js) */
 html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .garageRefFacts {
-  grid-template-columns: auto auto auto !important;
-  justify-content: space-between !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
 }
 html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .garageRefFacts > div {
   min-width: 0 !important;
@@ -421,4 +421,122 @@ html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .financeRow > div:la
 html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRefOpAmount,
 html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRefOpDate {
   font-variant-numeric: tabular-nums !important;
+}
+/* v78: siauri ekranai (iPhone SE / mini, iki 380 px) – nuotrauka ir pavadinimas viršuje,
+   skaičiai per visą kortelės plotį, kad tilptų ir 7 skaitmenų sumos */
+@media (max-width: 380px) {
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .garageRefCarMain {
+    grid-template-columns: 76px minmax(0, 1fr) !important;
+    grid-template-rows: auto auto auto !important;
+    column-gap: 12px !important;
+    row-gap: 6px !important;
+    align-items: center !important;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .garageRefCarPhoto {
+    grid-column: 1 !important;
+    grid-row: 1 / span 2 !important;
+    width: 76px !important;
+    height: 58px !important;
+    min-height: 0 !important;
+    aspect-ratio: auto !important;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .garageRefCarInfo {
+    display: contents !important;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .carListTitle {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    align-self: end !important;
+    min-width: 0 !important;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .garageRefCarInfo > .lcPlateV61 {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+    align-self: start !important;
+    justify-self: start !important;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .garageRefFacts {
+    grid-column: 1 / -1 !important;
+    grid-row: 3 !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    margin-top: 4px !important;
+  }
+}
+/* v78: plytelės siauruose ekranuose – žodžiai nelaužomi per vidurį */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefTile strong,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRefMenu .accountingRefAction strong,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .menuLinks .menuLink strong {
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  -webkit-hyphens: manual !important;
+  hyphens: manual !important;
+  min-width: 0 !important;
+}
+@media (max-width: 380px) {
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefTile,
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRefMenu .accountingRefAction,
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .menuLinks .menuLink {
+    padding: 0 8px 0 10px !important;
+    gap: 9px !important;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefTile .garageRefTileIcon,
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRefMenu .accountingRefAction .ico,
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .menuLinks .menuLink .ico {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    flex-basis: 34px !important;
+    border-radius: 11px !important;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefTile .garageRefTileIcon svg,
+  html:not(#ae):not(#af):not(#ag)
+    body:not(#ae):not(#af)
+    .app
+    .accountingRefMenu
+    .accountingRefAction
+    .ico
+    svg,
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .menuLinks .menuLink .ico svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefTile strong,
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRefMenu .accountingRefAction strong,
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .menuLinks .menuLink strong {
+    font-size: 14px !important;
+  }
+  /* Rodyklė siaurame ekrane nereikalinga – visa plytelė paspaudžiama */
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefTile .garageRefTileArrow,
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRefMenu .accountingRefAction .arrow,
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .menuLinks .menuLink .arrow {
+    display: none !important;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefSoldToggle {
+    gap: 9px !important;
+    padding: 0 12px 0 10px !important;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefSoldToggle strong {
+    font-size: 14.5px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    min-width: 0 !important;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefWhat strong {
+    font-size: 19px !important;
+  }
+}
+
+/* v78: ilgi sąrašai – ekrane nematomos kortelės ir eilutės neišdėstomos ir nepiešiamos (greitis su šimtais įrašų).
+   „auto“ prisimena tikrąjį aukštį, todėl slenkant nešokinėja. */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app #activeCarGrid > .carListCard,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app #soldCarGrid > .carListCard {
+  content-visibility: auto !important;
+  contain-intrinsic-size: auto 190px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageWhatRowWrapV30,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRequiredRowV1,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app #financeTxRoot > .financeRow {
+  content-visibility: auto !important;
+  contain-intrinsic-size: auto 72px !important;
 }

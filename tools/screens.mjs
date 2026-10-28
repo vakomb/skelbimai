@@ -211,7 +211,15 @@ const S = [
       await tapText("#contactsRoot button", "Naujas|Pridėti|＋|\\+");
     }
   ],
-  ["24-sold-car", () => openCar("car-demo-2")]
+  [
+    "24-sold-car",
+    async () => {
+      await tap("#toggleSoldCarsBtn");
+      await p.waitForTimeout(300);
+      await openCar("car-demo-2");
+    }
+  ],
+  ["25-garage-contract", () => tap('[data-garage-action="contract"]')]
 ];
 const only = process.env.ONLY ? process.env.ONLY.split(",") : null;
 for (const [name, act] of S) {

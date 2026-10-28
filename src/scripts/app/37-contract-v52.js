@@ -669,7 +669,7 @@ function openContractSheetV52({ carId = "" } = {}) {
         ? "seller"
         : "buyer";
   const time = new Date().toTimeString().slice(0, 5);
-  openSheet(`<div class="sheetHead cfHeadV51 ctHeadV55"><span></span><h3>PP sutartis</h3><button class="closeBtn" id="ctClose" type="button" aria-label="Uždaryti">✕</button></div>
+  openSheet(`<div class="sheetHead cfHeadV51 ctHeadV55"><span></span><h3>Pirkimo–pardavimo sutartis</h3><button class="closeBtn" id="ctClose" type="button" aria-label="Uždaryti">✕</button></div>
   <div class="cfFormV51 ctFormV52" id="ctform">
     <section class="cfCardV51">
       <div class="field"><label for="ctCar">Automobilis</label><select class="input" id="ctCar"><option value="">Kitas automobilis</option>${cars

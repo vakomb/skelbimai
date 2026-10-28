@@ -56,7 +56,66 @@ const defaultState = () => ({
 // per pažeistą atsarginę kopiją ar debesies duomenis).
 const SAFE_MEDIA_REF =
   /^(?:(?:photo|doc)_[A-Za-z0-9_-]{1,80}|blob:[^\s"'<>]{1,300}|https:\/\/[^\s"'<>]{1,500}|data:(?:image\/[a-z0-9.+-]{1,20}|application\/pdf);base64,[A-Za-z0-9+\/=]*)$/;
+// v78: sąrašai sutvarkomi, kad vienas sugadintas įrašas (null, ne objektas, ne masyvas) nesugriautų
+// viso ekrano. Galiojantys duomenys nekeičiami: pašalinami tik null / ne objektai, netinkami vidiniai
+// sąrašai paverčiami tuščiais, automobiliui ar variantui be id suteikiamas naujas id.
+const isRecordV78 = v => !!v && typeof v === "object" && !Array.isArray(v);
+const recordListV78 = v => (Array.isArray(v) ? v.filter(isRecordV78) : []);
+function normalizeStateV78(s) {
+  if (!isRecordV78(s)) return s;
+  ["cars", "customers", "leadVariants", "garageTasks", "history", "historyLog"].forEach(k => {
+    if (k in s) s[k] = recordListV78(s[k]);
+  });
+  // Elementų tipas nežinomas – paliekama viskas, išskyrus tuščias reikšmes
+  if ("importantTasks" in s)
+    s.importantTasks = Array.isArray(s.importantTasks) ? s.importantTasks.filter(x => x != null) : [];
+  let seq = 0;
+  const ensureId = (o, prefix) => {
+    if (o.id === undefined || o.id === null || o.id === "")
+      o.id = `${prefix}-${Date.now().toString(36)}-${++seq}`;
+    else if (typeof o.id !== "string") o.id = String(o.id);
+  };
+  (s.cars || []).forEach(car => {
+    ensureId(car, "car");
+    if ("checklist" in car) car.checklist = recordListV78(car.checklist);
+    if ("documents" in car) car.documents = recordListV78(car.documents);
+    if ("photos" in car)
+      car.photos = Array.isArray(car.photos) ? car.photos.filter(x => typeof x === "string") : [];
+  });
+  (s.leadVariants || []).forEach(lead => {
+    ensureId(lead, "lead");
+    if ("photos" in lead)
+      lead.photos = Array.isArray(lead.photos) ? lead.photos.filter(x => typeof x === "string") : [];
+  });
+  if (isRecordV78(s.finances)) {
+    ["transactions", "debts", "debtLedger"].forEach(k => {
+      if (k in s.finances) s.finances[k] = recordListV78(s.finances[k]);
+    });
+    s.finances.transactions?.forEach(tx => {
+      if ("attachments" in tx && !Array.isArray(tx.attachments)) tx.attachments = [];
+    });
+  }
+  if (isRecordV78(s.accounting)) {
+    // Eilė – automobilių id (tekstas), istorija – įrašai (objektai)
+    if ("queue" in s.accounting)
+      s.accounting.queue = Array.isArray(s.accounting.queue)
+        ? s.accounting.queue
+            .filter(id => (typeof id === "string" && id) || typeof id === "number")
+            .map(String)
+        : [];
+    if ("history" in s.accounting) s.accounting.history = recordListV78(s.accounting.history);
+  }
+  if ("contactBook" in s) {
+    if (!isRecordV78(s.contactBook)) s.contactBook = { groups: [], contacts: [] };
+    else {
+      s.contactBook.groups = recordListV78(s.contactBook.groups);
+      s.contactBook.contacts = recordListV78(s.contactBook.contacts);
+    }
+  }
+  return s;
+}
 function sanitizeMediaRefs(s) {
+  normalizeStateV78(s);
   const clean = v => (typeof v === "string" && v && !SAFE_MEDIA_REF.test(v) ? "" : v);
   const fix = o => {
     if (!o || typeof o !== "object") return;
@@ -129,6 +188,12 @@ function loadState() {
     };
   } catch (e) {
     console.warn("State load failed", e);
+    // v78: sugadinta vietinė kopija neperrašoma be pėdsako – pirmiausia išsaugoma atskirai
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw && !localStorage.getItem(STORAGE_KEY + ":corrupt"))
+        localStorage.setItem(STORAGE_KEY + ":corrupt", raw);
+    } catch (err) {}
     return defaultState();
   }
 }
@@ -152,6 +217,17 @@ function saveState() {
       return true;
     } catch (err2) {
       console.warn("State emergency save failed", err2);
+      // v78: telefono atmintis pilna – pakeitimai vis tiek siunčiami į debesį (sinchronizacija ima būseną
+      // iš atminties), o vartotojas vieną kartą įspėjamas
+      try {
+        window.dispatchEvent(new Event("autoeasier:local-save"));
+      } catch (err3) {}
+      if (!window.__aeStorageWarnedV78) {
+        window.__aeStorageWarnedV78 = true;
+        try {
+          toast("Telefono atmintis pilna – duomenys saugomi debesyje. Atlaisvinkite vietos naršyklėje.", "!");
+        } catch (err4) {}
+      }
       return false;
     }
   }

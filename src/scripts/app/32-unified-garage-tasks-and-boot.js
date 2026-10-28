@@ -139,6 +139,8 @@ render = async function () {
 };
 window.AUTOEASIER_APP_DATA = {
   storageKey: STORAGE_KEY,
+  // v78: dabartinės paskyros raktas (storageKey – tik paleidimo metu buvęs, po prisijungimo pasikeičia)
+  currentStorageKey: () => STORAGE_KEY,
   getState: () => JSON.parse(JSON.stringify(state)),
   switchAccount: (userId, { importLegacy = false } = {}) => {
     if (!userId) throw new Error("Trūksta paskyros ID.");

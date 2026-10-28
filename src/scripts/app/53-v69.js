@@ -92,8 +92,9 @@ function awGroupV69() {
   });
   const ordered = [...groups.entries()].sort((a, b) => (a[0] ? 0 : 1) - (b[0] ? 0 : 1));
   const frag = document.createDocumentFragment();
+  const carsById = new Map((state.cars || []).map(c => [c.id, c]));
   ordered.forEach(([carId, items], gi) => {
-    const car = (state.cars || []).find(c => c.id === carId);
+    const car = carsById.get(carId);
     const raw = car?.imageSrc || (car?.photos || [])[0] || "";
     const media = raw ? photoUrlCache[raw] || (/^(data:|blob:|https?:)/.test(raw) ? raw : "") : "";
     const sec = document.createElement("section");

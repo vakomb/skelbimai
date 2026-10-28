@@ -24,10 +24,14 @@ const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 const uid = () =>
   crypto.randomUUID ? crypto.randomUUID() : "id_" + Date.now() + "_" + Math.random().toString(16).slice(2);
 // v75: centai rodomi, kai suma nėra sveikas skaičius (anksčiau 4500,55 € buvo rodoma kaip 4 501 €)
+// v78: formatuotojai sukuriami vieną kartą (Intl.NumberFormat kūrimas kiekvienai sumai lėtino didelius sąrašus)
+const MONEY_FMT_V78 = [
+  new Intl.NumberFormat("lt-LT", { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+  new Intl.NumberFormat("lt-LT", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+];
 const moneyFmt = n => {
   const v = Math.round((Number(n) || 0) * 100) / 100;
-  const frac = Number.isInteger(v) ? 0 : 2;
-  return `${new Intl.NumberFormat("lt-LT", { minimumFractionDigits: frac, maximumFractionDigits: 2 }).format(v)} €`;
+  return `${MONEY_FMT_V78[Number.isInteger(v) ? 0 : 1].format(v)} €`;
 };
 const defaultSkills = [];
 const defaultStats = () => ({ tasksCompleted: 0, carsSold: 0 });

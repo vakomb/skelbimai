@@ -399,17 +399,20 @@ async function render() {
         })
         .join("")
     : emptyCarsHTMLV75();
-  document.getElementById("soldCarGrid").innerHTML = soldCars.length
-    ? soldCars
-        .map(car => {
-          const profit = car.netProfit != null ? Number(car.netProfit || 0) : carNetProfit(car);
-          const totalCost = carTotalCost(car);
-          const soldPrice = Number(car.soldPrice || 0);
-          const src = photoUrlCache[car.imageSrc] || car.imageSrc || "";
-          return `\n        <article class="carListCard sold garageRefCarCard garageRefSoldCard" data-open-car="${car.id}" role="button" tabindex="0">\n          <div class="garageRefCarMain">\n            <div class="carListPhoto garageRefCarPhoto">\n              ${src ? `<img src="${src}" alt="${escapeHTML(car.name)}" loading="lazy">` : `<div class="carListNoPhoto">🚗</div>`}\n            </div>\n            <div class="carListInfo garageRefCarInfo">\n              <div class="carListTitle">${escapeHTML(car.name)}</div>\n              ${lcPlateHTMLV61(car.plate)}\n              <div class="carListFacts garageRefFacts soldFacts">\n                <div><small>Savikaina</small><strong>${moneyFmt(totalCost)}</strong></div>\n                <div><small>Parduota</small><strong>${moneyFmt(soldPrice)}</strong></div>\n                <div><small>Marža</small><strong class="${profit >= 0 ? "positiveText" : "negativeText"}">${profit >= 0 ? "+" : ""}${moneyFmt(profit)}</strong></div>\n              </div>\n            </div>\n          </div>\n          ${carCardFooterHTMLV77(car)}\n        </article>`;
-        })
-        .join("")
-    : `<div class="emptyState">Dar nėra parduotų automobilių.</div>`;
+  // v78: suskleistas parduotų sąrašas nekuriamas (su šimtais parduotų automobilių lėtino kiekvieną perpiešimą)
+  document.getElementById("soldCarGrid").innerHTML = !state.ui?.soldCarsOpen
+    ? ""
+    : soldCars.length
+      ? soldCars
+          .map(car => {
+            const profit = car.netProfit != null ? Number(car.netProfit || 0) : carNetProfit(car);
+            const totalCost = carTotalCost(car);
+            const soldPrice = Number(car.soldPrice || 0);
+            const src = photoUrlCache[car.imageSrc] || car.imageSrc || "";
+            return `\n        <article class="carListCard sold garageRefCarCard garageRefSoldCard" data-open-car="${car.id}" role="button" tabindex="0">\n          <div class="garageRefCarMain">\n            <div class="carListPhoto garageRefCarPhoto">\n              ${src ? `<img src="${src}" alt="${escapeHTML(car.name)}" loading="lazy">` : `<div class="carListNoPhoto">🚗</div>`}\n            </div>\n            <div class="carListInfo garageRefCarInfo">\n              <div class="carListTitle">${escapeHTML(car.name)}</div>\n              ${lcPlateHTMLV61(car.plate)}\n              <div class="carListFacts garageRefFacts soldFacts">\n                <div><small>Savikaina</small><strong>${moneyFmt(totalCost)}</strong></div>\n                <div><small>Parduota</small><strong>${moneyFmt(soldPrice)}</strong></div>\n                <div><small>Marža</small><strong class="${profit >= 0 ? "positiveText" : "negativeText"}">${profit >= 0 ? "+" : ""}${moneyFmt(profit)}</strong></div>\n              </div>\n            </div>\n          </div>\n          ${carCardFooterHTMLV77(car)}\n        </article>`;
+          })
+          .join("")
+      : `<div class="emptyState">Dar nėra parduotų automobilių.</div>`;
   document.querySelectorAll("#activeCarGrid [data-open-car], #soldCarGrid [data-open-car]").forEach(el => {
     el.onclick = () => openCar(el.dataset.openCar);
     el.onkeydown = e => {

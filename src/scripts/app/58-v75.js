@@ -22,7 +22,8 @@ function emptyCarsHTMLV75() {
 }
 
 // ---------- 2. „Generuoti sutartį“ Garaže ----------
-// Sutarčių generatorius gyvena Buhalterijos skiltyje – mygtukas Garaže jį atidaro iškart.
+// v78: sutarties langas atsidaro čia pat Garaže (apatinis langas), be perėjimo į Buhalteriją.
+// Naudojamas tas pats PP sutarties generatorius, kaip automobilio kortelėje (37-contract-v52.js).
 document.addEventListener(
   "click",
   e => {
@@ -30,15 +31,7 @@ document.addEventListener(
     if (!b) return;
     e.preventDefault();
     e.stopImmediatePropagation();
-    state.ui = state.ui || {};
-    state.ui.accountingPanel = "pp";
-    state.ui.accountingPpMode = "";
-    state.ui.accountingPpCarId = "";
-    state.ui.garageInlineExpanded = "";
-    state.selectedView = "accounting";
-    saveState();
-    render();
-    window.scrollTo({ top: 0, behavior: "instant" });
+    openContractSheetV52({});
   },
   true
 );
