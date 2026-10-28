@@ -305,25 +305,6 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
 
 ## v73
 
-- Vadybininkas grąžintas į senąjį vaizdą (hero „Svarbiausia dabar“ + eilutės su „•••“). Tekstai (`Užpildyti duomenis`, `Prisegti dokumentus`) gaunami iš `workCenterItems` (app/15, 23).
-- `app/56-v73.js`: `openCar` visada atveria kortelę nuo viršaus (smooth); grįžus po >30 min – Garažas (žr. v74 taisykles). Nebeapgaubia `render` ir `workCenterItems`.
+- Vadybininkas grąžintas į senąjį vaizdą (hero „Svarbiausia dabar“ + eilutės su „•••“), be suvestinės; tekstai sutrumpinti (`app/56-v73.js`, apgaubia `workCenterItems`): „Užpildyti duomenis“ su detale „PP sutarčiai trūksta: …“, „Prisegti dokumentus“.
+- `openCar` visada atveria kortelę nuo viršaus; grįžus į programą po >20 s – Garažas (`visibilitychange`).
 - `styles/183-v73.css`: nuo 600 px pločio apatinė juosta be `backdrop-filter` ir šešėlio aplink.
-
-## v74 (šaka `v74-launch-fixes`)
-
-Vadybininko stabilumas ir paleidimo paruošimas. Naujas `app/57-v74.js` + `styles/184-v74.css`.
-
-- **Fonas / langai:** `visibilitychange` (56-v73) nieko nedaro, jei atidarytas langas ar kitas sluoksnis, fokusas laukelyje, arba rodomas Garažas / Vadybininkas; slenkstis 30 min; `render` tik kai vaizdas tikrai keičiasi (debounce `renderSoonV74`, 150 ms, nepiešia kai langas atidarytas ar laukas fokusuotas – `uiBusyV74`).
-- **Debesies sinchronizacija (155):** `pollCloud` ir `flushCloudSync` konflikto sujungimas atidedami, kol atidarytas langas ar fokusuotas laukas (`remotePending`); `closeSheet` (apgaubtas 57) siunčia `autoeasier:sheet-closed`, 155 tada tęsia. `localDirty` elgsena nepakitusi. `closeSheet` turi pakartotinio iškvietimo apsaugą.
-- **Šviežias įrašas:** `whatFreshV74(list,id)` (app/23) – išsaugant iš naujo randa automobilį/klientą pagal id; jei nėra – „Įrašas pasikeitė kitame įrenginyje – atidarykite iš naujo“ ir nieko nerašoma (23, 30, 48 `tcCompleteV65`).
-- **„Kita užduotis“** atidaro v62 užduočių skydelį (`openWhatTaskV74`): skirtukas „Šiandien“ arba „Kitos“, slenka prie `[data-tk-id]` ir paryškina eilutę (`tkFlashV74`). Automobilio užduotys – lango forma (`openWhatCarTaskV74`).
-- **Nuotraukos:** `photoSrcSafe` (03) – `src` tik data:/blob:/http(s):/`photoUrlCache`; kitaip tuščia vieta su `data-ph-ref`, užpildoma per `phUrlV67` (10, 23, 26, 27, 57).
-- **Kita:** `openCar` be `backdrop.onclick`; `workCenterVisibleV30` nebekeičia būsenos (valymas `workCenterPruneV74` išsaugant); 157 be MutationObserver (atnaujina po `autoeasier:local-save`, `autoeasier:rendered`, `pageshow`); 135-…v25-js tik `typeof` apsauga nuo ReferenceError; „Užpildyti duomenis“ validacija: numeris 2–10 raidžių/skaitmenų, registracijos dokumentas 1–3 raidės + 5–8 skaitmenys.
-- Ištrinta: `app/49-manager-v65.js`, `app/56-manager-v72.js`. `tools/test-manager.mjs` perrašytas (6 regresijos).
-
-
-### Serveris – paleidimo patikra (v74)
-
-- Gyvoje Supabase yra 3 ankstesnės migracijos be failų repozitorijoje: `per_user_data_isolation`, `enforce_account_boundaries`, `encrypted_account_backups` (2026-10-25). Jų vykdyti iš naujo nereikia. `supabase/functions/account-backups` – dabar įtraukta kaip šaltinis.
-- `user_app_state`: `authenticated` turi tik SELECT; rašoma tik per `account_save_state` (tikrina prenumeratą `subscription_access_for` ir revizijos numerį). `past_due` – 3 dienų lengvata, kitaip tik skaitymas.
-- Likę rankiniai veiksmai Supabase skydelyje: įjungti „Leaked password protection“ (Auth → Passwords).

@@ -5,35 +5,14 @@ function garageWhatMediaApp(item) {
   if (item.kind === "car") {
     const c = (state.cars || []).find(x => x.id === item.id),
       raw = c?.imageSrc || (c?.photos || [])[0] || "";
-    return photoSrcSafe(raw);
+    return raw ? photoUrlCache[raw] || raw : "";
   }
   if (item.kind === "lead") {
     const l = (state.leadVariants || []).find(x => x.id === item.id),
       raw = (l?.photos || [])[0] || l?.imageSrc || "";
-    return photoSrcSafe(raw);
+    return raw ? photoUrlCache[raw] || raw : "";
   }
   return "";
-}
-// Nuotraukos nuoroda (photo_…), kurią galima užpildyti vėliau (data-ph-ref)
-function garageWhatRefApp(item) {
-  if (item.kind === "car") {
-    const c = (state.cars || []).find(x => x.id === item.id);
-    return c?.imageSrc || (c?.photos || [])[0] || "";
-  }
-  if (item.kind === "lead") {
-    const l = (state.leadVariants || []).find(x => x.id === item.id);
-    return (l?.photos || [])[0] || l?.imageSrc || "";
-  }
-  return "";
-}
-// Šviežias įrašas pagal id (langai gali būti atidaryti, kol debesies sinchronizacija pakeitė state)
-function whatFreshV74(list, id) {
-  const found = (state[list] || []).find(o => o.id === id);
-  if (!found) {
-    toast("Įrašas pasikeitė kitame įrenginyje – atidarykite iš naujo", "!");
-    closeSheet();
-  }
-  return found || null;
 }
 function garageWhatKindApp(x) {
   if (x.actionType === "missing-data") return "Trūksta duomenų";
@@ -62,13 +41,13 @@ function renderGarageWhatApp() {
   const manage = key =>
     `<button class="garageWhatManageV30" type="button" data-what-manage="${escapeHTML(key)}" aria-label="Atidėti arba atmesti">•••</button>`;
   const hero = top
-    ? `<div class="garageWhatHeroWrapV30"><button class="garageWhatHero garageWhatHeroMainV30" type="button" data-what-open="${escapeHTML(top.key)}"><div class="garageWhatHeroMedia">${garageWhatMediaApp(top) ? `<img src="${garageWhatMediaApp(top)}" alt="${escapeHTML(top.entity)}">` : `<div class="garageWhatNoPhoto" ${garageWhatRefApp(top) ? `data-ph-ref="${escapeHTML(garageWhatRefApp(top))}"` : ""}>🚗<span>Nuotraukos nėra</span></div>`}<span class="garageWhatRank">Svarbiausia dabar</span><strong class="garageWhatHeroEntity">${escapeHTML(top.entity)}</strong></div><div class="garageWhatHeroBody"><span>${escapeHTML(garageWhatKindApp(top))}</span><strong>${escapeHTML(top.action)}</strong>${top.detail ? `<small class="garageWhatDetailV30">${escapeHTML(top.detail)}</small>` : ""}<div class="garageWhatHeroBottom"><b>${escapeHTML(garageWhatCtaV30(top))}</b><span>→</span></div></div></button>${manage(top.key)}</div>`
+    ? `<div class="garageWhatHeroWrapV30"><button class="garageWhatHero garageWhatHeroMainV30" type="button" data-what-open="${escapeHTML(top.key)}"><div class="garageWhatHeroMedia">${garageWhatMediaApp(top) ? `<img src="${garageWhatMediaApp(top)}" alt="${escapeHTML(top.entity)}">` : '<div class="garageWhatNoPhoto">🚗<span>Nuotraukos nėra</span></div>'}<span class="garageWhatRank">Svarbiausia dabar</span><strong class="garageWhatHeroEntity">${escapeHTML(top.entity)}</strong></div><div class="garageWhatHeroBody"><span>${escapeHTML(garageWhatKindApp(top))}</span><strong>${escapeHTML(top.action)}</strong>${top.detail ? `<small class="garageWhatDetailV30">${escapeHTML(top.detail)}</small>` : ""}<div class="garageWhatHeroBottom"><b>${escapeHTML(garageWhatCtaV30(top))}</b><span>→</span></div></div></button>${manage(top.key)}</div>`
     : `<div class="garageWhatEmpty"><span class="ico">✓</span><strong>Šiuo metu viskas sutvarkyta</strong><span>Nėra aktualių veiksmų.</span></div>`;
   const rows = rest.length
     ? `<div class="garageWhatList">${rest
         .map(x => {
           const media = garageWhatMediaApp(x);
-          return `<div class="garageWhatRowWrapV30"><button class="garageWhatRow" type="button" data-what-open="${escapeHTML(x.key)}"><span class="garageWhatThumb" ${!media && garageWhatRefApp(x) ? `data-ph-ref="${escapeHTML(garageWhatRefApp(x))}"` : ""}>${media ? `<img src="${media}" alt="${escapeHTML(x.entity)}">` : x.icon || "✓"}</span><span class="garageWhatCopy"><b>${escapeHTML(x.entity)}</b><strong>${escapeHTML(x.action)}</strong>${x.detail ? `<small class="garageWhatRowDetailV30">${escapeHTML(x.detail)}</small>` : ""}</span><span class="garageWhatSide ${x.late ? "late" : ""}">${x.late ? "Vėluoja" : "→"}</span></button>${manage(x.key)}</div>`;
+          return `<div class="garageWhatRowWrapV30"><button class="garageWhatRow" type="button" data-what-open="${escapeHTML(x.key)}"><span class="garageWhatThumb">${media ? `<img src="${media}" alt="${escapeHTML(x.entity)}">` : x.icon || "✓"}</span><span class="garageWhatCopy"><b>${escapeHTML(x.entity)}</b><strong>${escapeHTML(x.action)}</strong>${x.detail ? `<small class="garageWhatRowDetailV30">${escapeHTML(x.detail)}</small>` : ""}</span><span class="garageWhatSide ${x.late ? "late" : ""}">${x.late ? "Vėluoja" : "→"}</span></button>${manage(x.key)}</div>`;
         })
         .join("")}</div>`
     : "";
@@ -192,8 +171,6 @@ function openWhatDocsV30(item) {
       };
   });
   document.getElementById("whatSaveDocsV30").onclick = async () => {
-    const car = whatFreshV74("cars", item.id);
-    if (!car) return;
     const selected = missing.flatMap(d =>
       Array.from(document.getElementById("what_doc_" + d.kind)?.files || []).map(file => ({
         kind: d.kind,
@@ -249,8 +226,6 @@ function openWhatListingV30(item) {
     `<div class="sheetHead"><h3>${escapeHTML(car.name)}</h3><button class="closeBtn" type="button" data-what-close>✕</button></div><section class="whatQuickSheetV30"><div class="whatQuickTitleV30"><strong>Kodėl automobilis dar ne skelbime?</strong></div><div class="whatChoiceListV30"><button type="button" data-what-listing-listed><b>✓</b><span><strong>Jau įkeltas į skelbimą</strong></span></button><button type="button" data-what-listing-tasks><b>＋</b><span><strong>Dar neparuoštas</strong><small>Atidaryti automobilį ir susidėti užduotis</small></span></button><button type="button" data-what-listing-later><b>⌛</b><span><strong>Vėliau</strong><small>Priminti po 3 dienų</small></span></button><button class="dangerSoftV30" type="button" data-what-listing-dismiss><b>×</b><span><strong>Nerodyti daugiau</strong></span></button></div></section>`
   );
   document.querySelector("[data-what-listing-listed]").onclick = () => {
-    const car = whatFreshV74("cars", item.id);
-    if (!car) return;
     car.listingStatus = "listed";
     car.listingDate = todayISO();
     saveState();
@@ -284,8 +259,6 @@ function openWhatStatusV30(item) {
     `<div class="sheetHead"><h3>${escapeHTML(car.name)}</h3><button class="closeBtn" type="button" data-what-close>✕</button></div><section class="whatQuickSheetV30"><div class="whatQuickTitleV30"><strong>Atnaujinti: ${label}</strong></div><div class="field"><label>Būsena</label><select class="input" id="whatStatusV30">${vehicleStatusOptions(car[statusKey] || "unknown")}</select></div><div class="field"><label>Galioja iki</label><input class="input" id="whatStatusDateV30" type="date" value="${escapeHTML(car[dateKey] || "")}"></div><button class="btn whatPrimaryV30" id="whatSaveStatusV30" type="button">Išsaugoti</button></section>`
   );
   document.getElementById("whatSaveStatusV30").onclick = () => {
-    const car = whatFreshV74("cars", item.id);
-    if (!car) return;
     const st = document.getElementById("whatStatusV30").value,
       date = document.getElementById("whatStatusDateV30").value;
     if (st === "unknown") {
@@ -307,8 +280,6 @@ function openWhatPriceV30(item) {
     `<div class="sheetHead"><h3>${escapeHTML(car.name)}</h3><button class="closeBtn" type="button" data-what-close>✕</button></div><section class="whatQuickSheetV30"><div class="whatQuickTitleV30"><strong>Peržiūrėti pardavimo kainą</strong></div><div class="field"><label>Planuojama pardavimo kaina, €</label><input class="input" id="whatPriceV30" type="number" min="0" step="1" value="${escapeHTML(car.askingPrice ?? "")}"></div><button class="btn whatPrimaryV30" id="whatSavePriceV30" type="button">Išsaugoti</button></section>`
   );
   document.getElementById("whatSavePriceV30").onclick = () => {
-    const car = whatFreshV74("cars", item.id);
-    if (!car) return;
     const n = Number(document.getElementById("whatPriceV30").value);
     if (!Number.isFinite(n) || n <= 0) {
       toast("Įrašyk kainą", "!");
@@ -329,14 +300,12 @@ function openWhatAccountingV30(item) {
     `<div class="sheetHead"><h3>${escapeHTML(car.name)}</h3><button class="closeBtn" type="button" data-what-close>✕</button></div><section class="whatQuickSheetV30"><div class="whatQuickTitleV30"><strong>Buhalterija</strong><span>${(car.documents || []).length} dokumentai</span></div><div class="whatChoiceListV30"><button type="button" data-what-accounting-send><b>↗</b><span><strong>Teikti buhalterei dabar</strong></span></button><button type="button" data-what-accounting-queue><b>▤</b><span><strong>${queued ? "Pašalinti iš savaitės paketo" : "Pridėti į savaitės paketą"}</strong></span></button><button type="button" data-what-accounting-later><b>⌛</b><span><strong>Vėliau</strong><small>Priminti po 3 dienų</small></span></button></div></section>`
   );
   document.querySelector("[data-what-accounting-send]").onclick = async () => {
-    const car = whatFreshV74("cars", item.id);
-    if (!car) return;
     closeSheet();
     await shareAccountingCars([car], "automobilis");
   };
   document.querySelector("[data-what-accounting-queue]").onclick = () => {
     closeSheet();
-    toggleAccountingQueue(item.id);
+    toggleAccountingQueue(car.id);
   };
   document.querySelector("[data-what-accounting-later]").onclick = () => {
     closeSheet();
@@ -355,8 +324,6 @@ function openWhatLeadV30(item) {
   const call = document.querySelector("[data-what-lead-call]");
   if (call)
     call.onclick = () => {
-      const lead = whatFreshV74("leadVariants", item.id);
-      if (!lead) return;
       lead.calls = Number(lead.calls || 0) + 1;
       lead.lastCalledAt = nowLabel();
       lead.updatedAt = nowLabel();
@@ -408,7 +375,10 @@ function openWhatItemV30(item) {
   if (item.kind === "car") return openCar(item.id);
   if (item.kind === "lead") return openWhatLeadV30(item);
   if (item.kind === "customer") return openCustomer(item.id);
-  if (item.kind === "task") return openWhatTaskV74(item);
+  if (item.kind === "task") {
+    state.ui.garageTaskGroups = { autos: false, custom: true };
+    return companyGo("garage");
+  }
 }
 document.addEventListener("click", e => {
   if (e.target.closest("[data-garage-what-back]")) {

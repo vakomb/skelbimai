@@ -123,7 +123,7 @@ function homeExactTaskMediaV19(item) {
 function homeExactVariantMediaV19(v) {
   const raw = (v.photos || [])[0] || v.imageSrc || "";
   if (!raw) return "";
-  return photoSrcSafe(raw);
+  return photoUrlCache[raw] || raw;
 }
 function homeExactVariantsV19() {
   return [...(state.leadVariants || [])]

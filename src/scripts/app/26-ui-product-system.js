@@ -492,7 +492,7 @@
             .map(item => {
               const car = (state.cars || []).find(x => x.id === item.carId),
                 raw = car?.imageSrc || (car?.photos || [])[0] || "",
-                media = photoSrcSafe(raw),
+                media = raw ? photoUrlCache[raw] || raw : "",
                 isFinancial = item.source === "transaction" || item.source === "task";
               return `<button class="accountingRefWait accountingRequiredRowV1 ${isFinancial ? "financial" : ""}" type="button" data-accounting-required-doc="${escapeHTML(item.key)}" aria-label="${escapeHTML(item.action || item.title)} · ${escapeHTML(item.entity)}"><span class="accountingRefWaitPhoto">${media ? `<img src="${escapeHTML(media)}" alt="">` : "▤"}</span><span class="accountingRefWaitCopy"><strong>${escapeHTML(item.label)}</strong><span class="accountingRefWaitStatus bad">${escapeHTML(item.entity)} · ${escapeHTML(item.detail)}</span></span><span class="accountingRefWaitArrow">›</span></button>`;
             })

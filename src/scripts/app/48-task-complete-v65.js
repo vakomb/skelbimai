@@ -57,13 +57,7 @@ async function tcCompleteV65(panel) {
   let attachments = [];
   try {
     if (hasFile) attachments = await accountingReadAttachmentsV8(fileInput, "receipt");
-    // v74: po laukimo automobilį ir užduotį imame iš naujo (state galėjo būti atnaujintas iš debesies)
-    const liveCar = (state.cars || []).find(c => c.id === car.id);
-    const liveItem = liveCar?.checklist?.find(i => i.id === item.id);
-    if (!liveCar || !liveItem || liveItem.done) {
-      throw new Error("Įrašas pasikeitė kitame įrenginyje – atidarykite iš naujo");
-    }
-    await completeCarTaskWithExpenseV24(liveCar, liveItem, amount, attachments);
+    await completeCarTaskWithExpenseV24(car, item, amount, attachments);
     saveState();
     tcOpenKeyV65 = "";
     tkExpenseOpenV62 = "";

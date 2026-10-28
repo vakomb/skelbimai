@@ -29236,13 +29236,6 @@ const PHOTO_DB_NAME = "visureigiai_uab_photos_v1";
 const PHOTO_DB_VERSION = 1;
 const PHOTO_STORE_NAME = "photos";
 const photoUrlCache = Object.create(null);
-// v74: src naudojamas tik jei tai tikras adresas arba jau įkelta nuotrauka (kitaip – tuščia, užpildoma vėliau)
-const photoSrcSafe = raw => {
-  const s = String(raw || "");
-  if (!s) return "";
-  if (photoUrlCache[s]) return photoUrlCache[s];
-  return /^(data:|blob:|https?:)/i.test(s) ? s : "";
-};
 const PHOTO_FALLBACK_PREFIX = "visureigiai_photo_fallback_";
 let photoDbPromise = null;
 function openPhotoDB() {
@@ -30876,6 +30869,10 @@ function openCar(carId) {
   if (!car) return;
   renderCarSheet(car);
   document.getElementById("modalBackdrop").classList.add("show");
+  const backdrop = document.getElementById("modalBackdrop");
+  backdrop.onclick = e => {
+    if (e.target === backdrop) closeSheet();
+  };
 }
 function renderCarSheet(car) {
   const doneCount = carDoneCount(car);
@@ -31270,7 +31267,7 @@ function renderGarageStatsPage() {
               toD = parseISODateLocal(car.soldDateISO);
             return fromD && toD ? Math.max(0, Math.round((toD - fromD) / 864e5)) : null;
           })();
-          const photo = photoSrcSafe(car.imageSrc);
+          const photo = photoUrlCache[car.imageSrc] || car.imageSrc || "";
           return `\n            <article class="soldCarCard">\n              <button class="soldCarImageBtn" type="button" data-open-car="${car.id}" aria-label="Atidaryti ${escapeHTML(car.name || "automobilį")}">\n                <div class="soldCarHero" style="background-image:url('${photo.replace(/'/g, "%27")}')">\n                  <span class="soldCarProfit ${profit >= 0 ? "positive" : "negative"}">${profit >= 0 ? "+" : ""}${moneyFmt(profit)}</span>\n                  <span class="soldCarIndex">${from + idx + 1}</span>\n                </div>\n              </button>\n              <div class="soldCarBody">\n                <div class="soldCarTitleRow">\n                  <h4>${escapeHTML(car.name || "Automobilis")}</h4>\n                  <span class="soldCarDate">${escapeHTML(car.soldDateISO || car.soldAt || "—")}</span>\n                </div>\n                <div class="soldCarNumbers">\n                  <span><small>Pirkta</small><strong>${moneyFmt(totalCost)}</strong></span>\n                  <span><small>Parduota</small><strong>${moneyFmt(soldPrice)}</strong></span>\n                  <span><small>${margin >= 0 ? "Marža" : "Minusas"}</small><strong class="${profit < 0 ? "negativeText" : "positiveText"}">${profit >= 0 ? "+" : ""}${margin}%</strong></span>\n                  <span><small>Laikas</small><strong>${days !== null ? days + " d." : "—"}</strong></span>\n                </div>\n              </div>\n            </article>\n          `;
         })
         .join(
@@ -31552,7 +31549,7 @@ async function render() {
     ? activeCars
         .map(car => {
           const expenses = carChecklistExpenses(car);
-          const src = photoSrcSafe(car.imageSrc);
+          const src = photoUrlCache[car.imageSrc] || car.imageSrc || "";
           return `\n        <article class="carListCard garageRefCarCard" data-open-car="${car.id}" role="button" tabindex="0">\n          <div class="garageRefCarMain">\n            <div class="carListPhoto garageRefCarPhoto">\n              ${src ? `<img src="${src}" alt="${escapeHTML(car.name)}" loading="lazy">` : `<div class="carListNoPhoto">🚗</div>`}\n            </div>\n            <div class="carListInfo garageRefCarInfo">\n              <div class="carListTitle">${escapeHTML(car.name)}</div>\n              ${lcPlateHTMLV61(car.plate)}\n              <div class="carListFacts garageRefFacts">\n                <div><small>Pirkta</small><strong>${moneyFmt(car.buyPrice)}</strong></div>\n                <div><small>Išlaidos</small><strong>${moneyFmt(expenses)}</strong></div>\n                <div><small>Savikaina</small><strong>${moneyFmt(carTotalCost(car))}</strong></div>\n              </div>\n            </div>\n          </div>\n        </article>`;
         })
         .join("")
@@ -31563,7 +31560,7 @@ async function render() {
           const profit = car.netProfit != null ? Number(car.netProfit || 0) : carNetProfit(car);
           const totalCost = carTotalCost(car);
           const soldPrice = Number(car.soldPrice || 0);
-          const src = photoSrcSafe(car.imageSrc);
+          const src = photoUrlCache[car.imageSrc] || car.imageSrc || "";
           return `\n        <article class="carListCard sold garageRefCarCard garageRefSoldCard" data-open-car="${car.id}" role="button" tabindex="0">\n          <div class="garageRefCarMain">\n            <div class="carListPhoto garageRefCarPhoto">\n              ${src ? `<img src="${src}" alt="${escapeHTML(car.name)}" loading="lazy">` : `<div class="carListNoPhoto">🚗</div>`}\n            </div>\n            <div class="carListInfo garageRefCarInfo">\n              <div class="carListTitle">${escapeHTML(car.name)}</div>\n              ${lcPlateHTMLV61(car.plate)}\n              <div class="carListFacts garageRefFacts soldFacts">\n                <div><small>Savikaina</small><strong>${moneyFmt(totalCost)}</strong></div>\n                <div><small>Parduota</small><strong>${moneyFmt(soldPrice)}</strong></div>\n                <div><small>Marža</small><strong class="${profit >= 0 ? "positiveText" : "negativeText"}">${profit >= 0 ? "+" : ""}${moneyFmt(profit)}</strong></div>\n              </div>\n            </div>\n          </div>\n        </article>`;
         })
         .join("")
@@ -31587,7 +31584,7 @@ async function render() {
           .map(lead => {
             const photos = Array.isArray(lead.photos) ? lead.photos.filter(Boolean) : [];
             const raw = photos[0] || lead.imageSrc || "";
-            const mainPhoto = photoSrcSafe(raw);
+            const mainPhoto = raw ? photoUrlCache[raw] || raw : "";
             const title = `${lead.make || ""} ${lead.model || ""}`.trim() || "Neįvardintas variantas";
             const sellerPrice = Number(lead.initialPrice || 0);
             const ourPrice = Number(lead.targetPrice || lead.initialPrice || 0);
@@ -33254,15 +33251,8 @@ function workCenterVisibleV30(item) {
   if (p.dismissed[key]) return false;
   const until = p.snoozed[key] || "";
   if (until && until > todayISO()) return false;
-  return true; // v74: pasibaigę atidėjimai valomi tik saugant (workCenterPruneV74), skaitymas būsenos nekeičia
-}
-function workCenterPruneV74() {
-  const p = state?.workCenterPrefs?.snoozed;
-  if (!p || typeof p !== "object") return;
-  const now = todayISO();
-  Object.keys(p).forEach(k => {
-    if (p[k] && p[k] <= now) delete p[k];
-  });
+  if (until && until <= todayISO()) delete p.snoozed[key];
+  return true;
 }
 function workCenterSnoozeV30(key, days = 3) {
   if (!key) return;
@@ -33922,9 +33912,6 @@ statsPage.querySelectorAll("[data-period]").forEach(
     })
 );
 renderGarageStatsPage = function () {
-  // v74: po „Ištrinti įmonės duomenis“ / tuščios būsenos reportingRange gali nebūti – atkuriama numatytoji reikšmė
-  if (!state.reportingRange)
-    state.reportingRange = { from: currentMonthKey() + "-01", to: todayISO(), preset: "month" };
   const r = state.reportingRange;
   const within = d =>
     !r.from && !r.to
@@ -34029,23 +34016,19 @@ const bootRender = () => {
 if (document.readyState === "loading")
   document.addEventListener("DOMContentLoaded", bootRender, { once: true });
 else bootRender();
-// v74: vienas atidėtas perpiešimas (pageshow + visibilitychange + kiti), nepiešiama, kol atidarytas langas ar laukas
-let renderTimerV74 = 0;
-function renderSoonV74() {
-  clearTimeout(renderTimerV74);
-  renderTimerV74 = setTimeout(() => {
-    renderTimerV74 = 0;
-    if (typeof uiBusyV74 === "function" && uiBusyV74()) return;
+window.addEventListener("pageshow", e => {
+  if (e.persisted) {
     try {
       render();
     } catch (e) {}
-  }, 150);
-}
-window.addEventListener("pageshow", e => {
-  if (e.persisted) renderSoonV74();
+  }
 });
 document.addEventListener("visibilitychange", () => {
-  if (document.visibilityState === "visible") renderSoonV74();
+  if (document.visibilityState === "visible") {
+    try {
+      render();
+    } catch (e) {}
+  }
 });
 const runPhotoMaintenance = () =>
   migrateStatePhotos()
@@ -36053,35 +36036,14 @@ function garageWhatMediaApp(item) {
   if (item.kind === "car") {
     const c = (state.cars || []).find(x => x.id === item.id),
       raw = c?.imageSrc || (c?.photos || [])[0] || "";
-    return photoSrcSafe(raw);
+    return raw ? photoUrlCache[raw] || raw : "";
   }
   if (item.kind === "lead") {
     const l = (state.leadVariants || []).find(x => x.id === item.id),
       raw = (l?.photos || [])[0] || l?.imageSrc || "";
-    return photoSrcSafe(raw);
+    return raw ? photoUrlCache[raw] || raw : "";
   }
   return "";
-}
-// Nuotraukos nuoroda (photo_…), kurią galima užpildyti vėliau (data-ph-ref)
-function garageWhatRefApp(item) {
-  if (item.kind === "car") {
-    const c = (state.cars || []).find(x => x.id === item.id);
-    return c?.imageSrc || (c?.photos || [])[0] || "";
-  }
-  if (item.kind === "lead") {
-    const l = (state.leadVariants || []).find(x => x.id === item.id);
-    return (l?.photos || [])[0] || l?.imageSrc || "";
-  }
-  return "";
-}
-// Šviežias įrašas pagal id (langai gali būti atidaryti, kol debesies sinchronizacija pakeitė state)
-function whatFreshV74(list, id) {
-  const found = (state[list] || []).find(o => o.id === id);
-  if (!found) {
-    toast("Įrašas pasikeitė kitame įrenginyje – atidarykite iš naujo", "!");
-    closeSheet();
-  }
-  return found || null;
 }
 function garageWhatKindApp(x) {
   if (x.actionType === "missing-data") return "Trūksta duomenų";
@@ -36110,13 +36072,13 @@ function renderGarageWhatApp() {
   const manage = key =>
     `<button class="garageWhatManageV30" type="button" data-what-manage="${escapeHTML(key)}" aria-label="Atidėti arba atmesti">•••</button>`;
   const hero = top
-    ? `<div class="garageWhatHeroWrapV30"><button class="garageWhatHero garageWhatHeroMainV30" type="button" data-what-open="${escapeHTML(top.key)}"><div class="garageWhatHeroMedia">${garageWhatMediaApp(top) ? `<img src="${garageWhatMediaApp(top)}" alt="${escapeHTML(top.entity)}">` : `<div class="garageWhatNoPhoto" ${garageWhatRefApp(top) ? `data-ph-ref="${escapeHTML(garageWhatRefApp(top))}"` : ""}>🚗<span>Nuotraukos nėra</span></div>`}<span class="garageWhatRank">Svarbiausia dabar</span><strong class="garageWhatHeroEntity">${escapeHTML(top.entity)}</strong></div><div class="garageWhatHeroBody"><span>${escapeHTML(garageWhatKindApp(top))}</span><strong>${escapeHTML(top.action)}</strong>${top.detail ? `<small class="garageWhatDetailV30">${escapeHTML(top.detail)}</small>` : ""}<div class="garageWhatHeroBottom"><b>${escapeHTML(garageWhatCtaV30(top))}</b><span>→</span></div></div></button>${manage(top.key)}</div>`
+    ? `<div class="garageWhatHeroWrapV30"><button class="garageWhatHero garageWhatHeroMainV30" type="button" data-what-open="${escapeHTML(top.key)}"><div class="garageWhatHeroMedia">${garageWhatMediaApp(top) ? `<img src="${garageWhatMediaApp(top)}" alt="${escapeHTML(top.entity)}">` : '<div class="garageWhatNoPhoto">🚗<span>Nuotraukos nėra</span></div>'}<span class="garageWhatRank">Svarbiausia dabar</span><strong class="garageWhatHeroEntity">${escapeHTML(top.entity)}</strong></div><div class="garageWhatHeroBody"><span>${escapeHTML(garageWhatKindApp(top))}</span><strong>${escapeHTML(top.action)}</strong>${top.detail ? `<small class="garageWhatDetailV30">${escapeHTML(top.detail)}</small>` : ""}<div class="garageWhatHeroBottom"><b>${escapeHTML(garageWhatCtaV30(top))}</b><span>→</span></div></div></button>${manage(top.key)}</div>`
     : `<div class="garageWhatEmpty"><span class="ico">✓</span><strong>Šiuo metu viskas sutvarkyta</strong><span>Nėra aktualių veiksmų.</span></div>`;
   const rows = rest.length
     ? `<div class="garageWhatList">${rest
         .map(x => {
           const media = garageWhatMediaApp(x);
-          return `<div class="garageWhatRowWrapV30"><button class="garageWhatRow" type="button" data-what-open="${escapeHTML(x.key)}"><span class="garageWhatThumb" ${!media && garageWhatRefApp(x) ? `data-ph-ref="${escapeHTML(garageWhatRefApp(x))}"` : ""}>${media ? `<img src="${media}" alt="${escapeHTML(x.entity)}">` : x.icon || "✓"}</span><span class="garageWhatCopy"><b>${escapeHTML(x.entity)}</b><strong>${escapeHTML(x.action)}</strong>${x.detail ? `<small class="garageWhatRowDetailV30">${escapeHTML(x.detail)}</small>` : ""}</span><span class="garageWhatSide ${x.late ? "late" : ""}">${x.late ? "Vėluoja" : "→"}</span></button>${manage(x.key)}</div>`;
+          return `<div class="garageWhatRowWrapV30"><button class="garageWhatRow" type="button" data-what-open="${escapeHTML(x.key)}"><span class="garageWhatThumb">${media ? `<img src="${media}" alt="${escapeHTML(x.entity)}">` : x.icon || "✓"}</span><span class="garageWhatCopy"><b>${escapeHTML(x.entity)}</b><strong>${escapeHTML(x.action)}</strong>${x.detail ? `<small class="garageWhatRowDetailV30">${escapeHTML(x.detail)}</small>` : ""}</span><span class="garageWhatSide ${x.late ? "late" : ""}">${x.late ? "Vėluoja" : "→"}</span></button>${manage(x.key)}</div>`;
         })
         .join("")}</div>`
     : "";
@@ -36240,8 +36202,6 @@ function openWhatDocsV30(item) {
       };
   });
   document.getElementById("whatSaveDocsV30").onclick = async () => {
-    const car = whatFreshV74("cars", item.id);
-    if (!car) return;
     const selected = missing.flatMap(d =>
       Array.from(document.getElementById("what_doc_" + d.kind)?.files || []).map(file => ({
         kind: d.kind,
@@ -36297,8 +36257,6 @@ function openWhatListingV30(item) {
     `<div class="sheetHead"><h3>${escapeHTML(car.name)}</h3><button class="closeBtn" type="button" data-what-close>✕</button></div><section class="whatQuickSheetV30"><div class="whatQuickTitleV30"><strong>Kodėl automobilis dar ne skelbime?</strong></div><div class="whatChoiceListV30"><button type="button" data-what-listing-listed><b>✓</b><span><strong>Jau įkeltas į skelbimą</strong></span></button><button type="button" data-what-listing-tasks><b>＋</b><span><strong>Dar neparuoštas</strong><small>Atidaryti automobilį ir susidėti užduotis</small></span></button><button type="button" data-what-listing-later><b>⌛</b><span><strong>Vėliau</strong><small>Priminti po 3 dienų</small></span></button><button class="dangerSoftV30" type="button" data-what-listing-dismiss><b>×</b><span><strong>Nerodyti daugiau</strong></span></button></div></section>`
   );
   document.querySelector("[data-what-listing-listed]").onclick = () => {
-    const car = whatFreshV74("cars", item.id);
-    if (!car) return;
     car.listingStatus = "listed";
     car.listingDate = todayISO();
     saveState();
@@ -36332,8 +36290,6 @@ function openWhatStatusV30(item) {
     `<div class="sheetHead"><h3>${escapeHTML(car.name)}</h3><button class="closeBtn" type="button" data-what-close>✕</button></div><section class="whatQuickSheetV30"><div class="whatQuickTitleV30"><strong>Atnaujinti: ${label}</strong></div><div class="field"><label>Būsena</label><select class="input" id="whatStatusV30">${vehicleStatusOptions(car[statusKey] || "unknown")}</select></div><div class="field"><label>Galioja iki</label><input class="input" id="whatStatusDateV30" type="date" value="${escapeHTML(car[dateKey] || "")}"></div><button class="btn whatPrimaryV30" id="whatSaveStatusV30" type="button">Išsaugoti</button></section>`
   );
   document.getElementById("whatSaveStatusV30").onclick = () => {
-    const car = whatFreshV74("cars", item.id);
-    if (!car) return;
     const st = document.getElementById("whatStatusV30").value,
       date = document.getElementById("whatStatusDateV30").value;
     if (st === "unknown") {
@@ -36355,8 +36311,6 @@ function openWhatPriceV30(item) {
     `<div class="sheetHead"><h3>${escapeHTML(car.name)}</h3><button class="closeBtn" type="button" data-what-close>✕</button></div><section class="whatQuickSheetV30"><div class="whatQuickTitleV30"><strong>Peržiūrėti pardavimo kainą</strong></div><div class="field"><label>Planuojama pardavimo kaina, €</label><input class="input" id="whatPriceV30" type="number" min="0" step="1" value="${escapeHTML(car.askingPrice ?? "")}"></div><button class="btn whatPrimaryV30" id="whatSavePriceV30" type="button">Išsaugoti</button></section>`
   );
   document.getElementById("whatSavePriceV30").onclick = () => {
-    const car = whatFreshV74("cars", item.id);
-    if (!car) return;
     const n = Number(document.getElementById("whatPriceV30").value);
     if (!Number.isFinite(n) || n <= 0) {
       toast("Įrašyk kainą", "!");
@@ -36377,14 +36331,12 @@ function openWhatAccountingV30(item) {
     `<div class="sheetHead"><h3>${escapeHTML(car.name)}</h3><button class="closeBtn" type="button" data-what-close>✕</button></div><section class="whatQuickSheetV30"><div class="whatQuickTitleV30"><strong>Buhalterija</strong><span>${(car.documents || []).length} dokumentai</span></div><div class="whatChoiceListV30"><button type="button" data-what-accounting-send><b>↗</b><span><strong>Teikti buhalterei dabar</strong></span></button><button type="button" data-what-accounting-queue><b>▤</b><span><strong>${queued ? "Pašalinti iš savaitės paketo" : "Pridėti į savaitės paketą"}</strong></span></button><button type="button" data-what-accounting-later><b>⌛</b><span><strong>Vėliau</strong><small>Priminti po 3 dienų</small></span></button></div></section>`
   );
   document.querySelector("[data-what-accounting-send]").onclick = async () => {
-    const car = whatFreshV74("cars", item.id);
-    if (!car) return;
     closeSheet();
     await shareAccountingCars([car], "automobilis");
   };
   document.querySelector("[data-what-accounting-queue]").onclick = () => {
     closeSheet();
-    toggleAccountingQueue(item.id);
+    toggleAccountingQueue(car.id);
   };
   document.querySelector("[data-what-accounting-later]").onclick = () => {
     closeSheet();
@@ -36403,8 +36355,6 @@ function openWhatLeadV30(item) {
   const call = document.querySelector("[data-what-lead-call]");
   if (call)
     call.onclick = () => {
-      const lead = whatFreshV74("leadVariants", item.id);
-      if (!lead) return;
       lead.calls = Number(lead.calls || 0) + 1;
       lead.lastCalledAt = nowLabel();
       lead.updatedAt = nowLabel();
@@ -36456,7 +36406,10 @@ function openWhatItemV30(item) {
   if (item.kind === "car") return openCar(item.id);
   if (item.kind === "lead") return openWhatLeadV30(item);
   if (item.kind === "customer") return openCustomer(item.id);
-  if (item.kind === "task") return openWhatTaskV74(item);
+  if (item.kind === "task") {
+    state.ui.garageTaskGroups = { autos: false, custom: true };
+    return companyGo("garage");
+  }
 }
 document.addEventListener("click", e => {
   if (e.target.closest("[data-garage-what-back]")) {
@@ -38254,7 +38207,7 @@ renderAccountingCenter = function () {
             .map(item => {
               const car = (state.cars || []).find(x => x.id === item.carId),
                 raw = car?.imageSrc || (car?.photos || [])[0] || "",
-                media = photoSrcSafe(raw),
+                media = raw ? photoUrlCache[raw] || raw : "",
                 isFinancial = item.source === "transaction" || item.source === "task";
               return `<button class="accountingRefWait accountingRequiredRowV1 ${isFinancial ? "financial" : ""}" type="button" data-accounting-required-doc="${escapeHTML(item.key)}" aria-label="${escapeHTML(item.action || item.title)} · ${escapeHTML(item.entity)}"><span class="accountingRefWaitPhoto">${media ? `<img src="${escapeHTML(media)}" alt="">` : "▤"}</span><span class="accountingRefWaitCopy"><strong>${escapeHTML(item.label)}</strong><span class="accountingRefWaitStatus bad">${escapeHTML(item.entity)} · ${escapeHTML(item.detail)}</span></span><span class="accountingRefWaitArrow">›</span></button>`;
             })
@@ -39261,7 +39214,7 @@ function homeExactTaskMediaV19(item) {
 function homeExactVariantMediaV19(v) {
   const raw = (v.photos || [])[0] || v.imageSrc || "";
   if (!raw) return "";
-  return photoSrcSafe(raw);
+  return photoUrlCache[raw] || raw;
 }
 function homeExactVariantsV19() {
   return [...(state.leadVariants || [])]
@@ -40860,15 +40813,12 @@ function installRegistrationReviewStyleV41() {
     "@media(max-width:620px){.registrationReviewBackdropV41{padding:8px;align-items:flex-start}.registrationReviewCardV41{max-height:96vh;max-height:96dvh;border-radius:16px}.registrationReviewHeadV41,.registrationReviewFootV41{padding:13px}.registrationReviewBodyV41{padding:12px}.registrationReviewHeadV41 h3{font-size:18px}.registrationReviewLabelsV41{display:none}.registrationReviewRowV41{grid-template-columns:minmax(0,1fr) auto;gap:7px 9px;padding:10px}.registrationReviewNameV41{grid-column:1/-1}.registrationReviewCodeV41{grid-column:1;grid-row:2;align-self:center}.registrationReviewRowV41 input[type=text]{grid-column:1/-1;grid-row:3;height:44px}.registrationReviewConfV41{grid-column:2;grid-row:1;text-align:right}.registrationReviewRawV41{grid-column:1/-1;margin:0}.registrationReviewFootV41{display:grid;grid-template-columns:1fr 1fr}.registrationReviewFootV41 button{width:100%;padding:0 8px}.registrationReviewAttachV41{font-size:12px}}";
   document.head.appendChild(style);
 }
-// v74: laisvesnės taisyklės (vardiniai, priekabų, motociklų, tranzitiniai ir užsienio numeriai)
-const plateValidV74 = v => /^[A-Z0-9]{2,10}$/.test(v);
-const regDocValidV74 = v => /^[A-Z]{1,3}\d{5,8}$/.test(v);
 function registrationValidateReviewV41(key, value) {
   const v = String(value || "").trim();
   if (!v) return true;
-  if (key === "plate") return plateValidV74(v.toUpperCase().replace(/[\s-]/g, ""));
+  if (key === "plate") return /^[A-Z]{3}\d{3}$/.test(v.toUpperCase());
   if (key === "vin") return /^[A-HJ-NPR-Z0-9]{17}$/.test(v.toUpperCase());
-  if (key === "regDoc") return regDocValidV74(v.toUpperCase().replace(/[^A-Z0-9]/g, ""));
+  if (key === "regDoc") return /^[A-Z]\d{6,7}$/.test(v.toUpperCase());
   if (key === "firstRegistrationDate" || key === "firstRegistrationLithuaniaDate")
     return !!registrationDateV41(v);
   if (key === "modelYear") return registrationYearValidV41(v);
@@ -41484,8 +41434,6 @@ openWhatMissingDataV30 = function (item) {
   document.getElementById("whatSaveMissingV30").onclick = async () => {
     const btn = document.getElementById("whatSaveMissingV30");
     if (btn.disabled) return;
-    const car = whatFreshV74("cars", item.id);
-    if (!car) return;
     const old = JSON.parse(JSON.stringify(car)),
       oldBalance = Number(state.finances?.budgetBalance || 0);
     let addedDoc = null;
@@ -41510,12 +41458,13 @@ openWhatMissingDataV30 = function (item) {
           patch.sdk = v;
           if (!car.sdkStatus || car.sdkStatus === "unset") patch.sdkStatus = "done";
         } else if (f.key === "plate") {
-          v = v.toUpperCase().replace(/[\s-]/g, "");
-          if (!plateValidV74(v)) throw Error("Patikrink valstybinį numerį (2–10 raidžių ir skaitmenų).");
+          v = v.toUpperCase();
+          if (!/^[A-Z]{3}\d{3}$/.test(v))
+            throw Error("Valstybinis numeris turi būti 3 raidės ir 3 skaitmenys.");
           patch.plate = v;
         } else if (f.key === "registrationDoc") {
           v = v.toUpperCase().replace(/[^A-Z0-9]/g, "");
-          if (!regDocValidV74(v)) throw Error("Patikrink registracijos liudijimo numerį.");
+          if (!/^[A-Z]\d{6,7}$/.test(v)) throw Error("Patikrink registracijos liudijimo numerį.");
           patch.registrationDoc = v;
         } else if (f.key === "year") {
           const n = Number(v),
@@ -47312,13 +47261,7 @@ async function tcCompleteV65(panel) {
   let attachments = [];
   try {
     if (hasFile) attachments = await accountingReadAttachmentsV8(fileInput, "receipt");
-    // v74: po laukimo automobilį ir užduotį imame iš naujo (state galėjo būti atnaujintas iš debesies)
-    const liveCar = (state.cars || []).find(c => c.id === car.id);
-    const liveItem = liveCar?.checklist?.find(i => i.id === item.id);
-    if (!liveCar || !liveItem || liveItem.done) {
-      throw new Error("Įrašas pasikeitė kitame įrenginyje – atidarykite iš naujo");
-    }
-    await completeCarTaskWithExpenseV24(liveCar, liveItem, amount, attachments);
+    await completeCarTaskWithExpenseV24(car, item, amount, attachments);
     saveState();
     tcOpenKeyV65 = "";
     tkExpenseOpenV62 = "";
@@ -47432,112 +47375,17 @@ document.addEventListener(
   true
 );
 
-// Automobilio kortelė (v66): pirmiausia rodomos naudotojo užduotys, o Vadybininko darbai šiam automobiliui
-// (trūkstami duomenys, dokumentai, SDK/TA/draudimas, buhalterija…) – po mygtuku „Vadybininko užduotys“.
-// Paspaudus darbą, iš apačios atsidaro tas pats sutvarkymo langas kaip Vadybininko puslapyje (openWhatItemV30),
-// o jį uždarius ar išsaugojus grįžtama į tą pačią automobilio kortelę. Stilius – 177-v66.css.
-let cmReturnCarV66 = "";
-const cmOpenV66 = new Set();
-const CM_CHEV_V66 =
-  '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>';
-function cmItemsV66(car) {
-  try {
-    return workCenterItems().filter(
-      it => it && it.kind === "car" && it.id === car.id && !/:task:/.test(it.key || "")
-    );
-  } catch (e) {
-    return [];
-  }
-}
-function cmRenderV66(sheet, car) {
-  const block = sheet.querySelector(".carTasksBlock");
-  if (!block) return;
-  block.querySelectorAll(".carManagerSystemList").forEach(n => (n.hidden = true));
-  block.querySelector(".cmBoxV66")?.remove();
-  if (car.status === "parduotas" && !cmItemsV66(car).length) return;
-  const items = cmItemsV66(car);
-  if (!items.length) return;
-  const open = cmOpenV66.has(car.id);
-  const late = items.filter(i => i.late).length;
-  const box = document.createElement("div");
-  box.className = "cmBoxV66";
-  box.innerHTML = `<button type="button" class="cmToggleV66" data-cm-toggle="${escapeHTML(car.id)}" aria-expanded="${open}" aria-label="Vadybininkas · ${items.length}">
-      <span class="cmIcoV66" aria-hidden="true"><svg viewBox="0 0 48 48" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="15" r="7"/><path d="M10 39c.9-7.2 5.5-11 14-11s13.1 3.8 14 11"/></svg><b class="cmBadgeV66">${items.length}</b></span>
-      <span class="cmTitleV66">Vadybininkas</span>
-      <svg class="cmArrowV66" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-    </button>
-    <div class="cmListV66" ${open ? "" : "hidden"}>${items
-      .map(
-        it => `<button type="button" class="cmRowV66 ${it.late ? "late" : ""}" data-cm-open="${escapeHTML(it.key)}">
-          <i aria-hidden="true"></i>
-          <span class="cmCopyV66"><strong>${escapeHTML(it.action || "Sutvarkyti")}</strong>${it.detail ? `<small>${escapeHTML(it.detail)}</small>` : ""}</span>
-          <span class="cmChevV66">${CM_CHEV_V66}</span>
-        </button>`
-      )
-      .join(
-        ""
-      )}<button type="button" class="cmAllV74" data-cm-all>Visos Vadybininko užduotys<span aria-hidden="true">›</span></button></div>`;
-  block.append(box);
-}
+// Pašalinta (v73b): Vadybininko veikimas grąžintas į v64 (23-garage-what-manager.js). Failą galima ištrinti.
+
+// Automobilio kortelė (v73): Vadybininko darbų kortelėje nebėra – visi jie rodomi ir atliekami tik Vadybininko
+// puslapyje (mėlynas mygtukas). Kortelėje lieka tik naudotojo užduotys.
 const __renderCarSheetV66 = renderCarSheet;
 renderCarSheet = function (car) {
   __renderCarSheetV66(car);
-  const sheet = document.getElementById("sheet");
-  if (sheet && car) cmRenderV66(sheet, car);
+  document
+    .querySelectorAll("#sheet .carTasksBlock .carManagerSystemList, #sheet .cmBoxV66")
+    .forEach(n => n.remove());
 };
-const __openCarV66 = openCar;
-openCar = function (carId) {
-  if (cmReturnCarV66 === carId) cmReturnCarV66 = "";
-  return __openCarV66.apply(this, arguments);
-};
-const __closeSheetV66 = closeSheet;
-closeSheet = function () {
-  const back = cmReturnCarV66;
-  const r = __closeSheetV66.apply(this, arguments);
-  if (back && (state.cars || []).some(c => c.id === back)) {
-    cmReturnCarV66 = "";
-    openCar(back);
-  }
-  return r;
-};
-document.addEventListener(
-  "click",
-  e => {
-    const all = e.target.closest("#sheet [data-cm-all]");
-    if (all) {
-      e.preventDefault();
-      closeSheet();
-      document.querySelector('[data-garage-action="what"]')?.click();
-      return;
-    }
-    const t = e.target.closest("#sheet [data-cm-toggle]");
-    if (t) {
-      e.preventDefault();
-      const id = t.dataset.cmToggle;
-      const open = !cmOpenV66.has(id);
-      if (open) cmOpenV66.add(id);
-      else cmOpenV66.delete(id);
-      t.setAttribute("aria-expanded", String(open));
-      const list = t.parentElement.querySelector(".cmListV66");
-      if (list) list.hidden = !open;
-      return;
-    }
-    const row = e.target.closest("#sheet [data-cm-open]");
-    if (!row) return;
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    const carId = document.getElementById("sheet")?.dataset.carV63 || "";
-    const item = workCenterItems().find(it => it.key === row.dataset.cmOpen);
-    if (!item) return;
-    if (typeof garageWhatCacheV30 !== "undefined" && !garageWhatCacheV30.some(x => x.key === item.key))
-      garageWhatCacheV30 = [...garageWhatCacheV30, item];
-    cmReturnCarV66 = carId;
-    openWhatItemV30(item);
-    // Jei veiksmas atidarė pačią kortelę – grįžimo nebereikia
-    if (document.getElementById("sheet")?.dataset.carV63 === carId) cmReturnCarV66 = "";
-  },
-  true
-);
 
 // Nuotraukų užpildymas (v67): kortelė ar sąrašas kartais nupiešiami anksčiau, nei nuotrauka įkeliama iš
 // telefono atminties ar debesies (photoUrlCache dar tuščias) – tada liktų tuščias paveikslėlis. Čia kiekvienas
@@ -48006,8 +47854,10 @@ function preloadSoonV71() {
 window.addEventListener("autoeasier:local-save", preloadSoonV71);
 window.addEventListener("autoeasier:account-ready", preloadSoonV71);
 
-// v73/v74: kortelė visada atsidaro nuo viršaus; grįžus į programą po ilgos pertraukos – Garažas
-// (bet niekada neatimant lango, kurį naudotojas pildo).
+// Pašalinta (v73b): Vadybininko veikimas grąžintas į v64 (23-garage-what-manager.js). Failą galima ištrinti.
+
+// v73: paleidimas į Garažą, kortelė visada atsidaro nuo viršaus.
+// Kortelė visada atsidaro nuo viršaus
 const __openCarV73 = openCar;
 openCar = function () {
   const sheet = document.getElementById("sheet");
@@ -48018,158 +47868,32 @@ openCar = function () {
   return r;
 };
 
-const MG_AWAY_MS_V74 = 30 * 60 * 1000;
+// Grįžus į programą po pertraukos – visada Garažas
 let mgHiddenAtV73 = 0;
-function overlayOpenV74() {
-  return [
-    ...document.querySelectorAll('[class*="Backdrop"], [class*="backdrop"], [class*="Overlay"], .pwV71')
-  ].some(el => (el.id !== "modalBackdrop" ? el.offsetHeight > 0 : el.classList.contains("show")));
-}
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {
     mgHiddenAtV73 = Date.now();
     return;
   }
-  if (!mgHiddenAtV73 || Date.now() - mgHiddenAtV73 < MG_AWAY_MS_V74) return;
+  if (!mgHiddenAtV73 || Date.now() - mgHiddenAtV73 < 20000) return;
   mgHiddenAtV73 = 0;
-  if (state.selectedView === "garage" || state.selectedView === "garage-what") return;
-  if (uiBusyV74() || overlayOpenV74()) return;
-  state.selectedView = "garage";
-  renderSoonV74();
+  if (document.getElementById("modalBackdrop")?.classList.contains("show")) closeSheet();
+  if (state.selectedView !== "garage") {
+    state.selectedView = "garage";
+    render();
+  }
   window.scrollTo({ top: 0 });
 });
 
-// v74: Vadybininko stabilumas. Langai nenutraukiami fone, užduotys atidaromos iš apačios išslenkančiuose languose,
-// nuotraukos užpildomos po piešimo, „Kita užduotis“ nuveda į užduočių skydelį, piešimas apsaugotas nuo klaidų.
-function uiBusyV74() {
-  return (
-    !!document.getElementById("modalBackdrop")?.classList.contains("show") ||
-    /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName || "")
-  );
-}
-
-// Lango uždarymas: vienas įvykis, kad debesies atnaujinimai galėtų tęstis (155-…supabase-auth)
-const __closeSheetV74 = closeSheet;
-let closingSheetV74 = false;
-closeSheet = function () {
-  if (closingSheetV74) return;
-  closingSheetV74 = true;
-  const wasOpen = !!document.getElementById("modalBackdrop")?.classList.contains("show");
-  try {
-    return __closeSheetV74.apply(this, arguments);
-  } finally {
-    closingSheetV74 = false;
-    if (wasOpen) window.dispatchEvent(new Event("autoeasier:sheet-closed"));
-  }
-};
-
-// Pasibaigę atidėjimai valomi tik saugant (ne skaitant) ir ne „tik peržiūros“ režimu
-const __saveStateV74 = saveState;
-saveState = function () {
-  if (!window.AUTOEASIER_APP_DATA?.isReadOnly?.()) workCenterPruneV74();
-  return __saveStateV74.apply(this, arguments);
-};
-
-// Nuotraukos Vadybininke: tuščios vietos užpildomos, kai nuotrauka gauta (photoGet)
-const __renderGarageWhatV74 = renderGarageWhatApp;
-renderGarageWhatApp = function () {
-  const r = __renderGarageWhatV74.apply(this, arguments);
-  document.querySelectorAll("#garageWhatRoot [data-ph-ref]").forEach(el => {
-    const ref = el.dataset.phRef;
-    phUrlV67(ref).then(url => {
-      if (!url || !el.isConnected) return;
-      el.removeAttribute("data-ph-ref");
-      if (el.classList.contains("garageWhatNoPhoto")) {
-        el.replaceWith(Object.assign(new Image(), { src: url, alt: "" }));
-      } else {
-        el.innerHTML = "";
-        el.append(Object.assign(new Image(), { src: url, alt: "" }));
-      }
-    });
-  });
-  return r;
-};
-
-// „Kita užduotis“ → Garažo užduočių skydelis, eilutė parodoma ir paryškinama
-function openWhatTaskV74(item) {
-  const task = (state.garageTasks || []).find(t => t.id === item.id);
-  if (!task) {
-    toast("Užduoties nebėra", "!");
-    return render();
-  }
-  state.selectedView = "garage";
-  state.ui = state.ui || {};
-  saveState();
-  Promise.resolve(render()).then(() => {
-    openGarageTasks(true);
-    tkTabV62 = task.dueDate && task.dueDate <= todayISO() ? "today" : "custom";
-    tkRenderV62();
-    window.scrollTo({ top: 0 });
-    setTimeout(() => {
-      const row = document.querySelector(`#garageTasksSection [data-tk-id="${CSS.escape(task.id)}"]`);
-      if (!row) return;
-      row.scrollIntoView({ behavior: "smooth", block: "center" });
-      row.classList.add("tkFlashV74");
-      setTimeout(() => row.classList.remove("tkFlashV74"), 1800);
-    }, 120);
-  });
-}
-
-// Automobilio užduotis Vadybininke: išslenkantis langas (kaina + čekis + „Atlikta“), kaip kortelėje
-function openWhatCarTaskV74(item) {
-  const car = (state.cars || []).find(c => c.id === item.id);
-  const task = car?.checklist?.find(i => i.id === item.taskId);
-  if (!car || !task || task.done) return render();
-  openSheet(
-    `<div class="sheetHead"><h3>${escapeHTML(car.name)}</h3><button class="closeBtn" type="button" data-what-close>✕</button></div><section class="whatQuickSheetV30 whatTaskSheetV74"><div class="whatQuickTitleV30"><strong>${escapeHTML(task.name || "Automobilio užduotis")}</strong>${item.detail ? `<span>${escapeHTML(item.detail)}</span>` : ""}</div>${tcPanelHTMLV65(car.id, task.id, { openCarLink: true })}</section>`
-  );
-}
-const __openWhatItemV74 = openWhatItemV30;
-openWhatItemV30 = function (item) {
-  if (item?.actionType === "car-task" && item.kind === "car") return openWhatCarTaskV74(item);
-  return __openWhatItemV74.apply(this, arguments);
-};
-const __tcRefreshV74 = tcRefreshV65;
-tcRefreshV65 = function () {
-  const inWhat = !!document.querySelector("#sheet .whatTaskSheetV74");
-  if (inWhat) closeSheet();
-  return __tcRefreshV74.apply(this, arguments);
-};
-
-// Piešimas: viena klaida neturi palikti tuščio Vadybininko; jei užduotys nematomos – atsarginis sąrašas
-function mgVerifyV74() {
-  const check = () => {
-    try {
-      if (state.selectedView !== "garage-what") return;
-      const root = document.getElementById("garageWhatRoot");
-      if (!root) return;
-      root.querySelector(".mgFallbackV73")?.remove();
-      const items = workCenterItems();
-      const visible = [...root.querySelectorAll("[data-what-open]")].some(e => e.offsetHeight > 0);
-      if (!items.length || visible) return;
-      const wrap = document.createElement("div");
-      wrap.className = "mgFallbackV73";
-      wrap.style.cssText = "display:block;margin:12px 0;opacity:1;visibility:visible;";
-      wrap.innerHTML = items
-        .slice(0, 20)
-        .map(
-          it =>
-            `<button type="button" data-what-open="${escapeHTML(it.key)}" style="display:block;width:100%;margin:0 0 8px;padding:14px;border:1px solid #dfe5ee;border-radius:16px;background:#fff;text-align:left;opacity:1;visibility:visible;height:auto;position:static"><span style="display:block;font-size:13px;color:#667085">${escapeHTML(it.entity || "")}</span><strong style="display:block;font-size:16px;color:#0f1f3a">${escapeHTML(it.action || "")}</strong></button>`
-        )
-        .join("");
-      (root.querySelector(".garageWhatPage") || root).append(wrap);
-    } catch (e) {}
-  };
-  requestAnimationFrame(() => requestAnimationFrame(check));
-  setTimeout(check, 400);
-}
-const __renderGuardV74 = render;
+// Vadybininkas visada nupiešiamas, net jei kuris nors ankstesnis piešimo žingsnis nulūžtų
+// (anksčiau tuomet matydavosi tuščias puslapis, nors ant mygtuko rodomas užduočių skaičius).
+const __renderGuardV73 = render;
 render = async function () {
   let r;
   try {
-    r = await __renderGuardV74.apply(this, arguments);
+    r = await __renderGuardV73.apply(this, arguments);
   } catch (e) {
-    window.__aeLastRenderErrorV74 = e;
+    window.__aeLastRenderErrorV73 = e;
     console.error("render", e);
   }
   if (state.selectedView === "garage-what") {
@@ -48177,14 +47901,48 @@ render = async function () {
       const root = document.getElementById("garageWhatRoot");
       if (root && !root.querySelector(".garageWhatPage")) renderGarageWhatApp();
     } catch (e) {
+      window.__aeLastRenderErrorV73 = e;
       console.error("manager", e);
       const root = document.getElementById("garageWhatRoot");
       if (root)
         root.innerHTML = `<div class="garageWhatPage"><div class="garageWhatHead"><div class="garageWhatHeadTitle"><h2>Vadybininkas</h2></div><button class="garageWhatBack" type="button" data-garage-what-back>Atgal</button></div><div class="garageWhatEmpty"><strong>Nepavyko įkelti</strong><span>${escapeHTML(String(e?.message || e).slice(0, 120))}</span></div></div>`;
     }
-    mgVerifyV74();
   }
-  window.dispatchEvent(new Event("autoeasier:rendered"));
+  return r;
+};
+
+// Patikra: jei užduotys yra, bet ekrane nematomos (pvz., paslėptos stiliaus), parodomas paprastas atsarginis sąrašas.
+function mgVerifyV73() {
+  const check = () => {
+    try {
+      if (state.selectedView !== "garage-what") return;
+      const root = document.getElementById("garageWhatRoot");
+      if (!root) return;
+      const items = workCenterItems();
+      root.querySelector(".mgFallbackV73")?.remove();
+      const visible = [...root.querySelectorAll("[data-what-open]")].some(e => e.offsetHeight > 0);
+      if (!items.length || visible) return;
+      const page = root.querySelector(".garageWhatPage") || root;
+      const wrap = document.createElement("div");
+      wrap.className = "mgFallbackV73";
+      wrap.style.cssText = "display:block;margin:12px 0;padding:0;opacity:1;visibility:visible;";
+      wrap.innerHTML = items
+        .slice(0, 20)
+        .map(
+          it =>
+            `<button type="button" data-what-open="${escapeHTML(it.key)}" style="display:block;width:100%;margin:0 0 8px;padding:14px;border:1px solid #dfe5ee;border-radius:16px;background:#fff;text-align:left;opacity:1;visibility:visible;height:auto;position:static"><span style="display:block;font-size:13px;color:#667085">${escapeHTML(it.entity || "")}</span><strong style="display:block;font-size:16px;color:#0f1f3a">${escapeHTML(it.action || "")}</strong></button>`
+        )
+        .join("");
+      page.append(wrap);
+    } catch (e) {}
+  };
+  requestAnimationFrame(() => requestAnimationFrame(check));
+  setTimeout(check, 400);
+}
+const __renderVerifyV73 = render;
+render = async function () {
+  const r = await __renderVerifyV73.apply(this, arguments);
+  if (state.selectedView === "garage-what") mgVerifyV73();
   return r;
 };
 
@@ -49024,9 +48782,8 @@ render = async function () {
     item.doneDateISO = item.doneDateISO || v25Today();
     saveState();
   };
-  // v74: ši funkcija yra app IIFE viduje ir iš čia nepasiekiama – tikriname, kad nemestų ReferenceError
   try {
-    if (typeof ensureCarTaskExpenseTransactionsV24 === "function") ensureCarTaskExpenseTransactionsV24();
+    ensureCarTaskExpenseTransactionsV24();
   } catch (e) {
     console.warn(e);
   }
@@ -54887,13 +54644,7 @@ body:has(#autoEasierLogin:not([hidden])) {
     pollCloudListener = null,
     visibilityListener = null,
     pageHideListener = null,
-    sheetClosedListener = null,
-    remotePending = false,
     lastSyncedPayload = null;
-  // v74: kol atidarytas langas ar redaguojamas laukas, nuotolinių duomenų neprimame (langas laiko seną objektą)
-  const uiBusy = () =>
-    !!document.getElementById("modalBackdrop")?.classList.contains("show") ||
-    /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName || "");
   const uploadedMedia = new Set(),
     downloadedMedia = new Map();
   const SYNC_MARKER = "autoeasier-account-sync-v2";
@@ -55244,10 +54995,6 @@ body:has(#autoEasierLogin:not([hidden])) {
     if (pollCloudListener) window.removeEventListener("focus", pollCloudListener);
     if (visibilityListener) document.removeEventListener("visibilitychange", visibilityListener);
     if (pageHideListener) window.removeEventListener("pagehide", pageHideListener);
-    if (sheetClosedListener) {
-      window.removeEventListener("autoeasier:sheet-closed", sheetClosedListener);
-      document.removeEventListener("focusout", sheetClosedListener);
-    }
     cloudReady = true;
     localDirty = false;
     cloudConflict = false;
@@ -55295,11 +55042,6 @@ body:has(#autoEasierLogin:not([hidden])) {
               throw mergeError;
             }
             mediaKeys(remotePayload).forEach(key => uploadedMedia.add(key));
-            if (uiBusy()) {
-              localDirty = true;
-              remotePending = true;
-              throw Object.assign(new Error("Atidėta, kol uždaromas langas"), { deferred: true });
-            }
             applyingRemote = true;
             try {
               window.AUTOEASIER_APP_DATA.replaceState(merged);
@@ -55340,10 +55082,6 @@ body:has(#autoEasierLogin:not([hidden])) {
             cloudTimer = setTimeout(() => flushCloudSync(), 500);
           }
         } catch (error) {
-          if (error?.deferred) {
-            setSyncStatus("Sinchronizuos uždarius langą", "pending");
-            return;
-          }
           console.error("AutoEasier cloud sync failed", error);
           if (
             error.code === "40001" ||
@@ -55380,10 +55118,6 @@ body:has(#autoEasierLogin:not([hidden])) {
           cloudTimer = setTimeout(() => flushCloudSync(), 100);
           return;
         }
-        if (uiBusy()) {
-          remotePending = true;
-          return;
-        }
         await applySharedPayload(row.payload, row.revision, userId);
         initialSyncHash = await hashState(sharedState(window.AUTOEASIER_APP_DATA.getState()));
       } catch (error) {
@@ -55396,16 +55130,6 @@ body:has(#autoEasierLogin:not([hidden])) {
       else flushCloudSync();
     };
     pageHideListener = () => flushCloudSync();
-    sheetClosedListener = () => {
-      setTimeout(() => {
-        if (!remotePending || uiBusy()) return;
-        remotePending = false;
-        if (localDirty) flushCloudSync();
-        else pollCloud();
-      }, 350);
-    };
-    window.addEventListener("autoeasier:sheet-closed", sheetClosedListener);
-    document.addEventListener("focusout", sheetClosedListener);
     window.addEventListener("focus", pollCloudListener);
     document.addEventListener("visibilitychange", visibilityListener);
     window.addEventListener("pagehide", pageHideListener);
@@ -55474,16 +55198,7 @@ body:has(#autoEasierLogin:not([hidden])) {
     if (pollCloudListener) window.removeEventListener("focus", pollCloudListener);
     if (visibilityListener) document.removeEventListener("visibilitychange", visibilityListener);
     if (pageHideListener) window.removeEventListener("pagehide", pageHideListener);
-    if (sheetClosedListener) {
-      window.removeEventListener("autoeasier:sheet-closed", sheetClosedListener);
-      document.removeEventListener("focusout", sheetClosedListener);
-    }
-    localSaveListener =
-      pollCloudListener =
-      visibilityListener =
-      pageHideListener =
-      sheetClosedListener =
-        null;
+    localSaveListener = pollCloudListener = visibilityListener = pageHideListener = null;
     downloadedMedia.clear();
     uploadedMedia.clear();
     document.getElementById("autoEasierMembersPanel")?.remove();
@@ -56468,9 +56183,9 @@ body {
     };
   })();
   scheduleBadges();
-  // v74: ženkliukas atnaujinamas tik po išsaugojimo, po render() ir per pageshow (be viso body stebėtojo)
+  if (document.body)
+    new MutationObserver(scheduleBadges).observe(document.body, { childList: true, subtree: true });
   window.addEventListener("autoeasier:local-save", scheduleBadges);
-  window.addEventListener("autoeasier:rendered", scheduleBadges);
   window.addEventListener("pageshow", scheduleBadges);
   function placePpClose() {
     const root = document.getElementById("accountingRoot");
@@ -67501,107 +67216,6 @@ html.aeAdOpenV72 #aeAdminFabV72 {
   html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav {
     box-shadow: 0 2px 14px rgba(18, 35, 58, 0.1) !important;
   }
-}
-</style><style id="v74">/* v74: užduoties eilutės paryškinimas ir Vadybininko užduoties langas */
-@keyframes tkFlashV74 {
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 rgba(47, 107, 255, 0);
-  }
-  30% {
-    box-shadow: 0 0 0 4px rgba(47, 107, 255, 0.28);
-  }
-}
-.tkRowV62.tkFlashV74 {
-  animation: tkFlashV74 1.6s ease;
-}
-#sheet .whatTaskSheetV74 .tcPanelV65 {
-  margin: 12px 0 0;
-  background: transparent;
-  border: 0;
-  padding: 0;
-}
-
-/* v74: „Vadybininkas“ mygtukas perkeltas iš Garažo / Buhalterijos / Meniu į automobilio kortelę */
-html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .garageRefMenu > .garageRefWhat,
-html:not(#ae):not(#af) body:not(#ae):not(#af) #view-accounting .accountingManagerWrap,
-html:not(#ae):not(#af) body:not(#ae):not(#af) #view-menu .menuManagerWrap {
-  display: none !important;
-}
-html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmBoxV66 {
-  margin: 14px 0 0 !important;
-  border: 1px solid rgba(87, 145, 214, 0.26) !important;
-  border-radius: 20px !important;
-  background: linear-gradient(112deg, #0b2344 0%, #123c70 56%, #1e5ca4 100%) !important;
-  box-shadow:
-    0 10px 24px rgba(13, 49, 91, 0.19),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
-  overflow: hidden !important;
-}
-html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmToggleV66 {
-  height: 68px !important;
-  min-height: 68px !important;
-  gap: 14px !important;
-  padding: 0 16px !important;
-  color: #fff !important;
-}
-html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmIcoV66 {
-  position: relative !important;
-  width: 42px !important;
-  height: 42px !important;
-  border-radius: 14px !important;
-  background: linear-gradient(145deg, #2f6bff, #1b4fc4) !important;
-  color: #fff !important;
-  overflow: visible !important;
-}
-html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmBadgeV66 {
-  position: absolute !important;
-  top: -7px !important;
-  right: -8px !important;
-  min-width: 22px !important;
-  height: 22px !important;
-  padding: 0 6px !important;
-  border: 2px solid #fff !important;
-  border-radius: 999px !important;
-  background: #e0394d !important;
-  color: #fff !important;
-  font-size: 12px !important;
-  line-height: 18px !important;
-  font-weight: 800 !important;
-  text-align: center !important;
-}
-html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmTitleV66 {
-  color: #fff !important;
-  font-size: 19px !important;
-  font-weight: 800 !important;
-  letter-spacing: -0.01em !important;
-}
-html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmArrowV66 {
-  color: rgba(255, 255, 255, 0.85) !important;
-}
-html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmListV66:not([hidden]) {
-  padding: 4px 10px 12px !important;
-  background: #f8fafc !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.14) !important;
-}
-html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmListV66:not([hidden]) {
-  margin-top: 0 !important;
-  padding-top: 10px !important;
-}
-html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmAllV74 {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  width: 100% !important;
-  min-height: 44px !important;
-  margin: 4px 0 0 !important;
-  padding: 0 6px !important;
-  border: 0 !important;
-  background: transparent !important;
-  color: var(--ds-brand, #1d4f9f) !important;
-  font-size: 14.5px !important;
-  font-weight: 700 !important;
-  box-shadow: none !important;
 }
 </style></body>
 </html>

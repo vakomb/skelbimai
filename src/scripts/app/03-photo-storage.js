@@ -5,13 +5,6 @@ const PHOTO_DB_NAME = "visureigiai_uab_photos_v1";
 const PHOTO_DB_VERSION = 1;
 const PHOTO_STORE_NAME = "photos";
 const photoUrlCache = Object.create(null);
-// v74: src naudojamas tik jei tai tikras adresas arba jau įkelta nuotrauka (kitaip – tuščia, užpildoma vėliau)
-const photoSrcSafe = raw => {
-  const s = String(raw || "");
-  if (!s) return "";
-  if (photoUrlCache[s]) return photoUrlCache[s];
-  return /^(data:|blob:|https?:)/i.test(s) ? s : "";
-};
 const PHOTO_FALLBACK_PREFIX = "visureigiai_photo_fallback_";
 let photoDbPromise = null;
 function openPhotoDB() {
