@@ -277,6 +277,13 @@ Vadybininkas nebesiūlo „Kodėl dar ne skelbime?“ ir kainos peržiūros paga
 - **Nauji vartotojai be „Visureigiai“ (v71).** Numatytieji Visureigiai rekvizitai (PP_COMPANY, buhalterės el. paštas, kodas ataskaitose, antraštė) pašalinti. Pavadinimas rodomas tik užpildžius „Mano duomenys“ (`html.pfNamedV71`, `window.AutoEasierProfile.name/code/htmlName`); Nustatymuose – eilutė „Mano duomenys“ su būsena.
 - Testai: `tools/test-subscription.mjs` (užraktas), `tools/test-photos.mjs`, `tools/test-profile.mjs` (priminimas).
 
+## Admin skydelis (v72)
+
+- Tik `autoeasier@gmail.com` (ID `7d06aa84-…`). Prisegtas mygtukas `#aeAdminFabV72` (visuose puslapiuose, dešinėje virš juostos) atidaro apatinį langą `#aeAdminV72`: **Apžvalga** (rodikliai, MRR, „reikia dėmesio“, saugykla, likusių failų valymas), **Vartotojai** (paieška, filtrai, kortelė su veiksmais), **Veikla** (audito žurnalas). Kodas: `scripts/182-admin-v72.js`, `styles/182-admin-v72.css`.
+- **Serveris.** Skaitymas – `public.admin_overview/admin_users/admin_audit_list/admin_orphans` (SECURITY DEFINER, tikrina `is_platform_admin()`: JWT ID + el. paštas). Veiksmai – Edge Function `admin-action` (service role; tikrina tą patį): `set_comped`, `set_banned`, `send_reset`, `cancel_subscription` (iš karto / periodo pabaigoje), `resume_subscription`, `extend_trial`, `delete_user` (atšaukia Stripe, ištrina failus per Storage API, tada vartotoją; reikia įrašyti el. paštą), `cleanup_orphans`. Visi veiksmai rašomi į `public.admin_audit`. Migracija: `supabase/migrations/20261029_admin_panel_v1.sql`.
+- Administratorius mato tik skaičius (automobilių, failų), o ne vartotojų verslo duomenis. Stripe veiksmai naudoja `STRIPE_SECRET_KEY` (gyvas režimas).
+- Testas: `tools/test-admin.mjs` (imituoja RPC ir Edge Function).
+
 ## Perrašymų grandinės (svarbu!)
 
 Programa augo sluoksniais: nauja versija **perrašo** seną funkciją (`render = async function () { await __renderPP(); … }`). Todėl:
