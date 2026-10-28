@@ -1,0 +1,16 @@
+button.smallBtn.danger,
+.smallBtn.danger,
+.premiumThumbDelete,
+[data-delete-item] {
+  background: #dc2626 !important;
+  color: #fff !important;
+  border-color: #dc2626 !important;
+  box-shadow: none !important;
+}
+button.smallBtn.danger:hover,
+.smallBtn.danger:hover,
+.premiumThumbDelete:hover,
+[data-delete-item]:hover {
+  background: #b91c1c !important;
+  color: #fff !important;
+}

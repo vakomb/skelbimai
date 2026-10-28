@@ -1,0 +1,62 @@
+@media (min-width: 420px) and (max-width: 450px) {
+  .app {
+    width: 100% !important;
+    max-width: 430px !important;
+    margin: 0 auto !important;
+    padding-left: 9px !important;
+    padding-right: 9px !important;
+  }
+  .topbar {
+    margin-left: -9px !important;
+    margin-right: -9px !important;
+    padding-left: 9px !important;
+    padding-right: 9px !important;
+  }
+  .section {
+    margin-top: 12px !important;
+  }
+  .sectionHead h2 {
+    font-size: 18px !important;
+  }
+  .panel.pad {
+    padding: 13px !important;
+  }
+  .taskCard {
+    padding: 11px 10px !important;
+  }
+  .taskMain strong {
+    font-size: 15.5px !important;
+  }
+  .menuLink,
+  .garageAction {
+    min-height: 98px !important;
+    padding: 14px !important;
+  }
+  .menuLink strong,
+  .garageAction strong {
+    font-size: 16px !important;
+  }
+  .sheet {
+    width: 100% !important;
+    max-width: 430px !important;
+    padding: 12px !important;
+  }
+  #sheet .premiumHero {
+    width: 100% !important;
+  }
+  #sheet .carTaskMain strong {
+    font-size: 15.5px !important;
+  }
+  #sheet .carTaskExpenseInput {
+    width: 58px !important;
+    min-width: 58px !important;
+    max-width: 58px !important;
+  }
+  .navWrap {
+    padding-left: 7px !important;
+    padding-right: 7px !important;
+  }
+  .nav {
+    max-width: 430px !important;
+  }
+}

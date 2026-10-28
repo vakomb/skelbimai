@@ -1,0 +1,420 @@
+.saleModal {
+  z-index: 100010 !important;
+}
+.saleProfitToast {
+  z-index: 100020 !important;
+}
+.toastWrap {
+  z-index: 100030 !important;
+}
+#view-customers > .sectionHead {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin: 8px 2px 14px !important;
+}
+#view-customers > .sectionHead h2 {
+  display: block !important;
+  font-size: 23px !important;
+}
+.topbar {
+  display: flex !important;
+  position: static !important;
+  min-height: 50px !important;
+  background: transparent !important;
+  border: 0 !important;
+  padding: 12px 4px 15px !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+}
+.topbar h1 {
+  display: block !important;
+  font-size: 18px !important;
+  text-align: left !important;
+  letter-spacing: 0.09em !important;
+  line-height: 1.4 !important;
+}
+.topbar h1 small {
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+  font-weight: 600;
+  margin-left: 4px;
+}
+.companyHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 6px 2px 14px;
+  gap: 10px;
+}
+.companyHeader h2 {
+  margin: 0;
+  font-size: 23px;
+  letter-spacing: -0.6px;
+}
+.companyDate {
+  color: var(--muted);
+  font-size: 12px;
+  text-align: right;
+}
+.companyStats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.companyStat {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 17px 15px;
+  min-width: 0;
+}
+.companyStat span {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+.companyStat strong {
+  display: block;
+  font-size: 26px;
+  letter-spacing: -0.8px;
+  line-height: 1.25;
+  margin: 7px 0 5px;
+  overflow-wrap: anywhere;
+}
+.companyStat small {
+  font-size: 12px;
+  color: var(--muted);
+}
+.companyStat.featured {
+  background: var(--brand-soft, #e7f4f0);
+  border-color: #cce4dc;
+}
+.companyStat.featured strong {
+  color: var(--accent-2);
+}
+.companyActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  margin: 12px 0 20px;
+}
+.companyActions .btn {
+  font-size: 14px !important;
+  padding: 13px 8px !important;
+  min-height: 46px;
+}
+.companyList {
+  display: grid;
+  gap: 10px;
+}
+.companyRow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  padding: 15px;
+  cursor: pointer;
+}
+.companyRow .rowIcon {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  background: var(--surface-2);
+  border-radius: 11px;
+  font-size: 17px;
+  color: var(--accent-2);
+}
+.companyRow .rowBody {
+  flex: 1;
+  min-width: 0;
+}
+.companyRow strong {
+  display: block;
+  font-size: 14px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.companyRow small {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-top: 4px;
+}
+.companyRow .rowEnd {
+  font-size: 12px;
+  color: var(--muted);
+  max-width: 110px;
+  text-align: right;
+}
+.companyDue {
+  color: var(--danger) !important;
+}
+.companyNote {
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--muted);
+  margin: 12px 2px;
+}
+.companyEmpty {
+  border: 1px dashed var(--line);
+  border-radius: 17px;
+  padding: 23px 18px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+.companyEmpty strong {
+  display: block;
+  font-size: 15px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.companySection {
+  margin-top: 22px;
+}
+.companySection .sectionHead span {
+  display: block !important;
+  font-size: 12px !important;
+}
+.companyTools {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 125px;
+  gap: 8px;
+  align-items: end;
+  margin: 16px 0;
+}
+.companySearch > span {
+  display: none;
+}
+.companyTools .input {
+  font-size: 14px !important;
+  padding: 12px !important;
+  width: 100% !important;
+  min-width: 0;
+}
+.companyCustomer {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 16px;
+}
+.companyCustomerHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+.companyCustomer h3 {
+  font-size: 16px;
+  margin: 0 0 7px;
+  overflow-wrap: anywhere;
+}
+.companyCustomer p {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 6px 0;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.companyCustomer .btnRow {
+  margin-top: 14px;
+  gap: 8px;
+}
+.companyCustomer .btn {
+  font-size: 13px !important;
+  padding: 10px 13px !important;
+  min-height: 40px;
+  text-decoration: none;
+}
+.companyStatus {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 5px 7px;
+  background: var(--surface-2);
+  font-size: 11px;
+  white-space: nowrap;
+}
+.companyStorage p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.companyStorage .btn {
+  font-size: 13px !important;
+}
+.companyForm .field label {
+  font-size: 13px;
+  display: block;
+  margin-bottom: 7px;
+}
+.companyForm .input {
+  width: 100% !important;
+  font-size: 16px !important;
+}
+.companyFormError {
+  color: var(--danger);
+  font-size: 13px;
+  min-height: 18px;
+}
+.companyForm .btnRow .btn {
+  flex: 1;
+}
+.companyForm textarea {
+  min-height: 85px;
+}
+.companyForm .grid2 {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+}
+.companyForm .grid2 > * {
+  min-width: 0;
+}
+.garageCustomTaskFormRow {
+  grid-template-columns: 1fr !important;
+}
+.garageTaskCountBadge {
+  font-size: 12px !important;
+}
+#garageTasksSection:not(:has(.taskGroupBody.open)) {
+  display: none !important;
+}
+.navBtn {
+  cursor: pointer;
+}
+.navBtn[aria-current="page"] {
+  font-weight: 800;
+}
+.navBtn .ico {
+  min-height: 23px;
+}
+.switch .toggle {
+  cursor: pointer;
+}
+.sheet[role="dialog"] {
+  outline: none;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid #3b82f6 !important;
+  outline-offset: 3px;
+}
+html[data-theme="dark"] .companyStat.featured {
+  background: #143c37;
+  border-color: #245b50;
+}
+html[data-theme="dark"] .companyStat.featured strong {
+  color: #6ee7b7;
+}
+html[data-theme="dark"] .companyCustomer,
+html[data-theme="dark"] .companyRow,
+html[data-theme="dark"] .companyStat,
+html[data-theme="dark"] .companyEmpty {
+  background: var(--surface);
+  color: var(--text);
+}
+html[data-theme="dark"] .input,
+html[data-theme="dark"] .select,
+html[data-theme="dark"] .textarea {
+  background: var(--surface-2) !important;
+  color: var(--text) !important;
+  border-color: var(--line) !important;
+}
+@media (min-width: 900px) {
+  #companyHome {
+    margin: auto;
+  }
+  .companyStats {
+    grid-template-columns: 1fr 1fr;
+  }
+  .companyHeader h2 {
+    font-size: 26px;
+  }
+  #customerList {
+    grid-template-columns: 1fr;
+  }
+  .companyStat {
+    padding: 22px;
+  }
+}
+@media (max-width: 370px) {
+  .companyStat {
+    padding: 13px 11px;
+  }
+  .companyStat strong {
+    font-size: 23px;
+  }
+  .companyActions .btn {
+    font-size: 12px !important;
+  }
+  .companyTools {
+    grid-template-columns: 1fr;
+  }
+  .companyHeader h2 {
+    font-size: 21px;
+  }
+  .companyDate {
+    max-width: 140px;
+  }
+  .companyForm .grid2 {
+    grid-template-columns: 1fr !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+@media (max-width: 370px) {
+  .navBtn {
+    font-size: 11px !important;
+    padding-left: 1px !important;
+    padding-right: 1px !important;
+    min-width: 0 !important;
+  }
+  .nav {
+    gap: 1px !important;
+  }
+  .navBtn .ico {
+    font-size: 20px !important;
+  }
+}
+html[data-theme="dark"] .nav {
+  background: var(--surface) !important;
+  border-color: var(--line) !important;
+}
+html[data-theme="dark"] .navWrap {
+  background: rgba(15, 23, 42, 0.94) !important;
+}
+html[data-theme="dark"] .navBtn {
+  color: var(--muted) !important;
+}
+html[data-theme="dark"] .navBtn.active {
+  background: #153d35 !important;
+  color: #6ee7b7 !important;
+  border-color: #245b50 !important;
+}
+html[data-theme="dark"] .companyActions .btn:not(.secondary) {
+  background: #147d66 !important;
+  border-color: #147d66 !important;
+}

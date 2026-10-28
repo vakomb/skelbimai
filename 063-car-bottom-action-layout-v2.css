@@ -1,0 +1,29 @@
+.carTasksAddWide {
+  width: 100% !important;
+  display: block !important;
+  min-height: 44px !important;
+  height: 44px !important;
+  margin: 10px 0 12px !important;
+  border-radius: 14px !important;
+}
+.carBottomActions {
+  width: 100% !important;
+  margin-top: 14px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+.carSellBottom,
+.carSellBottomBtn,
+.carDeleteBottomBtn {
+  width: 100% !important;
+}
+.carSellBottomBtn,
+.carDeleteBottomBtn {
+  min-height: 44px !important;
+  height: 44px !important;
+  border-radius: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}

@@ -1,0 +1,34 @@
+#sheet .premiumThumb {
+  position: relative !important;
+  overflow: visible !important;
+}
+#sheet .premiumThumbDelete {
+  position: absolute !important;
+  top: 5px !important;
+  right: 5px !important;
+  z-index: 20 !important;
+  pointer-events: auto !important;
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  min-height: 32px !important;
+  padding: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  border-radius: 10px !important;
+  background: #dc2626 !important;
+  color: #fff !important;
+  border: 1px solid rgba(255, 255, 255, 0.7) !important;
+  cursor: pointer !important;
+}
+#sheet .premiumThumbDelete:hover,
+#sheet .premiumThumbDelete:active {
+  background: #b91c1c !important;
+  color: #fff !important;
+}
+#sheet .premiumThumb > button[data-managed-photo-kind] {
+  position: relative !important;
+  z-index: 1 !important;
+  display: block !important;
+  width: 100% !important;
+}

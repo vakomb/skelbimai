@@ -1,0 +1,25 @@
+.carBottomActions .carEditInfoBottomBtn {
+  width: 100% !important;
+  min-height: 44px !important;
+  height: 44px !important;
+  padding: 9px 12px !important;
+  border-radius: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  color: #5a3a22 !important;
+  border: 1px solid #7a5130 !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+}
+.carBottomActions .carEditInfoBottomBtn:hover,
+.carBottomActions .carEditInfoBottomBtn:active {
+  background: transparent !important;
+  background-image: none !important;
+  color: #5a3a22 !important;
+  filter: none !important;
+}

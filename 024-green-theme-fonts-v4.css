@@ -1,0 +1,139 @@
+:root {
+  --accent: #187968 !important;
+  --accent-2: #126457 !important;
+  --accent-soft: #e8f5f1 !important;
+  --accent-line: #c3e3da !important;
+  --teal: #278f80 !important;
+  --teal-soft: #e9f7f3 !important;
+  --teal-line: #c9e8df !important;
+  --success: #2f8a62 !important;
+  --success-soft: #edf8f3 !important;
+  --info: #187968 !important;
+  --info-soft: #e8f5f1 !important;
+}
+.btn,
+.btn.primary,
+button[data-primary="true"] {
+  background: linear-gradient(180deg, var(--accent) 0%, var(--accent-2) 100%) !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 9px 20px rgba(24, 121, 104, 0.17) !important;
+}
+.btn.secondary {
+  background: #fff !important;
+  color: var(--text) !important;
+  border-color: var(--line) !important;
+}
+.btn.danger,
+.btn.danger:not(.ghost) {
+  background: var(--danger) !important;
+  border-color: var(--danger) !important;
+  box-shadow: 0 7px 16px rgba(201, 86, 97, 0.12) !important;
+}
+.btn.ghostDanger {
+  background: #fff !important;
+  color: var(--danger) !important;
+  border-color: #f0c9cf !important;
+}
+.input:focus,
+.select:focus,
+.textarea:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px rgba(24, 121, 104, 0.1) !important;
+}
+.badge.info,
+.statChip.info,
+.tag.info {
+  background: var(--accent-soft) !important;
+  color: var(--accent-2) !important;
+  border-color: var(--accent-line) !important;
+}
+.garageAction .ico,
+.rewardCard .ico,
+.achievement .ico,
+.histIcon,
+.menuLink .ico {
+  background: var(--accent-soft) !important;
+  color: var(--accent-2) !important;
+}
+.bar .fill,
+.miniBar .fill,
+.carDetailProgress span,
+.carListProgressTrack span {
+  background: linear-gradient(90deg, var(--accent) 0%, #3b988a 100%) !important;
+}
+.xpLine strong,
+.rewardPills .xp,
+.carListProgress,
+.carProgressPercent {
+  color: var(--accent-2) !important;
+}
+.leadCallBtn,
+.carSellBtn,
+.carConfirmSellBtn {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #fff !important;
+}
+.navBtn.active {
+  background: var(--accent-soft) !important;
+  border-color: var(--accent-line) !important;
+  color: var(--accent-2) !important;
+}
+.toggle.on {
+  background: var(--accent) !important;
+}
+.chev {
+  background: var(--surface-2) !important;
+  border-color: var(--line) !important;
+}
+.carStatusPill {
+  background: rgba(24, 121, 104, 0.93) !important;
+}
+.carProgressPill {
+  background: rgba(24, 34, 53, 0.76) !important;
+}
+#view-garage,
+#view-garage-leads,
+#view-garage-stats,
+#view-finance,
+#view-menu,
+#view-achievements,
+#view-settings {
+  font-size: 115% !important;
+}
+#view-garage .sectionHead h2,
+#view-garage-leads .sectionHead h2,
+#view-garage-stats .sectionHead h2,
+#view-finance .sectionHead h2,
+#view-menu .sectionHead h2,
+#view-achievements .sectionHead h2,
+#view-settings .sectionHead h2 {
+  font-size: 115% !important;
+}
+#view-garage .btn,
+#view-garage-leads .btn,
+#view-garage-stats .btn,
+#view-finance .btn,
+#view-menu .btn,
+#view-achievements .btn,
+#view-settings .btn {
+  font-size: 115% !important;
+}
+#view-garage .input,
+#view-garage-leads .input,
+#view-garage-stats .input,
+#view-finance .input,
+#view-menu .input,
+#view-achievements .input,
+#view-settings .input {
+  font-size: 115% !important;
+}
+#view-garage .garageAction strong,
+#view-garage-leads .leadListTitle,
+#view-garage-stats .smallStatBox .value,
+#view-finance .financeRow strong,
+#view-menu .menuLink strong,
+#view-achievements .achievement strong,
+#view-settings .switch strong {
+  font-size: 115% !important;
+}

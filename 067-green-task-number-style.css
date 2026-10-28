@@ -1,0 +1,15 @@
+#sheet .carTaskNumber {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 24px !important;
+  height: 24px !important;
+  margin-right: 5px !important;
+  padding: 0 6px !important;
+  border-radius: 8px !important;
+  background: linear-gradient(180deg, #198a6f 0%, #13745f 100%) !important;
+  color: #fff !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+}

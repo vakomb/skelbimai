@@ -1,0 +1,57 @@
+#view-home #levelValue,
+#view-home #xpToNext {
+  color: #182235 !important;
+  font-size: 24px !important;
+  line-height: 1.05 !important;
+  font-weight: 950 !important;
+  letter-spacing: -0.03em !important;
+}
+#view-garage .garageAction .ico,
+#view-garage [data-garage-action="addcar"] .ico,
+#view-garage .addCarBtn .ico {
+  color: #fff !important;
+}
+#view-garage button[style*="background:var(--success)"] {
+  color: #fff !important;
+}
+#view-garage button[style*="background:var(--success)"] .ico,
+#view-garage button[style*="background:var(--success)"] .plus,
+#view-garage button[style*="background:var(--success)"]::first-letter {
+  color: #fff !important;
+}
+#view-achievements {
+  font-size: 110% !important;
+}
+#view-achievements .sectionHead h2 {
+  font-size: 110% !important;
+}
+#view-achievements .topicTaskSection,
+#view-achievements .taskGroup,
+#view-achievements .personalTaskComposer,
+#view-achievements .taskCard,
+#view-achievements .topicTaskCard {
+  font-size: 110% !important;
+}
+#view-achievements .topicTaskHead strong,
+#view-achievements .taskGroupHead h3,
+#view-achievements .personalTaskComposerHead strong,
+#view-achievements .taskMain strong {
+  font-size: 110% !important;
+}
+#view-achievements .input,
+#view-achievements .select,
+#view-achievements .textarea,
+#view-achievements .btn {
+  font-size: 110% !important;
+}
+#view-achievements .badge,
+#view-achievements .rewardPills > div,
+#view-achievements .personalTopicChip,
+#view-achievements .topicTaskMeta,
+#view-achievements .taskMeta {
+  font-size: 110% !important;
+}
+#view-achievements .check {
+  width: 31px !important;
+  height: 31px !important;
+}
