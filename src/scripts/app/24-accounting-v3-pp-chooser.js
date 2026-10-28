@@ -48,7 +48,7 @@ async function buildAccountingZipApp(cars, scope = "automobilis") {
     zipEntries = entries.map(e => ({ name: e.path, blob: e.blob }));
   return {
     blob: await makeZip(zipEntries),
-    name: `Visureigiai-UAB-${accountingSafeName(label)}-${todayISO()}.zip`,
+    name: `${window.AutoEasierProfile.fileName()}-${accountingSafeName(label)}-${todayISO()}.zip`,
     entries: entries.length
   };
 }

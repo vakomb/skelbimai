@@ -6,9 +6,8 @@
   if (!garage || !menu || !links || !intro) return;
   const definitions = [
     { key: "customers", title: "Kontaktai", id: "view-customers" },
-    { key: "finance", title: "Finansai", id: "view-finance" },
-    { key: "garage-stats", title: "Pardavimų statistika", id: "view-garage-stats" },
     { key: "history", title: "Veiksmų istorija", id: "menu-history" },
+    { key: "garage-stats", title: "Pardavimų statistika", id: "view-garage-stats" },
     { key: "settings", title: "Nustatymai", id: "view-settings" }
   ];
   const records = new Map();

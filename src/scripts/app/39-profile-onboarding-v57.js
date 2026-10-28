@@ -323,5 +323,12 @@ window.AutoEasierProfile = {
   isComplete: profileIsCompleteV57,
   name: () => profileDisplayNameV57(),
   code: () => (profileIsCompleteV57() ? String(state.profile.code || "") : ""),
-  htmlName: () => escapeHTML(profileDisplayNameV57() || "AutoEasier")
+  htmlName: () => escapeHTML(profileDisplayNameV57() || "AutoEasier"),
+  upperName: () => (profileDisplayNameV57() || "AutoEasier").toLocaleUpperCase("lt-LT"),
+  fileName: () =>
+    (profileDisplayNameV57() || "AutoEasier")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^A-Za-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "") || "AutoEasier"
 };

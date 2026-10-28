@@ -58,7 +58,7 @@ async function saveAccountingFolders(cars, scope = "savaite") {
   try {
     const picked = await window.showDirectoryPicker({ mode: "readwrite" });
     const root = await picked.getDirectoryHandle(
-      `Visureigiai-UAB-${accountingSafeName(scope)}-${todayISO()}`,
+      `${window.AutoEasierProfile.fileName()}-${accountingSafeName(scope)}-${todayISO()}`,
       { create: true }
     );
     const entries = await accountingDirectEntries(cars, scope);

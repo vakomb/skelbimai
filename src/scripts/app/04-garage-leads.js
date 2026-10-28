@@ -265,7 +265,11 @@ function openGarageStats() {
   render();
 }
 function openFinancePage() {
-  state.selectedView = "finance";
+  // v75: Finansai atidaromi Buhalterijos skiltyje (anksčiau – Meniu)
+  state.ui = state.ui || {};
+  state.ui.accountingPanel = "finance";
+  state.selectedView = "accounting";
   saveState();
   render();
+  window.scrollTo({ top: 0, behavior: "instant" });
 }

@@ -44,7 +44,7 @@ function accountingSummary(car) {
   const ta = vehicleStatusState(car.taStatus || "unknown", car.taUntil || "").label;
   const ins = vehicleStatusState(car.insuranceStatus || "unknown", car.insuranceUntil || "").label;
   return [
-    "VISUREIGIAI, UAB — AUTOMOBILIO BUHALTERIJOS SUVESTINĖ",
+    window.AutoEasierProfile.upperName() + " — AUTOMOBILIO BUHALTERIJOS SUVESTINĖ",
     "",
     `Automobilis: ${car.name || ""}`,
     `VIN: ${car.vin || "—"}`,
@@ -142,7 +142,7 @@ async function buildAccountingPackage(cars, label = "buhalterija") {
       blob: new Blob([accountingWeekCsv(cars)], { type: "text/csv;charset=utf-8" })
     });
   const stamp = todayISO(),
-    name = `Visureigiai-UAB-${accountingSafeName(label)}-${stamp}.zip`;
+    name = `${window.AutoEasierProfile.fileName()}-${accountingSafeName(label)}-${stamp}.zip`;
   return { blob: await makeZip(entries), name, entries: entries.length };
 }
 function downloadAccountingBlob(blob, name) {

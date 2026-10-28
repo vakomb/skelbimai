@@ -241,7 +241,7 @@
   }
   accountingReportSummaryV8 = function (range, d) {
     const lines = [
-      "VISUREIGIAI, UAB — BUHALTERIJOS ATASKAITA",
+      window.AutoEasierProfile.upperName() + " — BUHALTERIJOS ATASKAITA",
       `Įmonės kodas: ${companyCodeV25()}`,
       `Laikotarpis: ${range.from} – ${range.to}`,
       "",
@@ -407,7 +407,7 @@
       }
     }
     const blob = await makeZip(entries);
-    return { blob, name: `Visureigiai_${range.from}_${range.to}.zip`, data: d };
+    return { blob, name: `${window.AutoEasierProfile.fileName()}_${range.from}_${range.to}.zip`, data: d };
   };
   accountingReportsV8 = function () {
     state.ui = state.ui || {};

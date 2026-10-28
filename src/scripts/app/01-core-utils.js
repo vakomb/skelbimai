@@ -23,7 +23,12 @@ const rand = arr => arr[Math.floor(Math.random() * arr.length)];
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 const uid = () =>
   crypto.randomUUID ? crypto.randomUUID() : "id_" + Date.now() + "_" + Math.random().toString(16).slice(2);
-const moneyFmt = n => `${new Intl.NumberFormat("lt-LT").format(Math.round(Number(n) || 0))} €`;
+// v75: centai rodomi, kai suma nėra sveikas skaičius (anksčiau 4500,55 € buvo rodoma kaip 4 501 €)
+const moneyFmt = n => {
+  const v = Math.round((Number(n) || 0) * 100) / 100;
+  const frac = Number.isInteger(v) ? 0 : 2;
+  return `${new Intl.NumberFormat("lt-LT", { minimumFractionDigits: frac, maximumFractionDigits: 2 }).format(v)} €`;
+};
 const defaultSkills = [];
 const defaultStats = () => ({ tasksCompleted: 0, carsSold: 0 });
 function parseISODateLocal(iso) {

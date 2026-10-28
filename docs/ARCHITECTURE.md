@@ -315,3 +315,13 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
 - XSS: `sanitizeMediaRefs` (`06-state-and-history.js`) nuvalo nesaugias nuotraukų nuorodas įkeliant būseną (loadState, debesies atnaujinimas). Testas: `tools/test-xss.mjs` (užnuodija visus tekstinius laukus ir atidaro ekranus).
 - `155-…supabase-auth-v1.js`: supabase-js kraunamas fiksuota versija, jei nepasiekiama – atsarginis `@2`.
 - `vercel.json`: saugumo antraštės (nosniff, X-Frame-Options, Referrer-Policy, Permissions-Policy).
+- v75 (2): klientui suprantami prisijungimo/registracijos klaidų tekstai (`friendlyAuthError`), teisinė eilutė prisijungimo ekrane, `moneyFmt` rodo centus, kai suma nėra sveikas skaičius, SEO/OG meta žymos ir ikona `src/index.html`.
+
+## v75 (3): pradžios būsena, paskyros trynimas, meniu perdėliojimas
+
+- `app/58-v75.js`: tuščios pradžios kortelė („Pridėkite pirmą automobilį“), mygtukas „Pildyti duomenis“ antraštėje (rodomas tik kol profilis neužpildytas), „Ištrinti paskyrą“ langas (Edge Function `delete-account`), Finansai Buhalterijos viduje, Garažo „Generuoti sutartį“ atidaro Buhalterijos PP pasirinkimą.
+- `styles/184-v75.css`: visi šių elementų stiliai.
+- Meniu mygtukų eilė: Kontaktai, Veiksmų istorija, Pardavimų statistika, Nustatymai (`147-…js` `definitions` turi sutapti pagal indeksą su `view-menu.html`).
+- Bandomojo laikotarpio juostos viršuje nebėra (`180-billing-v70.js` `barModel`); informacija – Nustatymuose.
+- Ataskaitų antraštės, failų pavadinimai ir užrakto ekranas naudoja `AutoEasierProfile.upperName()/fileName()` (atsarginė reikšmė „AutoEasier“), o ne „Visureigiai, UAB“. Atsarginės kopijos žymė `app: "visureigiai-uab"` paliekama (atkūrimo suderinamumui).
+- `supabase/functions/delete-account`: JWT + el. pašto patvirtinimas, nutraukia Stripe prenumeratą, trina `user-media/<uid>` ir paskyrą (FK CASCADE).

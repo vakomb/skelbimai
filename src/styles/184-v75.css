@@ -1,0 +1,187 @@
+/* v75 */
+/* v75: tuščia pradžia, antraštė, Finansai Buhalterijoje, paskyros trynimas */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .emptyCarsV75 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 26px 20px 22px;
+  text-align: center;
+  background: #fff;
+  border: 1px solid #e3e9ef;
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(18, 38, 61, 0.05);
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .emptyCarsIcoV75 {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  margin: 0 0 14px;
+  color: #1f5aa6;
+  background: #eef5fb;
+  border-radius: 18px;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .emptyCarsIcoV75 svg {
+  width: 32px;
+  height: 32px;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .emptyCarsV75 h3 {
+  margin: 0 0 8px;
+  color: #12233a;
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 850;
+  letter-spacing: -0.025em;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .emptyCarsV75 p {
+  max-width: 320px;
+  margin: 0 0 20px;
+  color: #5f7087;
+  font-size: 14.5px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .emptyCarsBtnV75 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 54px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 15px;
+  color: #fff;
+  background: linear-gradient(#1f5aa6, #174a8b);
+  box-shadow: 0 10px 22px rgba(23, 74, 139, 0.24);
+  font: inherit;
+  font-size: 16.5px;
+  font-weight: 780;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .emptyCarsBtnV75 svg {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .emptyCarsBtnV75:active {
+  transform: scale(0.985);
+  filter: brightness(0.96);
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .emptyCarsHintV75 {
+  max-width: 300px;
+  margin-top: 13px;
+  color: #7b8aa0;
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 550;
+}
+
+/* Antraštė: didesnis pavadinimas ir „Pildyti duomenis“ */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app > .topbar .autoEasierCompanyNameV4 {
+  font-size: 14.5px !important;
+  line-height: 1.15 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .autoEasierFillV75 {
+  display: none;
+}
+html:not(#ae):not(#af):not(.pfNamedV71):not(.aeLoggedOutV75)
+  body:not(#ae):not(#af)
+  .app
+  > .topbar
+  .autoEasierHeaderV4 {
+  justify-content: space-between !important;
+}
+html:not(#ae):not(#af):not(.pfNamedV71) body:not(#ae):not(#af) .autoEasierFillV75 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: auto;
+  min-height: 38px;
+  padding: 0 15px;
+  border: 1px solid #cfe0f3;
+  border-radius: 12px;
+  color: #174a8b;
+  background: #eef5fb;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 780;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+html:not(#ae):not(#af):not(.pfNamedV71) body:not(#ae):not(#af) .autoEasierFillV75:active {
+  filter: brightness(0.96);
+  transform: scale(0.985);
+}
+
+/* Finansai Buhalterijos skiltyje */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-accounting .accFinBodyV75 {
+  padding: 0;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-accounting .accFinBodyV75 > #view-finance {
+  display: block !important;
+  position: static;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  opacity: 1;
+  transform: none;
+  overflow: visible;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #view-accounting
+  .accFinBodyV75
+  > #view-finance
+  .financeMobileHead {
+  display: none;
+}
+
+/* Paskyros trynimas */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .daLeadV75 {
+  margin: 0 0 10px;
+  color: #12233a;
+  font-size: 15.5px;
+  line-height: 1.45;
+  font-weight: 700;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .daListV75 {
+  margin: 0 0 14px;
+  padding: 0 0 0 18px;
+  color: #5f7087;
+  font-size: 14px;
+  line-height: 1.5;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .daListV75 li + li {
+  margin-top: 4px;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .daErrV75 {
+  margin: 8px 2px 0;
+  color: #b4233b;
+  font-size: 14px;
+  font-weight: 650;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .daErrV75[hidden] {
+  display: none;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .daDeleteBtnV75 {
+  background: linear-gradient(#c8334a, #b4233b) !important;
+  border-color: #b4233b !important;
+  color: #fff !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .daDeleteBtnV75:disabled {
+  opacity: 0.45;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .daCancelBtnV75 {
+  width: 100%;
+  margin-top: 10px;
+}

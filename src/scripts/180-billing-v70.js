@@ -377,18 +377,8 @@
         btn: "Atnaujinti",
         action: "portal"
       };
-    if (sub.status === "trialing") {
-      const n = daysLeft(sub.trial_end);
-      return {
-        tone: n <= 2 ? "warn" : "soft",
-        text:
-          n > 0
-            ? `Nemokamas laikotarpis · liko ${n} ${dayWord(n)}`
-            : "Nemokamas laikotarpis baigiasi šiandien",
-        btn: "Valdyti",
-        action: "settings"
-      };
-    }
+    // v75: įprasto bandomojo laikotarpio juosta nerodoma (informacija yra Nustatymuose → Prenumerata)
+    if (sub.status === "trialing" && !sub.cancel_at_period_end) return null;
     if (sub.cancel_at_period_end && sub.current_period_end)
       return {
         tone: "soft",

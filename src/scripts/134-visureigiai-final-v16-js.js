@@ -124,7 +124,7 @@
   }
   accountingReportSummaryV8 = function (range, d) {
     return [
-      "VISUREIGIAI, UAB — BUHALTERIJOS ATASKAITA",
+      window.AutoEasierProfile.upperName() + " — BUHALTERIJOS ATASKAITA",
       "",
       `Laikotarpis: ${v16DateHuman(range.from)} – ${v16DateHuman(range.to)}`,
       "",
@@ -254,7 +254,7 @@
     }
     return {
       blob: await makeZip(entries),
-      name: `Visureigiai-UAB-Ataskaita-${range.from}-${range.to}.zip`,
+      name: `${window.AutoEasierProfile.fileName()}-Ataskaita-${range.from}-${range.to}.zip`,
       data: d
     };
   };

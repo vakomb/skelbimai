@@ -390,7 +390,7 @@ function accountingReportSummaryV8(range, d) {
   const totalIncome = Number(d.sales || 0) + Number(d.income || 0);
   const totalExpense = Number(d.purchases || 0) + Number(d.expense || 0);
   return [
-    "VISUREIGIAI, UAB — BUHALTERIJOS ATASKAITA",
+    window.AutoEasierProfile.upperName() + " — BUHALTERIJOS ATASKAITA",
     "",
     `Laikotarpis: ${range.from} – ${range.to}`,
     "Įtraukti tik šio laikotarpio įrašai, dokumentai ir čekiai.",
@@ -459,7 +459,7 @@ async function buildAccountingReportZipV8(range) {
     }
   }
   const blob = await makeZip(entries),
-    name = `Visureigiai-UAB-Ataskaita-${range.from}-${range.to}.zip`;
+    name = `${window.AutoEasierProfile.fileName()}-Ataskaita-${range.from}-${range.to}.zip`;
   return { blob, name, data: d };
 }
 async function shareAccountingReportV8(range) {

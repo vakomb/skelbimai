@@ -224,7 +224,7 @@ document.getElementById("backupCompany").onclick = async () => {
     const url = URL.createObjectURL(blob),
       a = document.createElement("a");
     a.href = url;
-    a.download = "Visureigiai-kopija-" + todayISO() + ".json";
+    a.download = window.AutoEasierProfile.fileName() + "-kopija-" + todayISO() + ".json";
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 3e4);
     status.textContent = "Kopija paruošta. Patikrinkite atsisiuntimų aplanką.";

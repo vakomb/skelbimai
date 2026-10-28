@@ -27,6 +27,30 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
   let client = null,
     clientPromise = null,
     authMode = "login";
+  // v75: klientui suprantami klaidų tekstai (vietoj anglų kalbos / programuotojo pranešimų)
+  const friendlyAuthError = raw => {
+    const m = String(raw || "");
+    if (/already registered|user exists|already been registered/i.test(m))
+      return "Šis el. paštas jau turi paskyrą. Prisijunkite arba atkurkite slaptažodį.";
+    if (/invalid login credentials|invalid_credentials/i.test(m))
+      return "Neteisingas el. paštas arba slaptažodis. Patikrinkite duomenis arba atkurkite slaptažodį.";
+    if (/email not confirmed|not confirmed/i.test(m))
+      return "El. paštas dar nepatvirtintas. Atidarykite mūsų laišką (patikrinkite ir šlamšto aplanką) ir paspauskite nuorodą.";
+    if (/rate limit|too many|over_.*_rate_limit|security purposes/i.test(m))
+      return "Per daug bandymų. Palaukite kelias minutes ir bandykite dar kartą.";
+    if (/invalid.*email|email.*invalid|unable to validate email/i.test(m))
+      return "Neteisingas el. pašto adresas.";
+    if (/password.*(weak|short|at least|characters)|weak_password|pwned|compromised/i.test(m))
+      return "Slaptažodis per silpnas arba pasirodęs nutekintų slaptažodžių sąrašuose. Pasirinkite kitą (bent 8 simboliai).";
+    if (/same.*password|different from the old/i.test(m))
+      return "Naujas slaptažodis turi skirtis nuo senojo.";
+    if (/banned|user.*disabled/i.test(m)) return "Ši paskyra išjungta. Susisiekite: autoeasier@gmail.com";
+    if (/signup.*disabled|signups not allowed/i.test(m))
+      return "Registracija šiuo metu nepasiekiama. Bandykite vėliau arba rašykite autoeasier@gmail.com";
+    if (/failed to fetch|network|load failed|timeout|Nepavyko pasiekti/i.test(m))
+      return "Nepavyko prisijungti prie serverio. Patikrinkite interneto ryšį ir bandykite dar kartą.";
+    return "Nepavyko. Bandykite dar kartą arba rašykite autoeasier@gmail.com";
+  };
   const setMessage = (text, ok = false) => {
     message.textContent = text;
     message.hidden = !text;
@@ -133,7 +157,7 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
           document.head.appendChild(next);
           return;
         }
-        reject(new Error("Nepavyko pasiekti Supabase. Patikrinkite interneto ryšį."));
+        reject(new Error("Nepavyko prisijungti prie serverio. Patikrinkite interneto ryšį."));
       };
       if (!existing) document.head.appendChild(s);
     }).catch(error => {
@@ -918,7 +942,7 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
       return;
     }
     if (!validConfig()) {
-      setMessage("Prisijungimui reikia „Supabase“ projekto URL ir viešo publishable rakto.");
+      setMessage("Prisijungimas laikinai nepasiekiamas. Bandykite vėliau.");
       return;
     }
     submit.disabled = true;
@@ -947,22 +971,15 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
       }
       if (authMode === "signup")
         setMessage(
-          "Paskyra sukurta, bet „Supabase“ vis dar reikalauja el. pašto patvirtinimo. Išjunkite „Confirm email“ projekto Auth nustatymuose.",
-          false
+          "Paskyra sukurta. Išsiuntėme patvirtinimo nuorodą į jūsų el. paštą – paspauskite ją (patikrinkite ir šlamšto aplanką), tada prisijunkite.",
+          true
         );
       else if (authMode === "reset") {
         setMode("login");
         setMessage("Slaptažodis atnaujintas. Prisijunkite nauju slaptažodžiu.", true);
       } else setMessage("Prisijungti nepavyko. Patikrinkite el. paštą ir slaptažodį.");
     } catch (error) {
-      const raw = String(error?.message || "");
-      setMessage(
-        /already registered|user exists/i.test(raw)
-          ? "Šis el. paštas jau turi paskyrą. Prisijunkite arba atkurkite slaptažodį."
-          : /signup is disabled|signups not allowed/i.test(raw)
-            ? "Paskyrų kūrimas išjungtas „Supabase“ projekte. Įjunkite „Allow new users to sign up“ Auth nustatymuose."
-            : raw || "Prisijungti nepavyko. Patikrinkite duomenis ir bandykite dar kartą."
-      );
+      setMessage(friendlyAuthError(error?.message));
     } finally {
       submit.disabled = false;
       submit.querySelector("span").textContent =
