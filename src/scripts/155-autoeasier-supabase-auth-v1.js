@@ -260,50 +260,77 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
       a === MISSING ? b === MISSING : b !== MISSING && stableString(a) === stableString(b),
     cloneValue = v => (v === MISSING ? MISSING : JSON.parse(JSON.stringify(v))),
     isRecord = v => v !== MISSING && v !== null && typeof v === "object" && !Array.isArray(v);
-  const mergeThreeWay = (base, local, remote, path = "state") => {
+  // Trijų krypčių sujungimas. Niekada nemeta klaidos ir neprarandą duomenų: kai abu įrenginiai pakeitė tą patį
+  // lauką, laimi `prefer` pusė; ištrynimas nepergalėja kitoje pusėje pakeisto įrašo.
+  const mergeThreeWay = (base, local, remote, path = "state", prefer = "local") => {
     if (sameValue(local, base)) return cloneValue(remote);
     if (sameValue(remote, base) || sameValue(local, remote)) return cloneValue(local);
-    if (isRecord(local) || isRecord(remote) || isRecord(base)) {
+    if (local === MISSING) return cloneValue(remote);
+    if (remote === MISSING) return cloneValue(local);
+    if (isRecord(local) && isRecord(remote)) {
       const b = isRecord(base) ? base : {},
-        l = isRecord(local) ? local : {},
-        r = isRecord(remote) ? remote : {},
-        keys = new Set([...Object.keys(b), ...Object.keys(l), ...Object.keys(r)]),
+        keys = new Set([...Object.keys(b), ...Object.keys(local), ...Object.keys(remote)]),
         out = {};
       for (const key of keys) {
+        const has = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
         const value = mergeThreeWay(
-          Object.prototype.hasOwnProperty.call(b, key) ? b[key] : MISSING,
-          Object.prototype.hasOwnProperty.call(l, key) ? l[key] : MISSING,
-          Object.prototype.hasOwnProperty.call(r, key) ? r[key] : MISSING,
-          `${path}.${key}`
+          has(b, key) ? b[key] : MISSING,
+          has(local, key) ? local[key] : MISSING,
+          has(remote, key) ? remote[key] : MISSING,
+          `${path}.${key}`,
+          prefer
         );
         if (value !== MISSING) out[key] = value;
       }
       return out;
     }
-    if (Array.isArray(local) || Array.isArray(remote) || Array.isArray(base)) {
+    if (Array.isArray(local) && Array.isArray(remote)) {
       const b = Array.isArray(base) ? base : [],
-        l = Array.isArray(local) ? local : [],
-        r = Array.isArray(remote) ? remote : [],
         idArray = a => a.every(x => isRecord(x) && "id" in x);
-      if (!idArray(b) || !idArray(l) || !idArray(r))
-        throw new Error(`Vienu metu pakeistas nesujungiamas sąrašas: ${path}`);
-      const maps = [b, l, r].map(a => new Map(a.map(x => [String(x.id), x]))),
-        ids = [
-          ...new Set([...r.map(x => String(x.id)), ...l.map(x => String(x.id)), ...b.map(x => String(x.id))])
-        ],
-        out = [];
-      for (const id of ids) {
-        const value = mergeThreeWay(
-          maps[0].has(id) ? maps[0].get(id) : MISSING,
-          maps[1].has(id) ? maps[1].get(id) : MISSING,
-          maps[2].has(id) ? maps[2].get(id) : MISSING,
-          `${path}[${id}]`
-        );
-        if (value !== MISSING) out.push(value);
+      if (idArray(b) && idArray(local) && idArray(remote)) {
+        const maps = [b, local, remote].map(a => new Map(a.map(x => [String(x.id), x]))),
+          ids = [
+            ...new Set([
+              ...remote.map(x => String(x.id)),
+              ...local.map(x => String(x.id)),
+              ...b.map(x => String(x.id))
+            ])
+          ],
+          out = [];
+        for (const id of ids) {
+          const value = mergeThreeWay(
+            maps[0].has(id) ? maps[0].get(id) : MISSING,
+            maps[1].has(id) ? maps[1].get(id) : MISSING,
+            maps[2].has(id) ? maps[2].get(id) : MISSING,
+            `${path}[${id}]`,
+            prefer
+          );
+          if (value !== MISSING) out.push(value);
+        }
+        return out;
       }
+      // Sąrašai be id (istorija, žurnalai): sujungiame abu, pasikartojimus išmetame
+      const seen = new Set(remote.map(stableString)),
+        out = remote.map(cloneValue);
+      for (const item of local) if (!seen.has(stableString(item))) out.push(cloneValue(item));
       return out;
     }
-    throw new Error(`Vienu metu pakeistas tas pats laukas: ${path}`);
+    return cloneValue(prefer === "local" ? local : remote);
+  };
+  const BASE_KEY = "autoeasier-sync-base-v1";
+  const readBase = userId => {
+    try {
+      return JSON.parse(localStorage.getItem(BASE_KEY + ":" + userId) || "null");
+    } catch (e) {
+      return null;
+    }
+  };
+  const writeBase = (userId, payload) => {
+    try {
+      const raw = JSON.stringify(payload);
+      if (raw.length < 3e6) localStorage.setItem(BASE_KEY + ":" + userId, raw);
+      else localStorage.removeItem(BASE_KEY + ":" + userId);
+    } catch (e) {}
   };
   const readMarker = userId => {
     try {
@@ -313,6 +340,7 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
     }
   };
   const writeMarker = async (userId, hash) => {
+    if (lastSyncedPayload) writeBase(userId, lastSyncedPayload);
     try {
       localStorage.setItem(
         SYNC_MARKER + ":" + userId,
@@ -456,6 +484,7 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
     setSyncStatus("Sinchronizuota", "ok");
   };
   let activeSessionUserId = "";
+  let bootBaseline = null;
   const downloadMedia = async key => {
     if (!accountId || !key) return null;
     if (downloadedMedia.has(key)) return downloadedMedia.get(key);
@@ -536,8 +565,15 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
     localDirty = false;
     cloudConflict = false;
     const current = sharedState(window.AUTOEASIER_APP_DATA.getState());
+    let retryCount = 0;
     let initialSyncHash = await hashState(current);
     lastSyncedPayload = JSON.parse(JSON.stringify(current));
+    if (bootBaseline) {
+      lastSyncedPayload = JSON.parse(JSON.stringify(bootBaseline));
+      initialSyncHash = await hashState(bootBaseline);
+      bootBaseline = null;
+      localDirty = true;
+    }
     localSaveListener = () => {
       if (!cloudReady || applyingRemote || window.__autoEasierReadOnly) return;
       localDirty = true;
@@ -552,6 +588,11 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
       syncPromise = (async () => {
         let payload = sharedState(window.AUTOEASIER_APP_DATA.getState());
         try {
+          if ((await hashState(payload)) === initialSyncHash) {
+            localDirty = false;
+            setSyncStatus("Sinchronizuota", "ok");
+            return;
+          }
           setSyncStatus("Sinchronizuojama…", "pending");
           await uploadReferencedMedia(c, payload);
           let result = await c.rpc("account_save_state", {
@@ -565,19 +606,9 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
             const remote = await fetchWorkspaceState(c);
             if (!remote) throw result.error;
             const localNow = sharedState(window.AUTOEASIER_APP_DATA.getState());
-            if ((await hashState(localNow)) !== (await hashState(payload)))
-              throw new Error(
-                "Kol vyko sinchronizavimas, atsirado naujų pakeitimų. Pakartokite sinchronizavimą."
-              );
+            if ((await hashState(localNow)) !== (await hashState(payload))) throw new Error("RETRY_SOON");
             const remotePayload = sharedState(remote.payload);
-            let merged;
-            try {
-              merged = mergeThreeWay(lastSyncedPayload || {}, payload, remotePayload);
-            } catch (mergeError) {
-              cloudConflict = true;
-              setSyncStatus("Pakeitimai laukia sujungimo – vietiniai duomenys išsaugoti", "error");
-              throw mergeError;
-            }
+            const merged = mergeThreeWay(lastSyncedPayload || {}, payload, remotePayload);
             mediaKeys(remotePayload).forEach(key => uploadedMedia.add(key));
             applyingRemote = true;
             try {
@@ -610,6 +641,7 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
           initialSyncHash = await hashState(payload);
           localDirty = false;
           cloudConflict = false;
+          retryCount = 0;
           await writeMarker(userId, initialSyncHash);
           setSyncStatus("Sinchronizuota", "ok");
           const currentHash = await hashState(sharedState(window.AUTOEASIER_APP_DATA.getState()));
@@ -620,21 +652,20 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
           }
         } catch (error) {
           console.error("AutoEasier cloud sync failed", error);
-          if (
-            error.code === "40001" ||
-            /Vienu metu pakeistas|nesujungiamas sąrašas|Kol vyko sinchronizavimas/i.test(error.message || "")
-          )
-            cloudConflict = true;
-          setSyncStatus(
-            cloudConflict
-              ? "Pakeitimai laukia sujungimo – vietiniai duomenys išsaugoti"
-              : "Neįkelta – vietiniai duomenys išsaugoti",
-            "error"
-          );
-          if (!cloudConflict)
+          // Laikinos klaidos (kitas įrenginys rašė tuo pačiu metu, nėra ryšio) – bandome iš naujo savaime
+          localDirty = true;
+          const quick = error.code === "40001" || error.message === "RETRY_SOON";
+          retryCount += 1;
+          if (retryCount <= 8) {
+            clearTimeout(cloudTimer);
+            cloudTimer = setTimeout(() => flushCloudSync(), quick ? 600 : Math.min(30000, 3000 * retryCount));
+            setSyncStatus("Sinchronizuojama…", "pending");
+          } else {
+            setSyncStatus("Neįkelta – vietiniai duomenys išsaugoti", "error");
             setMessage(
               "Sinchronizuoti nepavyko. Duomenys liko šiame įrenginyje; patikrinkite ryšį ir bandykite dar kartą."
             );
+          }
         } finally {
           syncPromise = null;
         }
@@ -671,8 +702,13 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
     document.addEventListener("visibilitychange", visibilityListener);
     window.addEventListener("pagehide", pageHideListener);
     clearInterval(pollTimer);
-    pollTimer = setInterval(pollCloud, 3e4);
-    window.AUTOEASIER_WORKSPACE.flush = flushCloudSync;
+    pollTimer = setInterval(pollCloud, 15e3);
+    window.AUTOEASIER_WORKSPACE.flush = () => {
+      retryCount = 0;
+      cloudConflict = false;
+      return flushCloudSync();
+    };
+    if (localDirty) cloudTimer = setTimeout(() => flushCloudSync(), 800);
     window.AUTOEASIER_WORKSPACE.resetBaseline = async () => {
       lastSyncedPayload = sharedState(window.AUTOEASIER_APP_DATA.getState());
       initialSyncHash = await hashState(lastSyncedPayload);
@@ -797,7 +833,30 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
       row = await fetchWorkspaceState(c);
       if (!row)
         throw new Error("Nepavyko saugiai išsaugoti paskyros duomenų. Vietinė kopija liko šiame įrenginyje.");
-    } else await applySharedPayload(row.payload, row.revision, session.user.id);
+    } else {
+      // Jei šiame įrenginyje yra dar neįkeltų pakeitimų (pvz. dirbta be ryšio) – sujungiame, o ne perrašome
+      const localHash = await hashState(local),
+        marker = readMarker(session.user.id),
+        remoteShared = sharedState(row.payload),
+        unsynced =
+          meaningful(window.AUTOEASIER_APP_DATA.getState()) &&
+          !(marker && marker.hash === localHash) &&
+          localHash !== (await hashState(remoteShared));
+      await applySharedPayload(row.payload, row.revision, session.user.id);
+      if (unsynced && !readOnly) {
+        const base = readBase(session.user.id),
+          merged = mergeThreeWay(base || {}, local, remoteShared, "state", base ? "local" : "remote");
+        if ((await hashState(merged)) !== (await hashState(remoteShared))) {
+          bootBaseline = remoteShared;
+          applyingRemote = true;
+          try {
+            window.AUTOEASIER_APP_DATA.replaceState(merged);
+          } finally {
+            applyingRemote = false;
+          }
+        }
+      }
+    }
     workspaceRevision = Number(row?.revision) || workspaceRevision;
     await beginCloudSync(session.user.id);
     await attachWorkspacePanel(session);

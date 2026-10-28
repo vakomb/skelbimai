@@ -325,3 +325,10 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
 - Bandomojo laikotarpio juostos viršuje nebėra (`180-billing-v70.js` `barModel`); informacija – Nustatymuose.
 - Ataskaitų antraštės, failų pavadinimai ir užrakto ekranas naudoja `AutoEasierProfile.upperName()/fileName()` (atsarginė reikšmė „AutoEasier“), o ne „Visureigiai, UAB“. Atsarginės kopijos žymė `app: "visureigiai-uab"` paliekama (atkūrimo suderinamumui).
 - `supabase/functions/delete-account`: JWT + el. pašto patvirtinimas, nutraukia Stripe prenumeratą, trina `user-media/<uid>` ir paskyrą (FK CASCADE).
+
+## v75 (4): sinchronizacija tarp įrenginių
+
+- `155-…js`: `mergeThreeWay` nebemeta klaidų (tas pats laukas – laimi vietinis, o prisijungiant be bazinės kopijos – debesies; sąrašai be `id` sujungiami; ištrynimas nepergalėja kitur pakeisto įrašo).
+- Prisijungiant, jei šiame įrenginyje yra neįkeltų pakeitimų, jie sujungiami su debesies versija (anksčiau debesies versija viską perrašydavo). Bazinė sinchronizuota kopija saugoma `autoeasier-sync-base-v1:<uid>`.
+- Nepavykus įkelti, bandoma iš naujo savaime (iki 8 kartų); `cloudConflict` nebeužblokuoja sinchronizacijos. Nepakitę duomenys nebeįkeliami (mažiau revizijų). Debesies tikrinimas kas 15 s ir grįžus į langą.
+- Testas: `tools/test-sync.mjs` (du įrenginiai su dirbtiniu Supabase).
