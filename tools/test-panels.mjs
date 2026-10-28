@@ -25,14 +25,13 @@ const HEAD =
   ".accountingWorkspace.show .accountingWorkspaceHead, #menuInlineDisclosure .menuDisclosureHead, #garageTasksSection.is-open > .sectionHead, .garageInlineOpen .contactsHead, .garageInlineOpen > .sectionHead, #addCarPanel > .sectionHead";
 const CASES = [
   ["Užduotys", ['[data-garage-action="tasks"]']],
-  ["Kontaktai", ['[data-garage-action="contacts"]']],
   ["Variantai", ['[data-garage-action="leads"]']],
   ["Pridėti automobilį", ['[data-garage-action="addcar"]']],
   ["Pridėti įplauką", ['.navBtn[data-view="accounting"]', '#accountingRoot [data-accounting-panel="income"]']],
   ["Pridėti išlaidą", ['.navBtn[data-view="accounting"]', '#accountingRoot [data-accounting-panel="expense"]']],
   ["Ataskaitos", ['.navBtn[data-view="accounting"]', '#accountingRoot [data-accounting-panel="reports"]']],
   ["Pardavimų statistika", ['.navBtn[data-view="menu"]', '[data-menu-disclosure="garage-stats"]']],
-  ["Finansai", ['.navBtn[data-view="menu"]', '[data-menu-disclosure="finance"]']],
+  ["Finansai", ['.navBtn[data-view="accounting"]', '#accountingRoot [data-accounting-finance]']],
   ["Kontaktai", ['.navBtn[data-view="menu"]', '[data-menu-disclosure="customers"]']],
   ["Veiksmų istorija", ['.navBtn[data-view="menu"]', '[data-menu-disclosure="history"]']],
   ["Nustatymai", ['.navBtn[data-view="menu"]', '[data-menu-disclosure="settings"]']]

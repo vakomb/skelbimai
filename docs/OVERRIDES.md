@@ -19,8 +19,8 @@ nes deklaracijos „iškeliamos“ – hoisting), `reassigned` = `X = function�
 | `openCar` | 09-cars-and-sale:148 (function) → 37-contract-v52:930 (reassigned) → 47-car-tasks-v63:99 (reassigned) → 56-v73:4 (reassigned) |
 | `renderCarSheet` | 09-cars-and-sale:158 (function) → 14-vehicle-fields-documents:303 (reassigned) → 24-accounting-v3-pp-chooser:589 (reassigned) → 30-registration-review-v41:1338 (reassigned) → 31-registration-v42-v43:543 (reassigned) → 34-registration-ui:562 (reassigned) → 35-car-ui-v51:377 (reassigned) → 38-car-card-v55:6 (reassigned) → 42-car-sheet-v61:121 (reassigned) → 47-car-tasks-v63:90 (reassigned) → 50-car-manager-v66:4 (reassigned) → 51-photo-fill-v67:74 (reassigned) → 53-v69:32 (reassigned) |
 | `openCarEditSheet` | 09-cars-and-sale:247 (function) → 14-vehicle-fields-documents:355 (reassigned) → 30-registration-review-v41:866 (reassigned) → 31-registration-v42-v43:494 (reassigned) → 34-registration-ui:526 (reassigned) → 35-car-ui-v51:278 (reassigned) |
-| `openSheet` | 09-cars-and-sale:428 (function) → 47-car-tasks-v63:84 (reassigned) |
-| `closeSheet` | 09-cars-and-sale:432 (function) → 39-profile-onboarding-v57:179 (reassigned) |
+| `openSheet` | 09-cars-and-sale:428 (function) → 47-car-tasks-v63:84 (reassigned) → 60-v77:14 (reassigned) |
+| `closeSheet` | 09-cars-and-sale:432 (function) → 39-profile-onboarding-v57:179 (reassigned) → 60-v77:28 (reassigned) |
 | `renderGarageStatsPage` | 10-render:4 (function) → 17-stats-period-boot:59 (reassigned) |
 | `renderFinancePage` | 10-render:138 (function) → 25-accounting-v8-transactions-reports:517 (reassigned) |
 | `render` | 10-render:185 (function) → 18-pp-contract-generator:469 (reassigned) → 24-accounting-v3-pp-chooser:551 (reassigned) → 27-home-reference-v12-v19:92 (reassigned) → 32-unified-garage-tasks-and-boot:135 (reassigned) → 39-profile-onboarding-v57:299 (reassigned) → 43-tasks-hub-v62:316 (reassigned) → 46-nav-v63:48 (reassigned) → 51-photo-fill-v67:87 (reassigned) → 56-v73:33 (reassigned) → 56-v73:85 (reassigned) → 58-v75:174 (reassigned) → 59-v76:60 (reassigned) |

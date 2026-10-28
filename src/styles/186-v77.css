@@ -1,0 +1,424 @@
+/* =====================================================================
+   AutoEasier v77 – taktilumas, sklandūs langai, paleidimas be šokinėjimo,
+   aiškios automobilių kortelės ir sąrašai. Paskutinis CSS blokas (5 ID prefiksas).
+   ===================================================================== */
+
+/* ---------- Prisijungimas: turinys auga žemyn, niekas nešokinėja ---------- */
+@media (max-width: 767px) {
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierLoginStage {
+    align-items: flex-start !important;
+    padding-top: clamp(64px, 14vh, 140px) !important;
+  }
+}
+
+/* ---------- Grįžtantis vartotojas: „Jungiamasi…“ vietoj formos ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierLogin .aeRestoreV77 {
+  display: none !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierLogin .autoEasierLoginContent {
+  position: relative !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierLogin.aeRestoringV77 .aeRestoreV77 {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  top: 46% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  min-height: 48px !important;
+  color: var(--pv-muted) !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  animation: aeFadeV77 0.25s ease 0.15s both !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierLogin.aeRestoringV77 .autoEasierLoginCard,
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  .autoEasierLogin.aeRestoringV77
+  .autoEasierSubscription {
+  visibility: hidden !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .aeSpinV77 {
+  width: 18px !important;
+  height: 18px !important;
+  border: 2px solid #d5dcea !important;
+  border-top-color: var(--pv-brand) !important;
+  border-radius: 50% !important;
+  animation: aeSpinV77 0.8s linear infinite !important;
+}
+@keyframes aeSpinV77 {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes aeFadeV77 {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ---------- Apatiniai langai: įvažiavimas, išvažiavimas, slinkimas ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop.show.aeBackInV77 {
+  animation: aeBackInV77 0.22s ease-out both !important;
+}
+@media (max-width: 767px) {
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet.aeSheetInV77 {
+    animation: aeSheetInV77 0.34s cubic-bezier(0.32, 0.72, 0, 1) both !important;
+  }
+}
+@media (min-width: 768px) {
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet.aeSheetInV77 {
+    animation: aeModalInV77 0.24s cubic-bezier(0.2, 0.8, 0.2, 1) both !important;
+  }
+}
+@keyframes aeModalInV77 {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0) scale(0.985);
+  }
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet {
+  overscroll-behavior: contain !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+@media (max-width: 767px) {
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet {
+    padding-bottom: max(18px, calc(env(safe-area-inset-bottom) + 12px)) !important;
+  }
+}
+@keyframes aeBackInV77 {
+  from {
+    background-color: rgba(13, 25, 42, 0);
+    -webkit-backdrop-filter: blur(0);
+    backdrop-filter: blur(0);
+  }
+}
+@keyframes aeSheetInV77 {
+  from {
+    transform: translate3d(0, 100%, 0);
+  }
+}
+/* ---------- Taktilūs paspaudimai ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) button,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) a,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) label,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) summary,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) [role="button"],
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) [data-open-car] {
+  -webkit-tap-highlight-color: transparent !important;
+  touch-action: manipulation !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) button,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) summary,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) [role="button"] {
+  -webkit-user-select: none !important;
+  user-select: none !important;
+}
+/* Dideli paviršiai (plytelės, kortelės, eilutės) – švelnus įspaudimas */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefWhat,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefTile,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRefMenu .accountingRefAction,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .menuLinks .menuLink,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageLeadCard,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageWhatRow,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageWhatHero,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefSoldToggle,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRequiredRowV1,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingSourceTile,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .companyRow,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageUnifiedTask {
+  transition:
+    transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.18s ease,
+    border-color 0.18s ease,
+    background-color 0.18s ease !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefWhat:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefTile:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRefMenu .accountingRefAction:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .menuLinks .menuLink:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageLeadCard:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageWhatRow:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageWhatHero:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefSoldToggle:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRequiredRowV1:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingSourceTile:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .companyRow:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageUnifiedTask:active {
+  transform: scale(0.982) !important;
+  transition-duration: 0.08s !important;
+}
+/* Mygtukai – aiškesnis, bet trumpas atsakas */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .btn,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .smallBtn,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .closeBtn,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .appCloseAction,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .emptyCarsBtnV75,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .regScanBtnV50,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ppRoleBtn,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .accountingReportMode,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .periodTabs > button,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierSubmit,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .bsCtaV70,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierFillV75 {
+  transition:
+    transform 0.16s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.16s ease,
+    background-color 0.16s ease,
+    box-shadow 0.16s ease !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .btn:not(:disabled):active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .smallBtn:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .closeBtn:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .appCloseAction:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .emptyCarsBtnV75:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .regScanBtnV50:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ppRoleBtn:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .accountingReportMode:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .periodTabs > button:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierSubmit:not(:disabled):active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .bsCtaV70:not(:disabled):active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierFillV75:active {
+  transform: scale(0.965) !important;
+  transition-duration: 0.07s !important;
+}
+/* Apatinė juosta – piktograma trumpai „įsispaudžia“ */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .navWrap .nav .navBtn .ico {
+  transition: transform 0.16s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .navWrap .nav .navBtn:active .ico {
+  transform: scale(0.88) !important;
+}
+/* Klaviatūros fokusas – aiškus, pele/pirštu – nematomas */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) :focus-visible {
+  outline: 2px solid rgba(40, 76, 162, 0.55) !important;
+  outline-offset: 2px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .input:focus-visible {
+  outline: none !important;
+}
+@media (hover: hover) and (pointer: fine) {
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefTile:hover,
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRefMenu .accountingRefAction:hover,
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .menuLinks .menuLink:hover,
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard:hover {
+    border-color: #d3d9e4 !important;
+    box-shadow:
+      0 1px 2px rgba(16, 24, 40, 0.05),
+      0 10px 26px rgba(16, 24, 40, 0.08) !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) *,
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) *::before,
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Automobilio kortelės apačia: būsena, dokumentai, dienos ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcFootV77 {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  margin: 11px 0 0 !important;
+  padding: 10px 2px 0 !important;
+  border-top: 1px solid #eef0f4 !important;
+  min-height: 22px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcDotsV77 {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 4px 12px !important;
+  min-width: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcDotV77 {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  color: #4b5260 !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcDotV77 i {
+  display: block !important;
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background: #c4c9d2 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcDotV77.good i {
+  background: #1f9d5b !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcDotV77.warn i {
+  background: #e3a21a !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcDotV77.bad i {
+  background: #d64545 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcSrV77 {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcRightV77 {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex: 0 0 auto !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcDocsV77 {
+  padding: 3px 8px !important;
+  border-radius: 999px !important;
+  background: #fff4de !important;
+  color: #8a5a00 !important;
+  font-size: 12px !important;
+  font-weight: 650 !important;
+  line-height: 1.25 !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcAgeV77,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcSoldV77 {
+  color: var(--pv-faint) !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+  font-variant-numeric: tabular-nums !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcSoldV77 {
+  color: #4b5260 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcAgeV77.warn {
+  color: #a36a00 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcAgeV77.bad {
+  color: #c03d3d !important;
+}
+/* Skaičiai kortelėse ir sąrašuose – lygiuoti stulpeliais */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .garageRefFacts strong,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .financeRow strong,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .smallStatBox .value,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .premiumStatGrid strong {
+  font-variant-numeric: tabular-nums !important;
+  letter-spacing: -0.01em !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcAgeV77 {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcAgeV77 svg {
+  width: 13px !important;
+  height: 13px !important;
+  flex: 0 0 auto !important;
+}
+/* Kortelės skaičiai visada telpa (ir 6 skaitmenų sumos) */
+@media (max-width: 767px) {
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .garageRefCarMain {
+    grid-template-columns: 128px minmax(0, 1fr) !important;
+    gap: 12px !important;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .garageRefCarPhoto {
+    width: 128px !important;
+  }
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .garageRefFacts {
+  grid-template-columns: auto auto auto !important;
+  justify-content: space-between !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .garageRefFacts > div {
+  min-width: 0 !important;
+  padding-left: 8px !important;
+  padding-right: 2px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .garageRefFacts > div:first-child {
+  padding-left: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .garageRefFacts strong {
+  white-space: nowrap !important;
+}
+
+/* ---------- Sąrašai be sunkių rėmų: viena kortelė, eilutės atskirtos plona linija ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app #financeTxRoot:has(> .financeRow),
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app #financeDebtRoot:has(> .financeRow) {
+  display: block !important;
+  overflow: hidden !important;
+  border: 1px solid var(--pv-line) !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app #financeTxRoot > .financeRow,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app #financeDebtRoot > .financeRow {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  margin: 0 !important;
+  padding: 12px 14px !important;
+  border: 0 !important;
+  border-bottom: 1px solid #eef0f4 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app #financeTxRoot > .financeRow:last-child,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app #financeDebtRoot > .financeRow:last-child {
+  border-bottom: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .financeRow > div:first-child {
+  min-width: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .financeRow > div:first-child strong {
+  display: block !important;
+  color: var(--pv-ink) !important;
+  font-size: 15px !important;
+  font-weight: 650 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .financeRow > div:first-child span {
+  display: block !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  color: var(--pv-faint) !important;
+  font-size: 12.5px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .financeRow > div:last-child {
+  flex: 0 0 auto !important;
+  text-align: right !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .financeRow > div:last-child strong {
+  display: block !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: var(--pv-ink) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .financeRow strong[style*="--success"],
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRefOp.income .accountingRefOpAmount {
+  color: #18864f !important;
+  -webkit-text-fill-color: #18864f !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .financeRow > div:last-child span {
+  display: block !important;
+  color: var(--pv-faint) !important;
+  font-size: 12.5px !important;
+  font-variant-numeric: tabular-nums !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRefOpAmount,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRefOpDate {
+  font-variant-numeric: tabular-nums !important;
+}

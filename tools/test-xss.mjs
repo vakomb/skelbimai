@@ -18,6 +18,13 @@ const poison = v => {
   return v;
 };
 const bad = poison(seed);
+// v77: datos ir būsenos, rodomos automobilių kortelių apačioje, taip pat užnuodijamos
+bad.cars.forEach(c => {
+  if (c.soldDateISO) (c.soldDateISO += PAY), n++;
+  c.sdkStatus = String(c.sdkStatus || "unset") + PAY;
+  c.taUntil = "2027-01-01" + PAY;
+  n += 2;
+});
 const b = await chromium.launch();
 const p = await b.newPage({ viewport: { width: 430, height: 932 } });
 p.on("dialog", d => d.dismiss());

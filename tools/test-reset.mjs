@@ -12,6 +12,17 @@ const seed = JSON.parse(fs.readFileSync(path.join(root, "tools/fixtures/demo-sta
 seed.profile = { type: "company", name: "Test UAB", code: "123456789", phone: "+37060000000", email: "t@t.lt", address: "Vilnius" };
 seed.theme = "dark";
 seed.accounting = { ...(seed.accounting || {}), email: "buh@t.lt" };
+// http serveris (ne file://): Chromium file:// režime kartais „pamiršta“ localStorage tarp užkrovimų,
+// todėl perkrovimo patikrinimas būdavo nestabilus. Produkcijoje programa veikia per https.
+import http from "node:http";
+const srvH = http
+  .createServer((q, r) => {
+    if (q.url !== "/") return r.writeHead(404).end();
+    r.setHeader("content-type", "text/html; charset=utf-8");
+    r.end(fs.readFileSync(path.resolve(root, html)));
+  })
+  .listen(0);
+const URLH = `http://localhost:${srvH.address().port}/`;
 const b = await chromium.launch();
 const p = await b.newPage({ viewport: { width: 430, height: 932 } });
 const errs = [];
@@ -20,10 +31,10 @@ const ok = (c, m) => { console.log((c ? "✓ " : "✗ ") + m); if (!c) fails++; 
 p.on("pageerror", e => errs.push(e.message));
 p.on("console", m => { if (m.type() === "error" && !/ERR_|Failed to load/.test(m.text())) errs.push(m.text()); });
 p.on("dialog", d => d.accept());
-await p.route(/^https?:/, r => r.abort());
-await p.addInitScript(s => { if (!sessionStorage.getItem("seeded")) { localStorage.setItem("visureigiai_uab_v1", s); sessionStorage.setItem("seeded", "1"); } }, JSON.stringify(seed));
+await p.route(/^https?:\/\/(?!localhost)/, r => r.abort());
+await p.addInitScript(s => { if (localStorage.getItem("visureigiai_uab_v1") === null) localStorage.setItem("visureigiai_uab_v1", s); }, JSON.stringify(seed));
 const boot = async () => {
-  await p.goto("file://" + path.resolve(root, html));
+  await p.goto(URLH);
   await p.waitForTimeout(700);
   await p.evaluate(() => { document.getElementById("autoEasierLogin").hidden = true; document.querySelectorAll("[inert]").forEach(n => n.removeAttribute("inert")); });
 };
@@ -57,8 +68,9 @@ await p.waitForTimeout(300);
 ok(errs.length === 0, "po ištrynimo visi ekranai be JS klaidų " + JSON.stringify(errs.slice(0, 3)));
 await boot();
 const st2 = await p.evaluate(() => JSON.parse(localStorage.getItem("visureigiai_uab_v1")));
-ok(st2.cars.length === 0, "po perkrovimo duomenys išlieka tušti");
+ok(st2.cars.length === 0, "po perkrovimo duomenys išlieka tušti " + st2.cars.map(c=>c.name));
 await nav("menu"); await nav("garage"); await nav("accounting");
 ok(errs.length === 0, "po perkrovimo be JS klaidų " + JSON.stringify(errs.slice(0, 3)));
 await b.close();
+srvH.close();
 process.exit(fails ? 1 : 0);

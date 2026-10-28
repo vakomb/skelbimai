@@ -46,7 +46,14 @@ const openCar = id =>
 const S = [
   ["garage", async () => {}],
   ["tasks", () => tap('[data-garage-action="tasks"]')],
-  ["contacts", () => tap('[data-garage-action="contacts"]')],
+  [
+    "contacts",
+    async () => {
+      await tap('.navBtn[data-view="menu"]');
+      await p.waitForTimeout(250);
+      await tap('[data-menu-disclosure="customers"]');
+    }
+  ],
   ["leads", () => tap('[data-garage-action="leads"]')],
   ["addcar", () => tap('[data-garage-action="addcar"]')],
   ["manager", () => tap('[data-garage-action="what"]')],
@@ -78,9 +85,9 @@ const S = [
   [
     "menu-finance",
     async () => {
-      await tap('.navBtn[data-view="menu"]');
+      await tap('.navBtn[data-view="accounting"]');
       await p.waitForTimeout(250);
-      await tap('[data-menu-disclosure="finance"]');
+      await tap('#accountingRoot [data-accounting-finance]');
     }
   ],
   [

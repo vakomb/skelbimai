@@ -340,3 +340,13 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
 - Vienodi komponentai: Vadybininko juosta (79 px, r 28), plytelės Garaže / Buhalterijoje / Meniu (84 px, r 24, piktograma 42 px), kortelės ir išskleidimai (r 24), mygtukai (50 px, r 16; pagrindiniai 54–58 px, r 18), laukai (50 px, r 14), langai (#sheet viršus r 28), aktyvios būsenos – vientisa mėlyna, prisijungimo ir prenumeratos langai.
 - Išdėstymo taisyklės (kraštai 12 px, antraštė, apatinė juosta) – tik `max-width: 767px`; kompiuterio išdėstymas nekeičiamas.
 - `app/59-v76.js`: simboliai ir emoji (✓ ▤ ✎ ☎ 📁 🚗 …) Vadybininko sąraše, „Naujausios operacijos“ ir Finansų rodikliuose pakeičiami linijinėmis SVG piktogramomis (po `render()` ir per `MutationObserver`).
+
+## v77: paleidimas, taktilumas, kortelės, sinchronizacijos pataisa
+
+- **Sinchronizacija (svarbu):** `bootstrapWorkspace` žymę ir bazinę kopiją (`autoeasier-sync-base-v1:<uid>`) nuskaito PRIEŠ `applySharedPayload` (ši jas perrašo). v75–v76 versijoje bazė sutapdavo su debesimi, todėl naujame įrenginyje sujungimas galėjo laimėti tuščią vietinę būseną. Regresijos testas – `tools/test-sync.mjs` („naujas įrenginys …“).
+- Paskyros duomenys ir prenumeratos būsena gaunami lygiagrečiai (`Promise.allSettled`), nuotraukų viršelių laukimas – iki 1,5 s.
+- **Paleidimas be šokinėjimo:** `styles/000-boot-v77.css` (head) slepia `body`, kol `scripts/190-ready-v77.js` (dokumento gale) neuždeda `html.aeStyledV77`; atsarginis laikmatis – `scripts/000-boot-v77.js` (2,5 s). Paleidimo CLS ~0.
+- Grįžtantis vartotojas (išsaugota sesija `autoeasier-auth-v1`) mato „Jungiamasi prie paskyros…“, o ne formą (`gate.aeRestoringV77`, 155-…js). Klaida ar sesijos nebuvimas – forma grąžinama.
+- `app/60-v77.js`: apatinių langų įvažiavimas (`aeSheetInV77`, tik naujai atidarytam langui; uždarymas momentinis, nes kodas iškart tikrina `#sheet …`), automobilio kortelės apačia `carCardFooterHTMLV77` (SDK / TA / draudimo taškai, trūkstami dokumentai, dienos garaže; parduotam – data ir per kiek dienų parduotas). Kviečiama iš `10-render.js` šablonų.
+- `styles/186-v77.css`: paspaudimo atsakas (scale), `touch-action: manipulation`, fokuso žiedas, `prefers-reduced-motion`, langų slinkimas be „persipylimo“, sąrašai be sunkių rėmų (Finansų operacijos – viena kortelė su plonomis linijomis), skaičiai `tabular-nums`.
+- Testai: `tools/test-boot.mjs` (naujas), `test-reset.mjs` per http (file:// režime Chromium kartais prarasdavo localStorage – tai buvo testo, ne programos klaida).

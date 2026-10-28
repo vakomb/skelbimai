@@ -26,7 +26,7 @@ const server = http.createServer((req, res) => {
 await new Promise(r => server.listen(0, "127.0.0.1", r));
 const base = `http://127.0.0.1:${server.address().port}/`;
 const b = await chromium.launch();
-const p = await b.newPage({ viewport: { width: 430, height: 932 } });
+const p = await b.newPage({ viewport: { width: 430, height: 932 }, acceptDownloads: true });
 const errors = [];
 p.on("pageerror", e => errors.push(e.message));
 p.on("dialog", d => d.accept());
@@ -127,13 +127,32 @@ check(!overflow.length, "niekas neišlenda už kortelės ribų " + overflow.join
 await p.screenshot({ path: path.join(root, ".verify/contract-form.png") });
 await ev(() => document.getElementById("ctGenerate").click());
 await p.waitForFunction(() => !document.getElementById("ctResult").hidden, null, { timeout: 30000 });
-const pdfB64 = await ev(async () => {
-  const r = await fetch(document.getElementById("ctDownload").href);
-  const buf = new Uint8Array(await r.arrayBuffer());
-  let s = "";
-  for (const x of buf) s += String.fromCharCode(x);
-  return btoa(s);
-});
+await p.waitForSelector("#ctResultV56.show", { timeout: 5000 });
+await p.waitForTimeout(350);
+await p.screenshot({ path: path.join(root, ".verify/contract-done.png") });
+const done = await ev(() =>
+  [...document.querySelectorAll("#ctResultV56 .ctBtnV56")].map(b => b.textContent.trim())
+);
+check(
+  done.includes("Peržiūrėti") && done.some(t => /Siųsti|Atsisiųsti/.test(t)),
+  "po sukūrimo rodomas langas su mygtukais: " + done.join(", ")
+);
+await ev(() => document.querySelector("#ctResultV56 [data-ct-view].ctBtnV56").click());
+await p.waitForTimeout(300);
+const pagesShown = await ev(() => document.querySelectorAll("#ctViewerV56 img").length);
+check(pagesShown === 3, "peržiūra rodo 3 puslapius");
+await p.screenshot({ path: path.join(root, ".verify/contract-viewer.png") });
+await ev(() => document.querySelector("#ctViewerV56 .closeBtn").click());
+await p.waitForTimeout(300);
+const [dl] = await Promise.all([
+  p.waitForEvent("download"),
+  ev(() => document.querySelector("#ctResultV56 [data-ct-send]").click())
+]);
+const pdfPath = await dl.path();
+const pdfB64 = fs.readFileSync(pdfPath).toString("base64");
+check(/\.pdf$/.test(dl.suggestedFilename()), "atsisiunčiamas PDF: " + dl.suggestedFilename());
+await ev(() => document.querySelector("#ctResultV56 [data-ct-close]").click());
+await p.waitForTimeout(300);
 fs.writeFileSync(path.join(root, ".verify/contract.pdf"), Buffer.from(pdfB64, "base64"));
 const car = await ev(() =>
   JSON.parse(localStorage.getItem("visureigiai_uab_v1")).cars.find(c => c.id === "car-demo-1")
@@ -149,15 +168,18 @@ check(
 );
 await ev(() => document.querySelector("#ctClose").click());
 await p.waitForTimeout(300);
-await ev(() => document.querySelector('.navBtn[data-view="accounting"]').click());
+await ev(() => document.querySelector('.navBtn[data-view="garage"]').click());
 await p.waitForTimeout(400);
-await ev(() => document.querySelector('#accountingRoot [data-accounting-panel="pp"]').click());
+await ev(() => document.querySelector('#view-garage [data-garage-action="contract"]').click());
 await p.waitForTimeout(500);
 const acc = await ev(() => ({
-  form: !!document.getElementById("ctform"),
-  car: document.getElementById("ctCar")?.value
+  view: document.querySelector(".view.active")?.id,
+  sources: [...document.querySelectorAll("[data-pp-source-mode]")].map(b => b.dataset.ppSourceMode).join(",")
 }));
-check(acc.form && acc.car === "", "Buhalterija → Generuoti PP atidaro generatorių");
+check(
+  acc.view === "view-accounting" && acc.sources === "car,camera,gallery",
+  "Garažas → Generuoti sutartį atidaro sutarčių generatorių (šaltinio pasirinkimas) " + JSON.stringify(acc)
+);
 check(!errors.length, "be JS klaidų " + errors.join("; "));
 server.close();
 await b.close();

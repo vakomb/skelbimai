@@ -97,10 +97,28 @@ await ev(() => {
 });
 await p.waitForTimeout(400);
 check(!(await ev(() => !!document.getElementById("pfform"))), "kitą kartą prisijungus langas nebeatsidaro");
-await ev(() => document.querySelector('.navBtn[data-view="accounting"]').click());
+await ev(() => document.querySelector('.navBtn[data-view="garage"]').click());
 await p.waitForTimeout(300);
-await ev(() => document.querySelector('#accountingRoot [data-accounting-panel="pp"]').click());
-await p.waitForTimeout(400);
+await ev(() => {
+  document.querySelector('[data-garage-action="addcar"]')?.click();
+  const set = (id, v) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.value = v;
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+  };
+  set("newVehicleregMake", "Honda");
+  set("newVehicleregModel", "CR-V");
+  set("newVehiclebuyPrice", "3900");
+  document.getElementById("addCarBtn").click();
+});
+await p.waitForTimeout(500);
+await ev(() => document.querySelector('.navBtn[data-view="garage"]').click());
+await ev(() => document.querySelector("#activeCarGrid [data-open-car]")?.click());
+await p.waitForTimeout(500);
+await ev(() => document.querySelector(".carPpBottomBtn")?.click());
+await p.waitForTimeout(500);
 const pp = await ev(() => ({
   name: document.getElementById("ctCoName")?.value,
   code: document.getElementById("ctCoCode")?.value,

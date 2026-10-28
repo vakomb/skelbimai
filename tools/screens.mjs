@@ -90,7 +90,14 @@ const openCar = id =>
 const S = [
   ["01-garage", async () => {}],
   ["02-tasks", () => tap('[data-garage-action="tasks"]')],
-  ["03-contacts", () => tap('[data-garage-action="contacts"]')],
+  [
+    "03-contacts",
+    async () => {
+      await tap('.navBtn[data-view="menu"]');
+      await p.waitForTimeout(300);
+      await tap('[data-menu-disclosure="customers"]');
+    }
+  ],
   ["04-leads", () => tap('[data-garage-action="leads"]')],
   ["05-addcar", () => tap('[data-garage-action="addcar"]')],
   ["06-sold", () => tap("#toggleSoldCarsBtn")],
@@ -124,9 +131,9 @@ const S = [
   [
     "13-menu-finance",
     async () => {
-      await tap('.navBtn[data-view="menu"]');
+      await tap('.navBtn[data-view="accounting"]');
       await p.waitForTimeout(300);
-      await tap('[data-menu-disclosure="finance"]');
+      await tap('#accountingRoot [data-accounting-finance]');
     }
   ],
   [
@@ -197,7 +204,9 @@ const S = [
   [
     "23-contact-new",
     async () => {
-      await tap('[data-garage-action="contacts"]');
+      await tap('.navBtn[data-view="menu"]');
+      await p.waitForTimeout(300);
+      await tap('[data-menu-disclosure="customers"]');
       await p.waitForTimeout(300);
       await tapText("#contactsRoot button", "Naujas|Pridėti|＋|\\+");
     }

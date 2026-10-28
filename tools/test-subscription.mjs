@@ -184,11 +184,13 @@ for (const [w, h] of [
   );
   await p.waitForTimeout(150);
   const bar = await p.evaluate(() => document.querySelector("#aeBarV70 .aeBarTextV70")?.textContent);
-  check(bar === "Nemokamas laikotarpis · liko 5 dienos", `${w}px: juosta „${bar}“`);
+  check(bar === undefined, `${w}px: bandomojo laikotarpio juostos nėra (informacija Nustatymuose) „${bar}“`);
   check(await noHScroll(p), `${w}px: nėra horizontalaus slinkimo`);
   await p.screenshot({ path: path.join(out, `billing-trial-${w}.png`) });
   // Nustatymai
-  await p.evaluate(() => document.querySelector('#aeBarV70 [data-bill-action="settings"]').click());
+  await p.evaluate(() => document.querySelector('.navBtn[data-view="menu"]').click());
+  await p.waitForTimeout(250);
+  await p.evaluate(() => document.querySelector('[data-menu-disclosure="settings"]').click());
   await p.waitForTimeout(500);
   const st = await p.evaluate(() => {
     const box = document.getElementById("aeSubPanelV70");

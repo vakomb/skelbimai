@@ -61,7 +61,7 @@ const STEPS = [
   ["accounting", tap('.navBtn[data-view="accounting"]')],
   ["menu", tap('.navBtn[data-view="menu"]')],
   ["menu-settings", tap('[data-menu-disclosure="settings"]')],
-  ["menu-finance", tap('[data-menu-disclosure="finance"]')],
+  ["menu-finance", tap('#accountingRoot [data-accounting-finance]')],
   ["menu-stats", tap('[data-menu-disclosure="garage-stats"]')],
   ["menu-contacts", tap('[data-menu-disclosure="customers"]')],
   ["menu-history", tap('[data-menu-disclosure="history"]')],
