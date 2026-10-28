@@ -1,7 +1,7 @@
 /* v77: kol neperskaityti visi stiliai, puslapis nerodomas (be „šokinėjimo“ ir nesustilizuoto turinio).
    Žymę aeStyledV77 uždeda scripts/190-ready-v77.js pačiame dokumento gale; atsarginis laikmatis – boot-v77.js. */
 html {
-  background: #eef2f7;
+  background: #f3f7fa;
 }
 html:not(.aeStyledV77) body {
   visibility: hidden;
