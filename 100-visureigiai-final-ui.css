@@ -1,0 +1,300 @@
+:root {
+  --app-max: 760px;
+  --home-blue: #eaf2ff;
+  --home-purple: #f3edff;
+  --home-amber: #fff3d9;
+  --home-mint: #e7f7f1;
+  --home-red: #ffebee;
+}
+html,
+body {
+  width: 100%;
+  min-width: 0;
+  overscroll-behavior-x: none;
+}
+body {
+  font-size: 16px !important;
+  line-height: 1.42 !important;
+}
+.app {
+  width: 100% !important;
+  max-width: var(--app-max) !important;
+  margin: 0 auto !important;
+  padding: 16px 18px 136px !important;
+}
+.nav {
+  width: 100% !important;
+  max-width: var(--app-max) !important;
+}
+.sheet {
+  width: min(100%, var(--app-max)) !important;
+  max-width: var(--app-max) !important;
+  padding: 20px !important;
+}
+.topbar {
+  min-height: 58px !important;
+  padding: 14px 2px 16px !important;
+}
+.topbar h1 {
+  font-size: 21px !important;
+  letter-spacing: 0.08em !important;
+}
+.topbar h1 small {
+  display: none !important;
+}
+.section {
+  margin-top: 18px !important;
+}
+.sectionHead {
+  margin: 0 2px 12px !important;
+}
+.sectionHead h2 {
+  font-size: 20px !important;
+}
+.sectionHead > span {
+  display: none !important;
+}
+.btn {
+  min-height: 54px !important;
+  padding: 14px 17px !important;
+  border-radius: 17px !important;
+  font-size: 16px !important;
+  line-height: 1.15 !important;
+}
+.smallBtn {
+  width: 46px !important;
+  height: 46px !important;
+  font-size: 17px !important;
+}
+.closeBtn {
+  width: 46px !important;
+  height: 46px !important;
+  font-size: 20px !important;
+}
+.input,
+select.input,
+textarea.input {
+  min-height: 54px !important;
+  font-size: 16px !important;
+  padding: 14px 15px !important;
+}
+.field label,
+.companyForm .field label,
+.vehicleFields label,
+.ppFields label {
+  font-size: 15px !important;
+  font-weight: 750 !important;
+  margin-bottom: 8px !important;
+  color: var(--text) !important;
+}
+.subtle,
+.miniStat .hint,
+.smallStatBox .hint,
+.menuLink > span,
+.garageAction .garageActionText > span,
+.garageAction .left > div > span,
+.taskGroupHead .sub,
+.rewardCard p,
+.companyNote {
+  display: none !important;
+}
+small {
+  font-size: 14px !important;
+}
+.badge,
+.tag,
+.statChip,
+.garageLeadTag,
+.companyStatus,
+.vehicleSdkBadge {
+  font-size: 13px !important;
+}
+.taskMeta,
+.carLine,
+.garageLeadLine,
+.historyItem span,
+.financeRow span,
+.vehicleInfo dt,
+.vehicleInfo dd,
+.vehicleDocRow span,
+.accountingQueueRow span,
+.ppScanState {
+  font-size: 14px !important;
+}
+.taskMain strong,
+.companyRow strong,
+.garageCarTaskHead strong,
+.financeRow strong,
+.historyItem strong {
+  font-size: 16px !important;
+}
+.carBody h4,
+.carListTitle,
+.garageLeadBody h4 {
+  font-size: 19px !important;
+}
+.carListFacts small {
+  font-size: 13px !important;
+}
+.carListFacts strong {
+  font-size: 16px !important;
+}
+.navBtn {
+  min-height: 62px !important;
+  padding: 9px 4px !important;
+  font-size: 13px !important;
+  font-weight: 750 !important;
+  gap: 5px !important;
+}
+.navBtn .ico {
+  font-size: 22px !important;
+}
+.menuLink,
+.garageAction {
+  min-height: 116px !important;
+  padding: 17px !important;
+}
+.menuLink strong,
+.garageAction strong {
+  font-size: 17px !important;
+}
+.menuLink .ico,
+.garageAction .ico {
+  width: 48px !important;
+  height: 48px !important;
+  font-size: 23px !important;
+}
+.panel,
+.carCard,
+.garageLeadCard,
+.taskCard,
+.companyRow,
+.accountingPanel {
+  border-radius: 24px !important;
+}
+.ppGeneratorCard {
+  padding: 18px !important;
+  border-radius: 26px !important;
+}
+.ppGeneratorHead h3 {
+  font-size: 23px !important;
+}
+.ppBadge {
+  font-size: 13px !important;
+  padding: 7px 10px !important;
+}
+.ppScanDrop {
+  min-height: 92px !important;
+  padding: 15px !important;
+  border-radius: 20px !important;
+}
+.ppScanDrop .ppScanIcon {
+  width: 52px !important;
+  height: 52px !important;
+  font-size: 26px !important;
+}
+.ppScanDrop strong {
+  font-size: 17px !important;
+}
+.ppScanDrop > span > span {
+  display: none !important;
+}
+.ppScanPreview img {
+  max-height: 330px !important;
+}
+.ppScanState {
+  min-height: 22px;
+  font-weight: 800 !important;
+  line-height: 1.4 !important;
+}
+.ppRoleBtn {
+  min-height: 55px !important;
+  font-size: 16px !important;
+}
+.ppSectionTitle {
+  font-size: 17px !important;
+}
+.ppResult strong {
+  font-size: 19px !important;
+}
+.ppDetected {
+  display: none;
+  margin-top: 10px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: var(--home-mint);
+  border: 1px solid #cceade;
+  font-size: 15px;
+  font-weight: 800;
+}
+.ppDetected.show {
+  display: block;
+}
+.accountingPanel {
+  padding: 17px !important;
+}
+.accountingEmailLabel {
+  font-size: 16px !important;
+  font-weight: 850 !important;
+}
+.accountingTitleRow h3 {
+  font-size: 21px !important;
+}
+.accountingTitleRow strong {
+  font-size: 14px !important;
+}
+.accountingQueueRow button strong {
+  font-size: 16px !important;
+}
+.accountingQueueRow button span {
+  font-size: 14px !important;
+}
+.accountingSendWeek {
+  font-size: 16px !important;
+}
+.accountingFolderActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+.accountingFolderActions .btn {
+  width: 100%;
+}
+.accountingDirectBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 11px;
+  border-radius: 999px;
+  background: var(--home-mint);
+  border: 1px solid #cceade;
+  font-size: 14px;
+  font-weight: 900;
+  color: #0f6554;
+}
+.accountingInfo span {
+  display: none !important;
+}
+html[data-theme="dark"] .accountingDirectBadge {
+  background: #103b34;
+  border-color: #245b50;
+  color: #6ee7b7;
+}
+@media (max-width: 560px) {
+  .app {
+    max-width: none !important;
+    padding: 14px 14px 132px !important;
+  }
+  .nav {
+    max-width: none !important;
+  }
+  .sheet {
+    max-width: none !important;
+  }
+}
+@media (max-width: 380px) {
+  .accountingFolderActions {
+    grid-template-columns: 1fr;
+  }
+}

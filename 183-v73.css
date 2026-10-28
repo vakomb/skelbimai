@@ -1,0 +1,17 @@
+/* v73: planšetė / telefonas gulsčiai – apatinė juosta be suliejimo aplink */
+@media (min-width: 600px) {
+  html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+  html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap::before,
+  html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap::after {
+    display: none !important;
+  }
+  html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav {
+    box-shadow: 0 2px 14px rgba(18, 35, 58, 0.1) !important;
+  }
+}

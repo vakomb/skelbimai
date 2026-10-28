@@ -1,0 +1,464 @@
+/* PAGRINDINIS — exact visual direction from the supplied reference, tuned for iPhone 15 Pro Max (430 CSS px). */
+body:has(#view-home.active) {
+  background:
+    radial-gradient(circle at 86% 5%, rgba(219, 232, 249, 0.72) 0%, rgba(219, 232, 249, 0) 24%),
+    linear-gradient(180deg, #ffffff 0%, #fbfdff 54%, #ffffff 100%) !important;
+}
+body:has(#view-home.active) .app {
+  width: 100% !important;
+  max-width: 430px !important;
+  min-height: 100svh !important;
+  margin: 0 auto !important;
+  padding: calc(env(safe-area-inset-top) + 16px) 14px calc(86px + env(safe-area-inset-bottom)) !important;
+}
+body:has(#view-home.active) .app::before,
+body:has(#view-home.active) .app::after {
+  display: none !important;
+  content: none !important;
+}
+body:has(#view-home.active) .topbar {
+  display: none !important;
+}
+#view-home {
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: visible !important;
+}
+#view-home #companyHome {
+  width: 100%;
+}
+.homeRefBrandRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 50px;
+  margin: 0 2px 19px;
+}
+.homeRefBrand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  color: #0f1b2b;
+  font-weight: 850;
+  font-size: 17px;
+  letter-spacing: -0.018em;
+}
+.homeRefLogo {
+  width: 34px;
+  height: 25px;
+  display: block;
+  flex: 0 0 auto;
+}
+.homeRefDate {
+  height: 42px;
+  min-width: 116px;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 0;
+  border-radius: 24px;
+  background: #f2f3f6;
+  color: #1d2939;
+  font-size: 15px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+.homeRefDate svg {
+  width: 19px;
+  height: 19px;
+  stroke-width: 1.8;
+}
+.homeRefTitle {
+  margin: 0 2px 22px;
+  color: #0a1728;
+  font-size: 37px !important;
+  line-height: 0.98;
+  font-weight: 900;
+  letter-spacing: -0.055em;
+}
+.homeRefToday {
+  display: block;
+  margin: 0 0 14px;
+  border: 1px solid #f6ccd2;
+  border-radius: 24px;
+  background: linear-gradient(145deg, #fff0f2 0%, #fff7f7 100%);
+  box-shadow: 0 10px 26px rgba(166, 49, 66, 0.075);
+  overflow: hidden;
+}
+.homeRefToday > summary {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) 42px;
+  align-items: center;
+  gap: 11px;
+  min-height: 73px;
+  padding: 12px 13px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.homeRefToday > summary::-webkit-details-marker {
+  display: none;
+}
+.homeRefTodayIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 17px;
+  display: grid;
+  place-items: center;
+  background: #ffdfe4;
+  color: #9d283b;
+}
+.homeRefTodayIcon svg {
+  width: 25px;
+  height: 25px;
+  stroke-width: 1.9;
+}
+.homeRefTodayTitle {
+  min-width: 0;
+  font-size: 21px;
+  line-height: 1.12;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  color: #101c2c;
+}
+.homeRefTodayChevron {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.46);
+  color: #111d2d;
+  transition: transform 0.18s ease;
+}
+.homeRefTodayChevron svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2;
+}
+.homeRefToday:not([open]) .homeRefTodayChevron {
+  transform: rotate(180deg);
+}
+.homeRefTodayBody {
+  display: grid;
+  gap: 9px;
+  padding: 0 11px 11px;
+}
+.homeRefTodayTask {
+  width: 100%;
+  min-height: 63px;
+  padding: 8px 9px;
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #f1d8dc;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #111827;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(31, 41, 55, 0.025);
+}
+.homeRefTodayTask:active {
+  transform: scale(0.992);
+}
+.homeRefThumb {
+  width: 54px;
+  height: 48px;
+  border-radius: 12px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: #f3f5f7;
+  color: #7a8795;
+  font-size: 20px;
+}
+.homeRefThumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.homeRefTodayCopy {
+  min-width: 0;
+}
+.homeRefTodayCopy strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 16px;
+  line-height: 1.15;
+  font-weight: 790;
+  letter-spacing: -0.022em;
+  color: #172234;
+}
+.homeRefTodayCopy span {
+  display: block;
+  margin-top: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  line-height: 1.1;
+  font-weight: 500;
+  color: #48566a;
+}
+.homeRefStatus {
+  min-width: 75px;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  background: #ffe7ea;
+  color: #9e2035;
+  font-size: 13px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+.homeRefTodayTask.late .homeRefStatus {
+  background: #ffcfd5;
+  color: #a60f27;
+}
+.homeRefEmpty {
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #f1d8dc;
+  border-radius: 16px;
+  background: #fff;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 700;
+}
+.homeRefStacks {
+  display: grid;
+  gap: 10px;
+  margin-top: 0;
+}
+.homeRefFold {
+  display: block;
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: 22px;
+  box-shadow: 0 9px 24px rgba(30, 41, 59, 0.055);
+}
+.homeRefFold.homeRefCars {
+  background: linear-gradient(120deg, #f0f7ff 0%, #f7fbff 100%);
+  border-color: #dcecff;
+}
+.homeRefFold.homeRefOther {
+  background: linear-gradient(120deg, #f0fbf7 0%, #f9fdfb 100%);
+  border-color: #d8eee5;
+}
+.homeRefFold > summary {
+  list-style: none;
+  min-height: 72px;
+  padding: 11px 13px;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) 36px 21px;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.homeRefFold > summary::-webkit-details-marker {
+  display: none;
+}
+.homeRefFoldIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+.homeRefCars .homeRefFoldIcon {
+  background: #dcecff;
+  color: #0e4f89;
+}
+.homeRefOther .homeRefFoldIcon {
+  background: #dff3ea;
+  color: #0b6a40;
+}
+.homeRefFoldIcon svg {
+  width: 25px;
+  height: 25px;
+  stroke-width: 1.85;
+}
+.homeRefFoldTitle {
+  min-width: 0;
+  font-size: 19px;
+  line-height: 1.12;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  color: #101c2c;
+}
+.homeRefFoldCount {
+  min-width: 36px;
+  height: 36px;
+  padding: 0 8px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  background: rgba(223, 233, 244, 0.76);
+  color: #132235;
+  font-size: 13px;
+  font-weight: 900;
+}
+.homeRefOther .homeRefFoldCount {
+  background: rgba(223, 239, 232, 0.88);
+}
+.homeRefFoldArrow {
+  color: #111d2d;
+  transition: transform 0.18s ease;
+}
+.homeRefFoldArrow svg {
+  display: block;
+  width: 19px;
+  height: 19px;
+  stroke-width: 2;
+}
+.homeRefFold[open] .homeRefFoldArrow {
+  transform: rotate(90deg);
+}
+.homeRefFoldBody {
+  padding: 0 11px 11px;
+}
+.homeRefFold .homeCarBlock {
+  padding: 10px 0 0;
+  border-top: 1px solid rgba(125, 151, 176, 0.16);
+}
+.homeRefFold .homeCarHead {
+  padding: 0 4px 8px;
+}
+.homeRefFold .homeCarHead strong {
+  font-size: 15px;
+}
+.homeRefFold .homeFoldList {
+  gap: 7px;
+}
+.homeRefFold .homeFoldTask {
+  min-height: 52px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(176, 196, 215, 0.2);
+  padding: 9px 11px;
+}
+.homeRefFold .homeFoldTask strong {
+  font-size: 14px;
+}
+.homeRefFold .homeFoldDue {
+  font-size: 11px;
+}
+.homeRefHero {
+  height: 210px;
+  margin: 16px -14px -18px;
+  background-image: url("./assets/embedded-image-01-8779e3c694.jpg");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border: 0;
+  position: relative;
+  overflow: hidden;
+}
+.homeRefHero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 32%);
+  pointer-events: none;
+} /* Home-only bottom bar matching the visual. */
+body:has(#view-home.active) .navWrap {
+  padding: 0 0 env(safe-area-inset-bottom) !important;
+  background: rgba(255, 255, 255, 0.97) !important;
+  border-top: 1px solid #eef0f3 !important;
+  backdrop-filter: blur(18px) saturate(145%) !important;
+}
+body:has(#view-home.active) .nav {
+  width: 100% !important;
+  max-width: 430px !important;
+  min-height: 74px !important;
+  margin: 0 auto !important;
+  padding: 8px 8px 7px !important;
+  gap: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+body:has(#view-home.active) .navBtn {
+  position: relative;
+  min-height: 58px !important;
+  padding: 5px 2px 8px !important;
+  gap: 3px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #263246 !important;
+  font-size: 11px !important;
+  font-weight: 520 !important;
+}
+body:has(#view-home.active) .navBtn .ico {
+  height: 27px;
+  display: grid;
+  place-items: center;
+  font-size: 0 !important;
+  color: #263246 !important;
+}
+body:has(#view-home.active) .navBtn .ico svg {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+}
+body:has(#view-home.active) .navBtn.active {
+  color: #162234 !important;
+  font-weight: 700 !important;
+}
+body:has(#view-home.active) .navBtn.active::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 1px;
+  width: 31px;
+  height: 2px;
+  border-radius: 999px;
+  transform: translateX(-50%);
+  background: #b78c49;
+}
+@media (max-width: 390px) {
+  .homeRefTitle {
+    font-size: 34px !important;
+  }
+  .homeRefTodayTitle {
+    font-size: 19px;
+  }
+  .homeRefFoldTitle {
+    font-size: 17px;
+  }
+  .homeRefTodayTask {
+    grid-template-columns: 48px minmax(0, 1fr) auto;
+  }
+  .homeRefThumb {
+    width: 48px;
+    height: 44px;
+  }
+  .homeRefStatus {
+    min-width: 69px;
+    padding: 0 10px;
+    font-size: 12px;
+  }
+}

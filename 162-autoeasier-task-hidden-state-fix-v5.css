@@ -1,0 +1,5 @@
+#view-garage #garageTasksSection[hidden],
+#view-garage #garageTasksSection .garageUnifiedSectionBody[hidden],
+#view-garage #garageTasksSection .garageUnifiedRows[hidden] {
+  display: none !important;
+}

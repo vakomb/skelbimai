@@ -1,0 +1,179 @@
+/* Balanced two-part brand header with centered content and one shared divider. */
+body:has(.app) .app > .topbar,
+body:has(#view-garage.active) .app > .topbar {
+  box-sizing: border-box !important;
+  display: flex !important;
+  position: static !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  flex: 0 0 54px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 54px !important;
+  min-height: 54px !important;
+  margin: 0 0 12px !important;
+  padding: 0 2px !important;
+  background: transparent !important;
+  text-align: left !important;
+}
+html body:has(#view-home.active) .app > .topbar,
+html body:has(#view-garage.active) .app > .topbar,
+html body:has(#view-accounting.active) .app > .topbar,
+html body:has(#view-menu.active) .app > .topbar {
+  display: flex !important;
+}
+.app > .topbar .autoEasierHeaderV4 {
+  box-sizing: border-box !important;
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+  align-items: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+}
+.app > .topbar .autoEasierBrandCellV4,
+.app > .topbar .autoEasierCompanyCellV4 {
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  min-width: 0 !important;
+  height: 100% !important;
+}
+.app > .topbar .autoEasierBrandCellV4 {
+  justify-content: center !important;
+  padding: 0 8px !important;
+}
+.app > .topbar .autoEasierWordmarkV4 {
+  display: block !important;
+  width: 146px !important;
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: 36px !important;
+  object-fit: contain !important;
+  object-position: left center !important;
+  flex: none !important;
+}
+.app > .topbar .autoEasierDividerV4 {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  display: block !important;
+  width: 1px !important;
+  height: 28px !important;
+  transform: translate(-50%, -50%) !important;
+  background: #d6dde6 !important;
+}
+.app > .topbar .autoEasierCompanyCellV4 {
+  justify-content: center !important;
+  gap: 8px !important;
+  padding: 0 8px !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #12233b !important;
+}
+.app > .topbar .autoEasierCompanyMarkV4 {
+  box-sizing: border-box !important;
+  display: grid !important;
+  place-items: center !important;
+  flex: 0 0 34px !important;
+  width: 34px !important;
+  height: 34px !important;
+  border: 1px solid #e6e2d8 !important;
+  border-radius: 50% !important;
+  background: #fff !important;
+}
+.app > .topbar .autoEasierCompanyMarkV4 svg {
+  display: block !important;
+  width: 24px !important;
+  height: 18px !important;
+}
+.app > .topbar .autoEasierCompanyNameV4 {
+  display: block !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  color: #14243b !important;
+  font-family: inherit !important;
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+  font-weight: 850 !important;
+  letter-spacing: 0.01em !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+}
+@media (max-width: 390px) {
+  body:has(.app) .app > .topbar,
+  body:has(#view-garage.active) .app > .topbar {
+    height: 52px !important;
+    min-height: 52px !important;
+    flex-basis: 52px !important;
+    margin-bottom: 10px !important;
+  }
+  .app > .topbar .autoEasierBrandCellV4 {
+    padding-left: 5px !important;
+    padding-right: 8px !important;
+  }
+  .app > .topbar .autoEasierWordmarkV4 {
+    width: 138px !important;
+    max-height: 33px !important;
+  }
+  .app > .topbar .autoEasierCompanyCellV4 {
+    gap: 6px !important;
+    padding-left: 11px !important;
+    padding-right: 0 !important;
+  }
+  .app > .topbar .autoEasierCompanyMarkV4 {
+    flex-basis: 30px !important;
+    width: 30px !important;
+    height: 30px !important;
+  }
+  .app > .topbar .autoEasierCompanyMarkV4 svg {
+    width: 21px !important;
+    height: 16px !important;
+  }
+  .app > .topbar .autoEasierCompanyNameV4 {
+    font-size: 11px !important;
+  }
+  .app > .topbar .autoEasierDividerV4 {
+    height: 25px !important;
+  }
+}
+@media (max-width: 350px) {
+  .app > .topbar .autoEasierWordmarkV4 {
+    width: 124px !important;
+  }
+  .app > .topbar .autoEasierCompanyCellV4 {
+    padding-left: 9px !important;
+    gap: 5px !important;
+  }
+  .app > .topbar .autoEasierCompanyMarkV4 {
+    flex-basis: 27px !important;
+    width: 27px !important;
+    height: 27px !important;
+  }
+  .app > .topbar .autoEasierCompanyNameV4 {
+    font-size: 10px !important;
+  }
+} /* Hide the former company/date strip on every page; the new shared header replaces it. */
+#view-home .homeProBrand,
+#view-home .homeRefBrandRow,
+#view-garage .garageRefBrandRow,
+#view-accounting .accountingRefBrandRow,
+.app .productRefBrandRow {
+  display: none !important;
+} /* Equal visual centering inside both 50% columns, including narrow phones. */
+.app > .topbar .autoEasierBrandCellV4 {
+  justify-content: center !important;
+  padding: 0 !important;
+}
+.app > .topbar .autoEasierCompanyCellV4 {
+  justify-content: center !important;
+  padding: 0 4px !important;
+}
+.app > .topbar .autoEasierCompanyNameV4 {
+  flex: 0 1 auto !important;
+  max-width: calc(100% - 42px) !important;
+  text-align: left !important;
+}

@@ -1,0 +1,269 @@
+/* v71: apatinė juosta – mažesni vertikalūs tarpai (mygtukų dydis nesikeičia), fonas vientisas iki apačios */
+@media (max-width: 767px) {
+  html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap {
+    padding: 0 10px calc(2px + env(safe-area-inset-bottom)) !important;
+    background: #fff !important;
+  }
+  html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav {
+    height: 68px !important;
+    min-height: 68px !important;
+    padding: 2px 6px !important;
+    background: #fff !important;
+  }
+}
+
+/* v71: ramus duomenų priminimas */
+#pfRemindV71 {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: calc(86px + env(safe-area-inset-bottom));
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 10px 10px 10px 14px;
+  border: 1px solid var(--ds-line, #e5e9f0);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(13, 25, 42, 0.12);
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+#pfRemindV71.show {
+  opacity: 1;
+  transform: none;
+}
+#pfRemindV71 .pfRemindTxtV71 {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+}
+#pfRemindV71 b {
+  font-size: 14px;
+  color: var(--ds-ink, #0d192a);
+}
+#pfRemindV71 span {
+  font-size: 12px;
+  color: var(--ds-muted, #6b7585);
+}
+#pfRemindV71 button {
+  border: 0;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  border-radius: 10px;
+  padding: 9px 12px;
+  cursor: pointer;
+}
+#pfRemindV71 .pfRemindGoV71 {
+  background: var(--ds-brand, #174a8b);
+  color: #fff;
+}
+#pfRemindV71 .pfRemindXV71 {
+  background: transparent;
+  color: var(--ds-muted, #6b7585);
+  padding-inline: 6px;
+}
+
+/* v71: prieigos užraktas – visas ekranas */
+.pwV71 {
+  --bs-ink: var(--ds-ink, #12233a);
+  --bs-muted: var(--ds-muted, #66768a);
+  --bs-line: var(--ds-line, #e3e9f0);
+  --bs-soft: var(--ds-soft, #f3f6f9);
+  --bs-brand: var(--ds-brand, #174a8b);
+  --bs-brand-soft: var(--ds-brand-soft, #e9f0fa);
+  --bs-good: var(--ds-good, #1d8a52);
+  --bs-bad: var(--ds-bad, #c03d3d);
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  width: 100vw;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: #fff;
+  color: var(--bs-ink);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+}
+.pwV71.is-in {
+  opacity: 1;
+}
+.pwV71[hidden] {
+  display: none !important;
+}
+html.aePaywallOnV71,
+html.aePaywallOnV71 body {
+  overflow: hidden !important;
+}
+.pwV71 .pwHeadV71 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 460px;
+  margin: 0 auto;
+  padding: 16px 20px 0;
+}
+.pwV71 .pwBrandV71 {
+  font-size: 17px;
+  font-weight: 750;
+  letter-spacing: -0.01em;
+  color: var(--bs-brand);
+}
+.pwV71 .pwUserV71 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  font-size: 12.5px;
+  color: var(--bs-muted);
+}
+.pwV71 .pwUserV71 span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 150px;
+}
+.pwV71 .pwUserV71 button {
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-weight: 650;
+  color: var(--bs-brand);
+  padding: 6px 0;
+  cursor: pointer;
+}
+.pwV71 .pwMainV71 {
+  max-width: 460px;
+  margin: 0 auto;
+  padding: 28px 20px 40px;
+}
+.pwV71 .pwTitleV71 {
+  margin: 0 0 8px;
+  font-size: 26px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.pwV71 .pwLeadV71 {
+  margin: 0 0 20px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--bs-muted);
+}
+.pwV71 .bsBusyV70 {
+  margin-top: 18vh;
+}
+
+/* v71: Nustatymų struktūra – grupės su etiketėmis, vienodi tarpai */
+#view-settings .setGroupV71 {
+  margin-top: 22px;
+}
+#view-settings .setGroupV71 > .panel,
+#view-settings .setGroupV71 > #aeSubPanelV70 {
+  margin: 0 0 10px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-settings .setLabelV71 {
+  margin: 0 4px 8px !important;
+  font-size: 12px !important;
+  font-weight: 750 !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  color: var(--ds-muted, #66768a) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-settings .setAccountCardV71 {
+  padding: 0 !important;
+}
+#view-settings .setProfileRowV71 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  color: var(--ds-ink, #12233a);
+  cursor: pointer;
+}
+#view-settings .setProfileTxtV71 {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+#view-settings .setProfileTxtV71 strong {
+  font-size: 15px;
+}
+#view-settings .setProfileTxtV71 .sub {
+  font-size: 13px;
+  color: var(--ds-muted, #66768a);
+}
+#view-settings .setProfileBadgeV71 {
+  display: none;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: #fff4e0;
+  color: #a05a00;
+  font-size: 12px;
+  font-weight: 700;
+}
+html.pfIncompleteV71 #view-settings .setProfileBadgeV71 {
+  display: inline-block;
+}
+#view-settings .setChevV71 {
+  font-size: 22px;
+  line-height: 1;
+  color: var(--ds-muted, #66768a);
+}
+#view-settings .setAccountCardV71 .autoEasierSessionControl {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid var(--ds-line, #e3e9f0);
+  border-radius: 0;
+  padding: 12px 14px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ds-muted, #66768a);
+}
+#view-settings .setAccountCardV71 #autoEasierAccountStatus {
+  margin: 0 !important;
+  padding: 0 14px 12px;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+}
+#view-settings .setDangerV71 .btn.ghost {
+  color: #b4233b;
+}
+
+/* v71: įmonės pavadinimas rodomas tik užpildžius „Mano duomenys“ */
+html:not(#ae):not(#af):not(.pfNamedV71) body:not(#ae):not(#af) .autoEasierDividerV4,
+html:not(#ae):not(#af):not(.pfNamedV71) body:not(#ae):not(#af) .autoEasierCompanyCellV4,
+html:not(#ae):not(#af):not(.pfNamedV71) body:not(#ae):not(#af) .garageRefBrand,
+html:not(#ae):not(#af):not(.pfNamedV71) body:not(#ae):not(#af) .accountingRefBrand,
+html:not(#ae):not(#af):not(.pfNamedV71) body:not(#ae):not(#af) .productRefBrand,
+html:not(#ae):not(#af):not(.pfNamedV71) body:not(#ae):not(#af) .homeRefBrand,
+html:not(#ae):not(#af):not(.pfNamedV71) body:not(#ae):not(#af) .homeProBrandLeft {
+  display: none !important;
+}
+html:not(#ae):not(#af):not(.pfNamedV71) body:not(#ae):not(#af) .autoEasierHeaderV4 {
+  justify-content: center !important;
+}

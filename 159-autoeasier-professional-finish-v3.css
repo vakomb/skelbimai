@@ -1,0 +1,443 @@
+/* One stable app canvas prevents horizontal and scrollbar jumps between views. */
+html {
+  scrollbar-gutter: stable;
+}
+body {
+  overflow-x: hidden;
+}
+.app {
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  max-width: 460px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+.app > .view,
+.app > .view.active,
+.app .view,
+.app .view.active {
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+.app .view {
+  overflow-x: clip !important;
+}
+.app .view > * {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+@media (max-width: 700px) {
+  html {
+    scrollbar-gutter: auto;
+  }
+} /* Shared disclosure heading scale and spacing across Garage, Accounting and Menu. */
+#view-garage .garageDisclosurePanel > .sectionHead,
+#view-garage .garageInlinePanel .contactsHead,
+#view-accounting .accountingWorkspaceHead,
+#view-menu .menuDisclosureHead {
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+  gap: 10px !important;
+}
+#view-garage .garageDisclosurePanel > .sectionHead h2,
+#view-garage .garageInlinePanel .contactsHead h2,
+#view-accounting .accountingWorkspaceHead h2,
+#view-menu .menuDisclosureHead h2 {
+  font-family: inherit !important;
+  font-size: 20px !important;
+  line-height: 1.2 !important;
+  font-weight: 850 !important;
+  letter-spacing: -0.025em !important;
+  color: #14243a !important;
+} /* Tasks: retain one calm outer surface and remove the nested card-on-card frames. */
+#view-garage #garageTasksSection {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  padding: 14px !important;
+  border: 1px solid #e2e9ef !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  box-shadow: 0 3px 12px rgba(18, 38, 61, 0.04) !important;
+}
+#view-garage #garageTasksSection > .sectionHead {
+  min-height: 34px !important;
+  margin: 0 0 8px !important;
+  padding: 0 1px 8px !important;
+  border-bottom: 1px solid #edf1f5 !important;
+}
+#view-garage #garageTasksSection > .sectionHead h2 {
+  font-size: 20px !important;
+  line-height: 1.2 !important;
+  font-weight: 850 !important;
+}
+#view-garage #garageTasksSection > .sectionHead > span:not(.garageTaskClose) {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #708095 !important;
+}
+#view-garage #garageTasksSection .garageUnifiedSection,
+#view-garage #garageTasksSection .garageUnifiedSectionBody,
+#view-garage #garageTasksSection .taskGroup,
+#view-garage #garageTasksSection .taskGroupBody {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+#view-garage #garageTasksSection .garageUnifiedSection {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+#view-garage #garageTasksSection .garageUnifiedSection + .garageUnifiedSection {
+  border-top: 1px solid #edf1f5 !important;
+}
+#view-garage #garageTasksSection .garageUnifiedSectionHead {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+#view-garage #garageTasksSection .garageUnifiedSectionToggle {
+  box-sizing: border-box !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto 16px !important;
+  align-items: center !important;
+  gap: 10px !important;
+  width: 100% !important;
+  min-height: 54px !important;
+  margin: 0 !important;
+  padding: 8px 2px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #17283d !important;
+  text-align: left !important;
+}
+#view-garage #garageTasksSection .garageUnifiedSectionTitle {
+  font-size: 16px !important;
+  line-height: 1.25 !important;
+  font-weight: 820 !important;
+  letter-spacing: -0.01em !important;
+  color: #17283d !important;
+}
+#view-garage #garageTasksSection .garageUnifiedSectionToggle > b {
+  display: grid !important;
+  place-items: center !important;
+  min-width: 26px !important;
+  height: 26px !important;
+  padding: 0 6px !important;
+  border-radius: 9px !important;
+  background: #f0f4f8 !important;
+  color: #42566d !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+}
+#view-garage #garageTasksSection .garageUnifiedSectionChevron {
+  color: #7a899a !important;
+}
+#view-garage #garageTasksSection .garageUnifiedSectionBody {
+  padding: 0 0 8px !important;
+}
+#view-garage #garageTasksSection .garageUnifiedRows {
+  display: grid !important;
+  gap: 7px !important;
+  padding: 2px 0 9px !important;
+}
+#view-garage #garageTasksSection .garageUnifiedTask,
+#view-garage #garageTasksSection .garageCarTaskCard,
+#view-garage #garageTasksSection .otherTaskCard {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  border: 1px solid #e7edf3 !important;
+  border-radius: 13px !important;
+  background: #f9fbfd !important;
+  box-shadow: none !important;
+}
+#view-garage #garageTasksSection .taskGroupBody {
+  padding: 0 !important;
+}
+#view-garage #garageTasksSection #garageTaskForm {
+  margin: 8px 0 10px !important;
+  padding: 12px !important;
+  border: 1px solid #e5ebf1 !important;
+  border-radius: 14px !important;
+  background: #f8fafc !important;
+  box-shadow: none !important;
+} /* Keep contacts actions aligned: add at the left, close at the far right. */
+#view-garage #view-customers.garageInlinePanel .contactsHead {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  grid-template-rows: auto auto !important;
+  grid-template-areas: "title title" "actions close" !important;
+  align-items: center !important;
+  column-gap: 10px !important;
+  row-gap: 9px !important;
+}
+#view-garage #view-customers.garageInlinePanel .contactsHead > h2 {
+  grid-area: title !important;
+  justify-self: start !important;
+  margin: 0 !important;
+}
+#view-garage #view-customers.garageInlinePanel .contactsHeadActions {
+  grid-area: actions !important;
+  justify-self: start !important;
+  display: flex !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+#view-garage #view-customers.garageInlinePanel .contactsHeadActions [data-contact-new-contact] {
+  min-height: 42px !important;
+  padding: 0 14px !important;
+  border-radius: 13px !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  white-space: nowrap !important;
+}
+#view-garage #view-customers.garageInlinePanel .contactsHead > .garageInlineClose {
+  grid-area: close !important;
+  justify-self: end !important;
+  align-self: center !important;
+  margin: 0 !important;
+} /* Premium manager view: calmer photo card, clearer titles and lighter row surfaces. */
+#view-garage-what,
+#view-garage-what.active,
+#garageWhatRoot,
+#garageWhatRoot > * {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+.garageWhatPage {
+  gap: 11px !important;
+}
+.garageWhatHead {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  min-height: 42px !important;
+  gap: 10px !important;
+}
+.garageWhatHead h2 {
+  margin: 0 !important;
+  font-size: 23px !important;
+  line-height: 1.18 !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.035em !important;
+  color: #13243a !important;
+}
+.garageWhatHeadTitle small {
+  display: none !important;
+}
+.garageWhatHeroWrapV30 {
+  position: relative !important;
+  min-width: 0 !important;
+  padding-right: 0 !important;
+}
+.garageWhatHero {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  border: 1px solid #e1e8ef !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  box-shadow: 0 3px 12px rgba(18, 38, 61, 0.045) !important;
+}
+.garageWhatHeroMedia {
+  height: clamp(138px, 38vw, 190px) !important;
+  background: #f1f5f9 !important;
+}
+.garageWhatHeroMedia:after {
+  background: linear-gradient(180deg, transparent 45%, rgba(9, 24, 42, 0.58) 100%) !important;
+}
+.garageWhatRank {
+  top: 10px !important;
+  left: 10px !important;
+  padding: 6px 9px !important;
+  background: rgba(255, 255, 255, 0.94) !important;
+  color: #28425d !important;
+  font-size: 11px !important;
+  backdrop-filter: blur(8px) !important;
+}
+.garageWhatHeroEntity {
+  font-size: 18px !important;
+  line-height: 1.2 !important;
+}
+.garageWhatHeroBody {
+  padding: 14px !important;
+  text-align: left !important;
+}
+.garageWhatHeroBody > span {
+  font-size: 12px !important;
+  letter-spacing: 0.035em !important;
+  color: #6b7d91 !important;
+}
+.garageWhatHeroBody > strong {
+  margin-top: 4px !important;
+  font-size: 19px !important;
+  line-height: 1.24 !important;
+  letter-spacing: -0.02em !important;
+  color: #14243a !important;
+}
+.garageWhatDetailV30 {
+  display: block !important;
+  margin-top: 5px !important;
+  color: #68798d !important;
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+}
+.garageWhatHeroBottom {
+  margin-top: 10px !important;
+  padding-top: 10px !important;
+  font-size: 14px !important;
+  color: #24577f !important;
+}
+.garageWhatHeroBottom b {
+  color: #24577f !important;
+  font-weight: 850 !important;
+}
+.garageWhatList {
+  gap: 8px !important;
+}
+.garageWhatRow {
+  grid-template-columns: 58px minmax(0, 1fr) auto !important;
+  gap: 10px !important;
+  padding: 9px !important;
+  border: 1px solid #e5ebf1 !important;
+  border-radius: 15px !important;
+  background: #fff !important;
+  box-shadow: 0 2px 8px rgba(18, 38, 61, 0.035) !important;
+}
+.garageWhatThumb {
+  width: 58px !important;
+  height: 56px !important;
+  border-radius: 12px !important;
+  background: #f1f5f9 !important;
+}
+.garageWhatCopy b {
+  font-size: 12px !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+.garageWhatCopy strong {
+  font-size: 15px !important;
+  line-height: 1.25 !important;
+  font-weight: 800 !important;
+  color: #17283d !important;
+  overflow-wrap: anywhere !important;
+}
+.garageWhatRowDetailV30 {
+  display: none !important;
+}
+.garageWhatSide {
+  font-size: 15px !important;
+}
+.garageWhatManageV30 {
+  width: 38px !important;
+  height: 38px !important;
+  border: 1px solid #e5ebf1 !important;
+  border-radius: 12px !important;
+  background: #f7f9fc !important;
+  color: #42566d !important;
+  box-shadow: none !important;
+}
+.garageWhatMenuBtn {
+  min-height: 64px !important;
+  border: 1px solid #dce8f3 !important;
+  border-radius: 16px !important;
+  background: linear-gradient(110deg, #f6faff, #eaf3fb) !important;
+  color: #17324d !important;
+  box-shadow: 0 2px 9px rgba(30, 69, 104, 0.06) !important;
+}
+.garageWhatMenuBtn .ico {
+  background: #e1eef9 !important;
+  color: #24577f !important;
+}
+.garageWhatMenuBtn strong,
+.garageWhatMenuArrow {
+  color: #17324d !important;
+} /* Manager entry and add-variant action use light app surfaces, never heavy dark fills. */
+#view-garage .garageRefWhat,
+#view-accounting .accountingManagerButton,
+#view-menu .menuManagerButton {
+  border: 1px solid #dce8f3 !important;
+  background: linear-gradient(110deg, #f7fbff, #edf5fc) !important;
+  color: #17324d !important;
+  box-shadow: 0 3px 10px rgba(30, 69, 104, 0.06) !important;
+}
+#view-garage .garageRefWhat::after,
+#view-accounting .accountingManagerButton::after,
+#view-menu .menuManagerButton::after {
+  display: none !important;
+}
+#view-garage .garageRefWhatIcon,
+#view-accounting .accountingManagerButton .garageRefWhatIcon,
+#view-menu .menuManagerButton .garageRefWhatIcon {
+  border-color: #d9e9f7 !important;
+  background: #e4f1fc !important;
+  color: #24577f !important;
+  box-shadow: none !important;
+}
+#view-garage .garageRefWhatIcon svg,
+#view-accounting .accountingManagerButton .garageRefWhatIcon svg,
+#view-menu .menuManagerButton .garageRefWhatIcon svg {
+  color: #24577f !important;
+  stroke: #24577f !important;
+}
+#view-garage .garageRefWhat strong,
+#view-accounting .accountingManagerButton strong,
+#view-menu .menuManagerButton strong {
+  color: #17324d !important;
+}
+#view-garage .garageRefWhatArrow,
+#view-accounting .accountingManagerButton .garageRefWhatArrow,
+#view-menu .menuManagerButton .garageRefWhatArrow {
+  color: #55718b !important;
+}
+#showAddGarageLeadBtn {
+  box-sizing: border-box !important;
+  min-height: 48px !important;
+  padding: 0 16px !important;
+  border: 1px solid #d6e6f4 !important;
+  border-radius: 15px !important;
+  background: linear-gradient(110deg, #f5faff, #eaf4fc) !important;
+  color: #1e5278 !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  box-shadow: 0 2px 8px rgba(30, 69, 104, 0.05) !important;
+}
+#showAddGarageLeadBtn:active {
+  transform: scale(0.985) !important;
+}
+#addGarageLeadPanel {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-top: 8px !important;
+  padding: 14px !important;
+  border: 1px solid #e2e9ef !important;
+  border-radius: 17px !important;
+  background: #fff !important;
+  box-shadow: 0 3px 12px rgba(18, 38, 61, 0.04) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .garageWhatPage *,
+  #view-garage #garageTasksSection * {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}

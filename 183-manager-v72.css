@@ -1,0 +1,410 @@
+/* Vadybininkas v72 – puslapis ir langai */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .mgPageV72 .mgNewV72 {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 50px;
+  margin: 10px 0 6px;
+  border: 0 !important;
+  border-radius: 16px !important;
+  background: var(--ds-brand, #2563eb) !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.22) !important;
+  transition: transform 0.15s ease;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .mgNewV72:active {
+  transform: scale(0.98);
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .mgNewV72 svg {
+  stroke: #fff;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .awRowsV69 > .mgRowV72 {
+  display: grid !important;
+  grid-template-columns: 40px minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+  min-height: 62px !important;
+  margin: 0 !important;
+  padding: 10px 0 !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--ds-line) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  text-align: left !important;
+  transition: background 0.15s;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .awRowsV69 > .mgRowV72:last-child {
+  border-bottom: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .awRowsV69 > .mgRowV72:active {
+  background: var(--ds-soft) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .awRowsV69 .mgRowV72 .mgIcoV72 {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 12px !important;
+  background: var(--ds-soft) !important;
+  color: var(--ds-ink-2, #334155);
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .awRowsV69 .mgRowV72 .mgIcoV72.is-hot {
+  background: #fdf1f2 !important;
+  color: #c62a3c;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .mgIcoV72 svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .awThumbV69 svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .awThumbV69.is-hot {
+  background: #fdf1f2 !important;
+  color: #c62a3c;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .awRowsV69 .mgRowV72 .accountingRefWaitStatus.bad {
+  color: #c62a3c !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .awRowsV69 .mgRowV72 .accountingRefWaitStatus.warn {
+  color: #b45309 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .awRowsV69 .mgRowV72 .accountingRefWaitArrow {
+  padding: 0 14px !important;
+  white-space: nowrap;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .mgListV72 {
+  margin-top: 8px;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .mgEmptyV72 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 48px 20px;
+  text-align: center;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .mgEmptyV72 span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #e8f7ee;
+  color: #16803c;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .mgEmptyV72 svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .mgEmptyV72 strong {
+  font-size: 18px;
+  color: var(--ds-ink);
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .mgEmptyV72 p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ds-muted);
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .mgDoneV72 {
+  margin: 14px 0 4px;
+  text-align: center;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ds-muted);
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .mgDoneV72 b {
+  color: #16803c;
+}
+/* Langas */
+#modalBackdrop #sheet.mgSheetV72 {
+  display: flex !important;
+  flex-direction: column;
+  max-height: 88vh;
+  max-height: 88dvh;
+  padding: 0 !important;
+  overflow: hidden !important;
+  animation: mgUp 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes mgUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0.6;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+#sheet.mgSheetV72 .mgHeadV72 {
+  flex: none;
+  padding: 18px 20px 10px !important;
+  margin: 0 !important;
+}
+#sheet.mgSheetV72 .mgHeadV72 h3 {
+  margin: 0;
+  font-size: 20px;
+}
+#sheet.mgSheetV72 .mgHeadV72 span {
+  display: block;
+  margin-top: 2px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ds-muted);
+}
+#sheet.mgSheetV72 .mgBodyV72 {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 4px 20px 16px;
+  -webkit-overflow-scrolling: touch;
+}
+#sheet.mgSheetV72 .mgFootV72 {
+  flex: none;
+  padding: 12px 20px calc(14px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--ds-line);
+  background: #fff;
+}
+#sheet.mgSheetV72 .mgPrimaryV72 {
+  display: block;
+  width: 100%;
+  height: 50px;
+  border: 0;
+  border-radius: 15px;
+  background: var(--ds-brand, #2563eb);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  transition:
+    transform 0.15s,
+    opacity 0.15s;
+}
+#sheet.mgSheetV72 .mgPrimaryV72:active {
+  transform: scale(0.98);
+}
+#sheet.mgSheetV72 .mgPrimaryV72:disabled {
+  opacity: 0.6;
+}
+#sheet.mgSheetV72 .mgLinksV72 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 18px;
+  margin-top: 8px;
+}
+#sheet.mgSheetV72 .mgLinkV72 {
+  border: 0;
+  background: none;
+  padding: 8px 2px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ds-muted);
+}
+#sheet.mgSheetV72 .mgLinkV72.is-danger {
+  color: #c62a3c;
+}
+#sheet.mgSheetV72 .mgGridV72 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+#sheet.mgSheetV72 .mgWideV72 {
+  grid-column: 1/-1;
+}
+#sheet.mgSheetV72 .mgHintV72 {
+  margin: 2px 0 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--ds-muted);
+}
+#sheet.mgSheetV72 .mgHintV72.warn {
+  color: #b45309;
+}
+#sheet.mgSheetV72 .mgLabelV72 {
+  display: block;
+  margin: 12px 0 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ds-muted);
+}
+#sheet.mgSheetV72 .mgChipsV72 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 6px 0 12px;
+}
+#sheet.mgSheetV72 .mgChipV72 {
+  height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--ds-line);
+  border-radius: 999px;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ds-ink);
+  transition: all 0.15s;
+}
+#sheet.mgSheetV72 .mgChipV72.is-on {
+  border-color: var(--ds-brand, #2563eb);
+  background: var(--ds-brand, #2563eb);
+  color: #fff;
+}
+#sheet.mgSheetV72 .mgFilesV72 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+#sheet.mgSheetV72 .mgFileV72 {
+  display: grid;
+  grid-template-columns: 40px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--ds-line);
+  border-radius: 14px;
+  background: #fff;
+}
+#sheet.mgSheetV72 .mgFileV72.has {
+  border-color: #9bd7b2;
+  background: #f1faf4;
+}
+#sheet.mgSheetV72 .mgFileIcoV72 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--ds-soft);
+}
+#sheet.mgSheetV72 svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+#sheet.mgSheetV72 .mgFileTxtV72 strong {
+  display: block;
+  font-size: 15px;
+}
+#sheet.mgSheetV72 .mgFileTxtV72 small {
+  font-size: 12.5px;
+  color: var(--ds-muted);
+}
+#sheet.mgSheetV72 .mgFileAddV72 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ds-brand, #2563eb);
+}
+#sheet.mgSheetV72 .mgDropV72 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 30px 16px;
+  border: 1.5px dashed #c9d2e0;
+  border-radius: 18px;
+  text-align: center;
+  color: var(--ds-muted);
+}
+#sheet.mgSheetV72 .mgDropV72.has {
+  border-color: #9bd7b2;
+  background: #f1faf4;
+}
+#sheet.mgSheetV72 .mgDropV72 strong {
+  color: var(--ds-ink);
+  font-size: 16px;
+}
+#sheet.mgSheetV72 .mgDropV72 small {
+  font-size: 13px;
+}
+#sheet.mgSheetV72 .mgPayV72 {
+  align-items: end;
+}
+#sheet.mgSheetV72 .mgFileMiniV72 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 12px;
+  border: 1px dashed #c9d2e0;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ds-muted);
+  overflow: hidden;
+  white-space: nowrap;
+}
+#sheet.mgSheetV72 .mgFileMiniV72.has {
+  border-style: solid;
+  border-color: #9bd7b2;
+  background: #f1faf4;
+  color: #16803c;
+}
+#sheet.mgSheetV72 .mgProfitV72 {
+  margin: 12px 0 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--ds-soft);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ds-muted);
+}
+#sheet.mgSheetV72 .mgProfitV72.good {
+  background: #e8f7ee;
+  color: #16803c;
+}
+#sheet.mgSheetV72 .mgProfitV72.bad {
+  background: #fdf1f2;
+  color: #c62a3c;
+}
+#sheet.mgSheetV72 .mgCallV72 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+  margin-bottom: 10px;
+  border-radius: 14px;
+  background: var(--ds-soft);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ds-ink);
+  text-decoration: none;
+}
+#sheet.mgSheetV72 .mgDateV72 {
+  margin-top: 4px;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .awRowsV69 .mgRowV72 .accountingRefWaitStatus {
+  display: block !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .app .awRowsV69 .mgRowV72 .accountingRefWaitArrow {
+  flex: none;
+}

@@ -1,0 +1,687 @@
+/* v62: kortelės antraštė, SDK plytelė, centruoti skaičiai, varianto kortelė, juosta apačioje, sklandūs skydeliai. */
+
+/* ---------- Automobilio kortelės antraštė: numeris ir pavadinimas kairėje, ✕ dešinėje ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV61 .premiumSheetHead {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  min-height: 54px !important;
+  margin: 0 0 12px !important;
+  padding: 2px 0 12px !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV61
+  .premiumSheetHead
+  .cdHeadSpacerV55 {
+  flex: none !important;
+  display: flex !important;
+  align-items: center !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV61
+  .premiumSheetHead
+  .cdHeadSpacerV55:empty {
+  display: none !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV61
+  .premiumSheetHead
+  .premiumSheetTitle {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  text-align: left !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV61 .premiumSheetHead h3 {
+  font-size: 20px !important;
+  line-height: 1.2 !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  text-align: left !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV61 .premiumSheetHead .closeBtn {
+  flex: none !important;
+  margin-left: auto !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV61
+  .premiumSheetHead
+  .cdHeadSpacerV55
+  .lcPlateV61 {
+  height: 32px !important;
+  border-radius: 8px !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV61
+  .premiumSheetHead
+  .cdHeadSpacerV55
+  .lcPlateV61
+  i {
+  width: 18px !important;
+  font-size: 8.5px !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV61
+  .premiumSheetHead
+  .cdHeadSpacerV55
+  .lcPlateV61
+  b {
+  padding: 0 10px 0 9px !important;
+  font-size: 16px !important;
+  letter-spacing: 0.07em !important;
+}
+@media (max-width: 400px) {
+  html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV61 .premiumSheetHead h3 {
+    font-size: 18px !important;
+  }
+  html:not(#ae):not(#af)
+    body:not(#ae):not(#af)
+    #modalBackdrop
+    #sheet.carSheetV61
+    .premiumSheetHead
+    .cdHeadSpacerV55
+    .lcPlateV61
+    b {
+    font-size: 14px !important;
+    padding: 0 8px 0 7px !important;
+  }
+}
+
+/* ---------- SDK plytelė – kitokia (balta, su dokumento ženklu ir spalvota juostele), tas pats dydis ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdStatV60.cdSdkV62 {
+  position: relative !important;
+  border-color: var(--ds-line-2) !important;
+  background: #fff !important;
+  box-shadow: inset 0 3px 0 var(--cd-dot) !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .cdInfoV60
+  .cdStatV60.cdSdkV62
+  .cdStatNameV60
+  i {
+  width: 14px !important;
+  height: 14px !important;
+  border-radius: 0 !important;
+  background: currentColor !important;
+  color: var(--cd-dot) !important;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z'/%3E%3Cpath d='M14 3v5h5M9 14l2 2 4-4'/%3E%3C/svg%3E")
+    center / contain no-repeat !important;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z'/%3E%3Cpath d='M14 3v5h5M9 14l2 2 4-4'/%3E%3C/svg%3E")
+    center / contain no-repeat !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV60 .cdStatV60.cdSdkV62.neutral {
+  --cd-dot: #8a98aa;
+}
+
+/* ---------- Pirkimo kaina / Savikaina / Parduota / Marža – kiekvienas skaičius savo vietos centre ---------- */
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .carBottomCostGrid
+  .premiumStat,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .premiumResultGrid > div {
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.carSheetV55
+  .carBottomCostGrid
+  .premiumStat
+  > *,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV55 .premiumResultGrid > div > * {
+  text-align: center !important;
+}
+
+/* ---------- Aktyvių automobilių kortelė: du skaičiai ---------- */
+
+/* ---------- Apačios juosta: vienodas šriftas, keičiasi tik spalva ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn.active,
+html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn[aria-current="page"] {
+  font-size: 12px !important;
+  font-weight: 650 !important;
+  letter-spacing: 0 !important;
+  transform: none !important;
+  transition: color 0.2s ease !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn > div:not(.ico),
+html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn.active > div:not(.ico) {
+  font-size: 12px !important;
+  font-weight: 650 !important;
+  letter-spacing: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn:not(.active) {
+  color: #7b8899 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn.active {
+  color: #17263a !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn .ico svg {
+  transition: none !important;
+}
+/* ---------- Skydeliai atsidaro vienodai sklandžiai ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage #garageTasksSection.is-open,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .garageInlinePanel.garageInlineOpen,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage #addCarPanel {
+  animation: pnInV62 0.22s cubic-bezier(0.2, 0.7, 0.2, 1) both !important;
+  transition: none !important;
+}
+@keyframes pnInV62 {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #view-garage
+  .tkExpenseFieldV62
+  input::-webkit-outer-spin-button,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #view-garage
+  .tkExpenseFieldV62
+  input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkExpenseFieldV62 input {
+  -moz-appearance: textfield !important;
+}
+
+/* ---------- Varianto kortelė ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumSheetHead {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  min-height: 54px !important;
+  margin: 0 0 12px !important;
+  padding: 2px 0 12px !important;
+  border-bottom: 1px solid var(--ds-line) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumSheetHead h3 {
+  margin: 0 !important;
+  font-size: 20px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  text-align: left !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumDetail {
+  display: block !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumHero {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 16 / 10 !important;
+  margin: 0 0 10px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  background: var(--ds-soft) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumHero[hidden] {
+  display: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumHero img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumHeroShade {
+  display: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumDetailBody {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumDetailBody
+  > [hidden] {
+  display: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsSumV62,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsCardV62,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumMedia {
+  margin: 0 !important;
+  padding: 14px !important;
+  border: 1px solid var(--ds-line) !important;
+  border-radius: 20px !important;
+  background: #fff !important;
+  box-shadow: var(--ds-shadow) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsContactV62 {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  padding: 0 0 14px !important;
+  border-bottom: 1px solid var(--ds-line) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsWhoV62 {
+  min-width: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsWhoV62 strong {
+  display: block !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.01em !important;
+  color: var(--ds-ink) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  font-variant-numeric: tabular-nums !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsMetaV62 {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  margin: 4px 0 0 !important;
+  font-size: 13.5px !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsMetaV62 > * + *::before {
+  content: "·" !important;
+  margin: 0 6px !important;
+  color: #b3bdc9 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsMetaV62 .tkDue {
+  font-weight: 700 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsMetaV62 .tkDue.late {
+  color: #c62a3c !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsMetaV62 .tkDue.today {
+  color: #b26b00 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsMetaV62 .tkDue.soon {
+  color: var(--ds-brand) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsCallV62 {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  flex: none !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  margin: 0 !important;
+  padding: 0 16px 0 14px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: #1fa463 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 12px rgba(31, 164, 99, 0.22) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsCallV62:active {
+  transform: scale(0.97) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsPricesV62 {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  padding: 14px 0 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsPricesV62 > div {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 4px !important;
+  min-width: 0 !important;
+  text-align: center !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsPricesV62 > div + div {
+  border-left: 1px solid var(--ds-line) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsPricesV62 span {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsPricesV62 strong {
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.01em !important;
+  color: var(--ds-ink) !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .lsPricesV62
+  strong.positiveText {
+  color: var(--ds-good) !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .lsPricesV62
+  strong.negativeText {
+  color: var(--ds-bad) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsCardV62 h4,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .premiumSectionHead
+  h4 {
+  margin: 0 0 12px !important;
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  color: var(--ds-ink) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsGridV62 {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 12px 8px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsGridV62 > .field {
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsGridV62 > .field.full,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .lsGridV62
+  > .field:only-child {
+  grid-column: 1 / -1 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .lsGridV62
+  > .field:nth-child(3):last-child {
+  grid-column: 1 / -1 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsGridV62 label {
+  display: block !important;
+  margin: 0 0 6px !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsGridV62 .input {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  font-size: 16px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsGridV62 textarea.input {
+  height: auto !important;
+  min-height: 92px !important;
+  padding-top: 12px !important;
+  line-height: 1.4 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsGridV62 .input:disabled {
+  opacity: 0.5 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .premiumSectionHead {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .premiumSectionHead
+  h4 {
+  margin: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumMedia .premiumCount {
+  min-width: 26px !important;
+  height: 26px !important;
+  padding: 0 8px !important;
+  border-radius: 999px !important;
+  background: var(--ds-soft) !important;
+  color: var(--ds-ink-2) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  line-height: 26px !important;
+  text-align: center !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia.lsNoPhotosV62
+  .premiumCount,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia.lsNoPhotosV62
+  .premiumThumbGrid {
+  display: none !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .premiumUpload {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  min-height: 46px !important;
+  margin: 12px 0 0 !important;
+  border: 1px dashed var(--ds-line-2) !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  color: var(--ds-brand) !important;
+  font-size: 15px !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .premiumUploadIcon {
+  width: auto !important;
+  height: auto !important;
+  background: transparent !important;
+  color: var(--ds-brand) !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .premiumThumbGrid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 6px !important;
+  margin: 10px 0 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumMedia .premiumThumb {
+  position: relative !important;
+  aspect-ratio: 1 !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .premiumThumb
+  > button:first-child {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .premiumThumb
+  img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .premiumThumbDelete {
+  position: absolute !important;
+  top: 6px !important;
+  right: 6px !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 26px !important;
+  height: 26px !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: rgba(15, 23, 35, 0.55) !important;
+  color: #fff !important;
+  font-size: 16px !important;
+  line-height: 1 !important;
+  backdrop-filter: blur(6px) !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .csPhotoActionsV61 {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 8px !important;
+  margin: 10px 0 0 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .csPhotoActionsV61.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .csPhotoActionsV61
+  > button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  margin: 0 !important;
+  padding: 0 12px !important;
+  border: 1px solid var(--ds-line-2) !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  background-image: none !important;
+  color: var(--ds-ink) !important;
+  -webkit-text-fill-color: var(--ds-ink) !important;
+  font-size: 14.5px !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumMedia
+  .csPhotoActionsV61
+  > .csPhotoMoreV61 {
+  border-color: transparent !important;
+  background: var(--ds-soft) !important;
+  color: var(--ds-brand) !important;
+  -webkit-text-fill-color: var(--ds-brand) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumActionStack {
+  display: grid !important;
+  gap: 8px !important;
+  margin: 4px 0 0 !important;
+}
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.leadSheetV62
+  .premiumActionStack
+  > [hidden] {
+  display: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 #leadSaveBtn {
+  width: 100% !important;
+  height: 52px !important;
+  min-height: 52px !important;
+  border-radius: 15px !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 #leadDeleteBtn {
+  width: 100% !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  border: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  color: #c62a3c !important;
+  -webkit-text-fill-color: #c62a3c !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
+}

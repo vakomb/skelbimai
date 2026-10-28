@@ -1,0 +1,3 @@
+.taskMeta:has(span:only-child:empty) {
+  display: none !important;
+}

@@ -1,0 +1,279 @@
+#view-garage-stats .sectionHead h2 {
+  font-size: 17px !important;
+}
+#view-garage-stats .sectionHead span {
+  font-size: 11px !important;
+}
+#view-garage-stats .garageMenuTitle strong {
+  font-size: 18px !important;
+}
+#view-garage-stats .garageStatsGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+}
+#view-garage-stats .garageOverviewStat {
+  min-height: 102px !important;
+  padding: 15px !important;
+  border-radius: 17px !important;
+}
+#view-garage-stats .garageOverviewStat .label,
+#view-garage-stats .garageTempoStat .label {
+  font-size: 10px !important;
+  letter-spacing: 0.04em !important;
+  line-height: 1.25 !important;
+}
+#view-garage-stats .garageOverviewStat .value {
+  font-size: 22px !important;
+  margin-top: 10px !important;
+}
+.businessResultPro {
+  padding: 15px !important;
+  border-radius: 20px !important;
+}
+.businessResultPro .businessResultSub {
+  font-size: 11px !important;
+  line-height: 1.35 !important;
+}
+.businessResultHero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 13px;
+  padding: 13px 14px;
+  border-radius: 15px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+.businessResultHero span {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 900;
+}
+.businessResultHero strong {
+  font-size: 25px;
+  line-height: 1;
+  color: var(--success);
+}
+.businessResultHero strong.negative {
+  color: var(--danger);
+}
+.businessResultPro .businessResultGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+}
+.businessResultPro .businessMetric {
+  min-height: 72px;
+  padding: 11px 12px !important;
+  border-radius: 14px !important;
+}
+.businessResultPro .businessMetric .k {
+  font-size: 10px !important;
+}
+.businessResultPro .businessMetric .v {
+  font-size: 17px !important;
+}
+.businessResultPro .bestDeal {
+  min-height: 54px;
+  padding: 10px 12px !important;
+}
+.metricsGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 9px !important;
+}
+#view-garage-stats .garageTempoStat {
+  min-height: 108px !important;
+  padding: 14px !important;
+  border-radius: 16px !important;
+}
+#view-garage-stats .garageTempoStat .value {
+  font-size: 21px !important;
+  margin-top: 9px !important;
+  line-height: 1.05 !important;
+}
+#view-garage-stats .garageTempoStat .hint {
+  display: block !important;
+  margin-top: 7px !important;
+  font-size: 10px !important;
+  color: var(--muted) !important;
+  line-height: 1.25 !important;
+}
+.garageSalesGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+.soldCarCard {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.045);
+}
+.soldCarImageBtn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  appearance: none;
+}
+.soldCarHero {
+  height: 150px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 11px;
+  background-color: var(--surface-2);
+  background-size: cover;
+  background-position: center;
+}
+.soldCarHero:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 45%, rgba(15, 23, 42, 0.52));
+  pointer-events: none;
+}
+.soldCarProfit,
+.soldCarIndex {
+  position: relative;
+  z-index: 1;
+  border-radius: 999px;
+  padding: 6px 9px;
+  font-size: 11px;
+  font-weight: 950;
+}
+.soldCarProfit {
+  background: rgba(255, 255, 255, 0.94);
+}
+.soldCarProfit.positive {
+  color: #15803d;
+}
+.soldCarProfit.negative {
+  color: #b91c1c;
+}
+.soldCarIndex {
+  background: rgba(15, 23, 42, 0.72);
+  color: #fff;
+}
+.soldCarBody {
+  padding: 12px;
+}
+.soldCarTitleRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+.soldCarTitleRow h4 {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.2;
+}
+.soldCarDate {
+  flex: 0 0 auto;
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 800;
+}
+.soldCarNumbers {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 10px;
+}
+.soldCarNumbers span {
+  min-width: 0;
+  padding: 8px 7px;
+  border-radius: 11px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+}
+.soldCarNumbers small {
+  display: block;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 800;
+}
+.soldCarNumbers strong {
+  display: block;
+  margin-top: 3px;
+  font-size: 12px;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.positiveText {
+  color: #15803d;
+}
+.negativeText {
+  color: #dc2626;
+}
+.garageSalesPager {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 8px;
+  margin-top: 11px;
+}
+.garagePagerBtn {
+  min-height: 43px !important;
+  font-size: 11px !important;
+}
+.garageSalesPager .garagePagerBtn:last-child {
+  text-align: right;
+}
+.garagePagerInfo {
+  min-width: 72px;
+  text-align: center;
+}
+.garagePagerInfo strong {
+  display: block;
+  font-size: 13px;
+}
+.garagePagerInfo span {
+  display: block;
+  margin-top: 2px;
+  font-size: 9px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.garageSalesEmpty {
+  display: grid;
+  gap: 4px;
+  text-align: center;
+  padding: 22px 15px !important;
+}
+.garageSalesEmpty strong {
+  font-size: 14px;
+  color: var(--text);
+}
+.garageSalesEmpty span {
+  font-size: 11px;
+}
+@media (max-width: 370px) {
+  #view-garage-stats .garageOverviewStat {
+    min-height: 96px !important;
+  }
+  #view-garage-stats .garageOverviewStat .value {
+    font-size: 20px !important;
+  }
+  .businessResultPro .businessMetric .v {
+    font-size: 15px !important;
+  }
+  .soldCarHero {
+    height: 135px;
+  }
+  .soldCarNumbers strong {
+    font-size: 11px;
+  }
+  .soldCarNumbers {
+    gap: 4px;
+  }
+  .soldCarNumbers span {
+    padding: 7px 5px;
+  }
+}

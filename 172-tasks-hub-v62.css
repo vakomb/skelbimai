@@ -1,0 +1,551 @@
+/* Užduočių skydelis (v62) */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage #garageTasksSection.tkV62 > .garageUnifiedSection,
+html:not(#ae):not(#af)
+  body:not(#ae):not(#af)
+  #view-garage
+  #garageTasksSection.tkV62
+  > section.garageUnifiedSection {
+  display: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage #garageTasksSection.tkV62.is-open {
+  display: block !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkHubV62 {
+  display: block !important;
+  min-width: 0 !important;
+}
+/* Skirtukai */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkTabsV62 {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 4px !important;
+  margin: 0 0 6px !important;
+  padding: 4px !important;
+  border-radius: 15px !important;
+  background: var(--ds-soft) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkTabsV62 > button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  min-width: 0 !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  margin: 0 !important;
+  padding: 0 6px !important;
+  border: 0 !important;
+  border-radius: 11px !important;
+  background: transparent !important;
+  color: var(--ds-muted) !important;
+  -webkit-text-fill-color: currentColor !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkTabsV62 > button span {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkTabsV62 > button b {
+  flex: none !important;
+  min-width: 20px !important;
+  height: 20px !important;
+  padding: 0 6px !important;
+  border-radius: 999px !important;
+  background: rgba(23, 38, 58, 0.08) !important;
+  color: inherit !important;
+  font-size: 12px !important;
+  line-height: 20px !important;
+  font-weight: 800 !important;
+  text-align: center !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkTabsV62 > button.hasDue b {
+  background: #e0394d !important;
+  color: #fff !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkTabsV62 > button[aria-selected="true"] {
+  background: #fff !important;
+  color: var(--ds-ink) !important;
+  box-shadow:
+    0 1px 2px rgba(18, 35, 58, 0.08),
+    0 2px 8px rgba(18, 35, 58, 0.06) !important;
+}
+/* Sąrašas */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkListV62 {
+  display: block !important;
+  animation: tkInV62 0.2s ease both;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupV62 + .tkGroupV62 {
+  margin-top: 6px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupHeadV62 {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 14px 0 6px !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--ds-ink) !important;
+  text-align: left !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupHeadV62 strong {
+  min-width: 0 !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupHeadV62 .lcPlateV61 {
+  height: 24px !important;
+  border-width: 1.2px !important;
+  border-radius: 6px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupHeadV62 .lcPlateV61 i {
+  width: 14px !important;
+  font-size: 7px !important;
+  padding-bottom: 3px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupHeadV62 .lcPlateV61 b {
+  padding: 0 7px 0 6px !important;
+  font-size: 12.5px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupHeadV62 > b {
+  margin-left: auto !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkRowV62 {
+  display: block !important;
+  border-bottom: 1px solid var(--ds-line) !important;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkListV62 > .tkRowV62:last-child,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupV62:last-child > .tkRowV62:last-child {
+  border-bottom: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkRowMainV62 {
+  display: grid !important;
+  grid-template-columns: 30px minmax(0, 1fr) 32px !important;
+  align-items: center !important;
+  gap: 10px !important;
+  min-height: 60px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkCheckV62 {
+  display: grid !important;
+  place-items: center !important;
+  width: 26px !important;
+  height: 26px !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  margin: 0 0 0 2px !important;
+  padding: 0 !important;
+  border: 2px solid #c3cdd9 !important;
+  border-radius: 50% !important;
+  background: #fff !important;
+  color: transparent !important;
+  box-shadow: none !important;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.12s ease !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkCheckV62:active {
+  transform: scale(0.9) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkRowV62.late .tkCheckV62 {
+  border-color: #eba3ad !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkRowV62.expanded .tkCheckV62,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkRowV62.isDone .tkCheckV62 {
+  border-color: #1fa463 !important;
+  background: #1fa463 !important;
+  color: #fff !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkRowV62.isDone {
+  opacity: 0.45 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkRowV62.isDone .tkBodyV62 strong {
+  text-decoration: line-through !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkBodyV62 {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 3px !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 10px 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--ds-ink) !important;
+  text-align: left !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkBodyV62[data-tk-noop] {
+  cursor: default !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkBodyV62 strong {
+  max-width: 100% !important;
+  font-size: 15.5px !important;
+  line-height: 1.25 !important;
+  font-weight: 700 !important;
+  color: var(--ds-ink) !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkBodyV62 small {
+  max-width: 100% !important;
+  font-size: 13px !important;
+  color: var(--ds-muted) !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkMetaV62 {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 0 !important;
+  max-width: 100% !important;
+  font-size: 13px !important;
+  line-height: 1.3 !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkMetaV62 > * {
+  font-style: normal !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkMetaV62 > * + *::before {
+  content: "·" !important;
+  margin: 0 6px !important;
+  color: #b3bdc9 !important;
+  font-weight: 400 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkMetaV62 em {
+  max-width: 60% !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  font-weight: 600 !important;
+  color: var(--ds-ink-2, #3b4a5e) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkDue {
+  font-weight: 700 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkDue.late {
+  color: #c62a3c !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkDue.today {
+  color: #b26b00 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkDue.soon {
+  color: var(--ds-brand) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkDue.later,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkDue.none {
+  font-weight: 600 !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkTag {
+  font-weight: 700 !important;
+  color: #b26b00 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkTag.urgent {
+  color: #c62a3c !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkChevV62 {
+  display: grid !important;
+  place-items: center !important;
+  color: #b3bdc9 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkDelV62 {
+  display: grid !important;
+  place-items: center !important;
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  background: transparent !important;
+  color: #a3afbd !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkDelV62:active {
+  background: #fdf1f2 !important;
+  color: #b42335 !important;
+}
+/* Išlaidų įvedimas atliekant automobilio užduotį */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkExpenseV62 {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) auto 40px !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: -4px 0 12px 40px !important;
+  animation: tkInV62 0.18s ease both;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkExpenseV62 label {
+  margin: 0 !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkExpenseFieldV62 {
+  position: relative !important;
+  min-width: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkExpenseFieldV62 input {
+  width: 100% !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  padding: 0 26px 0 12px !important;
+  border-radius: 12px !important;
+  font-size: 15px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkExpenseFieldV62 span {
+  position: absolute !important;
+  right: 11px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  font-size: 14px !important;
+  color: var(--ds-muted) !important;
+  pointer-events: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkExpenseOkV62,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkExpenseCancelV62 {
+  display: grid !important;
+  place-items: center !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkExpenseOkV62 {
+  padding: 0 14px !important;
+  background: var(--ds-brand) !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkExpenseCancelV62 {
+  width: 40px !important;
+  padding: 0 !important;
+  background: var(--ds-soft) !important;
+  color: var(--ds-muted) !important;
+}
+/* Tuščia */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkEmptyV62 {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 26px 0 22px !important;
+  color: #1fa463 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkEmptyV62 strong {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: var(--ds-muted) !important;
+}
+/* Nauja užduotis */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkComposerV62 {
+  margin: 8px 0 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkAddV62 {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+  height: 46px !important;
+  min-height: 46px !important;
+  margin: 0 !important;
+  padding: 0 14px !important;
+  border: 1px dashed var(--ds-line-2) !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  color: var(--ds-brand) !important;
+  -webkit-text-fill-color: var(--ds-brand) !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkAddV62[aria-expanded="true"] {
+  border-style: solid !important;
+  border-color: transparent !important;
+  background: var(--ds-soft) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkFormV62:not([hidden]) {
+  display: grid !important;
+  gap: 8px !important;
+  margin: 8px 0 0 !important;
+  animation: tkInV62 0.18s ease both;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkFormV62 .input {
+  width: 100% !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  font-size: 16px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkFormRowV62 {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  gap: 8px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkSaveV62 {
+  height: 48px !important;
+  min-height: 48px !important;
+  padding: 0 22px !important;
+  border-radius: 14px !important;
+  font-size: 15px !important;
+}
+@keyframes tkInV62 {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+}
+
+/* ---------- v63: pažanga, automobilis su numeriu, nauja užduotis tik „Kitos“ ---------- */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkHubV62:not([data-tab="custom"]) .tkComposerV62 {
+  display: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkProgV63 {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 48px minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin: 0 0 12px !important;
+  padding: 12px 14px !important;
+  border-radius: 18px !important;
+  background: linear-gradient(135deg, #f3f7fd, #eef3fa) !important;
+  border: 1px solid #e1e9f4 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkProgV63.allDone {
+  background: linear-gradient(135deg, #f0faf4, #e9f7ef) !important;
+  border-color: #d3ecdf !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkRingV63 {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  width: 48px !important;
+  height: 48px !important;
+  transform: rotate(-90deg) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkRingV63 circle {
+  fill: none !important;
+  stroke-width: 4.5 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkRingV63 .bg {
+  stroke: rgba(23, 74, 139, 0.12) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkRingV63 .fg {
+  stroke: var(--ds-brand) !important;
+  stroke-linecap: round !important;
+  transition: stroke-dashoffset 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkProgV63.allDone .tkRingV63 .fg {
+  stroke: #1fa463 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkProgV63.allDone .tkRingV63 .bg {
+  stroke: rgba(31, 164, 99, 0.15) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkPctV63 {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  justify-self: center !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  color: var(--ds-ink) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkProgTextV63 {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+  min-width: 0 !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkProgTextV63 strong {
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  color: var(--ds-ink) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkProgTextV63 span {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--ds-muted) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkLateV63 {
+  padding: 5px 10px !important;
+  border-radius: 999px !important;
+  background: #fdecee !important;
+  color: #c62a3c !important;
+  font-size: 12.5px !important;
+  font-weight: 800 !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkCarV63 {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkCarV63 em {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+  color: var(--ds-ink-2, #3b4a5e) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkMetaV62 > .tkCarV63 {
+  max-width: 78% !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkCarV63 .lcPlateV61,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupHeadV62 .lcPlateV61 {
+  height: 22px !important;
+  border-width: 1.2px !important;
+  border-radius: 5px !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkCarV63 .lcPlateV61 i,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupHeadV62 .lcPlateV61 i {
+  width: 13px !important;
+  padding-bottom: 3px !important;
+  font-size: 6.5px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkCarV63 .lcPlateV61 b,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupHeadV62 .lcPlateV61 b {
+  padding: 0 6px 0 5px !important;
+  font-size: 12px !important;
+  letter-spacing: 0.05em !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkMetaV62 {
+  row-gap: 4px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkGroupHeadV62 {
+  gap: 9px !important;
+}

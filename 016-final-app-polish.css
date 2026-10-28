@@ -1,0 +1,61 @@
+.topbar {
+  display: none !important;
+}
+.view > .sectionHead {
+  display: none !important;
+}
+body {
+  font-size: 16px;
+}
+.sectionHead h2 {
+  font-size: 18px !important;
+}
+.sectionHead span {
+  font-size: 13px !important;
+}
+.taskGroupHead h3 {
+  font-size: 15px !important;
+  letter-spacing: 0.04em !important;
+}
+.taskMain strong {
+  font-size: 16px !important;
+}
+.taskMeta {
+  font-size: 13px !important;
+}
+.btn {
+  font-size: 15px !important;
+  min-height: 48px;
+}
+.input,
+.select,
+.textarea {
+  font-size: 16px !important;
+}
+.navBtn {
+  min-height: 64px !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+}
+.navBtn .ico {
+  font-size: 24px !important;
+}
+.garageAction strong {
+  font-size: 16px !important;
+}
+.garageActionPro {
+  min-height: 116px !important;
+}
+.garageCarTaskHead strong {
+  font-size: 16px !important;
+}
+.garageCarTaskHead span {
+  font-size: 13px !important;
+}
+.garageLeadBody h4,
+.carBody h4 {
+  font-size: 19px !important;
+}
+#garageTasksSection > .sectionHead {
+  display: none !important;
+}

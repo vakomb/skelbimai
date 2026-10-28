@@ -1,0 +1,225 @@
+.saleModalCardV32 {
+  max-height: 92vh;
+  overflow: auto;
+}
+.saleContractBoxV32 {
+  margin: 12px 0 10px;
+  padding: 11px;
+  border: 1px solid #dfe7ef;
+  border-radius: 16px;
+  background: #f8fafc;
+}
+.saleContractHeadV32 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.saleContractHeadV32 strong {
+  font-size: 13px;
+  color: #17283d;
+}
+.saleContractHeadV32 span {
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: #fff0f2;
+  color: #b3263b;
+  font-size: 9.5px;
+  font-weight: 850;
+}
+.saleContractPickerV32 {
+  min-height: 58px;
+  padding: 9px 10px;
+  border: 1px dashed #c9d9e7;
+  border-radius: 13px;
+  background: #fff;
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+}
+.saleContractPickerV32 .ico {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #eef6fd;
+  color: #174f89;
+  display: grid;
+  place-items: center;
+}
+.saleContractPickerV32 strong {
+  display: block;
+  font-size: 12.5px;
+  color: #174f89;
+  font-weight: 850;
+}
+.saleContractPickerV32 small {
+  display: block;
+  margin-top: 3px;
+  color: #738195;
+  font-size: 10px;
+  font-weight: 650;
+}
+.saleContractPickerV32 input {
+  display: none;
+}
+.saleContractPreviewV32 {
+  display: none;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: 8px;
+}
+.saleContractPreviewV32.show {
+  display: grid;
+}
+.saleContractPreviewV32:has(.saleContractThumbV32:only-child) {
+  grid-template-columns: 1fr;
+}
+.saleContractThumbV32 {
+  position: relative;
+  height: 105px;
+  border-radius: 11px;
+  overflow: hidden;
+  background: #e9eef3;
+  border: 1px solid #dfe5eb;
+}
+.saleContractThumbV32 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.saleContractThumbV32 span {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  min-width: 21px;
+  height: 21px;
+  padding: 0 6px;
+  border-radius: 11px;
+  background: rgba(15, 23, 42, 0.72);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 9px;
+  font-weight: 900;
+}
+.saleContractErrorV32 {
+  margin-top: 6px;
+  color: #b3263b;
+  font-size: 10.5px;
+  font-weight: 700;
+}
+.saleContractErrorV32:empty {
+  display: none;
+} /* Dokumentai: miniatiūra + peržiūra + atskiri parsisiuntimo / trynimo veiksmai */
+#sheet .vehicleDocCardV32 {
+  min-height: 62px !important;
+  padding: 7px 0 !important;
+  gap: 7px !important;
+}
+#sheet .vehicleDocPreviewV32 {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  padding: 0;
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  align-items: center;
+  gap: 9px;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+#sheet .vehicleDocThumbV32 {
+  width: 54px;
+  height: 48px;
+  border-radius: 9px;
+  overflow: hidden;
+  background: #eef2f5;
+  border: 1px solid #e0e6ec;
+  display: grid;
+  place-items: center;
+  color: #596a7e;
+  font-size: 11px;
+  font-weight: 900;
+}
+#sheet .vehicleDocThumbV32 img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+#sheet .vehicleDocTextV32 {
+  min-width: 0;
+}
+#sheet .vehicleDocTextV32 strong {
+  display: block;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#sheet .vehicleDocTextV32 span {
+  display: block !important;
+  margin-top: 4px !important;
+  color: var(--muted) !important;
+  font-size: 10px !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#sheet .vehicleDocActionsV32 {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+#sheet .vehicleDocDownloadV32,
+#sheet .vehicleDocRemoveV32 {
+  width: 34px !important;
+  min-width: 34px !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 0 !important;
+  background: #f3f6f8 !important;
+  font-size: 17px !important;
+}
+#sheet .vehicleDocDownloadV32 {
+  color: #456078 !important;
+}
+#sheet .vehicleDocRemoveV32 {
+  color: #b3263b !important;
+  background: #fff0f2 !important;
+}
+.docPreviewV32 {
+  display: grid;
+  gap: 9px;
+}
+.docPreviewV32 img {
+  width: 100%;
+  max-height: 72vh;
+  object-fit: contain;
+  border-radius: 14px;
+  background: #eef2f5;
+}
+.docPreviewV32.pdf iframe {
+  width: 100%;
+  height: 68vh;
+  border: 0;
+  border-radius: 12px;
+  background: #fff;
+}
+.docPreviewMetaV32 {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}

@@ -1,0 +1,33 @@
+.garageCarTaskCard .dueChip {
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  padding: 6px 9px !important;
+  border-radius: 10px !important;
+}
+.garageCarTaskCard .dueChip.today {
+  background: #fee2e2 !important;
+  color: #b91c1c !important;
+  border-color: #fecaca !important;
+}
+.garageCarTaskCard .dueChip.tomorrow {
+  background: #fef3c7 !important;
+  color: #a16207 !important;
+  border-color: #fde68a !important;
+}
+.garageCarTaskCard .dueChip.future {
+  background: #dbeafe !important;
+  color: #1d4ed8 !important;
+  border-color: #bfdbfe !important;
+}
+.garageCarTaskCard .taskMeta {
+  align-items: center !important;
+}
+.homePrioritySection {
+  margin: 12px 0 14px;
+}
+.homePriorityMount {
+  width: 100%;
+}
+.homePriorityMount .todayPriorityBox {
+  margin: 0 !important;
+}

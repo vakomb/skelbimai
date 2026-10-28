@@ -1,0 +1,984 @@
+/* ===== VISUREIGIAI PRODUCT SYSTEM v17 =====
+   One iPhone-first visual language based on the supplied final reference. */
+:root {
+  --v17-bg: #f7f9fc;
+  --v17-surface: #ffffff;
+  --v17-text: #0b182b;
+  --v17-muted: #66758a;
+  --v17-line: #e4e9ef;
+  --v17-line-strong: #d9e0e8;
+  --v17-gold: #bd9558;
+  --v17-gold-soft: #f4ecd9;
+  --v17-green: #08734f;
+  --v17-green-soft: #e4f5ec;
+  --v17-red: #c41f37;
+  --v17-red-soft: #ffe7eb;
+  --v17-blue: #175a9d;
+  --v17-blue-soft: #e7f1ff;
+  --v17-card-radius: 18px;
+  --v17-control-radius: 13px;
+  --v17-shadow: 0 8px 24px rgba(23, 42, 66, 0.055);
+  --v17-shadow-soft: 0 4px 14px rgba(23, 42, 66, 0.04);
+}
+html {
+  background: #f7f9fc !important;
+}
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", Inter, "Segoe UI", sans-serif !important;
+  color: var(--v17-text) !important;
+  background: linear-gradient(180deg, #fff 0%, #fbfcfe 45%, #f6f9fc 100%) !important;
+  letter-spacing: -0.012em !important;
+}
+.app {
+  width: 100% !important;
+  max-width: 430px !important;
+  min-height: 100svh !important;
+  margin: 0 auto !important;
+  padding: calc(env(safe-area-inset-top) + 15px) 14px calc(86px + env(safe-area-inset-bottom)) !important;
+}
+.topbar {
+  display: none !important;
+}
+.view {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.view.active {
+  animation: v17Fade 0.14s ease !important;
+}
+@keyframes v17Fade {
+  from {
+    opacity: 0.35;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+} /* Shared brand/date chrome */
+.productRefBrandRow,
+.garageRefBrandRow,
+.accountingRefBrandRow {
+  min-height: 48px !important;
+  margin: 0 2px 15px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+}
+.productRefBrand,
+.garageRefBrand,
+.accountingRefBrand {
+  min-width: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 9px !important;
+  color: var(--v17-text) !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+}
+.productRefLogo,
+.garageRefLogo,
+.accountingRefLogo {
+  width: 42px !important;
+  height: 29px !important;
+  flex: 0 0 auto !important;
+}
+.productRefDate,
+.garageRefDate,
+.accountingRefDate {
+  height: 43px !important;
+  min-height: 43px !important;
+  padding: 0 13px !important;
+  border-radius: 22px !important;
+  border: 1px solid #e6eaf0 !important;
+  background: #f5f7fa !important;
+  color: #29384d !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-size: 14px !important;
+  font-weight: 560 !important;
+  box-shadow: none !important;
+  white-space: nowrap !important;
+}
+.productRefDate svg,
+.garageRefDate svg,
+.accountingRefDate svg {
+  width: 19px !important;
+  height: 19px !important;
+  stroke-width: 1.8 !important;
+} /* Typography across secondary screens */
+#view-garage .garageRefTitleRow h2,
+#view-accounting .accountingRefTitle {
+  font-size: 39px !important;
+  line-height: 0.98 !important;
+  letter-spacing: -0.055em !important;
+  font-weight: 900 !important;
+}
+#view-finance .financeMobileHead h2,
+#view-menu > .sectionHead:first-of-type h2,
+#view-settings > .sectionHead:first-of-type h2,
+#view-garage-leads > .sectionHead:first-of-type h2,
+#view-garage-stats .garageStatsHeader h2,
+#view-garage-what .garageWhatHead h2,
+#view-customers .contactsHead h2 {
+  font-size: 30px !important;
+  line-height: 1 !important;
+  letter-spacing: -0.045em !important;
+  font-weight: 900 !important;
+}
+.section {
+  margin-top: 13px !important;
+}
+.sectionHead {
+  margin: 0 2px 9px !important;
+  align-items: center !important;
+}
+.sectionHead h2,
+.statsSectionHead h3,
+.financeMobileSectionHead h3 {
+  font-size: 20px !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.035em !important;
+  font-weight: 900 !important;
+}
+.sectionHead > span,
+.garageMenuTitle > div > span,
+.financeMobileFold summary small,
+.switch .sub,
+.securitySettingsHead p,
+.historyProHead p,
+.contactsSubtitle,
+.accountingSourceTile small {
+  display: none !important;
+} /* Universal cards */
+.panel,
+.taskCard,
+.carCard,
+.carListCard,
+.leadListCard,
+.garageLeadCard,
+.garageCarTaskCard,
+.smallStatBox,
+.financeRow,
+.historyItem,
+.historyProPanel,
+.historyDayBlock,
+.menuIntro,
+.menuLink,
+.switch,
+.companyRow,
+.companyCustomer,
+.contactGroupCard,
+.accountingWorkspace {
+  border: 1px solid var(--v17-line) !important;
+  border-radius: var(--v17-card-radius) !important;
+  background: #fff !important;
+  box-shadow: var(--v17-shadow-soft) !important;
+}
+.panel.pad {
+  padding: 13px !important;
+} /* Controls / forms */
+.btn {
+  min-height: 46px !important;
+  padding: 0 14px !important;
+  border-radius: var(--v17-control-radius) !important;
+  border: 1px solid #17314f !important;
+  background: linear-gradient(110deg, #17314f, #244564) !important;
+  color: #fff !important;
+  font: inherit !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  box-shadow: none !important;
+  letter-spacing: -0.01em !important;
+}
+.btn.secondary,
+.btn.ghost,
+.smallBtn {
+  background: #fff !important;
+  color: #17263a !important;
+  border-color: var(--v17-line-strong) !important;
+  box-shadow: none !important;
+}
+.btn.danger {
+  background: #fff4f5 !important;
+  color: var(--v17-red) !important;
+  border-color: #f0c9d0 !important;
+}
+.smallBtn {
+  min-height: 38px !important;
+  border-radius: 11px !important;
+  font-size: 12px !important;
+}
+.field {
+  margin: 0 0 9px !important;
+}
+.field label {
+  display: block !important;
+  margin: 0 0 5px 2px !important;
+  color: #617086 !important;
+  font-size: 11.5px !important;
+  font-weight: 720 !important;
+}
+.input,
+select.input,
+textarea.input {
+  width: 100% !important;
+  min-height: 44px !important;
+  padding: 10px 12px !important;
+  border: 1px solid var(--v17-line-strong) !important;
+  border-radius: 12px !important;
+  background: #fff !important;
+  color: var(--v17-text) !important;
+  font: inherit !important;
+  font-size: 14px !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+textarea.input {
+  min-height: 76px !important;
+  resize: vertical !important;
+}
+.input:focus,
+select.input:focus,
+textarea.input:focus {
+  border-color: #a9b9cb !important;
+  box-shadow: 0 0 0 3px rgba(23, 49, 79, 0.07) !important;
+}
+.grid2 {
+  gap: 8px !important;
+} /* Add car / add variant forms: compact native sheet rhythm */
+#view-garage #addCarPanel,
+#view-garage-leads #addGarageLeadPanel,
+#garageTaskForm,
+.otherTaskFormPro {
+  padding: 13px !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  border: 1px solid var(--v17-line) !important;
+  box-shadow: var(--v17-shadow) !important;
+}
+#view-garage #addCarPanel > .sectionHead,
+#view-garage-leads #addGarageLeadPanel > .garageMenuTitle {
+  margin: 0 0 11px !important;
+  padding: 0 0 10px !important;
+  border-bottom: 1px solid #edf1f4 !important;
+}
+#view-garage #addCarPanel > .sectionHead h2,
+#view-garage-leads #addGarageLeadPanel .garageMenuTitle strong {
+  font-size: 20px !important;
+  font-weight: 900 !important;
+}
+#view-garage #addCarPanel .vehicleDetails,
+#view-garage-leads #addGarageLeadPanel details {
+  border: 1px solid var(--v17-line) !important;
+  border-radius: 14px !important;
+  background: #fbfcfd !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+#view-garage #addCarPanel .vehicleDetails > summary {
+  min-height: 46px !important;
+  padding: 0 11px !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+}
+#view-garage #addCarBtn,
+#view-garage-leads #addGarageLeadBtn {
+  width: 100% !important;
+  min-height: 48px !important;
+  margin-top: 7px !important;
+} /* Bottom sheets / dialogs */
+.modalBackdrop {
+  background: rgba(13, 25, 42, 0.42) !important;
+  backdrop-filter: blur(3px) !important;
+}
+.sheet {
+  width: min(100%, 430px) !important;
+  max-height: 92svh !important;
+  border: 1px solid var(--v17-line) !important;
+  border-radius: 24px 24px 0 0 !important;
+  background: #fff !important;
+  box-shadow: 0 -14px 44px rgba(15, 28, 47, 0.14) !important;
+  padding: 12px 13px calc(15px + env(safe-area-inset-bottom)) !important;
+}
+.sheetHead {
+  min-height: 48px !important;
+  margin: 0 0 9px !important;
+  padding-bottom: 8px !important;
+  border-bottom: 1px solid #edf1f4 !important;
+}
+.sheetHead h3 {
+  font-size: 20px !important;
+  line-height: 1 !important;
+  letter-spacing: -0.035em !important;
+  font-weight: 900 !important;
+}
+.closeBtn {
+  width: 42px !important;
+  height: 42px !important;
+  min-height: 42px !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  border: 1px solid var(--v17-line) !important;
+  box-shadow: none !important;
+}
+#sheet .carDetailQuick {
+  gap: 8px !important;
+}
+#sheet .carDetailQuick button {
+  min-height: 58px !important;
+  border-radius: 14px !important;
+  padding: 9px 10px !important;
+  font-size: 13.5px !important;
+}
+#sheet .premiumFieldsGrid,
+#sheet .vehicleFields,
+#sheet .vehicleRegGrid {
+  gap: 8px !important;
+}
+#sheet .vehicleDetails,
+#sheet .vehicleRegData,
+#sheet .premiumMedia,
+#sheet .carBottomCostGrid {
+  border-radius: 16px !important;
+  border-color: var(--v17-line) !important;
+  box-shadow: none !important;
+} /* Menus / secondary pages */
+#view-menu .menuIntro {
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+#view-menu .menuLinks {
+  grid-template-columns: 1fr !important;
+  gap: 8px !important;
+  margin-top: 0 !important;
+}
+#view-menu .menuLink {
+  min-height: 62px !important;
+  padding: 9px 11px !important;
+  display: grid !important;
+  grid-template-columns: 38px minmax(0, 1fr) 18px !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+#view-menu .menuLink::after {
+  content: "›";
+  font-size: 23px;
+  color: #8290a0;
+}
+#view-menu .menuLink .ico {
+  width: 38px !important;
+  height: 38px !important;
+  margin: 0 !important;
+  border-radius: 12px !important;
+  background: #f2f5f8 !important;
+  display: grid !important;
+  place-items: center !important;
+  font-size: 17px !important;
+}
+#view-menu .menuLink strong {
+  font-size: 14.5px !important;
+  font-weight: 820 !important;
+}
+#view-finance .financeMobileCard,
+#view-finance .financeMobileFold {
+  border-radius: 17px !important;
+}
+#view-finance .financeMobileFold summary {
+  min-height: 58px !important;
+  padding: 9px 11px !important;
+}
+#view-finance .financeMobileSection {
+  margin-top: 13px !important;
+}
+#view-finance .financeRow {
+  min-height: 58px !important;
+  padding: 10px 11px !important;
+  border-radius: 15px !important;
+}
+#view-finance .financeRow strong {
+  font-size: 14px !important;
+}
+#view-finance .financeRow span {
+  font-size: 11.5px !important;
+}
+#view-settings .panel.pad {
+  padding: 13px !important;
+}
+#view-settings .switch {
+  min-height: 58px !important;
+  margin-bottom: 8px !important;
+  padding: 10px 11px !important;
+  border-radius: 15px !important;
+}
+#view-settings .switch strong {
+  font-size: 14.5px !important;
+}
+.toggle {
+  width: 48px !important;
+  height: 29px !important;
+}
+.toggle::after {
+  width: 21px !important;
+  height: 21px !important;
+}
+.toggle.on::after {
+  transform: translateX(19px) !important;
+}
+#view-customers .contactsSearch {
+  min-height: 48px !important;
+}
+#view-customers .contactGroupCard,
+#view-customers .companyCustomer {
+  border-radius: 16px !important;
+}
+#view-customers .contactRow,
+#view-customers .companyCustomer {
+  padding: 10px 11px !important;
+} /* Garage retains its reference structure, but shares density */
+.garageRefMenuGrid {
+  gap: 9px !important;
+}
+.garageRefTile {
+  min-height: 78px !important;
+  border-radius: 17px !important;
+}
+.garageRefTile strong {
+  font-size: 15px !important;
+}
+.garageRefWhat {
+  min-height: 76px !important;
+  border-radius: 18px !important;
+}
+#activeCarGrid,
+#soldCarGrid,
+#garageLeadRoot {
+  gap: 10px !important;
+}
+#activeCarGrid .carListCard,
+#soldCarGrid .carListCard,
+#garageLeadRoot .leadListCard {
+  border-radius: 18px !important;
+  box-shadow: var(--v17-shadow) !important;
+}
+#activeCarGrid .carListInfo,
+#soldCarGrid .carListInfo,
+#garageLeadRoot .leadListInfo {
+  padding: 11px 12px 12px !important;
+  gap: 7px !important;
+}
+#activeCarGrid .carListTitle,
+#soldCarGrid .carListTitle,
+#garageLeadRoot .leadListTitle {
+  font-size: 17px !important;
+}
+.vehicleStatusChip {
+  font-size: 11px !important;
+  min-height: 27px !important;
+  padding: 4px 8px !important;
+} /* Accounting stays visually aligned with the supplied reference */
+#view-accounting .accountingRefMenu {
+  gap: 9px !important;
+}
+#view-accounting .accountingRefAction {
+  min-height: 76px !important;
+  border-radius: 17px !important;
+}
+#view-accounting .accountingRefAction strong {
+  font-size: 15.5px !important;
+}
+#view-accounting .accountingRefSectionTitle {
+  font-size: 21px !important;
+  margin: 14px 2px 8px !important;
+}
+#view-accounting .accountingRefFinanceCard {
+  border-radius: 17px !important;
+}
+#view-accounting .accountingRefWait,
+#view-accounting .accountingRefOp {
+  min-height: 55px !important;
+}
+#view-accounting .accountingRefWorkspace {
+  border-radius: 18px !important;
+} /* ===== HOME v17: exact structure of supplied final concept ===== */
+#view-home {
+  padding: 0 !important;
+}
+.homeV17 {
+  display: grid;
+  gap: 11px;
+  width: 100%;
+}
+.homeV17Brand {
+  min-height: 52px;
+  margin: 0 2px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.homeV17BrandLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.homeV17Logo {
+  width: 45px;
+  height: 31px;
+  flex: 0 0 auto;
+}
+.homeV17BrandName {
+  color: var(--v17-text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18.5px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+.homeV17Date {
+  min-height: 43px;
+  padding: 0 13px;
+  border: 1px solid #e4e9ef;
+  border-radius: 22px;
+  background: #f5f7fa;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #334258;
+  font-size: 14.5px;
+  font-weight: 560;
+  white-space: nowrap;
+}
+.homeV17Date svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+.homeV17Today {
+  border: 1px solid var(--v17-line);
+  border-radius: 19px;
+  background: #fff;
+  box-shadow: var(--v17-shadow);
+  padding: 0 13px 6px;
+  overflow: hidden;
+}
+.homeV17SectionHead {
+  width: 100%;
+  min-height: 60px;
+  border: 0;
+  background: transparent;
+  padding: 0 2px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 20px;
+  align-items: center;
+  gap: 9px;
+  color: var(--v17-text);
+  text-align: left;
+}
+.homeV17SectionHead strong {
+  font-size: 23px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -0.045em;
+}
+.homeV17Count {
+  min-width: 38px;
+  height: 34px;
+  padding: 0 10px;
+  border-radius: 18px;
+  background: var(--v17-gold-soft);
+  color: #76581f;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-weight: 850;
+}
+.homeV17Arrow {
+  font-size: 27px;
+  line-height: 1;
+  color: #34465b;
+  font-weight: 420;
+}
+.homeV17TodayList {
+  border-top: 1px solid #e8edf2;
+}
+.homeV17Task {
+  width: 100%;
+  min-height: 80px;
+  padding: 8px 0;
+  border: 0;
+  border-bottom: 1px solid #e8edf2;
+  background: #fff;
+  display: grid;
+  grid-template-columns: 80px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  text-align: left;
+  color: var(--v17-text);
+  font: inherit;
+}
+.homeV17Task:last-child {
+  border-bottom: 0;
+}
+.homeV17TaskPhoto {
+  width: 76px;
+  height: 55px;
+  border-radius: 11px;
+  background: #f4f6f8;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  color: #768497;
+  font-size: 22px;
+}
+.homeV17TaskPhoto img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.homeV17TaskCopy {
+  min-width: 0;
+  display: grid;
+  gap: 5px;
+}
+.homeV17TaskCopy strong {
+  font-size: 15.5px;
+  line-height: 1.14;
+  font-weight: 760;
+  letter-spacing: -0.024em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.homeV17Entity {
+  width: max-content;
+  max-width: 100%;
+  min-height: 24px;
+  padding: 0 8px;
+  border-radius: 12px;
+  background: #f1f4f7;
+  color: #33445b;
+  display: inline-flex;
+  align-items: center;
+  font-size: 11.5px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.homeV17Status {
+  min-width: 78px;
+  height: 42px;
+  padding: 0 11px;
+  border-radius: 14px;
+  background: var(--v17-green-soft);
+  color: #0b6849;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 760;
+  white-space: nowrap;
+}
+.homeV17Task.late .homeV17Status {
+  background: var(--v17-red-soft);
+  color: #bd1831;
+}
+.homeV17Empty {
+  min-height: 80px;
+  display: grid;
+  place-items: center;
+  color: #66758a;
+  font-size: 14px;
+  font-weight: 700;
+}
+.homeV17Grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  align-items: stretch;
+}
+.homeV17MiniCard {
+  min-width: 0;
+  border: 1px solid var(--v17-line);
+  border-radius: 19px;
+  background: #fff;
+  box-shadow: var(--v17-shadow);
+  padding: 0 12px 10px;
+  overflow: hidden;
+}
+.homeV17MiniHead {
+  min-height: 55px;
+  padding: 0 1px;
+  border-bottom: 1px solid #e8edf2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 16px;
+  align-items: center;
+  gap: 7px;
+}
+.homeV17MiniHead strong {
+  font-size: 21px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+}
+.homeV17MiniHead .homeV17Count {
+  min-width: 35px;
+  height: 32px;
+  font-size: 13px;
+}
+.homeV17MiniHead .homeV17Arrow {
+  font-size: 25px;
+}
+.homeV17VariantList {
+  display: grid;
+}
+.homeV17Variant {
+  min-height: 86px;
+  padding: 8px 0;
+  border: 0;
+  border-bottom: 1px solid #e8edf2;
+  background: transparent;
+  display: grid;
+  grid-template-columns: 66px minmax(0, 1fr) 12px;
+  align-items: center;
+  gap: 7px;
+  text-align: left;
+  color: var(--v17-text);
+  font: inherit;
+}
+.homeV17Variant:last-child {
+  border-bottom: 0;
+}
+.homeV17VariantPhoto {
+  width: 64px;
+  height: 48px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f3f5f7;
+  display: grid;
+  place-items: center;
+  color: #7b8796;
+}
+.homeV17VariantPhoto img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.homeV17VariantCopy {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+.homeV17VariantCopy strong {
+  font-size: 12.8px;
+  line-height: 1.15;
+  font-weight: 760;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.homeV17VariantCopy b {
+  font-size: 15px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+.homeV17VariantArrow {
+  font-size: 23px;
+  color: #52647a;
+}
+.homeV17Metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  padding-top: 9px;
+}
+.homeV17Metric {
+  min-width: 0;
+  min-height: 74px;
+  padding: 8px;
+  border: 1px solid #e5ebf1;
+  border-radius: 13px;
+  background: #fbfcfd;
+  display: grid;
+  align-content: center;
+  gap: 3px;
+}
+.homeV17MetricTop {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  color: #44536a;
+  font-size: 10.5px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+.homeV17MetricIcon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  font-size: 14px;
+  font-weight: 900;
+}
+.homeV17Metric.income .homeV17MetricIcon,
+.homeV17Metric.profit .homeV17MetricIcon {
+  background: #ddf4e8;
+  color: #08734f;
+}
+.homeV17Metric.expense .homeV17MetricIcon {
+  background: #ffe3e8;
+  color: #c51d36;
+}
+.homeV17Metric.docs .homeV17MetricIcon {
+  background: #e7f0fb;
+  color: #174f8b;
+}
+.homeV17Metric strong {
+  font-size: 15.5px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+.homeV17Metric.profit strong {
+  color: #07844f;
+}
+.homeV17Hero {
+  width: 100%;
+  aspect-ratio: 700/385;
+  border-radius: 19px;
+  overflow: hidden;
+  border: 1px solid #e2e7ed;
+  box-shadow: var(--v17-shadow);
+  background: url("./assets/embedded-image-03-95b9e978f4.jpg") center/cover no-repeat;
+} /* Bottom navigation follows the new screenshot: clean full-width iOS dock */
+.navWrap {
+  padding: 4px 10px calc(7px + env(safe-area-inset-bottom)) !important;
+  background: rgba(255, 255, 255, 0.94) !important;
+  border-top: 1px solid #e8edf2 !important;
+  backdrop-filter: blur(18px) saturate(150%) !important;
+}
+.nav {
+  max-width: 430px !important;
+  min-height: 67px !important;
+  padding: 2px 6px !important;
+  margin: 0 auto !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 2px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.navBtn {
+  position: relative !important;
+  min-height: 61px !important;
+  padding: 6px 2px 9px !important;
+  border: 0 !important;
+  border-radius: 12px !important;
+  background: transparent !important;
+  color: #68778b !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  gap: 3px !important;
+}
+.navBtn .ico {
+  width: 27px !important;
+  height: 27px !important;
+  display: grid !important;
+  place-items: center !important;
+  font-size: 0 !important;
+}
+.navBtn .ico svg {
+  width: 25px !important;
+  height: 25px !important;
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 1.7 !important;
+}
+.navBtn.active {
+  background: transparent !important;
+  border: 0 !important;
+  color: #b1843d !important;
+}
+.navBtn.active::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 50% !important;
+  bottom: 3px !important;
+  width: 31px !important;
+  height: 2.5px !important;
+  border-radius: 99px !important;
+  transform: translateX(-50%) !important;
+  background: #bd9558 !important;
+} /* Remove desktopy / explanatory noise app-wide. */
+.menuLink span:not(.ico),
+.garageAction span:not(.ico):not(.chev),
+.rewardCard p,
+.smallStatBox .hint,
+.accountingHint,
+.vehicleRegHint,
+.securityFootnote,
+.leadDetailBox {
+  font-size: 11.5px !important;
+}
+@media (max-width: 390px) {
+  .app {
+    padding-left: 11px !important;
+    padding-right: 11px !important;
+  }
+  .homeV17BrandName {
+    font-size: 17px;
+  }
+  .homeV17Task {
+    grid-template-columns: 69px minmax(0, 1fr) auto;
+    gap: 7px;
+  }
+  .homeV17TaskPhoto {
+    width: 66px;
+    height: 49px;
+  }
+  .homeV17Status {
+    min-width: 70px;
+    padding: 0 8px;
+    font-size: 12px;
+  }
+  .homeV17MiniHead strong {
+    font-size: 19px;
+  }
+  .homeV17Variant {
+    grid-template-columns: 58px minmax(0, 1fr) 11px;
+  }
+  .homeV17VariantPhoto {
+    width: 56px;
+    height: 43px;
+  }
+  #view-garage #addCarPanel .sdkFields,
+  #view-garage #addCarPanel .vehicleFields,
+  #view-garage-leads #addGarageLeadPanel .grid2,
+  #sheet .premiumFieldsGrid,
+  #sheet .vehicleFields,
+  #sheet .vehicleRegGrid {
+    grid-template-columns: 1fr !important;
+  }
+}

@@ -1,0 +1,511 @@
+/* =========================================================
+   FINAL POLISH v21
+   - identical bottom nav on every view
+   - cleaner car detail
+   - slightly more compact home
+   - readable soft-blue action buttons
+   ========================================================= */ /* 1) BOTTOM NAV — SAME FONT/ICON/ACTIVE STATE ON EVERY PAGE.
+   Higher specificity intentionally overrides old body:has(view...) rules. */
+body:has(.view.active) .navWrap {
+  padding: 3px 10px calc(6px + env(safe-area-inset-bottom)) !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-top: 1px solid #e8edf2 !important;
+  backdrop-filter: blur(18px) saturate(150%) !important;
+}
+body:has(.view.active) .navWrap .nav {
+  max-width: 430px !important;
+  min-height: 65px !important;
+  padding: 2px 5px !important;
+  margin: 0 auto !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 1px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+body:has(.view.active) .navWrap .nav .navBtn {
+  position: relative !important;
+  min-width: 0 !important;
+  min-height: 59px !important;
+  padding: 5px 2px 8px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #66758a !important;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", Inter, "Segoe UI", sans-serif !important;
+  font-size: 11.5px !important;
+  line-height: 1 !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+  gap: 3px !important;
+}
+body:has(.view.active) .navWrap .nav .navBtn .ico {
+  width: 26px !important;
+  height: 26px !important;
+  min-height: 26px !important;
+  display: grid !important;
+  place-items: center !important;
+  color: inherit !important;
+  font-size: 0 !important;
+  line-height: 1 !important;
+}
+body:has(.view.active) .navWrap .nav .navBtn .ico svg {
+  width: 24px !important;
+  height: 24px !important;
+  display: block !important;
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 1.75 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+}
+body:has(.view.active) .navWrap .nav .navBtn.active,
+body:has(.view.active) .navWrap .nav .navBtn[aria-current="page"] {
+  border: 0 !important;
+  border-color: transparent !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #17263a !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+}
+body:has(.view.active) .navWrap .nav .navBtn.active::after,
+body:has(.view.active) .navWrap .nav .navBtn[aria-current="page"]::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: 2px !important;
+  width: 29px !important;
+  height: 2.5px !important;
+  border-radius: 99px !important;
+  transform: translateX(-50%) !important;
+  background: #bd9558 !important;
+} /* 2) SOFT-BLUE PRIMARY BUTTONS — stronger text like "Dominantis variantas". */
+body .btn:not(.secondary):not(.ghost):not(.danger):not(.warn),
+body #showAddCarFormBtn,
+body #addCarBtn,
+body #addGarageLeadBtn,
+body #sellCarBtn,
+body .carSellBtn,
+body .carConfirmSellBtn,
+body .premiumPrimaryBtn,
+body .saleModalConfirm,
+body .carTasksAddWide,
+body #showAddGarageLeadBtn {
+  min-height: 46px !important;
+  padding: 0 14px !important;
+  border: 1px solid #d5e6f6 !important;
+  border-radius: 14px !important;
+  background: linear-gradient(120deg, #eef7ff 0%, #f9fcff 100%) !important;
+  background-image: linear-gradient(120deg, #eef7ff 0%, #f9fcff 100%) !important;
+  color: #174f89 !important;
+  -webkit-text-fill-color: #174f89 !important;
+  opacity: 1 !important;
+  box-shadow: 0 4px 12px rgba(40, 89, 135, 0.045) !important;
+  font-family: inherit !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+  font-weight: 850 !important;
+  letter-spacing: -0.012em !important;
+  text-shadow: none !important;
+}
+body .btn:not(.secondary):not(.ghost):not(.danger):not(.warn) *,
+body #showAddCarFormBtn *,
+body #addCarBtn *,
+body #addGarageLeadBtn *,
+body #sellCarBtn *,
+body .carSellBtn *,
+body .carConfirmSellBtn *,
+body .premiumPrimaryBtn *,
+body .saleModalConfirm *,
+body .carTasksAddWide *,
+body #showAddGarageLeadBtn * {
+  color: #174f89 !important;
+  -webkit-text-fill-color: #174f89 !important;
+  opacity: 1 !important;
+}
+body #showAddGarageLeadBtn {
+  font-size: 14px !important;
+  font-weight: 850 !important;
+} /* 3) CAR DETAIL — remove the four jump buttons completely. */
+#sheet .carDetailQuick {
+  display: none !important;
+} /* Car modal as one clean natural-scroll card. */
+#sheet .premiumSheetHead {
+  min-height: 50px !important;
+  margin-bottom: 9px !important;
+  padding: 0 1px 9px !important;
+}
+#sheet .premiumSheetTitle h3 {
+  margin: 0 !important;
+  font-size: 21px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.04em !important;
+}
+#sheet .premiumDetail {
+  display: grid !important;
+  gap: 0 !important;
+}
+#sheet .premiumHero {
+  width: 100% !important;
+  height: 188px !important;
+  min-height: 188px !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 17px !important;
+  overflow: hidden !important;
+  background: #f3f6f9 !important;
+  box-shadow: none !important;
+}
+#sheet .premiumHero img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+#sheet .premiumDetailBody {
+  padding: 10px 0 0 !important;
+  display: grid !important;
+  gap: 9px !important;
+} /* Overview blocks */
+#sheet .vehicleSdkDisplay,
+#sheet .sheetRecommendation,
+#sheet .premiumInfo,
+#sheet .premiumResult,
+#sheet .premiumMedia,
+#sheet .vehicleDocuments,
+#sheet .carBottomCostGrid,
+#sheet .accountingCarBox {
+  margin: 0 !important;
+  border: 1px solid #e5ebf1 !important;
+  border-radius: 15px !important;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+#sheet .vehicleSdkDisplay {
+  min-height: 62px !important;
+  padding: 10px 11px !important;
+}
+#sheet .vehicleSdkDisplay span {
+  font-size: 11.5px !important;
+}
+#sheet .vehicleSdkDisplay strong {
+  font-size: 17px !important;
+  line-height: 1 !important;
+}
+#sheet .vehicleSdkBadge {
+  min-height: 31px !important;
+  padding: 0 10px !important;
+  border-radius: 11px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  font-size: 11.5px !important;
+  font-weight: 800 !important;
+}
+#sheet .vehicleStatusRow {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+#sheet .vehicleStatusRow > * {
+  min-height: 29px !important;
+  padding: 0 9px !important;
+  border-radius: 999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  font-size: 11px !important;
+  font-weight: 750 !important;
+}
+#sheet .sheetRecommendation {
+  padding: 10px 11px !important;
+  background: linear-gradient(120deg, #eef7ff, #fbfdff) !important;
+  border-color: #dbeaf7 !important;
+}
+#sheet .sheetRecommendation span {
+  color: #66809b !important;
+  font-size: 10.5px !important;
+  font-weight: 800 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+#sheet .sheetRecommendation strong {
+  color: #173d67 !important;
+  font-size: 14px !important;
+  line-height: 1.2 !important;
+}
+#sheet .sheetRecommendation b {
+  color: #174f89 !important;
+  font-size: 13px !important;
+} /* "Daugiau informacijos" becomes a tidy compact disclosure */
+#sheet .vehicleDetails {
+  margin: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid #e5ebf1 !important;
+  border-radius: 15px !important;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+#sheet .vehicleDetails summary {
+  min-height: 48px !important;
+  padding: 0 11px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  color: #17263a !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+  font-weight: 850 !important;
+  cursor: pointer !important;
+}
+#sheet .vehicleInfo {
+  padding: 0 11px 9px !important;
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 0 !important;
+}
+#sheet .vehicleInfo > div {
+  min-height: 38px !important;
+  padding: 7px 0 !important;
+  border-top: 1px solid #edf1f4 !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+#sheet .vehicleInfo dt {
+  color: #6b788a !important;
+  font-size: 11.5px !important;
+  font-weight: 650 !important;
+}
+#sheet .vehicleInfo dd {
+  margin: 0 !important;
+  color: #162437 !important;
+  font-size: 12.5px !important;
+  font-weight: 760 !important;
+  text-align: right !important;
+} /* Tasks section — simple and compact */
+#sheet .carTasksSectionHead {
+  min-height: 38px !important;
+  margin: 2px 1px 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+#sheet .carTasksSectionTitle h4 {
+  margin: 0 !important;
+  color: #0b182b !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.035em !important;
+}
+#sheet .premiumChecklist {
+  display: grid !important;
+  gap: 6px !important;
+}
+#sheet .premiumChecklist .checklistRow,
+#sheet .premiumChecklist > * {
+  border-radius: 13px !important;
+}
+#sheet .carTasksAddWide {
+  width: 100% !important;
+  min-height: 44px !important;
+  margin: 0 !important;
+} /* Media/docs cleaner */
+#sheet .premiumMedia {
+  padding: 11px !important;
+}
+#sheet .premiumMedia .premiumSectionHead {
+  min-height: 36px !important;
+  margin: 0 0 8px !important;
+}
+#sheet .premiumMedia .premiumSectionHead h4 {
+  margin: 0 !important;
+  font-size: 17px !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.03em !important;
+}
+#sheet .premiumMedia .premiumEyebrow {
+  display: none !important;
+}
+#sheet .premiumUpload {
+  min-height: 45px !important;
+  margin: 0 0 8px !important;
+  border: 1px dashed #cfe0ef !important;
+  border-radius: 13px !important;
+  background: #f7fbff !important;
+}
+#sheet .premiumThumbGrid {
+  gap: 7px !important;
+}
+#sheet .premiumThumb {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+#sheet .premiumMediaActions .btn {
+  min-height: 42px !important;
+  font-size: 12.5px !important;
+}
+#sheet .vehicleDocuments .vehicleDocInputs {
+  padding: 0 10px 10px !important;
+  display: grid !important;
+  gap: 6px !important;
+}
+#sheet .vehicleDocPicker {
+  min-height: 42px !important;
+  padding: 0 10px !important;
+  border: 1px dashed #d6e4f0 !important;
+  border-radius: 12px !important;
+  background: #f9fcff !important;
+  color: #315b82 !important;
+  font-size: 12px !important;
+  font-weight: 760 !important;
+} /* Price and action footer */
+#sheet .carBottomCostGrid {
+  padding: 10px !important;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 7px !important;
+}
+#sheet .carBottomCostGrid .premiumStat {
+  min-height: 58px !important;
+  padding: 8px 9px !important;
+  border: 0 !important;
+  border-radius: 12px !important;
+  background: #f6f8fa !important;
+}
+#sheet .carBottomCostGrid .premiumStat span {
+  font-size: 11px !important;
+}
+#sheet .carBottomCostGrid .premiumStat strong {
+  font-size: 17px !important;
+}
+#sheet .carBottomActions {
+  display: grid !important;
+  gap: 7px !important;
+  margin-top: 0 !important;
+}
+#sheet .carBottomActions .btn,
+#sheet .carBottomActions .carDeleteReal {
+  width: 100% !important;
+  min-height: 44px !important;
+  border-radius: 13px !important;
+  font-size: 13.5px !important;
+  font-weight: 820 !important;
+}
+#sheet .carBottomActions .carDeleteReal {
+  border: 1px solid #f0cdd3 !important;
+  background: #fff7f8 !important;
+  color: #c42b3e !important;
+} /* 4) HOME — slightly smaller, same composition. */
+.homeExactBrand {
+  margin-bottom: 15px !important;
+}
+.homeExactTodayHead {
+  height: 46px !important;
+  min-height: 46px !important;
+}
+.homeExactTodayHead strong {
+  font-size: 19.5px !important;
+}
+.homeExactCount {
+  min-width: 32px !important;
+  height: 29px !important;
+  font-size: 12.5px !important;
+}
+.homeExactTask {
+  height: 62px !important;
+  min-height: 62px !important;
+  grid-template-columns: 69px minmax(0, 1fr) auto !important;
+  gap: 7px !important;
+}
+.homeExactTaskPhoto {
+  width: 65px !important;
+  height: 47px !important;
+}
+.homeExactTaskCopy strong {
+  font-size: 13.8px !important;
+}
+.homeExactEntity {
+  height: 21px !important;
+  font-size: 10.5px !important;
+}
+.homeExactStatus {
+  min-width: 72px !important;
+  height: 32px !important;
+  padding: 0 9px !important;
+  font-size: 11.5px !important;
+}
+.homeExactTwo {
+  gap: 8px !important;
+}
+.homeExactMini {
+  height: 180px !important;
+  padding: 0 10px 7px !important;
+}
+.homeExactMiniHead {
+  height: 46px !important;
+  min-height: 46px !important;
+}
+.homeExactMiniHead strong {
+  font-size: 18.5px !important;
+}
+.homeExactVariant {
+  height: 63px !important;
+  min-height: 63px !important;
+  grid-template-columns: 58px minmax(0, 1fr) 10px !important;
+}
+.homeExactVariantPhoto {
+  width: 55px !important;
+  height: 41px !important;
+}
+.homeExactVariantCopy strong {
+  font-size: 11px !important;
+}
+.homeExactVariantCopy b {
+  font-size: 14px !important;
+}
+.homeExactMetrics {
+  height: 127px !important;
+  gap: 5px !important;
+  padding-top: 6px !important;
+}
+.homeExactMetric {
+  padding: 5px 6px !important;
+  border-radius: 11px !important;
+}
+.homeExactMetricTop {
+  font-size: 9.2px !important;
+}
+.homeExactMetricIcon {
+  width: 22px !important;
+  height: 22px !important;
+  font-size: 12px !important;
+}
+.homeExactMetric strong {
+  font-size: 13.3px !important;
+} /* very small screen safety */
+@media (max-width: 390px) {
+  body:has(.view.active) .navWrap .nav .navBtn {
+    font-size: 11px !important;
+  }
+  .homeExactTask {
+    grid-template-columns: 61px minmax(0, 1fr) auto !important;
+  }
+  .homeExactTaskPhoto {
+    width: 58px !important;
+    height: 43px !important;
+  }
+  .homeExactStatus {
+    min-width: 65px !important;
+    padding: 0 7px !important;
+  }
+}

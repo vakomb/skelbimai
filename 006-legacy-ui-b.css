@@ -1,0 +1,28 @@
+.personalTopicPicker {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 6px !important;
+}
+.personalTopicChip {
+  min-width: 0 !important;
+  min-height: 40px !important;
+  padding: 7px 4px !important;
+  border-radius: 12px !important;
+}
+.personalTaskComposerFields {
+  grid-template-columns: minmax(0, 1fr) 112px !important;
+  gap: 7px !important;
+}
+.personalTaskComposerFields .input {
+  min-width: 0 !important;
+  height: 40px !important;
+  min-height: 40px !important;
+}
+@media (max-width: 360px) {
+  .personalTaskComposerFields {
+    grid-template-columns: minmax(0, 1fr) 101px !important;
+  }
+  .personalTopicChip {
+    font-size: 9px !important;
+  }
+}

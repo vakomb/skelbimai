@@ -1,0 +1,425 @@
+/* Automobilio formos ir kortelė (v51). Minimalistinė, mobiliajam pritaikyta sistema. */
+:root {
+  --cf-ink: #12233a;
+  --cf-muted: #6b7a8e;
+  --cf-line: #e3e9f0;
+  --cf-soft: #f4f7fa;
+  --cf-brand: #174a8b;
+  --cf-brand-2: #1f5aa6;
+  --cf-good: #1d8a52;
+  --cf-good-bg: #eaf7f0;
+  --cf-warn: #9a6a0c;
+  --cf-warn-bg: #fff5df;
+  --cf-bad: #c03d3d;
+  --cf-bad-bg: #fdeeee;
+}
+
+/* ---------- Formos ---------- */
+.cfFormV51 {
+  display: grid;
+  gap: 10px;
+}
+.cfFormV51 .regCardV50 {
+  margin: 0;
+}
+.cfCardV51 {
+  padding: 14px;
+  border: 1px solid var(--cf-line);
+  border-radius: 18px;
+  background: #fff;
+}
+.cfGridV51 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 10px;
+}
+.cfGridV51 .field,
+.cfCardV51 > .field {
+  margin: 0 !important;
+  min-width: 0;
+}
+.cfGridV51 .field + .field:nth-child(n + 3) {
+  margin-top: 10px !important;
+}
+.cfFormV51 .field > label,
+.cfLabelV51 {
+  display: block;
+  margin: 0 0 6px !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: var(--cf-muted) !important;
+}
+.cfFormV51 .input {
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  border-radius: 13px !important;
+  font-size: 16px !important;
+}
+.cfFormV51 textarea.input {
+  min-height: 84px;
+  resize: vertical;
+}
+/* Būsenos: Galioja / Negalioja / Nežinoma + data, jei galioja */
+.cfStatusV51 + .cfStatusV51,
+.cfStatusV51 + .cfSdkV51 {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--cf-line);
+}
+.cfSegV51 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  padding: 3px;
+  border-radius: 13px;
+  background: var(--cf-soft);
+  border: 1px solid var(--cf-line);
+}
+.cfSegV51 button {
+  min-height: 40px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--cf-muted);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+.cfSegV51 button[aria-checked="true"] {
+  background: #fff;
+  color: var(--cf-ink);
+  box-shadow: 0 1px 3px rgba(18, 35, 58, 0.12);
+}
+.cfSegV51 button[data-seg-value="valid"][aria-checked="true"] {
+  color: var(--cf-good);
+}
+.cfSegV51 button[data-seg-value="invalid"][aria-checked="true"] {
+  color: var(--cf-bad);
+}
+.cfUntilV51 {
+  margin-top: 10px !important;
+  animation: cfRevealV51 0.22s ease;
+}
+#addCarPanel .cfUntilV51[hidden],
+#sheet .cfUntilV51[hidden] {
+  display: none !important;
+}
+@keyframes cfRevealV51 {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* Nuotraukos */
+.cfPhotoPickV51 {
+  position: relative;
+  display: flex !important;
+  align-items: center;
+  gap: 11px;
+  margin: 0 !important;
+  cursor: pointer;
+  color: var(--cf-ink) !important;
+}
+.cfPhotoPickV51 strong {
+  flex: 1;
+  font-size: 15px;
+  color: var(--cf-ink);
+}
+.cfPhotoPickV51 em {
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 800;
+  min-width: 22px;
+  padding: 2px 7px;
+  border-radius: 99px;
+  background: #e8f0fb;
+  color: var(--cf-brand);
+  text-align: center;
+}
+.cfPhotoPickV51 em:empty {
+  display: none;
+}
+.cfPhotoPickV51::after {
+  content: "+";
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--cf-brand);
+}
+.cfPhotoPickV51 input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  cursor: pointer;
+}
+.cfPhotoIcoV51 {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: #e8f0fb;
+  color: var(--cf-brand);
+}
+.cfPhotoIcoV51 svg {
+  width: 20px;
+  height: 20px;
+}
+.cfPhotoThumbsV51 {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+}
+.cfPhotoThumbsV51:not(:empty) {
+  margin-top: 12px;
+}
+.cfPhotoThumbsV51 img {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 11px;
+}
+/* Dokumentai (suskleista) */
+.cfDocsV51 {
+  padding: 0;
+  overflow: hidden;
+}
+.cfDocsV51 .vehicleDocuments {
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.cfDocsV51 .vehicleDocuments > summary {
+  padding: 15px 14px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: var(--cf-ink) !important;
+}
+/* Išsaugoti */
+#view-garage #addCarPanel #addCarBtn.cfSaveV51,
+#modalBackdrop #sheet #saveCarEdit.cfSaveV51 {
+  -webkit-text-fill-color: #fff !important;
+  opacity: 1 !important;
+  display: block !important;
+  width: 100% !important;
+  min-height: 52px !important;
+  margin: 12px 0 0 !important;
+  border: 0 !important;
+  border-radius: 15px !important;
+  background: linear-gradient(180deg, var(--cf-brand-2), var(--cf-brand)) !important;
+  color: #fff !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  box-shadow: 0 8px 20px rgba(23, 74, 139, 0.18) !important;
+}
+#sheet .cfHeadV51 {
+  margin-bottom: 12px;
+}
+#sheet .cfHeadV51 h3 {
+  margin: 0;
+  font-size: 20px;
+  color: var(--cf-ink);
+}
+@media (max-width: 360px) {
+  .cfGridV51 {
+    grid-template-columns: 1fr;
+  }
+  .cfGridV51 .field + .field {
+    margin-top: 10px !important;
+  }
+}
+
+/* ---------- Automobilio kortelė ---------- */
+.cdInfoV51 {
+  padding: 14px;
+  border: 1px solid var(--cf-line);
+  border-radius: 18px;
+  background: #fff;
+  margin-bottom: 10px;
+}
+.cdChipsV51 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.cdChipV51 {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 99px;
+  background: var(--cf-soft);
+  color: var(--cf-muted);
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.cdChipV51.good {
+  background: var(--cf-good-bg);
+  color: var(--cf-good);
+}
+.cdChipV51.warn {
+  background: var(--cf-warn-bg);
+  color: var(--cf-warn);
+}
+.cdChipV51.bad {
+  background: var(--cf-bad-bg);
+  color: var(--cf-bad);
+}
+.cdChipV51.plate {
+  background: #fff;
+  border: 1.5px solid var(--cf-ink);
+  border-radius: 7px;
+  color: var(--cf-ink);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+.cdFactsV51 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 12px;
+  margin: 14px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--cf-line);
+}
+.cdFactsV51 > div {
+  min-width: 0;
+}
+.cdFactsV51 > div.wide {
+  grid-column: 1 / -1;
+}
+.cdFactsV51 dt {
+  margin: 0 0 3px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cf-muted);
+}
+.cdFactsV51 dd {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--cf-ink);
+  overflow-wrap: anywhere;
+}
+.cdFactsV51 .mono dd {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+}
+#sheet.carSheetV51 .carBottomCostGrid,
+#sheet.carSheetV51 .premiumResultGrid {
+  margin: 0 0 10px !important;
+}
+#sheet.carSheetV51 #carDetailPhotos {
+  margin: 10px 0 !important;
+}
+#sheet.carSheetV51 [hidden] {
+  display: none !important;
+}
+/* Užduočių eilutės: pavadinimas per visą plotį, išlaidų laukelis kompaktiškas */
+#modalBackdrop #sheet.carSheetV51 .premiumChecklist .carTaskRow {
+  display: grid !important;
+  grid-template-columns: 26px minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  column-gap: 10px !important;
+  padding: 11px 10px !important;
+}
+#modalBackdrop #sheet.carSheetV51 .premiumChecklist .carTaskRow > label {
+  display: contents !important;
+}
+#modalBackdrop #sheet.carSheetV51 .premiumChecklist .carTaskMain {
+  grid-column: 2 !important;
+  min-width: 0 !important;
+}
+#modalBackdrop #sheet.carSheetV51 .premiumChecklist .carTaskMain strong {
+  font-size: 15px !important;
+  line-height: 1.25 !important;
+  overflow-wrap: break-word !important;
+  word-break: normal !important;
+  hyphens: auto;
+}
+#modalBackdrop #sheet.carSheetV51 .premiumChecklist .carTaskActions {
+  grid-column: 3 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  width: auto !important;
+}
+#modalBackdrop #sheet.carSheetV51 .premiumChecklist .carTaskExpenseInput {
+  width: 76px !important;
+  min-width: 76px !important;
+  max-width: 76px !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  padding: 6px 8px !important;
+  border-radius: 11px !important;
+  font-size: 14px !important;
+  text-align: right !important;
+}
+
+/* Kortelės veiksmai: aiški hierarchija */
+#modalBackdrop #sheet.carSheetV51 .carBottomActions {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 8px !important;
+  margin-top: 12px !important;
+}
+#modalBackdrop #sheet.carSheetV51 .carBottomActions > * {
+  margin: 0 !important;
+}
+#modalBackdrop #sheet.carSheetV51 .carBottomActions .carSellBottom {
+  grid-column: 1 / -1 !important;
+  order: -1;
+}
+#modalBackdrop #sheet.carSheetV51 .carBottomActions button {
+  width: 100% !important;
+  min-height: 48px !important;
+  border-radius: 14px !important;
+  font-size: 15px !important;
+  font-weight: 750 !important;
+  box-shadow: none !important;
+}
+#modalBackdrop #sheet.carSheetV51 .carBottomActions #sellCarBtn {
+  border: 0 !important;
+  background: linear-gradient(180deg, #1f9d5f, #188450) !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+#modalBackdrop #sheet.carSheetV51 .carBottomActions #sellCarBtn:disabled {
+  opacity: 0.55 !important;
+}
+#modalBackdrop #sheet.carSheetV51 .carBottomActions .carPpBottomBtn,
+#modalBackdrop #sheet.carSheetV51 .carBottomActions #editCarInfoBtn {
+  border: 1px solid var(--cf-line) !important;
+  background: #fff !important;
+  background-image: none !important;
+  color: var(--cf-ink) !important;
+  -webkit-text-fill-color: var(--cf-ink) !important;
+}
+#modalBackdrop #sheet.carSheetV51 .carBottomActions #deleteCarBtn {
+  grid-column: 1 / -1 !important;
+  min-height: 42px !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--cf-bad) !important;
+  -webkit-text-fill-color: var(--cf-bad) !important;
+  font-weight: 700 !important;
+}

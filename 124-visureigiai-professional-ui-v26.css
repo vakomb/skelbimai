@@ -1,0 +1,737 @@
+:root {
+  --pro-ink: #0d1b2e;
+  --pro-muted: #66758a;
+  --pro-line: #e3e9ef;
+  --pro-soft: #f5f8fb;
+  --pro-blue: #eef6fd;
+  --pro-blue-line: #d9e8f5;
+  --pro-blue-text: #174f89;
+  --pro-navy: #17324d;
+}
+.app {
+  max-width: 460px !important;
+  padding-left: 9px !important;
+  padding-right: 9px !important;
+} /* HOME */
+.homePro {
+  display: grid;
+  gap: 11px;
+  color: var(--pro-ink);
+}
+.homeProBrand {
+  min-height: 49px;
+  padding: 0 3px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.homeProBrandLeft {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.homeProBrandLeft .homeExactLogo {
+  width: 48px !important;
+  height: 34px !important;
+}
+.homeProBrandLeft > span {
+  color: #101c2d;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18.5px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+.homeProDate {
+  min-height: 43px;
+  padding: 0 12px;
+  border: 1px solid var(--pro-line);
+  border-radius: 22px;
+  background: #f5f7f9;
+  color: #35445a;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.homeProDate svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+.homeProSection,
+.homeProFold,
+.homeProCompact {
+  border: 1px solid var(--pro-line);
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(18, 38, 61, 0.035);
+  overflow: hidden;
+}
+.homeProSectionHead,
+.homeProCompactHead {
+  width: 100%;
+  border: 0;
+  background: #fff;
+  color: var(--pro-ink);
+  font: inherit;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  cursor: pointer;
+}
+.homeProSectionHead {
+  min-height: 55px;
+  padding: 8px 11px;
+}
+.homeProSectionHead > span {
+  min-width: 0;
+}
+.homeProSectionHead strong {
+  display: block;
+  font-size: 21px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+}
+.homeProSectionHead small {
+  display: block;
+  margin-top: 5px;
+  color: var(--pro-muted);
+  font-size: 11px;
+  font-weight: 650;
+}
+.homeProSectionHead > b {
+  min-width: 34px;
+  height: 31px;
+  padding: 0 9px;
+  border-radius: 16px;
+  background: #eef3f7;
+  color: #31445b;
+  display: grid;
+  place-items: center;
+  font-size: 12.5px;
+  font-weight: 900;
+}
+.homeProTodayList {
+  border-top: 1px solid #edf1f4;
+}
+.homeProTodayRow {
+  width: 100%;
+  min-height: 69px;
+  padding: 7px 10px;
+  border: 0;
+  border-top: 1px solid #edf1f4;
+  background: #fff;
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  color: var(--pro-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.homeProTodayRow:first-child {
+  border-top: 0;
+}
+.homeProTodayPhoto {
+  width: 70px;
+  height: 52px;
+  border-radius: 11px;
+  background: #edf2f6;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  color: #52657b;
+  font-size: 18px;
+}
+.homeProTodayPhoto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.homeProTodayCopy {
+  min-width: 0;
+}
+.homeProTodayCopy strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14.7px;
+  line-height: 1.12;
+  font-weight: 850;
+  letter-spacing: -0.02em;
+}
+.homeProTodayCopy span {
+  display: block;
+  margin-top: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--pro-muted);
+  font-size: 11px;
+  font-weight: 650;
+}
+.homeProTodayStatus {
+  min-width: 74px;
+  height: 32px;
+  padding: 0 9px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  background: #f0f5f9;
+  color: #3d536b;
+  font-size: 11.5px;
+  font-weight: 820;
+}
+.homeProTodayStatus.late {
+  background: #fff0f2;
+  color: #b3263b;
+}
+.homeProEmpty {
+  padding: 15px 12px;
+  color: #7a8797;
+  font-size: 12.5px;
+  font-weight: 650;
+  text-align: center;
+}
+.homeProEmpty.compact {
+  padding: 20px 8px;
+}
+.homeProTaskFolds {
+  display: grid;
+  gap: 8px;
+}
+.homeProFold > summary {
+  list-style: none;
+  min-height: 59px;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) auto 18px;
+  align-items: center;
+  gap: 9px;
+}
+.homeProFold > summary::-webkit-details-marker {
+  display: none;
+}
+.homeProFoldIcon {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: var(--pro-blue);
+  color: var(--pro-blue-text);
+  display: grid;
+  place-items: center;
+  font-size: 17px;
+  font-weight: 900;
+}
+.homeProFoldCopy {
+  min-width: 0;
+}
+.homeProFoldCopy strong {
+  display: block;
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 880;
+  letter-spacing: -0.025em;
+}
+.homeProFoldCopy small {
+  display: block;
+  margin-top: 5px;
+  color: var(--pro-muted);
+  font-size: 10.5px;
+  font-weight: 630;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.homeProFold > summary > b {
+  min-width: 30px;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 14px;
+  background: #f1f4f7;
+  color: #34465b;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 900;
+}
+.homeProFoldChevron {
+  font-size: 18px;
+  color: #617186;
+  transition: transform 0.16s ease;
+}
+.homeProFold[open] .homeProFoldChevron {
+  transform: rotate(180deg);
+}
+.homeProFoldBody {
+  border-top: 1px solid #e9eef2;
+  background: #fbfcfd;
+}
+.homeProCarGroup {
+  border-top: 1px solid #e9eef2;
+  background: #fff;
+}
+.homeProCarGroup:first-child {
+  border-top: 0;
+}
+.homeProCarHead {
+  width: 100%;
+  min-height: 57px;
+  padding: 7px 10px;
+  border: 0;
+  background: #fff;
+  color: var(--pro-ink);
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr) 16px;
+  align-items: center;
+  gap: 9px;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.homeProCarPhoto {
+  width: 58px;
+  height: 43px;
+  border-radius: 9px;
+  overflow: hidden;
+  background: #edf2f5;
+  display: grid;
+  place-items: center;
+}
+.homeProCarPhoto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.homeProCarName {
+  min-width: 0;
+}
+.homeProCarName strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 850;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.homeProCarName small {
+  display: block;
+  margin-top: 4px;
+  color: var(--pro-muted);
+  font-size: 10.5px;
+  font-weight: 650;
+}
+.homeProArrow {
+  color: #6f7d8d;
+  font-size: 22px;
+  line-height: 1;
+  text-align: right;
+}
+.homeProSubList {
+  padding: 0 10px 7px 81px;
+  background: #fff;
+}
+.homeProSubTask {
+  width: 100%;
+  min-height: 39px;
+  padding: 6px 0;
+  border: 0;
+  border-top: 1px solid #eef2f5;
+  background: #fff;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  color: var(--pro-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.homeProSubTaskName {
+  min-width: 0;
+  font-size: 12.5px;
+  font-weight: 760;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.homeProDue {
+  min-height: 24px;
+  padding: 0 7px;
+  border-radius: 12px;
+  background: #f0f4f7;
+  color: #5c6c80;
+  display: inline-flex;
+  align-items: center;
+  font-size: 9.8px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.homeProDue.today {
+  background: #eef6fd;
+  color: #174f89;
+}
+.homeProDue.late {
+  background: #fff0f2;
+  color: #b3263b;
+}
+.homeProDue.next {
+  background: #f4f6f8;
+  color: #536378;
+}
+.homeProDue.none {
+  background: #f6f7f8;
+  color: #7c8794;
+}
+.homeProOtherTask {
+  width: 100%;
+  min-height: 51px;
+  padding: 7px 10px;
+  border: 0;
+  border-top: 1px solid #e9eef2;
+  background: #fff;
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  color: var(--pro-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.homeProOtherTask:first-child {
+  border-top: 0;
+}
+.homeProOtherMark {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #8ba5bf;
+}
+.homeProOtherCopy {
+  min-width: 0;
+}
+.homeProOtherCopy strong {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 820;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.homeProOtherCopy small {
+  display: block;
+  margin-top: 3px;
+  color: var(--pro-muted);
+  font-size: 10.5px;
+  font-weight: 620;
+}
+.homeProBottomGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.homeProCompact {
+  min-height: 174px;
+}
+.homeProCompactHead {
+  min-height: 47px;
+  padding: 7px 9px;
+  border-bottom: 1px solid #edf1f4;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 14px;
+}
+.homeProCompactHead strong {
+  font-size: 18.5px;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+}
+.homeProCompactHead > b {
+  min-width: 28px;
+  height: 26px;
+  border-radius: 13px;
+  background: #f0f4f7;
+  color: #40536a;
+  display: grid;
+  place-items: center;
+  font-size: 10.5px;
+  font-weight: 900;
+}
+.homeProCompactHead > span:last-child {
+  font-size: 22px;
+  color: #6d7c8d;
+}
+.homeProVariant {
+  width: 100%;
+  height: 62px;
+  padding: 7px;
+  border: 0;
+  border-top: 1px solid #edf1f4;
+  background: #fff;
+  display: grid;
+  grid-template-columns: 57px minmax(0, 1fr) 10px;
+  align-items: center;
+  gap: 6px;
+  color: var(--pro-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.homeProVariant:first-child {
+  border-top: 0;
+}
+.homeProVariantPhoto {
+  width: 54px;
+  height: 40px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #eef2f5;
+  display: grid;
+  place-items: center;
+}
+.homeProVariantPhoto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.homeProVariantCopy {
+  min-width: 0;
+}
+.homeProVariantCopy strong {
+  display: block;
+  font-size: 10.8px;
+  font-weight: 780;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.homeProVariantCopy b {
+  display: block;
+  margin-top: 4px;
+  font-size: 13.5px;
+  font-weight: 900;
+}
+.homeProMetrics {
+  height: 125px;
+  padding: 7px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  background: #fff;
+}
+.homeProMetrics > div {
+  min-width: 0;
+  padding: 7px;
+  border: 1px solid #edf1f4;
+  border-radius: 10px;
+  background: #fafbfd;
+}
+.homeProMetrics span {
+  display: block;
+  color: #68778a;
+  font-size: 9.5px;
+  font-weight: 680;
+}
+.homeProMetrics strong {
+  display: block;
+  margin-top: 7px;
+  color: #102035;
+  font-size: 13.3px;
+  font-weight: 900;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.homeProMetrics strong.loss {
+  color: #b3263b;
+}
+.homeProHero {
+  height: 168px !important;
+  min-height: 168px !important;
+  border-radius: 15px !important;
+  box-shadow: none !important;
+} /* GARAGE — calm professional palette */
+#view-garage .garageRefCount {
+  background: #eef4f9 !important;
+  color: #35506d !important;
+}
+#view-garage .garageRefCount::before {
+  filter: saturate(0.2) !important;
+}
+#view-garage .garageRefMenuGrid {
+  gap: 8px !important;
+}
+#view-garage .garageRefTile {
+  min-height: 58px !important;
+  background: #fff !important;
+  border: 1px solid var(--pro-line) !important;
+  box-shadow: 0 3px 10px rgba(18, 38, 61, 0.03) !important;
+}
+#view-garage .garageRefTile .garageRefTileIcon {
+  background: #eef5fb !important;
+  color: #24577f !important;
+}
+#view-garage .garageRefTile strong {
+  color: #16263a !important;
+}
+#view-garage .garageRefTileArrow {
+  color: #6d7c8c !important;
+}
+#view-garage .garageRefWhat {
+  background: linear-gradient(118deg, #17324d, #244966) !important;
+  box-shadow: 0 7px 16px rgba(23, 50, 77, 0.12) !important;
+}
+#view-garage .garageRefRecommendation {
+  background: #f4f7fa !important;
+  color: #3e536b !important;
+  border: 1px solid #e4eaf0 !important;
+}
+#view-garage .garageRefStatuses .vehicleStatusChip {
+  background: #f3f6f8 !important;
+  border-color: #e1e7ed !important;
+  color: #4a5f75 !important;
+}
+#view-garage .garageRefStatuses .vehicleStatusChip:first-child {
+  background: #eef5fb !important;
+  border-color: #d9e7f3 !important;
+  color: #24577f !important;
+}
+#view-garage .garageRefStatuses .vehicleStatusChip:nth-child(2) {
+  background: #f3f6f8 !important;
+  border-color: #e1e7ed !important;
+  color: #4a5f75 !important;
+}
+#view-garage .garageRefOpen {
+  background: #17324d !important;
+  color: #fff !important;
+}
+#view-garage #toggleSoldCarsBtn.garageRefSoldToggle {
+  background: #fff !important;
+  border-color: var(--pro-line) !important;
+}
+#view-garage .garageRefSoldIcon,
+#view-garage .garageRefSoldCount {
+  background: #f1f4f7 !important;
+  color: #51657a !important;
+} /* ACCOUNTING — same language, not four different colors */
+#view-accounting .accountingRefAction {
+  background: #fff !important;
+  border: 1px solid var(--pro-line) !important;
+  box-shadow: 0 3px 10px rgba(18, 38, 61, 0.03) !important;
+}
+#view-accounting .accountingRefAction .ico {
+  background: #eef5fb !important;
+  color: #24577f !important;
+}
+#view-accounting .accountingRefAction strong {
+  color: #16263a !important;
+}
+#view-accounting .accountingRefAction .arrow {
+  color: #6d7c8c !important;
+}
+#view-accounting .accountingRefAction.active {
+  outline: 0 !important;
+  background: #f6f9fc !important;
+  border-color: #cfdce8 !important;
+}
+#view-accounting .accountingRefFinanceCard {
+  border-color: var(--pro-line) !important;
+  box-shadow: 0 3px 12px rgba(18, 38, 61, 0.035) !important;
+}
+#view-accounting .accountingRefMetricIcon {
+  background: #eef5fb !important;
+  color: #24577f !important;
+}
+#view-accounting .accountingRefMetric.profit strong,
+#view-accounting .accountingRefMetric.income strong {
+  color: #102035 !important;
+}
+#view-accounting .accountingRefMetric.profit.loss strong {
+  color: #b3263b !important;
+}
+#view-accounting .accountingRefMetric.profit.loss .accountingRefMetricIcon {
+  background: #fff0f2 !important;
+  color: #b3263b !important;
+}
+#view-accounting .accountingRefWaitStatus,
+#view-accounting .accountingRefWaitStatus.bad {
+  background: #f2f5f8 !important;
+  color: #53677d !important;
+}
+#view-accounting .accountingRefOpIcon,
+#view-accounting .accountingRefOp.expense .accountingRefOpIcon,
+#view-accounting .accountingRefOp.income .accountingRefOpIcon {
+  background: #eef5fb !important;
+  color: #24577f !important;
+}
+#view-accounting .accountingRefOpAmount,
+#view-accounting .accountingRefOp.expense .accountingRefOpAmount,
+#view-accounting .accountingRefOp.income .accountingRefOpAmount {
+  color: #102035 !important;
+}
+#view-accounting .accountingWorkspace,
+#view-accounting .accountingRefOps,
+#view-accounting .accountingRefWait {
+  box-shadow: 0 3px 12px rgba(18, 38, 61, 0.035) !important;
+}
+#view-accounting .reportV25Presets button,
+#view-accounting .reportV16Presets button,
+#view-accounting .accountingReportMode {
+  background: #fff !important;
+  color: #52657a !important;
+  border: 1px solid var(--pro-line) !important;
+}
+#view-accounting .reportV25Presets button.active,
+#view-accounting .reportV16Presets button.active,
+#view-accounting .accountingReportMode.active {
+  background: #17324d !important;
+  color: #fff !important;
+  border-color: #17324d !important;
+}
+#view-accounting .reportV25Metric,
+#view-accounting .reportV16Metric,
+#view-accounting .accountingReportStat {
+  background: #f8fafc !important;
+  border-color: #e5ebf1 !important;
+}
+@media (max-width: 390px) {
+  .app {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+  .homeProTodayRow {
+    grid-template-columns: 66px minmax(0, 1fr) auto;
+  }
+  .homeProTodayPhoto {
+    width: 63px;
+    height: 47px;
+  }
+  .homeProTodayStatus {
+    min-width: 68px;
+    padding: 0 7px;
+  }
+  .homeProFoldCopy small {
+    font-size: 10px;
+  }
+  .homeProBottomGrid {
+    gap: 7px;
+  }
+  .homeProCompactHead strong {
+    font-size: 17.5px;
+  }
+}

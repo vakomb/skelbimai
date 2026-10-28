@@ -1,0 +1,64 @@
+.dueChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 900;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+}
+.dueChip.today {
+  background: #fee2e2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+.dueChip.tomorrow {
+  background: #ffedd5;
+  color: #c2410c;
+  border-color: #fed7aa;
+}
+.dueChip.future {
+  background: #dbeafe;
+  color: #1d4ed8;
+  border-color: #bfdbfe;
+}
+.dueChip.overdue {
+  background: #fecaca;
+  color: #991b1b;
+  border-color: #fca5a5;
+}
+.historyFilters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.historyFilterActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+.historyDateTitle {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+.historyDay {
+  margin-top: 14px;
+}
+.historyDayHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 2px;
+}
+.historyDayHead strong {
+  font-size: 13px;
+}
+.historyDayHead span {
+  font-size: 11px;
+  color: var(--muted);
+}

@@ -1,0 +1,221 @@
+.ppGeneratorCard {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 15px;
+  margin-top: 12px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.055);
+}
+.ppGeneratorHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.ppGeneratorHead h3 {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: -0.025em;
+}
+.ppGeneratorHead .ppBadge {
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--accent-2);
+  background: #e9f7f3;
+  border: 1px solid #cbe9e1;
+  border-radius: 999px;
+  padding: 7px 10px;
+  white-space: nowrap;
+}
+.ppScanDrop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 72px;
+  padding: 12px;
+  border: 1.5px dashed #b9cec8;
+  border-radius: 17px;
+  background: #f7fbfa;
+  cursor: pointer;
+}
+.ppScanDrop .ppScanIcon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: #e6f4f0;
+  font-size: 23px;
+  flex: 0 0 auto;
+}
+.ppScanDrop strong {
+  display: block;
+  font-size: 15px;
+}
+.ppScanDrop span {
+  display: block;
+  margin-top: 3px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.ppScanDrop input {
+  display: none;
+}
+.ppScanPreview {
+  display: none;
+  margin-top: 10px;
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #f3f5f7;
+}
+.ppScanPreview.show {
+  display: block;
+}
+.ppScanPreview img {
+  width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+  display: block;
+}
+.ppScanState {
+  margin-top: 9px;
+  font-size: 12px;
+  font-weight: 850;
+  color: var(--muted);
+}
+.ppRoleGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 12px;
+}
+.ppRoleBtn {
+  min-height: 52px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+.ppRoleBtn.active {
+  background: #e8f7f4;
+  border-color: #a8d8cc;
+  color: #0f766e;
+}
+.ppFields {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+.ppFields .grid2 {
+  gap: 8px;
+}
+.ppFields .field {
+  margin: 0;
+}
+.ppFields .field label {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--muted);
+}
+.ppFields .input {
+  min-height: 47px !important;
+  font-size: 16px !important;
+}
+.ppSectionTitle {
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin-top: 5px;
+}
+.ppGenerateBtn {
+  width: 100%;
+  min-height: 54px !important;
+  margin-top: 12px;
+}
+.ppResult {
+  display: none;
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid #bfe2d8;
+  background: #eff9f6;
+}
+.ppResult.show {
+  display: block;
+}
+.ppResult strong {
+  font-size: 15px;
+}
+.ppResultActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
+.ppResultActions .btn {
+  min-height: 50px !important;
+  font-size: 14px !important;
+}
+.ppWarn {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #9a6700;
+  line-height: 1.35;
+}
+.ppCompanyEdit {
+  margin-top: 10px;
+}
+.ppCompanyEdit summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--muted);
+}
+.ppCompanyEdit[open] summary {
+  margin-bottom: 10px;
+}
+.carPpQuick {
+  width: 100%;
+  margin-top: 9px;
+  min-height: 43px;
+  border: 1px solid #c8ddd7;
+  background: #f2faf8;
+  color: #0f766e;
+  border-radius: 12px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+}
+.carPpQuick:active {
+  transform: scale(0.99);
+}
+.carPpBottomBtn {
+  width: 100%;
+}
+@media (max-width: 430px) {
+  .ppGeneratorCard {
+    border-radius: 20px;
+    padding: 13px;
+  }
+  .ppGeneratorHead h3 {
+    font-size: 19px;
+  }
+  .ppRoleBtn {
+    min-height: 54px;
+  }
+  .ppResultActions {
+    grid-template-columns: 1fr;
+  }
+  .garageMenuGridPro {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}

@@ -1,0 +1,84 @@
+/* Pagrindinis: daugiau oro, bet ne išpūstas */
+.homePro {
+  gap: 14px !important;
+}
+.homeProBrand {
+  margin-bottom: 2px !important;
+}
+.homeProSectionHead {
+  min-height: 58px !important;
+  padding: 10px 12px !important;
+}
+.homeProTodayRow {
+  min-height: 72px !important;
+  padding-top: 9px !important;
+  padding-bottom: 9px !important;
+}
+.homeProTaskFolds {
+  gap: 10px !important;
+}
+.homeProFold > summary {
+  min-height: 64px !important;
+  padding: 10px 11px !important;
+}
+.homeProCarHead {
+  min-height: 60px !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+.homeProOtherTask {
+  min-height: 54px !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+.homeProBottomGrid {
+  gap: 10px !important;
+  margin-top: 1px !important;
+}
+.homeProCompact {
+  min-height: 180px !important;
+}
+.homeProCompactHead {
+  min-height: 50px !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+.homeProVariant {
+  height: 64px !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+.homeProMetrics {
+  height: 128px !important;
+  padding: 8px !important;
+  gap: 6px !important;
+}
+.homeProHero {
+  margin-top: 9px !important;
+  height: 168px !important;
+  min-height: 168px !important;
+} /* Po pašalintų viršutinių blokų nepaliekam tuščios vietos */
+#view-garage .garageRefBrandRow,
+#view-accounting .accountingRefBrandRow {
+  margin-bottom: 12px !important;
+}
+#view-garage .garageRefTitleRow,
+#view-accounting .accountingRefTitleRow,
+#view-garage .garageRefCount,
+#view-accounting .accountingRefBalance {
+  display: none !important;
+}
+@media (max-width: 390px) {
+  .homePro {
+    gap: 12px !important;
+  }
+  .homeProSectionHead {
+    min-height: 56px !important;
+  }
+  .homeProFold > summary {
+    min-height: 61px !important;
+  }
+  .homeProHero {
+    margin-top: 8px !important;
+  }
+}

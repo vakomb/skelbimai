@@ -1,0 +1,15 @@
+.homeProSectionHead > span,
+.homeProFoldCopy {
+  display: flex !important;
+  align-items: center !important;
+}
+.homeProSectionHead strong {
+  margin: 0 !important;
+}
+.homeProFoldCopy strong {
+  margin: 0 !important;
+}
+.homeProSectionHead small,
+.homeProFoldCopy small {
+  display: none !important;
+}

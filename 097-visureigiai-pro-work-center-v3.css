@@ -1,0 +1,382 @@
+html {
+  -webkit-text-size-adjust: 100%;
+  overscroll-behavior-x: none;
+}
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+body {
+  touch-action: pan-y;
+  min-height: 100dvh;
+}
+.app {
+  width: 100% !important;
+  max-width: 430px !important;
+  min-height: 100dvh !important;
+  margin: 0 auto !important;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+  padding-bottom: 132px !important;
+}
+button,
+a,
+.btn,
+.navBtn,
+.menuLink,
+.garageAction,
+.companyRow,
+.leadListCard,
+.carListCard {
+  touch-action: manipulation;
+}
+input.input,
+textarea.input,
+select.input,
+input[type="date"],
+input[type="search"],
+input[type="number"],
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="tel"] {
+  font-size: 16px !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+.sheet {
+  width: 100% !important;
+  max-width: 430px !important;
+  max-height: 92dvh !important;
+  -webkit-overflow-scrolling: touch;
+}
+.btn {
+  min-height: 54px !important;
+  padding: 13px 16px !important;
+  border-radius: 17px !important;
+  font-size: 16px !important;
+  font-weight: 850 !important;
+}
+.navBtn {
+  min-height: 66px !important;
+  font-size: 12.5px !important;
+}
+.navBtn .ico {
+  font-size: 23px !important;
+}
+.menuLink,
+.garageAction {
+  min-height: 112px !important;
+}
+.menuLink strong,
+.garageAction strong {
+  font-size: 17px !important;
+}
+.sectionHead h2 {
+  font-size: 21px !important;
+}
+#view-menu > .sectionHead span,
+#view-settings > .sectionHead span,
+#view-finance > .sectionHead > span {
+  display: none !important;
+}
+.premiumEyebrow,
+.carSheetEyebrow,
+.carSectionEyebrow {
+  display: none !important;
+}
+#view-garage-leads .subtle {
+  display: none !important;
+}
+.cardRecommendation {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  margin: 7px 0 8px;
+  padding: 8px 9px;
+  border-radius: 12px;
+  background: #edf6f3;
+  color: var(--text);
+}
+.cardRecommendation > span {
+  flex: 0 0 auto;
+  font-size: 10px;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-2);
+}
+.cardRecommendation > strong {
+  min-width: 0;
+  flex: 1;
+  font-size: 13px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cardRecommendation > b {
+  flex: 0 0 auto;
+  font-size: 11px;
+  color: var(--accent-2);
+  white-space: nowrap;
+}
+.sheetRecommendation {
+  margin: 10px 0 12px;
+  padding: 11px 12px;
+  border-radius: 15px;
+}
+.sheetRecommendation > strong {
+  font-size: 15px;
+  white-space: normal;
+}
+.sheetRecommendation > b {
+  font-size: 13px;
+}
+.soldRecommendation {
+  background: #f4f5f7;
+}
+.vehicleStatusRow {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 7px 0 10px;
+}
+.cardStatusRow {
+  margin: 0 0 7px;
+}
+.vehicleStatusChip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 27px;
+  padding: 5px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  font-size: 10.5px;
+  font-weight: 850;
+  color: var(--muted);
+}
+.vehicleStatusChip.good {
+  background: #eaf7f0;
+  border-color: #c8e8d8;
+  color: #146b49;
+}
+.vehicleStatusChip.warn {
+  background: #fff8e5;
+  border-color: #f0dfa8;
+  color: #8a6517;
+}
+.vehicleStatusChip.bad {
+  background: #fff0f1;
+  border-color: #f3c7cc;
+  color: #aa2938;
+}
+.vehicleStatusChip.neutral {
+  background: #f5f6f8;
+  color: #667085;
+}
+#activeCarGrid .carListCard,
+#soldCarGrid .carListCard {
+  align-items: stretch !important;
+}
+#activeCarGrid .carListInfo,
+#soldCarGrid .carListInfo {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+#activeCarGrid .carListTitle,
+#soldCarGrid .carListTitle,
+#garageLeadRoot .leadListTitle {
+  font-size: 18px !important;
+}
+#garageLeadRoot .leadListCard {
+  min-height: 150px;
+}
+#garageLeadRoot .cardRecommendation {
+  margin-top: 8px;
+}
+.vehicleFields {
+  gap: 10px !important;
+}
+.vehicleFields .field label,
+.premiumFieldsGrid .field label {
+  font-size: 13px !important;
+  font-weight: 750 !important;
+}
+.vehicleDetails > summary {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  font-size: 15px !important;
+  font-weight: 850 !important;
+}
+.vehicleDocPicker {
+  min-height: 52px !important;
+}
+.vehicleDocPicker span {
+  font-size: 14px !important;
+}
+.vehicleSdkDisplay {
+  min-height: 62px !important;
+}
+.premiumContactCard strong {
+  font-size: 17px !important;
+}
+#view-accounting {
+  padding-top: 3px;
+}
+.accountingPanel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 15px;
+  margin-top: 12px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.05);
+}
+.accountingEmailLabel {
+  display: block;
+  margin: 0 0 8px 2px;
+  font-size: 13px;
+  font-weight: 850;
+}
+.accountingEmailRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+.accountingEmailRow .btn {
+  padding-left: 13px !important;
+  padding-right: 13px !important;
+}
+.accountingTitleRow h3 {
+  font-size: 19px;
+}
+.accountingTitleRow > strong {
+  font-size: 12px;
+  color: var(--accent-2);
+}
+.accountingQueue {
+  display: grid;
+  gap: 7px;
+  margin-top: 12px;
+}
+.accountingQueueRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 40px;
+  gap: 8px;
+  align-items: center;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  padding: 7px;
+}
+.accountingQueueRow > button:first-child {
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  padding: 6px 7px;
+  font: inherit;
+  min-width: 0;
+}
+.accountingQueueRow strong {
+  display: block;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.accountingQueueRow span {
+  display: block;
+  margin-top: 3px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.accountingRemove {
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 12px;
+  background: #fff0f1;
+  color: #a32936;
+  font-size: 20px;
+  cursor: pointer;
+}
+.accountingEmpty {
+  padding: 18px 10px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+.accountingSendWeek {
+  width: 100%;
+  margin-top: 12px;
+}
+.accountingInfo {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.accountingInfo strong {
+  font-size: 14px;
+}
+.accountingInfo span {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+.accountingCarBox {
+  margin: 14px 0;
+  padding: 14px;
+  border: 1px solid #cfe4dd;
+  border-radius: 19px;
+  background: #eef7f4;
+}
+.accountingCarHead strong {
+  font-size: 16px;
+}
+.accountingCarHead span {
+  font-size: 11px;
+  font-weight: 850;
+  color: var(--accent-2);
+}
+.accountingCarActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 11px;
+}
+.accountingCarActions .btn {
+  font-size: 13px !important;
+  min-height: 50px !important;
+  padding: 10px !important;
+}
+html[data-theme="dark"] .accountingPanel {
+  background: #111827;
+}
+html[data-theme="dark"] .accountingQueueRow {
+  background: #162033;
+}
+html[data-theme="dark"] .cardRecommendation {
+  background: #153b35;
+}
+html[data-theme="dark"] .soldRecommendation {
+  background: #1e293b;
+}
+html[data-theme="dark"] .accountingCarBox {
+  background: #143c37;
+  border-color: #245b50;
+}
+@media (max-width: 380px) {
+  .app {
+    padding-left: 9px !important;
+    padding-right: 9px !important;
+  }
+  .accountingCarActions {
+    grid-template-columns: 1fr;
+  }
+}

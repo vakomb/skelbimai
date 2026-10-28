@@ -1,0 +1,565 @@
+/* Prenumerata (v70): plano skydelis, juosta Garaže, Nustatymai → Prenumerata, teisiniai tekstai.
+   Skydelis gyvena už .app ribų (veikia ir prisijungimo ekrane), todėl stiliai savarankiški, bet su --ds-* tokenais. */
+.bsV70 {
+  --bs-ink: var(--ds-ink, #12233a);
+  --bs-muted: var(--ds-muted, #66768a);
+  --bs-line: var(--ds-line, #e3e9f0);
+  --bs-soft: var(--ds-soft, #f3f6f9);
+  --bs-brand: var(--ds-brand, #174a8b);
+  --bs-brand-soft: var(--ds-brand-soft, #e9f0fa);
+  --bs-good: var(--ds-good, #1d8a52);
+  --bs-bad: var(--ds-bad, #c03d3d);
+  position: fixed;
+  inset: 0;
+  z-index: 100050;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  color: var(--bs-ink);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.bsV70[hidden] {
+  display: none !important;
+}
+html.aeBsOpenV70,
+html.aeBsOpenV70 body {
+  overflow: hidden !important;
+}
+.bsScrimV70 {
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 22, 38, 0.38);
+  opacity: 0;
+  transition: opacity 0.26s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.bsV70.is-open .bsScrimV70 {
+  opacity: 1;
+}
+.bsPanelV70 {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 560px;
+  max-height: calc(100dvh - max(28px, env(safe-area-inset-top)));
+  padding: 0 0 max(16px, env(safe-area-inset-bottom));
+  border-radius: 26px 26px 0 0;
+  background: #fff;
+  box-shadow: 0 -10px 40px rgba(12, 22, 38, 0.16);
+  transform: translate3d(0, 104%, 0);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+  overscroll-behavior: contain;
+}
+.bsV70.is-open .bsPanelV70 {
+  transform: translate3d(0, 0, 0);
+}
+.bsPanelV70.is-dragging {
+  transition: none;
+}
+.bsGrabV70 {
+  flex: none;
+  width: 40px;
+  height: 5px;
+  margin: 9px auto 0;
+  border-radius: 99px;
+  background: #d6dee8;
+}
+.bsHeadV70 {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 49px;
+  margin: 6px 20px 0;
+  padding: 0 0 12px;
+  border-bottom: 1px solid var(--bs-line);
+}
+.bsHeadV70 h3 {
+  min-width: 0;
+  margin: 0;
+  font-size: 19px;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  color: var(--bs-ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bsXV70 {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--bs-soft);
+  color: var(--bs-ink);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.bsXV70:active {
+  transform: scale(0.94);
+}
+.bsXV70:focus-visible,
+.bsCtaV70:focus-visible,
+.bsBackV70:focus-visible {
+  outline: 3px solid rgba(23, 74, 139, 0.28);
+  outline-offset: 2px;
+}
+.bsBodyV70 {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding: 16px 20px 4px;
+}
+.bsLeadV70 {
+  margin: 0 0 14px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--bs-muted);
+}
+
+/* Planai */
+.bsPlansV70 {
+  display: grid;
+  gap: 12px;
+}
+.bsPlanV70 {
+  padding: 18px 18px 8px;
+  border: 1.5px solid var(--bs-line);
+  border-radius: 20px;
+  background: #fff;
+}
+.bsPlanV70.is-selected {
+  border-color: var(--bs-brand);
+  box-shadow: 0 0 0 4px var(--bs-brand-soft);
+}
+.bsPlanTopV70 {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.bsPlanTopV70 h4 {
+  margin: 0 0 4px;
+  font-size: 22px;
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--bs-ink);
+}
+.bsPlanTopV70 p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--bs-muted);
+}
+.bsBadgeV70 {
+  flex: none;
+  padding: 6px 10px;
+  border-radius: 99px;
+  background: var(--bs-brand-soft);
+  color: var(--bs-brand);
+  font-size: 13px;
+  line-height: 1;
+  font-weight: 750;
+  white-space: nowrap;
+}
+.bsFeatV70 {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bsFeatV70 li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 46px;
+  border-top: 1px solid var(--bs-line);
+  font-size: 15.5px;
+  line-height: 1.35;
+  font-weight: 600;
+  color: var(--bs-ink);
+}
+.bsFeatV70 li:first-child {
+  border-top: 0;
+}
+.bsIcoV70 {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  background: var(--bs-soft);
+  color: var(--bs-brand);
+}
+.bsCtaWrapV70 {
+  position: sticky;
+  bottom: -4px;
+  margin: 14px -20px 0;
+  padding: 12px 20px 4px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff 18px);
+  text-align: center;
+}
+.bsCtaV70 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 58px;
+  padding: 0 20px;
+  border: 1px solid rgba(73, 157, 255, 0.68);
+  border-radius: 18px;
+  background: linear-gradient(110deg, #118cff 0%, #0878eb 54%, #0068db 100%);
+  box-shadow:
+    0 10px 23px rgba(0, 108, 229, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  color: #fff;
+  font: inherit;
+  font-size: 18px;
+  font-weight: 750;
+  cursor: pointer;
+  transition:
+    transform 0.16s ease,
+    filter 0.16s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.bsCtaV70:active {
+  transform: scale(0.985);
+  filter: brightness(0.98);
+}
+.bsCtaV70:disabled {
+  opacity: 0.78;
+  cursor: progress;
+}
+.bsCtaV70.is-busy span::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin: 0 10px -2px 0;
+  border: 2.2px solid rgba(255, 255, 255, 0.45);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: bsSpinV70 0.8s linear infinite;
+}
+.bsBackV70 {
+  width: 100%;
+  min-height: 52px;
+  border: 1px solid var(--bs-line);
+  border-radius: 16px;
+  background: #fff;
+  color: var(--bs-ink);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.bsFineV70 {
+  margin: 10px 0 0;
+  font-size: 13.5px;
+  line-height: 1.45;
+  font-weight: 600;
+  color: var(--bs-muted);
+}
+.bsSecureV70 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--bs-muted);
+}
+.bsLegalV70 {
+  margin: 8px 0 4px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--bs-muted);
+}
+.bsLegalV70 a,
+.bsDocV70 a {
+  color: var(--bs-brand);
+  font-weight: 650;
+  text-decoration: none;
+}
+.bsErrV70 {
+  margin: 10px 0 0;
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 650;
+  color: var(--bs-bad);
+}
+.bsErrV70[hidden] {
+  display: none;
+}
+
+/* Laukimas / sėkmė */
+.bsBusyV70,
+.bsDoneV70 {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 28px 4px 10px;
+  text-align: center;
+}
+.bsBusyV70 strong,
+.bsDoneV70 strong {
+  font-size: 19px;
+  line-height: 1.25;
+  font-weight: 800;
+}
+.bsBusyV70 p,
+.bsDoneV70 p {
+  margin: 0 0 6px;
+  font-size: 15.5px;
+  line-height: 1.5;
+  color: var(--bs-muted);
+}
+.bsSpinV70 {
+  width: 34px;
+  height: 34px;
+  margin-bottom: 6px;
+  border: 3px solid var(--bs-brand-soft);
+  border-top-color: var(--bs-brand);
+  border-radius: 50%;
+  animation: bsSpinV70 0.85s linear infinite;
+}
+.bsDoneIcoV70 {
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  margin-bottom: 4px;
+  border-radius: 50%;
+  background: var(--ds-good-bg, #e9f7ef);
+  color: var(--bs-good);
+}
+.bsDoneV70 .bsCtaV70 {
+  margin-top: 8px;
+}
+@keyframes bsSpinV70 {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Teisiniai tekstai */
+.bsDocV70 {
+  padding-bottom: 8px;
+}
+.bsDocV70 h5 {
+  margin: 18px 0 6px;
+  font-size: 16px;
+  line-height: 1.3;
+  font-weight: 800;
+  color: var(--bs-ink);
+}
+.bsDocV70 p {
+  margin: 0 0 8px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ds-ink-2, #2c3d52);
+}
+.bsDocV70 .bsDocMetaV70 {
+  font-size: 13.5px;
+  color: var(--bs-muted);
+}
+
+/* Juosta Garaže (tik kai bandomasis / mokėjimo klaida / tik peržiūra) */
+.aeBarV70 {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  margin: 0 0 12px;
+  padding: 6px 6px 6px 14px;
+  border: 1px solid var(--ds-line, #e3e9f0);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: var(--ds-shadow);
+  color: var(--ds-ink, #12233a);
+}
+.aeBarDotV70 {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ds-brand, #174a8b);
+}
+.aeBarV70.is-warn .aeBarDotV70 {
+  background: #e0a016;
+}
+.aeBarV70.is-bad .aeBarDotV70 {
+  background: var(--ds-bad, #c03d3d);
+}
+.aeBarTextV70 {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 14.5px;
+  line-height: 1.3;
+  font-weight: 650;
+}
+.aeBarV70 button {
+  flex: none;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 11px;
+  background: var(--ds-brand-soft, #e9f0fa);
+  color: var(--ds-brand, #174a8b);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 750;
+  cursor: pointer;
+}
+.aeBarV70.is-bad button {
+  background: var(--ds-brand, #174a8b);
+  color: #fff;
+}
+
+/* Nustatymai → Prenumerata */
+.aeSubPanelV70 {
+  margin-bottom: 12px;
+}
+.aeSubHeadV70 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.aeSubHeadV70 strong {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--ds-ink, #12233a);
+}
+.aeSubBadgeV70 {
+  padding: 6px 10px;
+  border-radius: 99px;
+  font-size: 13px;
+  line-height: 1;
+  font-weight: 750;
+  white-space: nowrap;
+  background: var(--ds-brand-soft, #e9f0fa);
+  color: var(--ds-brand, #174a8b);
+}
+.aeSubBadgeV70.is-good {
+  background: var(--ds-good-bg, #e9f7ef);
+  color: var(--ds-good, #1d8a52);
+}
+.aeSubBadgeV70.is-warn {
+  background: var(--ds-warn-bg, #fff4dc);
+  color: var(--ds-warn, #9a6a0c);
+}
+.aeSubBadgeV70.is-bad {
+  background: var(--ds-bad-bg, #fdeeee);
+  color: var(--ds-bad, #c03d3d);
+}
+.aeSubRowsV70 {
+  margin: 0;
+}
+.aeSubRowsV70 > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 42px;
+  padding: 10px 0;
+  border-top: 1px solid var(--ds-line, #e3e9f0);
+}
+.aeSubRowsV70 dt {
+  font-size: 15px;
+  color: var(--ds-muted, #66768a);
+}
+.aeSubRowsV70 dd {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ds-ink, #12233a);
+  text-align: right;
+}
+.aeSubActV70 {
+  margin-top: 10px;
+}
+.aeSubActV70 .btn {
+  width: 100%;
+}
+.aeSubLinksV70 {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: var(--ds-muted, #66768a);
+}
+.aeSubLinksV70 a {
+  color: var(--ds-brand, #174a8b);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+/* Planšetė ir kompiuteris: skydelis – centruotas langas */
+@media (min-width: 768px) {
+  .bsV70 {
+    align-items: center;
+    padding: 24px;
+  }
+  .bsPanelV70 {
+    max-width: 520px;
+    max-height: min(820px, calc(100dvh - 48px));
+    padding-bottom: 16px;
+    border-radius: 26px;
+    box-shadow: 0 24px 70px rgba(12, 22, 38, 0.22);
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.98);
+    transition:
+      transform 0.26s cubic-bezier(0.2, 0.8, 0.2, 1),
+      opacity 0.2s ease;
+  }
+  .bsV70.is-open .bsPanelV70 {
+    opacity: 1;
+    transform: none;
+  }
+  .bsGrabV70 {
+    display: none;
+  }
+  .bsHeadV70 {
+    margin: 16px 24px 0;
+  }
+  .bsBodyV70 {
+    padding: 18px 24px 4px;
+  }
+  .bsCtaWrapV70 {
+    margin-left: -24px;
+    margin-right: -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bsPanelV70,
+  .bsScrimV70 {
+    transition: none !important;
+  }
+}

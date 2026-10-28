@@ -1,0 +1,123 @@
+/* Keep every app view and nested module inside its own available width. */
+.app .view,
+.app .view > *,
+.app .view .section,
+.app .view .panel,
+.app .view form,
+.app .view .field,
+.app .view [class*="Card"],
+.app .view [class*="Panel"],
+.app .view [class*="Grid"],
+.app .view [class*="grid"],
+.app .view [class*="Workspace"],
+.app .view [class*="List"],
+.app .view [class*="Fold"],
+.app .view [class*="Table"] {
+  box-sizing: border-box !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+.app .view input,
+.app .view select,
+.app .view textarea,
+.app .view button,
+.app .view img,
+.app .view video {
+  box-sizing: border-box !important;
+  max-width: 100% !important;
+}
+.app .view input,
+.app .view select,
+.app .view textarea {
+  min-width: 0 !important;
+}
+#modalBackdrop {
+  box-sizing: border-box !important;
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
+}
+#modalBackdrop #sheet.sheet {
+  box-sizing: border-box !important;
+  max-width: min(430px, 100vw) !important;
+  min-width: 0 !important;
+  overflow-x: hidden !important;
+}
+#modalBackdrop #sheet.sheet > .sheetHead,
+#modalBackdrop #sheet.sheet > form,
+#modalBackdrop #sheet.sheet > section,
+#modalBackdrop #sheet.sheet > .field,
+#modalBackdrop #sheet.sheet > .grid2,
+#modalBackdrop #sheet.sheet > .grid3 {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+#modalBackdrop #sheet.sheet .grid2,
+#modalBackdrop #sheet.sheet .grid3 {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+#modalBackdrop #sheet.sheet .field,
+#modalBackdrop #sheet.sheet .field > * {
+  box-sizing: border-box !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+#modalBackdrop #sheet.sheet input,
+#modalBackdrop #sheet.sheet select,
+#modalBackdrop #sheet.sheet textarea {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+#modalBackdrop .saleModalCard,
+#modalBackdrop .saleModalCardV32 {
+  box-sizing: border-box !important;
+  width: min(520px, calc(100vw - 18px)) !important;
+  max-width: calc(100vw - 18px) !important;
+  min-width: 0 !important;
+  overflow-x: hidden !important;
+}
+.garageRefWhatIcon {
+  position: relative !important;
+  overflow: visible !important;
+}
+.garageRefWhatIcon .managerTaskBadgeV1 {
+  position: absolute !important;
+  top: -5px !important;
+  right: -6px !important;
+  z-index: 4 !important;
+  display: grid !important;
+  place-items: center !important;
+  box-sizing: border-box !important;
+  min-width: 21px !important;
+  height: 21px !important;
+  padding: 0 5px !important;
+  border: 2px solid #fff !important;
+  border-radius: 999px !important;
+  background: #d93445 !important;
+  color: #fff !important;
+  font-family: inherit !important;
+  font-size: 10.5px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0 !important;
+  box-shadow: 0 2px 5px rgba(120, 20, 35, 0.2) !important;
+}
+.garageRefWhatIcon .managerTaskBadgeV1[hidden] {
+  display: none !important;
+}
+@media (max-width: 360px) {
+  #modalBackdrop #sheet.sheet .grid2,
+  #modalBackdrop #sheet.sheet .grid3 {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  .garageRefWhatIcon .managerTaskBadgeV1 {
+    top: -4px !important;
+    right: -5px !important;
+    min-width: 20px !important;
+    height: 20px !important;
+    font-size: 10px !important;
+  }
+}

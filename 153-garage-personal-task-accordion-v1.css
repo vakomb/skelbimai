@@ -1,0 +1,123 @@
+#view-garage #garageTasksSection .garageUnifiedSectionHead {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+#view-garage #garageTasksSection .sectionHead > #garageTaskSummary {
+  display: none !important;
+}
+#view-garage #garageTasksSection .garageUnifiedSectionToggle {
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 9px !important;
+  flex: 1 1 auto !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 52px !important;
+  margin: 0 !important;
+  padding: 8px 10px !important;
+  border: 1px solid #e3e9ef !important;
+  border-radius: 14px !important;
+  background: #f8fafc !important;
+  color: #16263a !important;
+  text-align: left !important;
+  box-shadow: 0 2px 7px rgba(18, 38, 61, 0.025) !important;
+  cursor: pointer !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+#view-garage #garageTasksSection .garageUnifiedSectionLabel {
+  display: flex !important;
+  align-items: center !important;
+  gap: 9px !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+#view-garage #garageTasksSection .garageUnifiedSectionTitle {
+  display: block !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  color: #16263a !important;
+  font-family: inherit !important;
+  font-size: 22px !important;
+  line-height: 1.2 !important;
+  font-weight: 760 !important;
+  letter-spacing: -0.03em !important;
+  overflow-wrap: anywhere !important;
+}
+#view-garage #garageTasksSection .garageUnifiedSectionToggle > b {
+  display: grid !important;
+  place-items: center !important;
+  flex: 0 0 auto !important;
+  min-width: 29px !important;
+  height: 29px !important;
+  margin: 0 !important;
+  padding: 0 7px !important;
+  border: 1px solid #e3e9ef !important;
+  border-radius: 10px !important;
+  background: #fff !important;
+  color: #26374a !important;
+  font-family: inherit !important;
+  font-size: 13px !important;
+  line-height: 1 !important;
+  font-weight: 800 !important;
+}
+#view-garage #garageTasksSection .garageUnifiedSectionChevron {
+  display: grid !important;
+  place-items: center !important;
+  flex: 0 0 20px !important;
+  width: 20px !important;
+  height: 24px !important;
+  color: #75869a !important;
+  font-size: 21px !important;
+  line-height: 1 !important;
+  transition: transform 0.16s ease !important;
+}
+#view-garage #garageTasksSection .garageUnifiedSection.is-expanded .garageUnifiedSectionChevron {
+  transform: rotate(180deg) !important;
+}
+#view-garage #garageTasksSection .garageUnifiedSectionBody[hidden] {
+  display: none !important;
+}
+#view-garage #garageTasksSection #garageTodayTasksRoot:not([hidden]) {
+  display: grid !important;
+  gap: 8px !important;
+}
+#view-garage #garageTasksSection #garageAutosSectionBody:not([hidden]),
+#view-garage #garageTasksSection #garageCustomSectionBody:not([hidden]) {
+  display: block !important;
+}
+#view-garage #garageTasksSection .garageUnifiedSectionToggle:active {
+  transform: scale(0.995) !important;
+}
+#view-garage #garageTasksSection .garageUnifiedSectionToggle {
+  min-height: 58px !important;
+}
+@media (max-width: 390px) {
+  #view-garage #garageTasksSection .garageUnifiedSectionTitle {
+    font-size: 21px !important;
+  }
+}
+@media (max-width: 390px) {
+  #view-garage #garageTasksSection > .sectionHead h2,
+  #view-accounting .accountingWorkspaceHead h3,
+  #view-garage #addCarPanel > .sectionHead h2,
+  #view-garage #view-garage-leads.garageInlinePanel > .sectionHead h2,
+  #view-garage #view-customers.garageInlinePanel .contactsHead h2 {
+    font-size: 21px !important;
+  }
+}
+#view-garage #view-customers.garageInlinePanel .contactsHead .contactsHeadActions {
+  justify-content: flex-start !important;
+}
+#view-garage #view-customers.garageInlinePanel .contactsHeadActions [data-contact-new-contact] {
+  margin-right: auto !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  #view-garage #garageTasksSection .garageUnifiedSectionChevron {
+    transition: none !important;
+  }
+}
