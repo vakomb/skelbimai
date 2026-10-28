@@ -1,0 +1,101 @@
+/* v74: užduoties eilutės paryškinimas ir Vadybininko užduoties langas */
+@keyframes tkFlashV74 {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(47, 107, 255, 0);
+  }
+  30% {
+    box-shadow: 0 0 0 4px rgba(47, 107, 255, 0.28);
+  }
+}
+.tkRowV62.tkFlashV74 {
+  animation: tkFlashV74 1.6s ease;
+}
+#sheet .whatTaskSheetV74 .tcPanelV65 {
+  margin: 12px 0 0;
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+/* v74: „Vadybininkas“ mygtukas perkeltas iš Garažo / Buhalterijos / Meniu į automobilio kortelę */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .garageRefMenu > .garageRefWhat,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-accounting .accountingManagerWrap,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-menu .menuManagerWrap {
+  display: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmBoxV66 {
+  margin: 14px 0 0 !important;
+  border: 1px solid rgba(87, 145, 214, 0.26) !important;
+  border-radius: 20px !important;
+  background: linear-gradient(112deg, #0b2344 0%, #123c70 56%, #1e5ca4 100%) !important;
+  box-shadow:
+    0 10px 24px rgba(13, 49, 91, 0.19),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+  overflow: hidden !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmToggleV66 {
+  height: 68px !important;
+  min-height: 68px !important;
+  gap: 14px !important;
+  padding: 0 16px !important;
+  color: #fff !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmIcoV66 {
+  position: relative !important;
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 14px !important;
+  background: linear-gradient(145deg, #2f6bff, #1b4fc4) !important;
+  color: #fff !important;
+  overflow: visible !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmBadgeV66 {
+  position: absolute !important;
+  top: -7px !important;
+  right: -8px !important;
+  min-width: 22px !important;
+  height: 22px !important;
+  padding: 0 6px !important;
+  border: 2px solid #fff !important;
+  border-radius: 999px !important;
+  background: #e0394d !important;
+  color: #fff !important;
+  font-size: 12px !important;
+  line-height: 18px !important;
+  font-weight: 800 !important;
+  text-align: center !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmTitleV66 {
+  color: #fff !important;
+  font-size: 19px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.01em !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmArrowV66 {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmListV66:not([hidden]) {
+  padding: 4px 10px 12px !important;
+  background: #f8fafc !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.14) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmListV66:not([hidden]) {
+  margin-top: 0 !important;
+  padding-top: 10px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmAllV74 {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  min-height: 44px !important;
+  margin: 4px 0 0 !important;
+  padding: 0 6px !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--ds-brand, #1d4f9f) !important;
+  font-size: 14.5px !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
+}

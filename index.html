@@ -47458,11 +47458,10 @@ function cmRenderV66(sheet, car) {
   const late = items.filter(i => i.late).length;
   const box = document.createElement("div");
   box.className = "cmBoxV66";
-  box.innerHTML = `<button type="button" class="cmToggleV66" data-cm-toggle="${escapeHTML(car.id)}" aria-expanded="${open}">
-      <span class="cmIcoV66" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M5 20c.8-4 3.4-6 7-6s6.2 2 7 6"/></svg></span>
-      <span class="cmTitleV66">Vadybininko užduotys</span>
-      <b class="${late ? "late" : ""}">${items.length}</b>
-      <svg class="cmArrowV66" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+  box.innerHTML = `<button type="button" class="cmToggleV66" data-cm-toggle="${escapeHTML(car.id)}" aria-expanded="${open}" aria-label="Vadybininkas · ${items.length}">
+      <span class="cmIcoV66" aria-hidden="true"><svg viewBox="0 0 48 48" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="15" r="7"/><path d="M10 39c.9-7.2 5.5-11 14-11s13.1 3.8 14 11"/></svg><b class="cmBadgeV66">${items.length}</b></span>
+      <span class="cmTitleV66">Vadybininkas</span>
+      <svg class="cmArrowV66" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
     </button>
     <div class="cmListV66" ${open ? "" : "hidden"}>${items
       .map(
@@ -47472,7 +47471,7 @@ function cmRenderV66(sheet, car) {
           <span class="cmChevV66">${CM_CHEV_V66}</span>
         </button>`
       )
-      .join("")}</div>`;
+      .join("")}<button type="button" class="cmAllV74" data-cm-all>Visos Vadybininko užduotys<span aria-hidden="true">›</span></button></div>`;
   block.append(box);
 }
 const __renderCarSheetV66 = renderCarSheet;
@@ -47499,6 +47498,13 @@ closeSheet = function () {
 document.addEventListener(
   "click",
   e => {
+    const all = e.target.closest("#sheet [data-cm-all]");
+    if (all) {
+      e.preventDefault();
+      closeSheet();
+      document.querySelector('[data-garage-action="what"]')?.click();
+      return;
+    }
     const t = e.target.closest("#sheet [data-cm-toggle]");
     if (t) {
       e.preventDefault();
@@ -67509,6 +67515,86 @@ html.aeAdOpenV72 #aeAdminFabV72 {
   background: transparent;
   border: 0;
   padding: 0;
+}
+
+/* v74: „Vadybininkas“ mygtukas perkeltas iš Garažo / Buhalterijos / Meniu į automobilio kortelę */
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .garageRefMenu > .garageRefWhat,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-accounting .accountingManagerWrap,
+html:not(#ae):not(#af) body:not(#ae):not(#af) #view-menu .menuManagerWrap {
+  display: none !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmBoxV66 {
+  margin: 14px 0 0 !important;
+  border: 1px solid rgba(87, 145, 214, 0.26) !important;
+  border-radius: 20px !important;
+  background: linear-gradient(112deg, #0b2344 0%, #123c70 56%, #1e5ca4 100%) !important;
+  box-shadow: 0 10px 24px rgba(13, 49, 91, 0.19), inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+  overflow: hidden !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmToggleV66 {
+  height: 68px !important;
+  min-height: 68px !important;
+  gap: 14px !important;
+  padding: 0 16px !important;
+  color: #fff !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmIcoV66 {
+  position: relative !important;
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 14px !important;
+  background: linear-gradient(145deg, #2f6bff, #1b4fc4) !important;
+  color: #fff !important;
+  overflow: visible !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmBadgeV66 {
+  position: absolute !important;
+  top: -7px !important;
+  right: -8px !important;
+  min-width: 22px !important;
+  height: 22px !important;
+  padding: 0 6px !important;
+  border: 2px solid #fff !important;
+  border-radius: 999px !important;
+  background: #e0394d !important;
+  color: #fff !important;
+  font-size: 12px !important;
+  line-height: 18px !important;
+  font-weight: 800 !important;
+  text-align: center !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmTitleV66 {
+  color: #fff !important;
+  font-size: 19px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.01em !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmArrowV66 {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmListV66:not([hidden]) {
+  padding: 4px 10px 12px !important;
+  background: #f8fafc !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.14) !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmListV66:not([hidden]) {
+  margin-top: 0 !important;
+  padding-top: 10px !important;
+}
+html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock .cmAllV74 {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  min-height: 44px !important;
+  margin: 4px 0 0 !important;
+  padding: 0 6px !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--ds-brand, #1d4f9f) !important;
+  font-size: 14.5px !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
 }
 </style></body>
 </html>

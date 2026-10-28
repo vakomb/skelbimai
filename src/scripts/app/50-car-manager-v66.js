@@ -27,11 +27,10 @@ function cmRenderV66(sheet, car) {
   const late = items.filter(i => i.late).length;
   const box = document.createElement("div");
   box.className = "cmBoxV66";
-  box.innerHTML = `<button type="button" class="cmToggleV66" data-cm-toggle="${escapeHTML(car.id)}" aria-expanded="${open}">
-      <span class="cmIcoV66" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M5 20c.8-4 3.4-6 7-6s6.2 2 7 6"/></svg></span>
-      <span class="cmTitleV66">Vadybininko užduotys</span>
-      <b class="${late ? "late" : ""}">${items.length}</b>
-      <svg class="cmArrowV66" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+  box.innerHTML = `<button type="button" class="cmToggleV66" data-cm-toggle="${escapeHTML(car.id)}" aria-expanded="${open}" aria-label="Vadybininkas · ${items.length}">
+      <span class="cmIcoV66" aria-hidden="true"><svg viewBox="0 0 48 48" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="15" r="7"/><path d="M10 39c.9-7.2 5.5-11 14-11s13.1 3.8 14 11"/></svg><b class="cmBadgeV66">${items.length}</b></span>
+      <span class="cmTitleV66">Vadybininkas</span>
+      <svg class="cmArrowV66" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
     </button>
     <div class="cmListV66" ${open ? "" : "hidden"}>${items
       .map(
@@ -41,7 +40,9 @@ function cmRenderV66(sheet, car) {
           <span class="cmChevV66">${CM_CHEV_V66}</span>
         </button>`
       )
-      .join("")}</div>`;
+      .join(
+        ""
+      )}<button type="button" class="cmAllV74" data-cm-all>Visos Vadybininko užduotys<span aria-hidden="true">›</span></button></div>`;
   block.append(box);
 }
 const __renderCarSheetV66 = renderCarSheet;
@@ -68,6 +69,13 @@ closeSheet = function () {
 document.addEventListener(
   "click",
   e => {
+    const all = e.target.closest("#sheet [data-cm-all]");
+    if (all) {
+      e.preventDefault();
+      closeSheet();
+      document.querySelector('[data-garage-action="what"]')?.click();
+      return;
+    }
     const t = e.target.closest("#sheet [data-cm-toggle]");
     if (t) {
       e.preventDefault();
