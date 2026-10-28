@@ -6,13 +6,13 @@
    Matmenys išmatuoti iš pavyzdžio (430 px pločio ekranas).
    ===================================================================== */
 :root {
-  --pv-bg: #f3f6fa;
+  --pv-bg: #eef2f7;
   --pv-card: #ffffff;
   --pv-ink: #0f1626;
   --pv-ink-2: #2b3240;
   --pv-muted: #5c6370;
   --pv-faint: #8d929b;
-  --pv-line: #e3e6ec;
+  --pv-line: #dfe4ec;
   --pv-line-2: #d9dde5;
   --pv-chip: #edf1f7;
   --pv-chip-2: #f2f4f8;
@@ -31,7 +31,7 @@
   --pv-r-btn-s: 16px;
   --pv-r-ctl: 14px;
   --pv-r-chip: 13px;
-  --pv-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 6px 20px rgba(16, 24, 40, 0.055);
+  --pv-shadow: 0 1px 2px rgba(16, 24, 40, 0.05), 0 6px 20px rgba(16, 24, 40, 0.07);
   --pv-shadow-brand: 0 10px 22px rgba(40, 76, 162, 0.22), 0 2px 6px rgba(40, 76, 162, 0.12);
   --pv-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9.5 5.5 6.5 6.5-6.5 6.5'/%3E%3C/svg%3E");
 
@@ -40,9 +40,9 @@
   --ds-ink-2: #2b3240;
   --ds-muted: #5c6370;
   --ds-faint: #8d929b;
-  --ds-line: #e3e6ec;
+  --ds-line: #dfe4ec;
   --ds-line-2: #d9dde5;
-  --ds-bg: #f3f6fa;
+  --ds-bg: #eef2f7;
   --ds-card: #ffffff;
   --ds-soft: #f1f3f7;
   --ds-brand: #284ca2;
@@ -51,7 +51,7 @@
   --ds-r-card: 24px;
   --ds-r-ctl: 14px;
   --ds-r-btn: 16px;
-  --ds-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 6px 20px rgba(16, 24, 40, 0.055);
+  --ds-shadow: 0 1px 2px rgba(16, 24, 40, 0.05), 0 6px 20px rgba(16, 24, 40, 0.07);
 }
 
 /* ---------- Pagrindas ---------- */
@@ -61,8 +61,8 @@ html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) {
 }
 @media (max-width: 767px) {
   html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app {
-    padding-left: 12px !important;
-    padding-right: 12px !important;
+    padding-left: 9px !important;
+    padding-right: 9px !important;
   }
 }
 

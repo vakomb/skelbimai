@@ -223,91 +223,6 @@ html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .input:focus-visible {
   }
 }
 
-/* ---------- Automobilio kortelės apačia: būsena, dokumentai, dienos ---------- */
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcFootV77 {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 8px !important;
-  margin: 11px 0 0 !important;
-  padding: 10px 2px 0 !important;
-  border-top: 1px solid #eef0f4 !important;
-  min-height: 22px !important;
-}
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcDotsV77 {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  align-items: center !important;
-  gap: 4px 12px !important;
-  min-width: 0 !important;
-}
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcDotV77 {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-  color: #4b5260 !important;
-  font-size: 12.5px !important;
-  font-weight: 600 !important;
-  line-height: 1.2 !important;
-  white-space: nowrap !important;
-}
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcDotV77 i {
-  display: block !important;
-  width: 8px !important;
-  height: 8px !important;
-  border-radius: 50% !important;
-  background: #c4c9d2 !important;
-}
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcDotV77.good i {
-  background: #1f9d5b !important;
-}
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcDotV77.warn i {
-  background: #e3a21a !important;
-}
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcDotV77.bad i {
-  background: #d64545 !important;
-}
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcSrV77 {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  overflow: hidden !important;
-  clip: rect(0 0 0 0) !important;
-  white-space: nowrap !important;
-}
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcRightV77 {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  flex: 0 0 auto !important;
-}
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcDocsV77 {
-  padding: 3px 8px !important;
-  border-radius: 999px !important;
-  background: #fff4de !important;
-  color: #8a5a00 !important;
-  font-size: 12px !important;
-  font-weight: 650 !important;
-  line-height: 1.25 !important;
-  white-space: nowrap !important;
-}
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcAgeV77,
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcSoldV77 {
-  color: var(--pv-faint) !important;
-  font-size: 12.5px !important;
-  font-weight: 600 !important;
-  white-space: nowrap !important;
-  font-variant-numeric: tabular-nums !important;
-}
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcSoldV77 {
-  color: #4b5260 !important;
-}
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcAgeV77.warn {
-  color: #a36a00 !important;
-}
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcAgeV77.bad {
-  color: #c03d3d !important;
-}
 /* Skaičiai kortelėse ir sąrašuose – lygiuoti stulpeliais */
 html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .garageRefFacts strong,
 html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .financeRow strong,
@@ -315,26 +230,6 @@ html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .smallStatBox .value
 html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .premiumStatGrid strong {
   font-variant-numeric: tabular-nums !important;
   letter-spacing: -0.01em !important;
-}
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcAgeV77 {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 4px !important;
-}
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .lcAgeV77 svg {
-  width: 13px !important;
-  height: 13px !important;
-  flex: 0 0 auto !important;
-}
-/* Kortelės skaičiai visada telpa (ir 6 skaitmenų sumos) */
-@media (max-width: 767px) {
-  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .garageRefCarMain {
-    grid-template-columns: 128px minmax(0, 1fr) !important;
-    gap: 12px !important;
-  }
-  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .garageRefCarPhoto {
-    width: 128px !important;
-  }
 }
 /* v78: vienodo pločio stulpeliai – skaičiai lygiuojasi visose kortelėse, per dideli sumažinami (61-v78.js) */
 html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard .garageRefFacts {
