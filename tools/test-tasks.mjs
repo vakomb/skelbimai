@@ -54,16 +54,17 @@ check(after === before - 1, `automobilio užduotis atlikta (${before} → ${afte
 // Vadybininkas: automobilio užduotis atliekama čia pat, su kaina ir čekiu
 await ev(() => document.querySelector('[data-open-view="garage-what"]').click());
 await p.waitForTimeout(400);
-await ev(() => document.querySelector('#garageWhatRoot [data-mg-open*=":task:"]').click());
-await p.waitForTimeout(400);
-check(await ev(() => !!document.querySelector("#sheet.mgSheetV72 #mg_amt")), "Vadybininke išslenka atlikimo langas");
-await p.fill("#mg_amt", "30");
-await p.setInputFiles("#mg_receipt", {
+const vdBefore = await ev(() => document.querySelectorAll("#garageWhatRoot .vdTaskV65").length);
+check(vdBefore > 0, "Vadybininke – automobilio užduotys");
+await ev(() => document.querySelector("#garageWhatRoot .vdTaskV65").click());
+await p.waitForTimeout(200);
+check(await ev(() => !!document.querySelector("#garageWhatRoot .tcPanelV65")), "Vadybininke išslenka atlikimo skydelis");
+await p.fill("#garageWhatRoot [data-tc-amount]", "30");
+await p.setInputFiles("#garageWhatRoot [data-tc-file]", {
   name: "cekis.jpg",
   mimeType: "image/jpeg",
   buffer: Buffer.from([0xff, 0xd8, 0xff, 0xd9])
 });
-await p.click("#mgPrimaryV72");
 await p.waitForTimeout(1200);
 const vdDone = await ev(() => {
   const s = JSON.parse(localStorage.getItem("visureigiai_uab_v1"));

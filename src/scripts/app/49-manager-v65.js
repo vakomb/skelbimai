@@ -13,19 +13,13 @@ function vdTaskOfV65(el) {
 }
 function vdEnhanceV65() {
   const page = document.querySelector("#garageWhatRoot .garageWhatPage");
-  if (!page || page.classList.contains("mgPageV72")) return; // v72: naują puslapį piešia 56-manager-v72.js
+  if (!page) return;
   page.classList.add("vdV65");
   const all = [...page.querySelectorAll("[data-what-open]")];
   const items = tkItemsV62();
   const now = todayISO();
   const late = items.today.filter(i => i.due < now).length;
-  page.querySelector(".vdSumV65")?.remove();
-  page
-    .querySelector(".garageWhatHead")
-    ?.insertAdjacentHTML(
-      "afterend",
-      `<div class="vdSumV65"><div><b>${all.length}</b><span>Darbai</span></div><div class="${late ? "late" : ""}"><b>${late}</b><span>Vėluoja</span></div><div><b>${items.today.length}</b><span>Šiandien</span></div></div>`
-    );
+  page.querySelector(".vdSumV65")?.remove(); // v73: suvestinės nebėra
   all.forEach(el => {
     const t = vdTaskOfV65(el);
     if (!t) return;

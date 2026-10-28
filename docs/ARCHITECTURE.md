@@ -303,9 +303,8 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
 - `#view-home` paslėptas, todėl programa visada startuoja nuo Garažo.
 - Supabase publishable raktas yra kode. Tai normalu, jei DB įjungtas RLS.
 
-## Vadybininkas (v72b)
+## v73
 
-- Vienas variklis ir vienas langų rinkinys: `scripts/app/56-manager-v72.js`, stiliai `styles/183-manager-v72.css`. Perrašo `renderGarageWhatApp`, `workCenterItems`, `openWhatItemV30`, `closeSheet`; `49-manager-v65.js` (`vdEnhanceV65`) praleidžia naują puslapį.
-- `mgAllV72()` generuoja užduotis: naudotojo automobilių užduotys, trūkstami duomenys / dokumentai / nuotraukos (<5), SDK, TA ir draudimas, kaina (nenustatyta / 30 d. neperžiūrėta), variantų skambučiai ir kainos, klientų sekimas, parduoti automobiliai be perdavimo buhalterijai, Garažo užduotys, verslo žingsniai (Mano duomenys, buhalterio el. paštas, pirmas automobilis). Raktai: `car:<id>:task:<tid>`, `car:<id>:missing-data|missing-docs|photos|…`, `lead:<id>:callback|price`, `customer:<id>:follow`, `task:<id>`, `biz:*`.
-- Puslapis: suvestinė, „Nauja užduotis“, kortelės kaip Buhalterijoje (Skubu → pagal automobilį → Variantai ir klientai → Bendra). Eilutė atidaro apatinį langą (`mgOpenSheet`) su lipniu veiksmo mygtuku. Trūkstamų duomenų langas naudoja esamą registracijos liudijimo skaitytuvą (`30-registration-review-v41.js`).
-- Testas: `tools/test-manager.mjs`.
+- Vadybininkas grąžintas į senąjį vaizdą (hero „Svarbiausia dabar“ + eilutės su „•••“), be suvestinės; tekstai sutrumpinti (`app/56-v73.js`, apgaubia `workCenterItems`): „Užpildyti duomenis“ su detale „PP sutarčiai trūksta: …“, „Prisegti dokumentus“.
+- `openCar` visada atveria kortelę nuo viršaus; grįžus į programą po >20 s – Garažas (`visibilitychange`).
+- `styles/183-v73.css`: nuo 600 px pločio apatinė juosta be `backdrop-filter` ir šešėlio aplink.

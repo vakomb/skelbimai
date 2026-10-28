@@ -16,11 +16,11 @@ nes deklaracijos „iškeliamos“ – hoisting), `reassigned` = `X = function�
 | `downloadAllEntityPhotos` | 05-zip-and-galleries:28 (function) → 05-zip-and-galleries:208 (function) |
 | `openGarageLeadSheet` | 05-zip-and-galleries:313 (function) → 45-lead-sheet-v62:59 (reassigned) → 51-photo-fill-v67:79 (reassigned) |
 | `saveState` | 06-state-and-history:119 (function) → 54-readonly-v70:21 (reassigned) |
-| `openCar` | 09-cars-and-sale:148 (function) → 37-contract-v52:930 (reassigned) → 47-car-tasks-v63:99 (reassigned) → 50-car-manager-v66:54 (reassigned) |
+| `openCar` | 09-cars-and-sale:148 (function) → 37-contract-v52:930 (reassigned) → 47-car-tasks-v63:99 (reassigned) → 50-car-manager-v66:54 (reassigned) → 56-v73:40 (reassigned) |
 | `renderCarSheet` | 09-cars-and-sale:158 (function) → 14-vehicle-fields-documents:303 (reassigned) → 24-accounting-v3-pp-chooser:589 (reassigned) → 30-registration-review-v41:1338 (reassigned) → 31-registration-v42-v43:543 (reassigned) → 34-registration-ui:562 (reassigned) → 35-car-ui-v51:377 (reassigned) → 38-car-card-v55:6 (reassigned) → 42-car-sheet-v61:121 (reassigned) → 47-car-tasks-v63:90 (reassigned) → 50-car-manager-v66:48 (reassigned) → 51-photo-fill-v67:74 (reassigned) → 53-v69:32 (reassigned) |
 | `openCarEditSheet` | 09-cars-and-sale:247 (function) → 14-vehicle-fields-documents:355 (reassigned) → 30-registration-review-v41:866 (reassigned) → 31-registration-v42-v43:494 (reassigned) → 34-registration-ui:526 (reassigned) → 35-car-ui-v51:278 (reassigned) |
 | `openSheet` | 09-cars-and-sale:428 (function) → 47-car-tasks-v63:84 (reassigned) |
-| `closeSheet` | 09-cars-and-sale:432 (function) → 39-profile-onboarding-v57:179 (reassigned) → 50-car-manager-v66:59 (reassigned) → 56-manager-v72:537 (reassigned) |
+| `closeSheet` | 09-cars-and-sale:432 (function) → 39-profile-onboarding-v57:179 (reassigned) → 50-car-manager-v66:59 (reassigned) |
 | `renderGarageStatsPage` | 10-render:4 (function) → 17-stats-period-boot:59 (reassigned) |
 | `renderFinancePage` | 10-render:138 (function) → 25-accounting-v8-transactions-reports:517 (reassigned) |
 | `render` | 10-render:185 (function) → 18-pp-contract-generator:469 (reassigned) → 24-accounting-v3-pp-chooser:551 (reassigned) → 27-home-reference-v12-v19:92 (reassigned) → 32-unified-garage-tasks-and-boot:135 (reassigned) → 39-profile-onboarding-v57:299 (reassigned) → 43-tasks-hub-v62:316 (reassigned) → 46-nav-v63:48 (reassigned) → 51-photo-fill-v67:87 (reassigned) |
@@ -30,7 +30,7 @@ nes deklaracijos „iškeliamos“ – hoisting), `reassigned` = `X = function�
 | `readDocumentFile` | 14-vehicle-fields-documents:166 (function) → 52-compress-v68:78 (reassigned) |
 | `carRecommendation` | 15-work-center:20 (function) → 35-car-ui-v51:417 (reassigned) |
 | `workCenterMissingFieldsV30` | 15-work-center:118 (function) → 30-registration-review-v41:953 (reassigned) |
-| `workCenterItems` | 15-work-center:153 (function) → 35-car-ui-v51:412 (reassigned) → 56-manager-v72:387 (reassigned) |
+| `workCenterItems` | 15-work-center:153 (function) → 35-car-ui-v51:412 (reassigned) → 56-v73:13 (reassigned) |
 | `shareAccountingCars` | 16-accounting-package:158 (function) → 20-accounting-share:91 (reassigned) → 20-accounting-share:234 (reassigned) → 24-accounting-v3-pp-chooser:55 (reassigned) |
 | `renderAccountingCenter` | 16-accounting-package:229 (function) → 18-pp-contract-generator:459 (reassigned) → 20-accounting-share:151 (reassigned) → 20-accounting-share:320 (reassigned) → 24-accounting-v3-pp-chooser:119 (reassigned) → 24-accounting-v3-pp-chooser:134 (reassigned) → 24-accounting-v3-pp-chooser:296 (reassigned) → 24-accounting-v3-pp-chooser:461 (reassigned) → 25-accounting-v8-transactions-reports:533 (reassigned) → 53-v69:130 (reassigned) |
 | `ppLoadOcr` | 18-pp-contract-generator:91 (function) → 19-pp-pdf-offline-and-ocr:562 (reassigned) |
@@ -45,9 +45,8 @@ nes deklaracijos „iškeliamos“ – hoisting), `reassigned` = `X = function�
 | `ppOcrWorker` | 19-pp-pdf-offline-and-ocr:589 (function) → 30-registration-review-v41:434 (reassigned) |
 | `accountingDirectEntries` | 20-accounting-share:4 (function) → 20-accounting-share:206 (reassigned) → 24-accounting-v3-pp-chooser:17 (reassigned) |
 | `renderCompanyHome` | 22-other-tasks-and-home:237 (function) → 24-accounting-v3-pp-chooser:399 (reassigned) → 27-home-reference-v12-v19:32 (reassigned) → 27-home-reference-v12-v19:158 (reassigned) |
-| `renderGarageWhatApp` | 23-garage-what-manager:34 (function) → 49-manager-v65:43 (reassigned) → 56-manager-v72:424 (function) |
+| `renderGarageWhatApp` | 23-garage-what-manager:34 (function) → 49-manager-v65:37 (reassigned) |
 | `openWhatMissingDataV30` | 23-garage-what-manager:56 (function) → 30-registration-review-v41:961 (reassigned) → 34-registration-ui:595 (reassigned) |
-| `openWhatItemV30` | 23-garage-what-manager:367 (function) → 56-manager-v72:1092 (reassigned) |
 | `accountingPpChooserV3` | 24-accounting-v3-pp-chooser:281 (function) → 24-accounting-v3-pp-chooser:448 (reassigned) |
 | `newCarExtractYearV29` | 28-new-car-smart-add-v29:13 (function) → 29-registration-parse-v35-v36:317 (reassigned) |
 | `newCarApplyRegistrationV29` | 28-new-car-smart-add-v29:57 (function) → 30-registration-review-v41:765 (reassigned) → 31-registration-v42-v43:438 (reassigned) |
