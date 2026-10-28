@@ -1,0 +1,931 @@
+/* =====================================================================
+   AutoEasier v76 – „Premium“ dizaino sluoksnis (pagal Garažo pavyzdį).
+   Paskutinis CSS blokas: vienodos spalvos, tarpai, šriftai, mygtukai, kortelės,
+   išskleidimai, lentelės ir langai visuose ekranuose.
+   Prefiksas (5 ID) stipresnis už visus ankstesnius sluoksnius (4 ID).
+   Matmenys išmatuoti iš pavyzdžio (430 px pločio ekranas).
+   ===================================================================== */
+:root {
+  --pv-bg: #f3f6fa;
+  --pv-card: #ffffff;
+  --pv-ink: #0f1626;
+  --pv-ink-2: #2b3240;
+  --pv-muted: #5c6370;
+  --pv-faint: #8d929b;
+  --pv-line: #e3e6ec;
+  --pv-line-2: #d9dde5;
+  --pv-chip: #edf1f7;
+  --pv-chip-2: #f2f4f8;
+  --pv-icon: #26395c;
+  --pv-brand: #284ca2;
+  --pv-brand-hi: #2f5bbd;
+  --pv-brand-press: #213f88;
+  --pv-brand-soft: #edf2fa;
+  --pv-brand-ring: rgba(40, 76, 162, 0.14);
+  --pv-danger-ink: #8e2f3a;
+  --pv-badge: #e5484d;
+  --pv-r-tile: 24px;
+  --pv-r-card: 26px;
+  --pv-r-row: 22px;
+  --pv-r-btn: 18px;
+  --pv-r-btn-s: 16px;
+  --pv-r-ctl: 14px;
+  --pv-r-chip: 13px;
+  --pv-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 6px 20px rgba(16, 24, 40, 0.055);
+  --pv-shadow-brand: 0 10px 22px rgba(40, 76, 162, 0.22), 0 2px 6px rgba(40, 76, 162, 0.12);
+  --pv-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9.5 5.5 6.5 6.5-6.5 6.5'/%3E%3C/svg%3E");
+
+  /* Senų sluoksnių tokenai – ta pati paletė (gradientai tampa vientisi) */
+  --ds-ink: #0f1626;
+  --ds-ink-2: #2b3240;
+  --ds-muted: #5c6370;
+  --ds-faint: #8d929b;
+  --ds-line: #e3e6ec;
+  --ds-line-2: #d9dde5;
+  --ds-bg: #f3f6fa;
+  --ds-card: #ffffff;
+  --ds-soft: #f1f3f7;
+  --ds-brand: #284ca2;
+  --ds-brand-2: #284ca2;
+  --ds-brand-soft: #edf2fa;
+  --ds-r-card: 24px;
+  --ds-r-ctl: 14px;
+  --ds-r-btn: 16px;
+  --ds-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 6px 20px rgba(16, 24, 40, 0.055);
+}
+
+/* ---------- Pagrindas ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) {
+  background: var(--pv-bg) !important;
+  color: var(--pv-ink) !important;
+}
+@media (max-width: 767px) {
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+}
+
+/* ---------- Antraštė: logotipas | inicialai + pavadinimas ---------- */
+@media (max-width: 767px) {
+  /* Užpildytas profilis: logotipas, brūkšnys ir pavadinimas – viena centruota grupė */
+  html.pfNamedV71:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app > .topbar .autoEasierHeaderV4 {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 0 !important;
+    padding: 0 6px !important;
+  }
+  html.pfNamedV71:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app > .topbar .autoEasierBrandCellV4 {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app > .topbar .autoEasierWordmarkV4 {
+    width: 158px !important;
+    max-width: 158px !important;
+    height: auto !important;
+  }
+  html.pfNamedV71:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app > .topbar .autoEasierDividerV4 {
+    position: static !important;
+    transform: none !important;
+    width: 1px !important;
+    height: 26px !important;
+    margin: 0 18px 0 27px !important;
+    background: #e3e5ea !important;
+    flex: 0 0 1px !important;
+  }
+  html.pfNamedV71:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app > .topbar .autoEasierCompanyCellV4 {
+    flex: 0 1 auto !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+  }
+  html.pfNamedV71:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app > .topbar .autoEasierCompanyNameV4 {
+    min-width: 0 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app > .topbar .autoEasierCompanyMarkV4 {
+    width: 36px !important;
+    height: 36px !important;
+    flex: 0 0 36px !important;
+  }
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app > .topbar .autoEasierCompanyNameV4 {
+  font-size: 14.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em !important;
+  color: var(--pv-ink) !important;
+  -webkit-text-fill-color: var(--pv-ink) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .pfInitialsV57 {
+  background: #e8f0f9 !important;
+  color: #3a5a8c !important;
+  font-size: 13px !important;
+  font-weight: 650 !important;
+  letter-spacing: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app > .topbar .autoEasierFillV75 {
+  justify-self: end !important;
+  width: auto !important;
+  max-width: none !important;
+  min-height: 36px !important;
+  height: 36px !important;
+  padding: 0 16px !important;
+  border: 1px solid #d9e2f1 !important;
+  border-radius: 999px !important;
+  background: var(--pv-brand-soft) !important;
+  color: var(--pv-brand) !important;
+  -webkit-text-fill-color: var(--pv-brand) !important;
+  font-size: 14px !important;
+  font-weight: 650 !important;
+  box-shadow: none !important;
+}
+
+/* ---------- Vadybininko juosta (Garažas, Buhalterija, Meniu) ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefWhat {
+  min-height: 79px !important;
+  height: 79px !important;
+  padding: 0 20px 0 16px !important;
+  gap: 15px !important;
+  border: 0 !important;
+  border-radius: 28px !important;
+  background: var(--pv-brand) !important;
+  background-image: none !important;
+  box-shadow: var(--pv-shadow-brand) !important;
+  color: #fff !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefWhat:active {
+  background: var(--pv-brand-press) !important;
+  transform: scale(0.992) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefWhat .garageRefWhatIcon {
+  width: 50px !important;
+  height: 50px !important;
+  min-width: 50px !important;
+  flex: 0 0 50px !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 15px !important;
+  background: var(--pv-brand-hi) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefWhat .garageRefWhatIcon svg {
+  width: 38px !important;
+  height: 38px !important;
+  stroke-width: 2.5 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefWhat strong {
+  font-size: 20.3px !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.012em !important;
+  line-height: 1.15 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefWhat .garageRefWhatArrow {
+  width: 20px !important;
+  height: 20px !important;
+  font-size: 0 !important;
+  color: transparent !important;
+  background: #fff !important;
+  -webkit-mask: var(--pv-chevron) center / 20px 20px no-repeat !important;
+  mask: var(--pv-chevron) center / 20px 20px no-repeat !important;
+  opacity: 0.96 !important;
+}
+
+/* ---------- Plytelės: Garažas, Buhalterija, Meniu (vienodo dydžio 2×2) ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefMenu {
+  gap: 12px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefMenuGrid,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRefMenu,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .menuLinks {
+  gap: 12px !important;
+  column-gap: 12px !important;
+  row-gap: 12px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefTile,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRefMenu .accountingRefAction,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .menuLinks .menuLink {
+  min-height: 84px !important;
+  height: 84px !important;
+  padding: 0 12px 0 12px !important;
+  border: 1px solid var(--pv-line) !important;
+  border-radius: var(--pv-r-tile) !important;
+  background: var(--pv-card) !important;
+  background-image: none !important;
+  box-shadow: var(--pv-shadow) !important;
+  color: var(--pv-ink) !important;
+  transition:
+    transform 0.14s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefTile:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRefMenu .accountingRefAction:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .menuLinks .menuLink:active {
+  transform: scale(0.985) !important;
+}
+/* Atidarytos plytelės būsena – rėmelis spalvotas, ne fonas */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefTile[aria-expanded="true"],
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefTile.active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRefMenu .accountingRefAction.active,
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  .app
+  .accountingRefMenu
+  .accountingRefAction[aria-expanded="true"],
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .menuLinks .menuLink.active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .menuLinks .menuLink[aria-expanded="true"] {
+  border-color: #b9c8e6 !important;
+  background: #fff !important;
+  box-shadow:
+    0 0 0 3px var(--pv-brand-ring),
+    var(--pv-shadow) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefTile .garageRefTileIcon,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRefMenu .accountingRefAction .ico,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .menuLinks .menuLink .ico {
+  width: 42px !important;
+  height: 42px !important;
+  min-width: 42px !important;
+  flex: 0 0 42px !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: var(--pv-r-chip) !important;
+  background: var(--pv-chip) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  color: var(--pv-icon) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefTile .garageRefTileIcon svg,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRefMenu .accountingRefAction .ico svg,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .menuLinks .menuLink .ico svg {
+  width: 24px !important;
+  height: 24px !important;
+  stroke: currentColor !important;
+  stroke-width: 1.6 !important;
+  color: var(--pv-icon) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefTile strong,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRefMenu .accountingRefAction strong,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .menuLinks .menuLink strong {
+  margin-left: 0 !important;
+  font-size: 15.5px !important;
+  font-weight: 700 !important;
+  line-height: 1.24 !important;
+  letter-spacing: -0.012em !important;
+  color: var(--pv-ink) !important;
+  -webkit-text-fill-color: var(--pv-ink) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefTile .garageRefTileArrow,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRefMenu .accountingRefAction .arrow,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .menuLinks .menuLink .arrow,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefSoldToggle .garageRefSoldArrow {
+  width: 16px !important;
+  height: 16px !important;
+  min-width: 16px !important;
+  font-size: 0 !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  background: #8a8f97 !important;
+  -webkit-mask: var(--pv-chevron) center / 16px 16px no-repeat !important;
+  mask: var(--pv-chevron) center / 16px 16px no-repeat !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+/* Skaičiaus ženkliukas plytelėse */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageTaskUrgentBadge,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .managerTaskBadgeV1 {
+  min-width: 20px !important;
+  height: 20px !important;
+  padding: 0 6px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: var(--pv-badge) !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  line-height: 20px !important;
+  box-shadow: 0 0 0 2px #fff !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefWhat .managerTaskBadgeV1 {
+  box-shadow: 0 0 0 2px var(--pv-brand) !important;
+}
+
+/* ---------- Skyrių antraštės ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .view > .section > .sectionHead h2,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRefSectionHead h2 {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.015em !important;
+  color: var(--pv-ink) !important;
+}
+/* Kai aktyvių automobilių nėra – antraštė paslepiama (kaip pavyzdyje), tarpas išlieka */
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  #view-garage
+  .section:has(> #activeCarGrid > .emptyCarsV75)
+  > .sectionHead {
+  visibility: hidden !important;
+}
+
+/* ---------- Tuščios būsenos kortelė ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .emptyCarsV75 {
+  padding: 25px 20px 21px !important;
+  border: 1px solid var(--pv-line) !important;
+  border-radius: var(--pv-r-card) !important;
+  background: var(--pv-card) !important;
+  box-shadow: var(--pv-shadow) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .emptyCarsV75 .emptyCarsIcoV75 {
+  width: 59px !important;
+  height: 59px !important;
+  border-radius: 18px !important;
+  margin: 0 !important;
+  background: var(--pv-chip) !important;
+  color: #243761 !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .emptyCarsV75 .emptyCarsIcoV75 svg {
+  width: 32px !important;
+  height: 32px !important;
+  stroke-width: 1.55 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .emptyCarsV75 h3 {
+  margin: 12px 0 0 !important;
+  font-size: 16.6px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.015em !important;
+  line-height: 1.2 !important;
+  color: var(--pv-ink) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .emptyCarsV75 p {
+  margin: 8px auto 0 !important;
+  max-width: 300px !important;
+  font-size: 14px !important;
+  font-weight: 450 !important;
+  line-height: 20.7px !important;
+  color: var(--pv-muted) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .emptyCarsV75 .emptyCarsBtnV75 {
+  margin-top: 17px !important;
+  min-height: 54px !important;
+  height: 54px !important;
+  border: 0 !important;
+  border-radius: var(--pv-r-btn) !important;
+  background: var(--pv-brand) !important;
+  background-image: none !important;
+  box-shadow: var(--pv-shadow-brand) !important;
+  color: #fff !important;
+  font-size: 17px !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.01em !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .emptyCarsV75 .emptyCarsBtnV75 span {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .emptyCarsV75 .emptyCarsHintV75 {
+  color: var(--pv-faint) !important;
+  font-size: 13px !important;
+}
+
+/* ---------- Parduoti automobiliai ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefSoldToggle {
+  min-height: 51px !important;
+  height: 51px !important;
+  padding: 0 16px 0 13px !important;
+  gap: 12px !important;
+  border: 1px solid var(--pv-line) !important;
+  border-radius: var(--pv-r-row) !important;
+  background: var(--pv-card) !important;
+  background-image: none !important;
+  box-shadow: var(--pv-shadow) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefSoldToggle .garageRefSoldIcon {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  border-radius: 50% !important;
+  background: var(--pv-chip-2) !important;
+  color: var(--pv-icon) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefSoldToggle .garageRefSoldIcon svg {
+  width: 20px !important;
+  height: 20px !important;
+  stroke-width: 1.6 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefSoldToggle strong {
+  font-size: 17.4px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.012em !important;
+  color: var(--pv-danger-ink) !important;
+  -webkit-text-fill-color: var(--pv-danger-ink) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefSoldToggle .garageRefSoldCount {
+  min-width: 33px !important;
+  width: 33px !important;
+  height: 33px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: var(--pv-chip) !important;
+  color: #4f5563 !important;
+  -webkit-text-fill-color: #4f5563 !important;
+  font-size: 15px !important;
+  font-weight: 650 !important;
+  line-height: 33px !important;
+  text-align: center !important;
+}
+
+/* ---------- Apačios juosta ---------- */
+@media (max-width: 767px) {
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .navWrap {
+    background: #fff !important;
+    border-top: 1px solid #e6e8ec !important;
+    box-shadow: none !important;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .navWrap .nav {
+    background: #fff !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+}
+@media (max-width: 767px) {
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .navWrap .nav .navBtn,
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .navWrap .nav .navBtn > div:not(.ico) {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0 !important;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .navWrap .nav .navBtn:not(.active) {
+    color: #7b8089 !important;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .navWrap .nav .navBtn.active,
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .navWrap .nav .navBtn.active > div:not(.ico) {
+    color: var(--pv-ink) !important;
+    font-weight: 700 !important;
+  }
+}
+
+/* ---------- Kortelės, skydeliai, išskleidimai ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListCard,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageLeadCard,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage #garageTasksSection.garageDisclosurePanel,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageInlinePanel.garageInlineOpen,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage #addCarPanel,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingWorkspace.show,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app #menuInlineDisclosure.menuDisclosure {
+  border: 1px solid var(--pv-line) !important;
+  border-radius: var(--pv-r-tile) !important;
+  background: var(--pv-card) !important;
+  box-shadow: var(--pv-shadow) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingWorkspaceHead,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .menuDisclosureHead,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage #addCarPanel > .sectionHead,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageInlinePanel > .sectionHead,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage #garageTasksSection > .sectionHead,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .contactsHead {
+  border-bottom-color: #eceef2 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingWorkspaceHead h2,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingWorkspaceHead h3,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingWorkspaceHead strong,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .menuDisclosureHead h2,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .menuDisclosureHead h3,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .menuDisclosureHead strong,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage #addCarPanel > .sectionHead h2,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageInlinePanel > .sectionHead h2,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage #garageTasksSection > .sectionHead h2,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .contactsHead h2 {
+  font-size: 19px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.015em !important;
+  color: var(--pv-ink) !important;
+}
+/* „Uždaryti“ ir kiti ramūs mygtukai */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageTaskClose,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageInlineClose,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingWorkspaceClose,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .menuDisclosureClose,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app #cancelAddCarBtn,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .appCloseAction,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageWhatBack {
+  min-height: 36px !important;
+  height: 36px !important;
+  padding: 0 15px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: var(--pv-chip) !important;
+  background-image: none !important;
+  color: var(--pv-ink-2) !important;
+  -webkit-text-fill-color: var(--pv-ink-2) !important;
+  font-size: 14px !important;
+  font-weight: 650 !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .panel {
+  border-color: var(--pv-line) !important;
+  border-radius: 22px !important;
+}
+
+/* ---------- Mygtukai ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .btn:not(.garageRefSoldToggle),
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .btn,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .saleModal .btn {
+  min-height: 50px !important;
+  border-radius: var(--pv-r-btn-s) !important;
+  font-size: 15px !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.008em !important;
+}
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  .app
+  .btn:not(.secondary):not(.ghost):not(.danger):not(.garageRefSoldToggle):not(.appCloseAction),
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .btn:not(.secondary):not(.ghost):not(.danger):not(.carSellBottomBtn):not(.carTasksAddWide):not(
+    .carDeleteReal
+  ):not(.daDeleteBtnV75):not(.carPpBottomBtn):not(#editCarInfoBtn),
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .saleModal .btn.saleModalConfirm {
+  border: 0 !important;
+  background: var(--pv-brand) !important;
+  background-image: none !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  box-shadow: 0 8px 18px rgba(40, 76, 162, 0.2) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .btn.secondary,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .btn.ghost,
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .btn.secondary:not(.carSellBottomBtn) {
+  border: 1px solid var(--pv-line-2) !important;
+  background: #fff !important;
+  background-image: none !important;
+  color: var(--pv-ink) !important;
+  -webkit-text-fill-color: var(--pv-ink) !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .smallBtn:not(.danger),
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .smallBtn:not(.danger) {
+  min-height: 40px !important;
+  border: 1px solid var(--pv-line-2) !important;
+  border-radius: 12px !important;
+  background: #fff !important;
+  color: var(--pv-ink) !important;
+  font-size: 14px !important;
+  font-weight: 650 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageRefOpen {
+  background: var(--pv-brand) !important;
+  background-image: none !important;
+  border-radius: 14px !important;
+  font-weight: 650 !important;
+}
+
+/* ---------- Laukai ---------- */
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  .app
+  input.input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app select.input,
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  input.input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet select.input,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .saleModal input.input {
+  min-height: 50px !important;
+  height: 50px !important;
+  border: 1px solid var(--pv-line-2) !important;
+  border-radius: var(--pv-r-ctl) !important;
+  color: var(--pv-ink) !important;
+  font-size: 16px !important;
+  font-weight: 550 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app textarea.input,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet textarea.input {
+  border: 1px solid var(--pv-line-2) !important;
+  border-radius: var(--pv-r-ctl) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .input:focus,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .input:focus,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .saleModal .input:focus {
+  border-color: var(--pv-brand) !important;
+  box-shadow: 0 0 0 3px var(--pv-brand-ring) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .field > label,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .field > label,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app label.field {
+  font-size: 13px !important;
+  font-weight: 650 !important;
+  color: var(--pv-muted) !important;
+}
+
+/* ---------- Iššokantys langai ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet {
+  border-top-left-radius: 28px !important;
+  border-top-right-radius: 28px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .sheetHead h3 {
+  font-size: 19px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.015em !important;
+  color: var(--pv-ink) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .closeBtn,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .saleModal .closeBtn {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  background: var(--pv-chip) !important;
+  color: var(--pv-ink-2) !important;
+}
+
+/* ---------- Aktyvios būsenos: vienas prekės ženklo mėlynas ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingReportMode.active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .periodTabs > button.selected,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .workTabs > button.selected,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .regScanBtnV50.primary,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .regScanBtnV50.primary,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .ppRoleBtn.active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .ppRoleBtn.active {
+  border-color: var(--pv-brand) !important;
+  background: var(--pv-brand) !important;
+  background-image: none !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  box-shadow: 0 6px 14px rgba(40, 76, 162, 0.18) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .regScanBtnV50.primary *,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .regScanBtnV50.primary *,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .ppRoleBtn.active *,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .ppRoleBtn.active * {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+/* Laikotarpio mygtukai vienoje eilutėje */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .periodTabs > button {
+  white-space: nowrap !important;
+  font-size: 13px !important;
+  font-weight: 650 !important;
+  padding-left: 4px !important;
+  padding-right: 4px !important;
+  border-radius: 12px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingReportMode {
+  border-radius: 13px !important;
+  font-weight: 650 !important;
+}
+/* Jungikliai */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .toggle.on,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .toggle.on {
+  background: var(--pv-brand) !important;
+  background-image: none !important;
+  border-color: var(--pv-brand) !important;
+}
+
+/* ---------- Ramūs paviršiai be gradientų ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .carListNoPhoto,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .leadNoPhoto {
+  background: #eef1f6 !important;
+  background-image: none !important;
+  color: #8f98a8 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .tkProgV63,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .regCardV50,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .regCardV50 {
+  background: #f6f8fb !important;
+  background-image: none !important;
+  border-color: var(--pv-line) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingSourceTile {
+  border: 1px solid var(--pv-line) !important;
+  border-radius: 20px !important;
+  background: #fff !important;
+  background-image: none !important;
+  box-shadow: var(--pv-shadow) !important;
+}
+/* Finansai: rodikliai – baltos kortelės, spalva lieka tik skaičiams */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .smallStatBox {
+  border: 1px solid var(--pv-line) !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .financeMobileFold {
+  border: 1px solid var(--pv-line) !important;
+  border-radius: 20px !important;
+  background: #fff !important;
+  background-image: none !important;
+  box-shadow: var(--pv-shadow) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .financeMobileFold .financeFoldIcon {
+  background: var(--pv-chip) !important;
+  background-image: none !important;
+  color: var(--pv-icon) !important;
+  -webkit-text-fill-color: var(--pv-icon) !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .financeMobileFold .financeFoldArrow {
+  width: 16px !important;
+  height: 16px !important;
+  font-size: 0 !important;
+  color: transparent !important;
+  background: #8a8f97 !important;
+  -webkit-mask: var(--pv-chevron) center / 16px 16px no-repeat !important;
+  mask: var(--pv-chevron) center / 16px 16px no-repeat !important;
+}
+
+/* ---------- Automobilio ir kiti langai: kortelės ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .cdInfoV51,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .carBottomCostGrid,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksBlock,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .carMediaSection,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .vehicleDocuments,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .cfCardV51,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .premiumResult,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .carAccountingBlock {
+  border: 1px solid var(--pv-line) !important;
+  border-radius: 22px !important;
+  box-shadow: var(--pv-shadow) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .carTasksAddWide,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .premiumUpload,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .csDocAddV61 {
+  min-height: 46px !important;
+  border: 1px dashed #cfd6e2 !important;
+  border-radius: 14px !important;
+  background: #fafbfd !important;
+  color: var(--pv-brand) !important;
+  -webkit-text-fill-color: var(--pv-brand) !important;
+  font-weight: 650 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet .carSellBottomBtn {
+  min-height: 52px !important;
+  border: 0 !important;
+  border-radius: var(--pv-r-btn-s) !important;
+  background: #1d8a56 !important;
+  background-image: none !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-size: 16px !important;
+  font-weight: 650 !important;
+  box-shadow: 0 8px 18px rgba(29, 138, 86, 0.2) !important;
+}
+
+/* ---------- Linijinės piktogramos vietoj simbolių (59-v76.js) ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageWhatThumb:has(> .aeIcoV76) {
+  background: var(--pv-chip) !important;
+  background-image: none !important;
+  color: var(--pv-icon) !important;
+  border: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .aeIcoV76 {
+  width: 22px !important;
+  height: 22px !important;
+  flex: 0 0 auto !important;
+  color: var(--pv-icon) !important;
+  stroke: currentColor !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .accountingRefOpsFoldIconV1 .aeIcoV76 {
+  width: 18px !important;
+  height: 18px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageWhatNoPhoto .aeNoPhotoIcoV76 {
+  display: grid !important;
+  place-items: center !important;
+  width: 56px !important;
+  height: 56px !important;
+  margin: 0 auto 4px !important;
+  border-radius: 18px !important;
+  background: rgba(255, 255, 255, 0.72) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .garageWhatNoPhoto .aeNoPhotoIcoV76 .aeIcoV76 {
+  width: 30px !important;
+  height: 30px !important;
+  color: #5d6b82 !important;
+}
+
+/* ---------- Prisijungimo langas ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierLoginBackdrop {
+  background: var(--pv-bg) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierLoginBackdrop:before {
+  background: linear-gradient(145deg, #c9d6f0 0%, #e2e9f6 56%, rgba(237, 242, 250, 0.1) 100%) !important;
+  filter: none !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierLoginBackdrop:after {
+  background: linear-gradient(325deg, #c6d4ef 0%, #e1e8f6 50%, rgba(237, 242, 250, 0.1) 100%) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierLoginCard {
+  border: 1px solid var(--pv-line) !important;
+  border-radius: 28px !important;
+  background: #fff !important;
+  box-shadow:
+    0 1px 2px rgba(16, 24, 40, 0.04),
+    0 16px 40px rgba(16, 24, 40, 0.07) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierField {
+  min-height: 60px !important;
+  padding: 0 6px !important;
+  grid-template-columns: 52px minmax(0, 1fr) 46px !important;
+  border: 1px solid var(--pv-line-2) !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierField:focus-within {
+  border-color: var(--pv-brand) !important;
+  box-shadow: 0 0 0 3px var(--pv-brand-ring) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierFieldIcon {
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: var(--pv-r-chip) !important;
+  background: var(--pv-chip) !important;
+  color: var(--pv-icon) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierFieldIcon svg {
+  width: 22px !important;
+  height: 22px !important;
+  stroke-width: 1.7 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierField input {
+  height: 54px !important;
+  color: var(--pv-ink) !important;
+  font-size: 16px !important;
+  font-weight: 550 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierSubmit {
+  min-height: 58px !important;
+  border: 0 !important;
+  border-radius: var(--pv-r-btn) !important;
+  background: var(--pv-brand) !important;
+  background-image: none !important;
+  box-shadow: var(--pv-shadow-brand) !important;
+  color: #fff !important;
+  font-size: 17px !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.01em !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierSubmit svg {
+  width: 20px !important;
+  height: 20px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierAuthLinks button,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierLegalLine a {
+  color: var(--pv-brand) !important;
+  font-weight: 650 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierSubscription {
+  color: var(--pv-brand) !important;
+  font-size: 16.5px !important;
+  font-weight: 650 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierSubscription svg {
+  width: 24px !important;
+  height: 24px !important;
+  stroke-width: 1.7 !important;
+}
+
+/* ---------- Prenumerata (planas, mokėjimo langas) ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .bsCtaV70 {
+  min-height: 56px !important;
+  border: 0 !important;
+  border-radius: var(--pv-r-btn) !important;
+  background: var(--pv-brand) !important;
+  background-image: none !important;
+  box-shadow: var(--pv-shadow-brand) !important;
+  color: #fff !important;
+  font-size: 17px !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* ---------- Veiksmų istorija ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .app .historyProTime {
+  font-size: 12.5px !important;
+  font-weight: 550 !important;
+  line-height: 1.3 !important;
+  color: var(--pv-faint) !important;
+  white-space: nowrap !important;
+  font-variant-numeric: tabular-nums !important;
+}

@@ -332,3 +332,11 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
 - Prisijungiant, jei šiame įrenginyje yra neįkeltų pakeitimų, jie sujungiami su debesies versija (anksčiau debesies versija viską perrašydavo). Bazinė sinchronizuota kopija saugoma `autoeasier-sync-base-v1:<uid>`.
 - Nepavykus įkelti, bandoma iš naujo savaime (iki 8 kartų); `cloudConflict` nebeužblokuoja sinchronizacijos. Nepakitę duomenys nebeįkeliami (mažiau revizijų). Debesies tikrinimas kas 15 s ir grįžus į langą.
 - Testas: `tools/test-sync.mjs` (du įrenginiai su dirbtiniu Supabase).
+
+## v76: „premium“ dizaino sluoksnis
+
+- `styles/185-v76-premium.css` – paskutinis CSS blokas (prefiksas su 5 ID, stipresnis už visus ankstesnius). Paletė ir matmenys išmatuoti iš Garažo pavyzdžio (430 px): fonas `#f3f6fa`, prekės ženklo mėlyna `#284ca2` (vientisa, be gradientų), tekstas `#0f1626`, rėmeliai `#e3e6ec`, piktogramų fonas `#edf1f7`.
+- Tas pats failas perrašo senus `--ds-*` tokenus, todėl ankstesni sluoksniai (166 ir kt.) naudoja tą pačią paletę.
+- Vienodi komponentai: Vadybininko juosta (79 px, r 28), plytelės Garaže / Buhalterijoje / Meniu (84 px, r 24, piktograma 42 px), kortelės ir išskleidimai (r 24), mygtukai (50 px, r 16; pagrindiniai 54–58 px, r 18), laukai (50 px, r 14), langai (#sheet viršus r 28), aktyvios būsenos – vientisa mėlyna, prisijungimo ir prenumeratos langai.
+- Išdėstymo taisyklės (kraštai 12 px, antraštė, apatinė juosta) – tik `max-width: 767px`; kompiuterio išdėstymas nekeičiamas.
+- `app/59-v76.js`: simboliai ir emoji (✓ ▤ ✎ ☎ 📁 🚗 …) Vadybininko sąraše, „Naujausios operacijos“ ir Finansų rodikliuose pakeičiami linijinėmis SVG piktogramomis (po `render()` ir per `MutationObserver`).
