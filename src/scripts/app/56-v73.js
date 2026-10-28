@@ -52,3 +52,38 @@ render = async function () {
   }
   return r;
 };
+
+// Patikra: jei užduotys yra, bet ekrane nematomos (pvz., paslėptos stiliaus), parodomas paprastas atsarginis sąrašas.
+function mgVerifyV73() {
+  const check = () => {
+    try {
+      if (state.selectedView !== "garage-what") return;
+      const root = document.getElementById("garageWhatRoot");
+      if (!root) return;
+      const items = workCenterItems();
+      root.querySelector(".mgFallbackV73")?.remove();
+      const visible = [...root.querySelectorAll("[data-what-open]")].some(e => e.offsetHeight > 0);
+      if (!items.length || visible) return;
+      const page = root.querySelector(".garageWhatPage") || root;
+      const wrap = document.createElement("div");
+      wrap.className = "mgFallbackV73";
+      wrap.style.cssText = "display:block;margin:12px 0;padding:0;opacity:1;visibility:visible;";
+      wrap.innerHTML = items
+        .slice(0, 20)
+        .map(
+          it =>
+            `<button type="button" data-what-open="${escapeHTML(it.key)}" style="display:block;width:100%;margin:0 0 8px;padding:14px;border:1px solid #dfe5ee;border-radius:16px;background:#fff;text-align:left;opacity:1;visibility:visible;height:auto;position:static"><span style="display:block;font-size:13px;color:#667085">${escapeHTML(it.entity || "")}</span><strong style="display:block;font-size:16px;color:#0f1f3a">${escapeHTML(it.action || "")}</strong></button>`
+        )
+        .join("");
+      page.append(wrap);
+    } catch (e) {}
+  };
+  requestAnimationFrame(() => requestAnimationFrame(check));
+  setTimeout(check, 400);
+}
+const __renderVerifyV73 = render;
+render = async function () {
+  const r = await __renderVerifyV73.apply(this, arguments);
+  if (state.selectedView === "garage-what") mgVerifyV73();
+  return r;
+};
