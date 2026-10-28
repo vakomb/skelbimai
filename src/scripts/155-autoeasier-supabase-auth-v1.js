@@ -32,7 +32,10 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
     message.hidden = !text;
     message.classList.toggle("is-success", !!ok);
   };
+  let paywallUser = "";
   const showGate = () => {
+    paywallUser = "";
+    document.body.classList.remove("autoeasier-paywall");
     stopCloudSync();
     window.__autoEasierReadOnly = false;
     window.__autoEasierSubscription = null;
@@ -46,6 +49,8 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
     document.body.classList.add("autoeasier-auth-locked");
   };
   const showApp = () => {
+    paywallUser = "";
+    document.body.classList.remove("autoeasier-paywall");
     gate.hidden = true;
     appNodes.forEach(n => {
       n.removeAttribute("inert");
@@ -416,7 +421,12 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
         if (error) throw error;
         return data || null;
       })
-      .catch(() => null);
+      .catch(() => null)
+      .then(file => {
+        // Nepavykęs atsisiuntimas neįsimenamas – kitas bandymas veiks
+        if (!file) downloadedMedia.delete(key);
+        return file;
+      });
     downloadedMedia.set(key, task);
     return task;
   };
@@ -640,7 +650,8 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
     return { pollCloud };
   };
   const attachWorkspacePanel = async session => {
-    const menu = document.querySelector("#view-menu .menuIntro");
+    const menu =
+      document.getElementById("setAccountSlotV71") || document.querySelector("#view-menu .menuIntro");
     if (!menu) return;
     let row = document.getElementById("autoEasierAccountSession");
     if (!row) {
@@ -709,6 +720,28 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
     } catch (e) {}
     const readOnly = !!billing && billing.access === false;
     window.__autoEasierSubscription = billing;
+    // Prenumeratos užraktas (v71): kol nepradėtas bandomasis laikotarpis, programėlė neatidaroma ir duomenys neįkeliami
+    if (
+      billing &&
+      !billing.comped &&
+      billing.access === false &&
+      ["none", "incomplete", "incomplete_expired"].includes(billing.status)
+    ) {
+      window.__autoEasierReadOnly = true;
+      window.AUTOEASIER_APP_DATA.setReadOnly?.(true);
+      paywallUser = session.user.id;
+      gate.hidden = true;
+      appNodes.forEach(n => {
+        n.setAttribute("inert", "");
+        n.setAttribute("aria-hidden", "true");
+      });
+      document.body.classList.add("autoeasier-auth-locked", "autoeasier-paywall");
+      setMessage("");
+      window.dispatchEvent(
+        new CustomEvent("autoeasier:paywall", { detail: { user: session.user, subscription: billing } })
+      );
+      return true;
+    }
     window.__autoEasierReadOnly = readOnly;
     window.AUTOEASIER_APP_DATA.setReadOnly?.(readOnly);
     if (!row && readOnly) {
@@ -722,6 +755,13 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
     workspaceRevision = Number(row?.revision) || workspaceRevision;
     await beginCloudSync(session.user.id);
     await attachWorkspacePanel(session);
+    // Nuotraukų viršeliai paruošiami prieš rodant programėlę (ne ilgiau kaip 2,5 s), likusios – fone
+    try {
+      await Promise.race([
+        window.AUTOEASIER_APP_DATA.preloadPhotos?.({ coversOnly: true }),
+        new Promise(r => setTimeout(r, 2500))
+      ]);
+    } catch (e) {}
     showApp();
     setMessage("");
     window.dispatchEvent(
@@ -784,6 +824,7 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
             if (authMode === "reset") return;
             if (session?.user) {
               if (cloudReady && activeSessionUserId === session.user.id) return;
+              if (paywallUser === session.user.id) return;
               if (["SIGNED_IN", "INITIAL_SESSION", "USER_UPDATED"].includes(event))
                 setTimeout(() => safeShowApp(session), 0);
             } else {
@@ -917,6 +958,21 @@ window.AUTOEASIER_AUTH_CONFIG = window.AUTOEASIER_AUTH_CONFIG || {
     setMode,
     setMessage,
     focusEmail: () => emailInput.focus(),
+    // Atidaro programėlę po sėkmingos prenumeratos (be perkrovimo)
+    enter: async () => {
+      const sess = await (await loadClient()).auth.getSession();
+      paywallUser = "";
+      if (!sess.data.session) return false;
+      return safeShowApp(sess.data.session);
+    },
+    signOut: async () => {
+      try {
+        await (await loadClient()).auth.signOut();
+      } catch (e) {
+        window.AUTOEASIER_APP_DATA.lockAccount();
+        showGate();
+      }
+    },
     get mode() {
       return authMode;
     }

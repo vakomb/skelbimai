@@ -210,6 +210,10 @@
       <button type="button" class="bsCtaV70" data-bs-close><span>Pradėti darbą</span></button></div>`;
   }
   function showError(text) {
+    if (!pw.hidden && host.hidden) {
+      pwIdle(text);
+      return;
+    }
     const el = body.querySelector(".bsErrV70");
     if (el) {
       el.textContent = text;
@@ -325,7 +329,7 @@
     goCheckout(btn);
   }
   document.addEventListener("click", e => {
-    const start = e.target.closest("#aeBillV70 [data-bill-start]");
+    const start = e.target.closest("#aeBillV70 [data-bill-start], #aePaywallV71 [data-bill-start]");
     if (start) {
       e.preventDefault();
       startTrial(start);
@@ -456,7 +460,7 @@
   }
   function paintSettings() {
     const view = document.getElementById("view-settings");
-    const head = view?.querySelector(":scope > .sectionHead");
+    const head = view?.querySelector("#setAccountHV71") || view?.querySelector(":scope > .sectionHead");
     let box = document.getElementById("aeSubPanelV70");
     if (!signedIn || !sub || !head) {
       box?.remove();
@@ -521,9 +525,10 @@
 
   // ---------- Grįžimas iš Stripe ----------
   const params = new URLSearchParams(location.search);
-  const returnFlag = params.get("checkout") || params.get("billing") || "";
+  let returnFlag = params.get("checkout") || params.get("billing") || "";
   function cleanUrl() {
     if (!returnFlag) return;
+    returnFlag = "";
     params.delete("checkout");
     params.delete("billing");
     const q = params.toString();
@@ -556,6 +561,115 @@
     cleanUrl();
     showError("Mokėjimas gautas, bet patvirtinimas dar vėluoja. Atnaujinkite puslapį po minutės.");
   }
+
+  // ---------- Prieigos užraktas (v71): visas ekranas, kol nepradėtas bandomasis laikotarpis ----------
+  const pw = document.createElement("div");
+  pw.id = "aePaywallV71";
+  pw.className = "pwV71";
+  pw.hidden = true;
+  document.body.append(pw);
+  let pwEmail = "",
+    pwBusy = false;
+  const pwHead = () =>
+    `<header class="pwHeadV71"><span class="pwBrandV71">AutoEasier</span><div class="pwUserV71"><span>${esc(pwEmail)}</span><button type="button" data-pw-signout>Atsijungti</button></div></header>`;
+  function pwRender(inner) {
+    pw.innerHTML = `${pwHead()}<main class="pwMainV71">${inner}</main>`;
+    pw.scrollTop = 0;
+  }
+  function pwShow() {
+    if (pw.hidden) {
+      pw.hidden = false;
+      document.documentElement.classList.add("aePaywallOnV71");
+      requestAnimationFrame(() => pw.classList.add("is-in"));
+    }
+  }
+  function pwHide() {
+    pw.classList.remove("is-in");
+    pw.hidden = true;
+    pw.innerHTML = "";
+    pwBusy = false;
+    document.documentElement.classList.remove("aePaywallOnV71");
+  }
+  function pwIdle(err) {
+    pwBusy = false;
+    pwRender(`<h1 class="pwTitleV71">Pradėkite nemokamai</h1>
+      <p class="pwLeadV71">7 dienas naudokitės visomis funkcijomis. Pirmą kartą nuskaičiuosime tik pasibaigus bandomajam laikotarpiui.</p>
+      ${plansHTML({})}`);
+    if (err) {
+      const el = pw.querySelector(".bsErrV70");
+      if (el) {
+        el.textContent = err;
+        el.hidden = false;
+      }
+    }
+    pwShow();
+  }
+  function pwWorking(text, sub2) {
+    pwBusy = true;
+    pwRender(busyHTML(text, sub2));
+    pwShow();
+  }
+  async function pwActivate() {
+    if (pwBusy && pw.dataset.act === "1") return;
+    pw.dataset.act = "1";
+    pwWorking("Aktyvuojama prenumerata…", "Tai užtrunka kelias sekundes.");
+    const until = Date.now() + 60e3;
+    while (Date.now() < until) {
+      await refreshSub();
+      if (sub?.access) {
+        cleanUrl();
+        try {
+          sessionStorage.setItem(WELCOME_KEY, "1");
+        } catch (e) {}
+        let ok = false;
+        try {
+          ok = await AUTH().enter();
+        } catch (e) {}
+        pw.dataset.act = "";
+        if (ok) pwHide();
+        else location.reload();
+        return;
+      }
+      await new Promise(r => setTimeout(r, 2000));
+    }
+    cleanUrl();
+    pw.dataset.act = "";
+    pwRender(`<div class="bsBusyV70"><strong>Patvirtinimas dar vėluoja</strong>
+      <p>Jei mokėjimas atliktas, prenumerata aktyvuosis per minutę. Patikrinkite dar kartą.</p></div>
+      <div class="bsCtaWrapV70"><button type="button" class="bsCtaV70" data-pw-recheck><span>Patikrinti dar kartą</span></button></div>`);
+  }
+  document.addEventListener("click", e => {
+    if (e.target.closest("[data-pw-signout]")) {
+      e.preventDefault();
+      AUTH()?.signOut?.();
+    } else if (e.target.closest("[data-pw-recheck]")) {
+      e.preventDefault();
+      pwActivate();
+    }
+  });
+  window.addEventListener("autoeasier:paywall", e => {
+    signedIn = true;
+    sub = e.detail?.subscription || null;
+    pwEmail = e.detail?.user?.email || "";
+    window.__autoEasierSubscription = sub;
+    closeSheet();
+    let intent = 0;
+    try {
+      intent = Number(localStorage.getItem(INTENT_KEY) || 0);
+      localStorage.removeItem(INTENT_KEY);
+    } catch (err) {}
+    if (returnFlag === "success") return pwActivate();
+    if (returnFlag === "cancel") {
+      cleanUrl();
+      return pwIdle("Apmokėjimas nebuvo užbaigtas. Galite bandyti dar kartą.");
+    }
+    if (returnFlag) cleanUrl();
+    if (intent && Date.now() - intent < 3600e3) {
+      pwWorking("Nukreipiama į saugų apmokėjimą…", "Stripe – patikimas mokėjimų partneris.");
+      return goCheckout(null);
+    }
+    pwIdle();
+  });
 
   // ---------- Paskyros įvykiai ----------
   window.addEventListener("autoeasier:account-ready", async e => {
@@ -607,6 +721,7 @@
     if (sub && !sub.comped && sub.status === "none" && !sub.trial_used) openPlans();
   });
   window.addEventListener("autoeasier:signed-out", () => {
+    pwHide();
     signedIn = false;
     sub = null;
     paint();
@@ -614,7 +729,10 @@
   });
   // Grįžus į programėlę (pvz., iš Stripe portalo kitame lange) – būsena atnaujinama
   document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible" && signedIn) refreshSub();
+    if (document.visibilityState === "visible" && signedIn)
+      refreshSub().then(() => {
+        if (!pw.hidden && sub?.access) pwActivate();
+      });
   });
 
   // ---------- Teisiniai tekstai ----------

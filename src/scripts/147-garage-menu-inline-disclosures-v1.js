@@ -5,9 +5,9 @@
     intro = menu?.querySelector(".menuIntro");
   if (!garage || !menu || !links || !intro) return;
   const definitions = [
-    { key: "garage-stats", title: "Pardavimų statistika", id: "view-garage-stats" },
-    { key: "finance", title: "Finansai", id: "view-finance" },
     { key: "customers", title: "Kontaktai", id: "view-customers" },
+    { key: "finance", title: "Finansai", id: "view-finance" },
+    { key: "garage-stats", title: "Pardavimų statistika", id: "view-garage-stats" },
     { key: "history", title: "Veiksmų istorija", id: "menu-history" },
     { key: "settings", title: "Nustatymai", id: "view-settings" }
   ];

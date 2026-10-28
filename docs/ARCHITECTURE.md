@@ -267,6 +267,15 @@ Vadybininkas nebesiūlo „Kodėl dar ne skelbime?“ ir kainos peržiūros paga
 - **Nustatymai → Prenumerata** (`#aeSubPanelV70`, Meniu → Nustatymai) rodo būseną, datas ir „Valdyti prenumeratą“ (Stripe portalas). Ten taip pat yra Paslaugų teikimo sąlygų ir Privatumo politikos nuorodos (`#salygos`, `#privatumas` – veikia ir neprisijungus).
 - **Testas:** `node tools/test-subscription.mjs` (375 / 430 / 834 / 1440).
 
+## Prieigos užraktas, nuotraukos, Nustatymai (v71)
+
+- **Prieigos užraktas.** `bootstrapWorkspace` (155) po `account_subscription()`: jei `status in (none, incomplete, incomplete_expired)` ir nėra `comped`/`access`, programėlė **neatidaroma** ir duomenys nekraunami: `body.autoeasier-paywall`, programos mazgai `inert`, siunčiamas `autoeasier:paywall`. `180-billing-v70.js` piešia visą ekraną `#aePaywallV71` (planas, „Išbandyti 7 d. nemokamai“, Atsijungti). Grįžus iš Stripe (`?checkout=success`) rodoma „Aktyvuojama…“, kol `account_subscription` grąžina `access`, tada `AUTOEASIER_AUTH.enter()` atidaro programėlę be perkrovimo. `canceled`/`unpaid` lieka „tik peržiūra“ (v70).
+- **Nuotraukos.** `app/55-photo-preload-v71.js`: `AUTOEASIER_APP_DATA.preloadPhotos`. Prieš `showApp` palaukiama viršelių (≤ 2,5 s), likusios kraunamos fone; po pakrovimo daromas `render()` (jei nėra atidaryto lango / fokuso). `downloadMedia` nebeįsimena nepavykusių atsisiuntimų.
+- **Duomenų langas.** `profileCheckV57` nebeatidaro privalomo lango, o rodo priminimą `#pfRemindV71` (atidedamas 3 d., raktas `autoeasier_profile_snooze_v71`); Nustatymuose – ženkliukas „Neužpildyta“ (`html.pfIncompleteV71`).
+- **Nustatymai.** `view-settings.html` suskirstyta į grupes: Paskyra (Prenumerata `#aeSubPanelV70`, Mano duomenys, el. paštas + Atsijungti `#setAccountSlotV71`), Sauga, Buhalterija, Programėlė, Duomenys. Meniu eilė: Kontaktai, Finansai, Pardavimų statistika, Veiksmų istorija, Nustatymai (ta pati eilė `147-…js` apibrėžimuose).
+- **Apatinė juosta.** `styles/181-v71.css`: mažesni vertikalūs tarpai (mygtukų dydis tas pats), fonas vientisas iki apačios. Literalus `\n` tarp skriptų `src/index.html` pašalintas.
+- Testai: `tools/test-subscription.mjs` (užraktas), `tools/test-photos.mjs`, `tools/test-profile.mjs` (priminimas).
+
 ## Perrašymų grandinės (svarbu!)
 
 Programa augo sluoksniais: nauja versija **perrašo** seną funkciją (`render = async function () { await __renderPP(); … }`). Todėl:

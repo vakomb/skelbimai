@@ -261,6 +261,59 @@ for (const [w, h] of [
   check(!p.errors.length, `${w}px: be JS klaidų ${p.errors.join(" | ")}`);
   await p.context().close();
 }
+// ---------- Prieigos užraktas (v71) ----------
+for (const [w, h] of [
+  [430, 932],
+  [375, 667],
+  [1440, 900]
+]) {
+  const p = await open(w, h);
+  await p.evaluate(() => {
+    document.getElementById("autoEasierLogin").hidden = true;
+    document.body.classList.add("autoeasier-paywall");
+    window.dispatchEvent(
+      new CustomEvent("autoeasier:paywall", {
+        detail: {
+          user: { email: "nauja@pastas.lt" },
+          subscription: { status: "none", access: false, trial_used: false, comped: false }
+        }
+      })
+    );
+  });
+  await p.waitForTimeout(500);
+  const s = await p.evaluate(() => {
+    const el = document.getElementById("aePaywallV71");
+    const r = el.getBoundingClientRect();
+    const top = document.elementFromPoint(innerWidth / 2, innerHeight / 2);
+    return {
+      shown: !el.hidden,
+      full: r.width >= innerWidth - 1 && r.height >= innerHeight - 1,
+      cover: el.contains(top),
+      title: el.querySelector(".pwTitleV71")?.textContent,
+      cta: el.querySelector("[data-bill-start] span")?.textContent,
+      email: el.querySelector(".pwUserV71 span")?.textContent,
+      out: !!el.querySelector("[data-pw-signout]"),
+      inert: document.querySelector(".app").hasAttribute("inert") || document.querySelector(".app").offsetParent !== null
+    };
+  });
+  check(s.shown && s.full && s.cover, `${w}px: užrakto ekranas dengia visą ekraną`);
+  check(s.title === "Pradėkite nemokamai" && s.cta === "Išbandyti 7 d. nemokamai", `${w}px: tekstai „${s.title}“ / „${s.cta}“`);
+  check(s.email === "nauja@pastas.lt" && s.out, `${w}px: rodomas el. paštas ir „Atsijungti“`);
+  check(await noHScroll(p), `${w}px: be horizontalaus slinkimo`);
+  await p.screenshot({ path: path.join(out, `paywall-${w}.png`) });
+  await p.click("#aePaywallV71 [data-legal='salygos']");
+  await p.waitForTimeout(450);
+  check(await p.evaluate(() => {
+    const t = document.elementFromPoint(innerWidth / 2, innerHeight - 40);
+    return !!t && document.getElementById("aeBillV70").contains(t);
+  }), `${w}px: teisiniai tekstai atsidaro virš užrakto`);
+  await p.evaluate(() => window.AUTOEASIER_BILLING.close());
+  await p.evaluate(() => window.dispatchEvent(new Event("autoeasier:signed-out")));
+  await p.waitForTimeout(300);
+  check(await p.evaluate(() => document.getElementById("aePaywallV71").hidden), `${w}px: atsijungus užraktas paslepiamas`);
+  check(!p.errors.length, `${w}px: be JS klaidų ${p.errors.join(" | ")}`);
+  await p.context().close();
+}
 await b.close();
 if (fails.length) {
   console.log(`\n${fails.length} klaidos`);

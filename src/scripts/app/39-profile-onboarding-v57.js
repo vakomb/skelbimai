@@ -22,6 +22,7 @@ const PROFILE_FIELDS_V57 = {
   ]
 };
 let profileOpenV57 = false;
+let profileRequiredV57 = false;
 
 function profileIsCompleteV57(p = state.profile) {
   if (!p || !p.done || !["person", "company"].includes(p.type)) return false;
@@ -86,10 +87,11 @@ function profileFieldsHTMLV57(type, p) {
     })
     .join("");
 }
-function openProfileSheetV57({ required = true } = {}) {
+function openProfileSheetV57({ required = false } = {}) {
   const p = profileInitialV57();
   let type = ["person", "company"].includes(p.type) ? p.type : "company";
   profileOpenV57 = true;
+  profileRequiredV57 = !!required;
   openSheet(`<div class="sheetHead cfHeadV51 ctHeadV55"><span></span><h3>Jūsų duomenys</h3>${
     required
       ? "<span></span>"
@@ -175,7 +177,8 @@ function openProfileSheetV57({ required = true } = {}) {
 // Privalomo lango negalima uždaryti (fono paspaudimu ar Escape), kol duomenys neišsaugoti.
 const __closeSheetProfileV57 = closeSheet;
 closeSheet = function () {
-  if (profileOpenV57 && !profileIsCompleteV57() && document.getElementById("pfform")) return;
+  if (profileRequiredV57 && profileOpenV57 && !profileIsCompleteV57() && document.getElementById("pfform"))
+    return;
   profileOpenV57 = false;
   document.getElementById("sheet")?.classList.remove("pfSheetV57");
   return __closeSheetProfileV57.apply(this, arguments);
@@ -234,8 +237,54 @@ function profileCheckV57() {
     closeSheet();
     return;
   }
-  if (profileIsCompleteV57() || profileOpenV57 || !profileAppVisibleV57()) return;
-  openProfileSheetV57({ required: true });
+  if (profileIsCompleteV57()) return profileRemindHideV71();
+  if (profileOpenV57 || !profileAppVisibleV57()) return;
+  profileRemindV71();
+}
+// v71: duomenų langas nebereikalaujamas iškart – parodomas tik ramus priminimas (atidedamas 3 dienoms).
+const PROFILE_SNOOZE_KEY_V71 = "autoeasier_profile_snooze_v71";
+let profileRemindTimerV71 = 0;
+function profileSnoozedV71() {
+  try {
+    return Number(localStorage.getItem(PROFILE_SNOOZE_KEY_V71) || 0) > Date.now();
+  } catch (e) {
+    return false;
+  }
+}
+function profileRemindHideV71() {
+  clearTimeout(profileRemindTimerV71);
+  profileRemindTimerV71 = 0;
+  document.getElementById("pfRemindV71")?.remove();
+  document.documentElement.classList.remove("pfIncompleteV71");
+}
+function profileRemindV71() {
+  document.documentElement.classList.add("pfIncompleteV71");
+  if (profileSnoozedV71() || document.getElementById("pfRemindV71") || profileRemindTimerV71) return;
+  profileRemindTimerV71 = setTimeout(() => {
+    profileRemindTimerV71 = 0;
+    if (profileIsCompleteV57() || !profileAppVisibleV57() || profileSnoozedV71()) return;
+    if (
+      document.getElementById("pfRemindV71") ||
+      document.getElementById("modalBackdrop")?.classList.contains("show")
+    )
+      return;
+    const bar = document.createElement("div");
+    bar.id = "pfRemindV71";
+    bar.setAttribute("role", "status");
+    bar.innerHTML =
+      '<div class="pfRemindTxtV71"><b>Užpildykite savo duomenis</b><span>Jie naudojami sutartyse ir dokumentuose.</span></div>' +
+      '<button type="button" class="pfRemindGoV71" data-profile-edit>Užpildyti</button>' +
+      '<button type="button" class="pfRemindXV71" aria-label="Priminti vėliau">Vėliau</button>';
+    document.body.appendChild(bar);
+    requestAnimationFrame(() => bar.classList.add("show"));
+    bar.querySelector(".pfRemindXV71").onclick = () => {
+      try {
+        localStorage.setItem(PROFILE_SNOOZE_KEY_V71, String(Date.now() + 3 * 864e5));
+      } catch (e) {}
+      profileRemindHideV71();
+    };
+    bar.querySelector(".pfRemindGoV71").addEventListener("click", () => bar.remove());
+  }, 2500);
 }
 const __renderProfileV57 = render;
 render = function () {
