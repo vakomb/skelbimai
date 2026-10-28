@@ -302,3 +302,10 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
 - `src/index.html` gale, tarp skriptų, yra du pažodiniai tekstai `\n`. Jie buvo originale.
 - `#view-home` paslėptas, todėl programa visada startuoja nuo Garažo.
 - Supabase publishable raktas yra kode. Tai normalu, jei DB įjungtas RLS.
+
+## Vadybininkas (v72b)
+
+- Vienas variklis ir vienas langų rinkinys: `scripts/app/56-manager-v72.js`, stiliai `styles/183-manager-v72.css`. Perrašo `renderGarageWhatApp`, `workCenterItems`, `openWhatItemV30`, `closeSheet`; `49-manager-v65.js` (`vdEnhanceV65`) praleidžia naują puslapį.
+- `mgAllV72()` generuoja užduotis: naudotojo automobilių užduotys, trūkstami duomenys / dokumentai / nuotraukos (<5), SDK, TA ir draudimas, kaina (nenustatyta / 30 d. neperžiūrėta), variantų skambučiai ir kainos, klientų sekimas, parduoti automobiliai be perdavimo buhalterijai, Garažo užduotys, verslo žingsniai (Mano duomenys, buhalterio el. paštas, pirmas automobilis). Raktai: `car:<id>:task:<tid>`, `car:<id>:missing-data|missing-docs|photos|…`, `lead:<id>:callback|price`, `customer:<id>:follow`, `task:<id>`, `biz:*`.
+- Puslapis: suvestinė, „Nauja užduotis“, kortelės kaip Buhalterijoje (Skubu → pagal automobilį → Variantai ir klientai → Bendra). Eilutė atidaro apatinį langą (`mgOpenSheet`) su lipniu veiksmo mygtuku. Trūkstamų duomenų langas naudoja esamą registracijos liudijimo skaitytuvą (`30-registration-review-v41.js`).
+- Testas: `tools/test-manager.mjs`.

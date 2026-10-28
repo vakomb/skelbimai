@@ -13,7 +13,7 @@ function vdTaskOfV65(el) {
 }
 function vdEnhanceV65() {
   const page = document.querySelector("#garageWhatRoot .garageWhatPage");
-  if (!page) return;
+  if (!page || page.classList.contains("mgPageV72")) return; // v72: naują puslapį piešia 56-manager-v72.js
   page.classList.add("vdV65");
   const all = [...page.querySelectorAll("[data-what-open]")];
   const items = tkItemsV62();
