@@ -359,3 +359,23 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
 - **Sutartis iš Garažo** (`58-v75.js`): atidaro veikiantį generatorių `openContractSheetV52({})` Garaže (nebeperkelia į Buhalteriją). Naujos piktogramos: Užduotys – sąrašas su varnelėmis, sutartis – dokumentas su parašu.
 - **Greitis**: `142` nuotraukų žemėlapis vietoj O(n²) ir teisingas paskyros raktas variantų ženkleliui, `01` talpinami formatuotojai, `53` Map, parduotų sąrašas piešiamas tik atidarius (`10-render`, `46-nav-v63`).
 - **Testai**: `tools/test-hardening.mjs` (sugadinti duomenys, dublikatai, pilna atmintis, keli skirtukai, didelės sumos 320–430 px, užduočių grupės, 300 automobilių).
+
+## v79 – fonas ir blokai pagal pavyzdį
+
+- `styles/188-v79.css` (paskutinis dizaino sluoksnis): fonas `#f3f7fa`, blokų rėmelis `#e3e5ea`, švelnūs šešėliai, kampai (plytelės 16 px, kortelės 18 px, Vadybininkas 20 px). Langų (`#sheet`) fonas švelnus, blokai jame – baltos kortelės. Telefone kraštai 9 px.
+- Automobilio kortelės apatinė juosta (SDK/TA/draudimo taškai, dokumentai, dienos) pašalinta (`10-render.js`, `60-v77.js`, `186-v77.css`).
+- Teksto laukai be papildomo fokuso kontūro (`186-v77.css`).
+
+## v80 – Regitros įrankiai Meniu („SDK paieška“, „Draudimo patikra“)
+
+- Viešos Regitros API nėra, eregitra.lt automatinėms užklausoms rodo CAPTCHA, o cab.lt paieška skirta tik eismo įvykio dalyviams (reikia patvirtinti dalyvavimą). Todėl automatinio „scraperio“ nėra: programa paruošia duomenis, nukopijuoja ilgiausią lauką, atidaro oficialią Regitros paiešką (`vehicle-registration/data-search` – draudimas, `vehicle-declaration/search` – SDK), o vartotojas, praėjęs patikrą, įrašo rezultatą vienu paspaudimu.
+- `app/63-v80-regitra.js`: būsenos `idle → wait → done`, automobilio pasirinkimas užpildo laukus (valst. nr., liudijimo nr. / VIN, savininko vardas iš `car.ppParty`). Rezultatas įrašomas į kortelę: `insuranceStatus`, `insuranceUntil`, `insuranceCompany` (naujas, nebūtinas), `sdk` (iš jo pildoma PP sutartis). Tuščius `plate` / `vin` / `registrationDoc` papildo įvestais. Nebaigta patikra – `sessionStorage` (`aeRegitraV80:<rūšis>:<paskyros raktas>`). Tik peržiūros režime (`54-readonly-v70.js`) įrašymas patikrinamas ir „Įrašyta į kortelę“ nerodoma.
+- Meniu plytelės 5–6 (`partials/view-menu.html`), atidaromos per `147-garage-menu-inline-disclosures-v1.js` (sąraše `definitions` – `sdk`, `insurance`). Stilius – `styles/189-v80-regitra.css` (taip pat atšaukia seną „5-a plytelė per visą plotį“ taisyklę).
+- Testas: `tools/test-regitra.mjs`.
+
+## v81 – kontekstinė pagalba ir automobiliui priskirtos operacijos
+
+- `app/64-v81-help.js` + `styles/190-v81-help.css`: „?“ mygtukai (be teksto, `aria-label`) įterpiami į antraštes pagal `AH_ANCHORS_V81` – MutationObserver + rAF juos atkuria po perpiešimo. Temos (`AH_TOPICS_V81`): sutartys, skeneris, pajamos, islaidos, uzduotys, ataskaitos, variantai, vadybininkas, backup_skolos, prenumerata. Kiekviena: įžanga, „Kaip tai veikia“, „Žingsniai kelyje“ ir CSS telefono maketas (`.mScr` ekranai, žingsnis → `scr` + `hl` paryškinimas, automatinis perjungimas kas 3,2 s, kol vartotojas nepaspaudžia žingsnio).
+- Langas – atskiras sluoksnis (`.ahRootV81`, z-index 150000) virš `#modalBackdrop`, todėl atidarytas programos langas (pvz. pildoma sutartis) lieka. Telefone – iš apačios (60–85 % aukščio, rankenėlė, nutempus žemyn uždaromas), nuo 768 px – centruotas dviejų stulpelių langas. Escape, fonas, X uždaro; fokusas grąžinamas. API: `window.AutoEasierHelp.open(id)` / `.openTutorial(id)` / `.close()`.
+- `app/07-finance.js` → `carChecklistExpenses()`: prie užduočių išlaidų pridedamos Buhalterijoje automobiliui priskirtos operacijos (`source: "accounting"`, `carId`): išlaida didina, įplauka mažina išlaidas ir savikainą (`carTotalCost`), todėl keičiasi ir pardavimo pelnas, statistika, ataskaitos. `carTask` operacijos neskaičiuojamos (jos jau checklist'e). Suvestinė talpinama vienam sinchroniniam perpiešimui.
+- Testas: `tools/test-help.mjs` (visos temos 430 ir 1280 px, uždarymas, sutarties duomenys neprarandami, savikainos skaičiavimas).

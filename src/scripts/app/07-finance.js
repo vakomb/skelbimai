@@ -1,8 +1,31 @@
 // Finansai: operacijos, skolos, biudžetas, savikaina ir pelnas.
 // Dalis bendro app IIFE: visi src/scripts/app/*.js failai sujungiami eilės tvarka į vieną scope (žr. ARCHITECTURE.md).
 
+// v81: Buhalterijoje automobiliui priskirtos operacijos (source "accounting" + carId) keičia jo išlaidas ir savikainą:
+// išlaida – didina, įplauka (pvz. grąžinimas už detalę) – mažina. Užduočių išlaidos (source "carTask") jau yra
+// checklist'e, todėl antrą kartą neskaičiuojamos. Suvestinė sudaroma kartą per sinchroninį perpiešimą (ne kiekvienai
+// kortelei iš naujo) ir išvaloma kitame mikrotaske – pakeitus operacijas, kitas render() mato naujas sumas.
+let carAccountingNetCacheV81 = null;
+function carAccountingNetV81(car) {
+  if (!car || !car.id) return 0;
+  const list = Array.isArray(state?.finances?.transactions) ? state.finances.transactions : [];
+  const cache = carAccountingNetCacheV81;
+  if (!cache || cache.list !== list || cache.length !== list.length) {
+    const map = new Map();
+    for (const tx of list) {
+      if (!tx || tx.source !== "accounting" || !tx.carId) continue;
+      const amount = Math.abs(Number(tx.amount) || 0);
+      const signed = tx.type === "expense" ? amount : tx.type === "income" ? -amount : 0;
+      if (signed) map.set(tx.carId, (map.get(tx.carId) || 0) + signed);
+    }
+    carAccountingNetCacheV81 = { map, list, length: list.length };
+    Promise.resolve().then(() => (carAccountingNetCacheV81 = null));
+  }
+  return Math.round((carAccountingNetCacheV81.map.get(car.id) || 0) * 100) / 100;
+}
 function carChecklistExpenses(car) {
-  return (car?.checklist || []).reduce((sum, item) => sum + (Number(item.expense) || 0), 0);
+  const tasks = (car?.checklist || []).reduce((sum, item) => sum + (Number(item.expense) || 0), 0);
+  return Math.round((tasks + carAccountingNetV81(car)) * 100) / 100;
 }
 function carTotalCost(car) {
   return Number(car?.buyPrice || 0) + carChecklistExpenses(car);

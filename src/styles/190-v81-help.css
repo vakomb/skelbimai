@@ -1,0 +1,2025 @@
+/* =====================================================================
+   AutoEasier v81 – kontekstinė pagalba (64-v81-help.js)
+   „?“ mygtukai antraštėse, pagalbos langas (telefone – iš apačios, planšetėje ir
+   kompiuteryje – centruotas, dviem stulpeliais) ir telefono maketai vien CSS.
+   ===================================================================== */
+
+/* ---------- „?“ mygtukas ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahTrigV81 {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 auto !important;
+  width: 30px !important;
+  min-width: 30px !important;
+  height: 30px !important;
+  min-height: 30px !important;
+  margin: -6px -4px -6px 2px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  color: #98a2b3 !important;
+  vertical-align: middle !important;
+  box-shadow: none !important;
+  line-height: 0 !important;
+  cursor: pointer !important;
+  -webkit-tap-highlight-color: transparent !important;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease,
+    transform 0.12s ease !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahTrigV81 svg {
+  width: 19px !important;
+  height: 19px !important;
+  stroke: currentColor !important;
+  fill: none !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahTrigV81:hover,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahTrigV81:focus-visible {
+  background: var(--pv-brand-soft) !important;
+  color: var(--pv-brand) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahTrigV81:active {
+  transform: scale(0.88) !important;
+}
+/* Mažose antraštėse (Nustatymų skyrių pavadinimai) – mažesnis */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .setLabelV71 > .ahTrigV81 {
+  width: 26px !important;
+  min-width: 26px !important;
+  height: 26px !important;
+  min-height: 26px !important;
+  margin: -7px 0 -7px 2px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .setLabelV71 > .ahTrigV81 svg {
+  width: 16px !important;
+  height: 16px !important;
+}
+/* Vadybininkas: prie „Atgal“ */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .garageWhatHead > .ahTrigV81 {
+  margin: 0 8px 0 auto !important;
+  width: 36px !important;
+  min-width: 36px !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  background: #fff !important;
+  color: var(--pv-icon) !important;
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.05),
+    0 4px 12px rgba(15, 23, 42, 0.06) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .garageWhatHead > .ahTrigV81 + .garageWhatBack {
+  margin-left: 0 !important;
+}
+
+/* ---------- Pagalbos langas ---------- */
+html.ahLockV81,
+html.ahLockV81 body {
+  overflow: hidden !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahRootV81 {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 150000 !important;
+  color: var(--pv-ink) !important;
+  font-family: inherit !important;
+  -webkit-font-smoothing: antialiased;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahRootV81[hidden] {
+  display: none !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahBackdropV81 {
+  position: absolute !important;
+  inset: 0 !important;
+  background: rgba(15, 22, 38, 0.44) !important;
+  opacity: 0;
+  transition: opacity 0.3s ease !important;
+  touch-action: none;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahRootV81.open .ahBackdropV81 {
+  opacity: 1;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahPanelV81 {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 60vh !important;
+  min-height: 60dvh !important;
+  max-height: 85vh !important;
+  max-height: 85dvh !important;
+  padding-bottom: env(safe-area-inset-bottom) !important;
+  border-radius: 26px 26px 0 0 !important;
+  background: #fff !important;
+  box-shadow: 0 -12px 40px rgba(15, 22, 38, 0.2) !important;
+  outline: none !important;
+  transform: translate3d(0, 100%, 0);
+  transition: transform 0.34s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  will-change: transform;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahRootV81.open .ahPanelV81 {
+  transform: translate3d(0, 0, 0);
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahPanelV81.dragging {
+  transition: none !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahGrabV81 {
+  display: flex !important;
+  justify-content: center !important;
+  flex: 0 0 auto !important;
+  padding: 9px 0 3px !important;
+  touch-action: none !important;
+  cursor: grab;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahGrabV81 i {
+  display: block !important;
+  width: 40px !important;
+  height: 5px !important;
+  border-radius: 3px !important;
+  background: #d5dae2 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahHeadV81 {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  flex: 0 0 auto !important;
+  padding: 6px 16px 14px 18px !important;
+  border-bottom: 1px solid #eef0f4 !important;
+  touch-action: none !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahIcoV81 {
+  display: grid !important;
+  place-items: center !important;
+  flex: 0 0 42px !important;
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 13px !important;
+  background: var(--pv-brand-soft) !important;
+  color: var(--pv-brand) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahIcoV81 svg {
+  width: 23px !important;
+  height: 23px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahHeadTextV81 {
+  display: grid !important;
+  gap: 2px !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahEyebrowV81 {
+  color: var(--pv-brand) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  line-height: 1.2 !important;
+  text-transform: uppercase !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahHeadTextV81 h2 {
+  margin: 0 !important;
+  color: var(--pv-ink) !important;
+  font-size: 19px !important;
+  font-weight: 750 !important;
+  letter-spacing: -0.015em !important;
+  line-height: 1.25 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahCloseV81 {
+  display: grid !important;
+  place-items: center !important;
+  flex: 0 0 38px !important;
+  width: 38px !important;
+  height: 38px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: var(--pv-chip) !important;
+  color: var(--pv-ink-2) !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahCloseV81 svg {
+  width: 18px !important;
+  height: 18px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahBodyV81 {
+  display: grid !important;
+  gap: 24px !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  padding: 18px 18px 28px !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain !important;
+  -webkit-overflow-scrolling: touch;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahTextV81 {
+  display: grid !important;
+  gap: 22px !important;
+  align-content: start !important;
+  min-width: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahLeadV81 {
+  margin: 0 !important;
+  color: var(--pv-ink-2) !important;
+  font-size: 16.5px !important;
+  font-weight: 550 !important;
+  line-height: 1.5 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahSecV81 h3 {
+  margin: 0 0 10px !important;
+  color: var(--pv-muted) !important;
+  font-size: 12.5px !important;
+  font-weight: 750 !important;
+  letter-spacing: 0.07em !important;
+  line-height: 1.3 !important;
+  text-transform: uppercase !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahHowListV81 {
+  display: grid !important;
+  gap: 10px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahHowListV81 li {
+  position: relative !important;
+  margin: 0 !important;
+  padding: 0 0 0 20px !important;
+  color: var(--pv-ink-2) !important;
+  font-size: 15px !important;
+  font-weight: 450 !important;
+  line-height: 1.5 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahHowListV81 li::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0.6em !important;
+  left: 3px !important;
+  width: 7px !important;
+  height: 7px !important;
+  border-radius: 50% !important;
+  background: var(--pv-brand) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahTextV81 b {
+  color: var(--pv-ink) !important;
+  font-weight: 650 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahStepsV81 {
+  display: grid !important;
+  gap: 4px !important;
+  margin: 0 -4px !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahStepsV81 li {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahStepV81 {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 12px !important;
+  width: 100% !important;
+  min-height: 48px !important;
+  margin: 0 !important;
+  padding: 11px 12px !important;
+  border: 1px solid transparent !important;
+  border-radius: 15px !important;
+  background: transparent !important;
+  color: var(--pv-ink-2) !important;
+  font: inherit !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  line-height: 1.45 !important;
+  text-align: left !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+  -webkit-tap-highlight-color: transparent !important;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahStepV81.on {
+  border-color: rgba(40, 76, 162, 0.18) !important;
+  background: var(--pv-brand-soft) !important;
+  color: var(--pv-ink) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahNumV81 {
+  display: grid !important;
+  place-items: center !important;
+  flex: 0 0 26px !important;
+  width: 26px !important;
+  height: 26px !important;
+  margin-top: -1px !important;
+  border-radius: 50% !important;
+  background: var(--pv-chip) !important;
+  color: var(--pv-ink-2) !important;
+  font-size: 13px !important;
+  font-weight: 750 !important;
+  font-variant-numeric: tabular-nums !important;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahStepV81.on .ahNumV81 {
+  background: var(--pv-brand) !important;
+  color: #fff !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahStepTextV81 {
+  min-width: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahDemoV81 {
+  display: grid !important;
+  justify-items: center !important;
+  align-content: start !important;
+  gap: 12px !important;
+  padding: 18px 0 4px !important;
+  border-radius: 24px !important;
+  background: #f3f7fa !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahCapV81 {
+  margin: 0 !important;
+  padding: 0 18px 12px !important;
+  color: var(--pv-muted) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+  text-align: center !important;
+}
+
+/* Planšetė ir kompiuteris – centruotas langas dviem stulpeliais */
+@media (min-width: 768px) {
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahPanelV81 {
+    top: 50% !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: min(940px, calc(100vw - 48px)) !important;
+    min-height: 0 !important;
+    max-height: min(88vh, 780px) !important;
+    padding-bottom: 0 !important;
+    border-radius: 28px !important;
+    box-shadow:
+      0 30px 80px rgba(15, 22, 38, 0.28),
+      0 4px 14px rgba(15, 22, 38, 0.1) !important;
+    opacity: 0;
+    transform: translate3d(-50%, -46%, 0) scale(0.97);
+    transition:
+      transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+      opacity 0.22s ease !important;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahRootV81.open .ahPanelV81 {
+    opacity: 1;
+    transform: translate3d(-50%, -50%, 0) scale(1);
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahGrabV81 {
+    display: none !important;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahHeadV81 {
+    padding: 20px 20px 18px 26px !important;
+    cursor: default;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahHeadTextV81 h2 {
+    font-size: 21px !important;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahBodyV81 {
+    grid-template-columns: minmax(0, 1fr) 312px !important;
+    align-items: start !important;
+    gap: 32px !important;
+    padding: 24px 26px 28px !important;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahDemoV81 {
+    position: sticky !important;
+    top: 0 !important;
+  }
+}
+
+/* ---------- Telefono maketas ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahPhoneV81 {
+  position: relative !important;
+  width: 262px !important;
+  height: 540px !important;
+  padding: 10px !important;
+  border-radius: 44px !important;
+  background: #0f1626 !important;
+  box-shadow:
+    inset 0 0 0 1.5px #2b3447,
+    0 22px 44px rgba(15, 22, 38, 0.26),
+    0 3px 10px rgba(15, 22, 38, 0.14) !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahIslandV81 {
+  position: absolute !important;
+  top: 19px !important;
+  left: 50% !important;
+  z-index: 5 !important;
+  width: 76px !important;
+  height: 22px !important;
+  margin-left: -38px !important;
+  border-radius: 12px !important;
+  background: #05080e !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahScreenV81 {
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  border-radius: 35px !important;
+  background: #f3f7fa !important;
+  color: #0f1626;
+  font-size: 10px;
+  line-height: 1.3;
+  text-align: left;
+}
+.ahScreenV81 i,
+.ahScreenV81 em {
+  font-style: normal;
+}
+.ahScreenV81 b {
+  font-weight: 700;
+}
+.ahScreenV81 svg {
+  display: block;
+  flex: 0 0 auto;
+  stroke: currentColor;
+  fill: none;
+}
+.ahScreenV81 .mScr {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: #f3f7fa;
+  opacity: 0;
+  transform: translate3d(14px, 0, 0);
+  transition:
+    opacity 0.32s ease,
+    transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+}
+.ahScreenV81 .mScr.on {
+  opacity: 1;
+  transform: none;
+}
+.ahScreenV81 .mScr.dark {
+  background: #10151e;
+}
+.ahScreenV81 .mScr.white {
+  background: #fff;
+}
+.ahScreenV81 .mStat {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 0 0 40px;
+  height: 40px;
+  padding: 0 22px 0 27px;
+  font-size: 11px;
+}
+.ahScreenV81 .mStat i {
+  width: 20px;
+  height: 9px;
+  border: 1.5px solid currentColor;
+  border-radius: 3px;
+  box-shadow: inset -6px 0 0 0 #f3f7fa;
+  background: currentColor;
+}
+.ahScreenV81 .mScr.dark .mStat {
+  color: #fff;
+}
+.ahScreenV81 .mScr.dark .mStat i {
+  box-shadow: inset -6px 0 0 0 #10151e;
+}
+.ahScreenV81 .mScr.white .mStat i {
+  box-shadow: inset -6px 0 0 0 #fff;
+}
+.ahScreenV81 .mBody {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 7px;
+  min-height: 0;
+  padding: 2px 9px 12px;
+  overflow: hidden;
+}
+
+/* Paryškinimas */
+.ahScreenV81 [data-hl]:not(.mBottom):not(.mShareSheet) {
+  position: relative;
+}
+.ahScreenV81 [data-hl] {
+  border-radius: 10px;
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+.ahScreenV81 .mField[data-hl],
+.ahScreenV81 .mSegWrap[data-hl],
+.ahScreenV81 .mGrid2[data-hl],
+.ahScreenV81 .mPeriod[data-hl],
+.ahScreenV81 .mStats[data-hl],
+.ahScreenV81 .mPayList[data-hl],
+.ahScreenV81 .mList[data-hl],
+.ahScreenV81 .mMuted[data-hl],
+.ahScreenV81 .mFilled[data-hl],
+.ahScreenV81 div[data-hl="person"] {
+  margin: -4px;
+  padding: 4px;
+}
+.ahScreenV81 .mHlOn {
+  z-index: 3;
+  box-shadow:
+    0 0 0 2px #fff,
+    0 0 0 4px #284ca2,
+    0 8px 20px rgba(40, 76, 162, 0.3) !important;
+}
+.ahScreenV81 .mHlOn::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border: 2px solid #284ca2;
+  border-radius: 13px;
+  pointer-events: none;
+  animation: ahPulseV81 1.6s ease-out infinite;
+}
+@keyframes ahPulseV81 {
+  from {
+    opacity: 0.75;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+}
+
+/* Bendros detalės */
+.ahScreenV81 .mAppHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3px 2px;
+}
+.ahScreenV81 .mAppHead > b {
+  font-size: 14px;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: -0.04em;
+}
+.ahScreenV81 .mAppHead > b i {
+  font-style: italic;
+  color: #2563eb;
+}
+.ahScreenV81 .mOrg {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 7.5px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+.ahScreenV81 .mOrg i {
+  width: 13px;
+  height: 13px;
+  border: 1px solid #e3e5ea;
+  border-radius: 50%;
+  background: #fff;
+}
+.ahScreenV81 .mCard {
+  display: grid;
+  gap: 6px;
+  padding: 9px;
+  border: 1px solid #e3e5ea;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 4px 12px rgba(15, 23, 42, 0.05);
+}
+.ahScreenV81 .mWork {
+  gap: 6px;
+}
+.ahScreenV81 .mTight {
+  gap: 5px;
+}
+.ahScreenV81 .mPanelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1px 0 6px;
+  border-bottom: 1px solid #eef0f4;
+}
+.ahScreenV81 .mPanelHead b {
+  font-size: 12.5px;
+  font-weight: 750;
+}
+.ahScreenV81 .mPill {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #edf1f7;
+  color: #2b3240;
+  font-size: 8.5px;
+  font-weight: 700;
+}
+.ahScreenV81 .mSheet {
+  display: grid;
+  align-content: start;
+  gap: 7px;
+  flex: 1 1 auto;
+  margin: 4px -9px -12px;
+  padding: 2px 9px 12px;
+  border-radius: 22px 22px 0 0;
+  background: #f3f7fa;
+  box-shadow: 0 -6px 18px rgba(15, 22, 38, 0.08);
+}
+.ahScreenV81 .mSheetHead {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  padding: 0 28px;
+  border-bottom: 1px solid #e7eaf0;
+}
+.ahScreenV81 .mSheetHead b {
+  font-size: 12px;
+  font-weight: 750;
+  text-align: center;
+}
+.ahScreenV81 .mX {
+  position: absolute;
+  right: 0;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #edf1f7;
+}
+.ahScreenV81 .mX svg {
+  width: 11px;
+  height: 11px;
+}
+.ahScreenV81 .mField {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.ahScreenV81 .mField > span,
+.ahScreenV81 .mLabel {
+  color: #5c6370;
+  font-size: 8.5px;
+  font-weight: 650;
+}
+.ahScreenV81 .mInput {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 8px;
+  overflow: hidden;
+  border: 1px solid #dfe3ea;
+  border-radius: 8px;
+  background: #fff;
+  color: #0f1626;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.ahScreenV81 .mSelect .mInput i {
+  position: absolute;
+  right: 9px;
+  top: 8px;
+  width: 5px;
+  height: 5px;
+  border-right: 1.5px solid #5c6370;
+  border-bottom: 1.5px solid #5c6370;
+  transform: rotate(45deg);
+}
+.ahScreenV81 .mField.ok .mInput {
+  border-color: #b7e2c8;
+  background: #f3fbf6;
+  padding-right: 18px;
+}
+.ahScreenV81 .mField.ok .mInput::after {
+  content: "✓";
+  position: absolute;
+  right: 7px;
+  color: #12805c;
+  font-size: 9px;
+  font-weight: 900;
+}
+.ahScreenV81 .mField.mono .mInput {
+  letter-spacing: 0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.ahScreenV81 .mField.area .mInput {
+  align-items: flex-start;
+  height: 36px;
+  padding-top: 5px;
+  white-space: normal;
+  line-height: 1.3;
+}
+.ahScreenV81 .mGrid2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+.ahScreenV81 .mSegWrap {
+  display: grid;
+  gap: 3px;
+}
+.ahScreenV81 .mSeg {
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: column;
+  padding: 2px;
+  border-radius: 9px;
+  background: #edf1f7;
+}
+.ahScreenV81 .mSeg span {
+  padding: 4px 0;
+  border-radius: 7px;
+  color: #5c6370;
+  font-size: 9.5px;
+  font-weight: 650;
+  text-align: center;
+}
+.ahScreenV81 .mSeg span.on {
+  background: #fff;
+  color: #0f1626;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
+}
+.ahScreenV81 .mBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 28px;
+  border-radius: 9px;
+  background: #284ca2;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(40, 76, 162, 0.22);
+}
+.ahScreenV81 .mBtn svg {
+  width: 12px;
+  height: 12px;
+}
+.ahScreenV81 .mBtn.big {
+  height: 32px;
+  font-size: 10.5px;
+}
+.ahScreenV81 .mBtn.sm {
+  height: 26px;
+  font-size: 9.5px;
+}
+.ahScreenV81 .mBtn.ghost {
+  background: #edf1f7;
+  color: #2b3240;
+  box-shadow: none;
+}
+.ahScreenV81 .mBtn.ghostLine {
+  border: 1px solid #dfe3ea;
+  background: #fff;
+  color: #0f1626;
+  box-shadow: none;
+}
+.ahScreenV81 .mBtn.soft {
+  background: #edf2fa;
+  color: #284ca2;
+  box-shadow: none;
+}
+.ahScreenV81 .mPlate {
+  display: inline-flex;
+  align-items: stretch;
+  align-self: start;
+  justify-self: start;
+  height: 15px;
+  overflow: hidden;
+  border: 1.4px solid #0f1626;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 12px;
+}
+.ahScreenV81 .mPlate i {
+  display: flex;
+  align-items: flex-end;
+  margin-right: 4px;
+  padding: 0 2px 1px;
+  background: #2c4fa3;
+  color: #fff;
+  font-size: 4.5px;
+  letter-spacing: 0;
+  line-height: 1;
+}
+.ahScreenV81 .mTiles {
+  gap: 6px;
+}
+.ahScreenV81 .mTile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 7px;
+  border: 1px solid #e3e5ea;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+}
+.ahScreenV81 .mTile b {
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+.ahScreenV81 .mTileIco {
+  display: grid;
+  place-items: center;
+  flex: 0 0 22px;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: #edf1f7;
+  color: #26395c;
+}
+.ahScreenV81 .mTileIco svg {
+  width: 13px;
+  height: 13px;
+}
+.ahScreenV81 .mChev {
+  flex: 0 0 auto;
+  width: 5px;
+  height: 5px;
+  margin-left: auto;
+  border-top: 1.4px solid #9aa2ae;
+  border-right: 1.4px solid #9aa2ae;
+  transform: rotate(45deg);
+}
+.ahScreenV81 .mChev.light {
+  border-color: #fff;
+}
+.ahScreenV81 .mBadge {
+  position: absolute;
+  top: -4px;
+  right: 15px;
+  display: grid;
+  place-items: center;
+  min-width: 13px;
+  height: 13px;
+  padding: 0 3px;
+  border-radius: 7px;
+  background: #e5484d;
+  color: #fff;
+  font-size: 7.5px;
+  font-weight: 800;
+}
+.ahScreenV81 .mBanner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 11px 0 7px;
+  border-radius: 13px;
+  background: #284ca2;
+  color: #fff;
+  box-shadow: 0 6px 14px rgba(40, 76, 162, 0.28);
+}
+.ahScreenV81 .mBanner > b {
+  font-size: 12px;
+  font-weight: 750;
+}
+.ahScreenV81 .mBannerIco {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.16);
+}
+.ahScreenV81 .mBannerIco svg {
+  width: 15px;
+  height: 15px;
+}
+.ahScreenV81 .mBannerIco .mBadge {
+  top: -4px;
+  right: -5px;
+}
+.ahScreenV81 .mSection {
+  margin: 3px 2px 0;
+  font-size: 11.5px;
+  font-weight: 750;
+}
+.ahScreenV81 .mCar,
+.ahScreenV81 .mLead {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr);
+  gap: 8px;
+  padding: 7px;
+  border: 1px solid #e3e5ea;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+}
+.ahScreenV81 .mLead {
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+}
+.ahScreenV81 .mCarPhoto {
+  display: grid;
+  place-items: center;
+  height: 56px;
+  border-radius: 9px;
+  background: #eef1f6;
+  color: #a5afbf;
+}
+.ahScreenV81 .mCarPhoto svg {
+  width: 24px;
+  height: 24px;
+}
+.ahScreenV81 .mCarInfo {
+  display: grid;
+  align-content: start;
+  gap: 4px;
+  min-width: 0;
+}
+.ahScreenV81 .mCarInfo > b {
+  font-size: 11px;
+  font-weight: 750;
+}
+.ahScreenV81 .mFacts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding-top: 4px;
+  border-top: 1px solid #eef0f4;
+}
+.ahScreenV81 .mFacts > div {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+  padding-left: 4px;
+}
+.ahScreenV81 .mFacts > div:first-child {
+  padding-left: 0;
+}
+.ahScreenV81 .mFacts > div + div {
+  border-left: 1px solid #eef0f4;
+}
+.ahScreenV81 .mFacts span {
+  color: #5c6370;
+  font-size: 7px;
+  font-weight: 600;
+}
+.ahScreenV81 .mFacts b {
+  overflow: hidden;
+  font-size: 9px;
+  font-weight: 750;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-variant-numeric: tabular-nums;
+}
+.ahScreenV81 .mFacts b.good,
+.ahScreenV81 b.good {
+  color: #0f7a43;
+}
+.ahScreenV81 .mDelta {
+  justify-self: start;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 8px;
+  font-weight: 750;
+}
+.ahScreenV81 .mDelta.good {
+  background: #e8f6ee;
+  color: #0f7a43;
+}
+.ahScreenV81 .mDelta.bad {
+  background: #fdeeec;
+  color: #b42318;
+}
+.ahScreenV81 .mMuted {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  color: #5c6370;
+  font-size: 8.5px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+.ahScreenV81 .mMuted svg {
+  width: 11px;
+  height: 11px;
+  margin-top: 0.5px;
+  color: #284ca2;
+}
+.ahScreenV81 .mDim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(15, 22, 38, 0.48);
+}
+.ahScreenV81 .mDim.light {
+  background: rgba(15, 22, 38, 0.28);
+}
+.ahScreenV81 .mDone {
+  position: absolute;
+  top: 66px;
+  left: 10px;
+  right: 10px;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: 7px;
+  padding: 14px 12px 12px;
+  border-radius: 18px;
+  background: #fff;
+  text-align: center;
+  box-shadow: 0 16px 36px rgba(15, 22, 38, 0.3);
+}
+.ahScreenV81 .mDone > b {
+  font-size: 13px;
+  font-weight: 750;
+}
+.ahScreenV81 .mDone .mMuted {
+  justify-content: center;
+}
+.ahScreenV81 .mDone .mBtn {
+  width: 100%;
+}
+.ahScreenV81 .mDoneIco {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #e8f6ee;
+  color: #12805c;
+}
+.ahScreenV81 .mDoneIco svg {
+  width: 18px;
+  height: 18px;
+}
+.ahScreenV81 .mPaper {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #e3e5ea;
+  border-radius: 8px;
+  background: #f8fafc;
+  text-align: left;
+}
+.ahScreenV81 .mPaper i {
+  height: 4px;
+  border-radius: 2px;
+  background: #dfe3ea;
+}
+.ahScreenV81 .mPaper i.w60 {
+  width: 60%;
+}
+.ahScreenV81 .mPaper i.w40 {
+  width: 40%;
+}
+.ahScreenV81 .mPaper em {
+  justify-self: start;
+  padding: 2px 4px;
+  border-radius: 4px;
+  background: #edf2fa;
+  color: #284ca2;
+  font-size: 7.5px;
+  font-weight: 700;
+}
+.ahScreenV81 .mShare {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 4px;
+  width: 100%;
+  padding-top: 2px;
+}
+.ahScreenV81 .mShare > span {
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  color: #5c6370;
+  font-size: 7.5px;
+  font-weight: 600;
+}
+.ahScreenV81 .mShare i {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+}
+.ahScreenV81 .mShare i svg {
+  width: 14px;
+  height: 14px;
+}
+.ahScreenV81 .mShare i.v {
+  background: #7360f2;
+}
+.ahScreenV81 .mShare i.w {
+  background: #22b35e;
+}
+.ahScreenV81 .mShare i.m {
+  background: #3b82f6;
+}
+.ahScreenV81 .mShare i.f {
+  background: #e8eefb;
+  color: #284ca2;
+}
+
+/* Skeneris */
+.ahScreenV81 .mReg {
+  display: grid;
+  gap: 7px;
+  padding: 8px;
+  border: 1px solid #e3e5ea;
+  border-radius: 11px;
+  background: #f6f8fb;
+}
+.ahScreenV81 .mRegHead {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ahScreenV81 .mRegHead b {
+  font-size: 10px;
+  font-weight: 700;
+}
+.ahScreenV81 .mRegIco {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: #edf2fa;
+  color: #284ca2;
+}
+.ahScreenV81 .mRegIco svg {
+  width: 12px;
+  height: 12px;
+}
+.ahScreenV81 .mCam {
+  position: absolute;
+  inset: 40px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 26px 14px 20px;
+}
+.ahScreenV81 .mCamFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.45;
+  border-radius: 8px;
+}
+.ahScreenV81 .mCamFrame::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 14%;
+  z-index: 2;
+  height: 2px;
+  border-radius: 1px;
+  background: #4ade80;
+  box-shadow: 0 0 10px #4ade80;
+  animation: ahScanV81 2.2s ease-in-out infinite alternate;
+}
+@keyframes ahScanV81 {
+  to {
+    top: 84%;
+  }
+}
+.ahScreenV81 .mCert {
+  position: absolute;
+  inset: 12px;
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  padding: 12px;
+  border-radius: 6px;
+  background: linear-gradient(160deg, #e3f4e6, #c7e6cf);
+  transform: rotate(-2deg);
+}
+.ahScreenV81 .mCert i {
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(20, 80, 40, 0.24);
+}
+.ahScreenV81 .mCert i.t {
+  width: 52%;
+  height: 6px;
+  background: rgba(20, 80, 40, 0.4);
+}
+.ahScreenV81 .mCert i.s {
+  width: 70%;
+}
+.ahScreenV81 .mCamFrame > span {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 0 solid #fff;
+}
+.ahScreenV81 .mCamFrame .c1 {
+  top: 0;
+  left: 0;
+  border-top-width: 3px;
+  border-left-width: 3px;
+  border-top-left-radius: 7px;
+}
+.ahScreenV81 .mCamFrame .c2 {
+  top: 0;
+  right: 0;
+  border-top-width: 3px;
+  border-right-width: 3px;
+  border-top-right-radius: 7px;
+}
+.ahScreenV81 .mCamFrame .c3 {
+  bottom: 0;
+  left: 0;
+  border-bottom-width: 3px;
+  border-left-width: 3px;
+  border-bottom-left-radius: 7px;
+}
+.ahScreenV81 .mCamFrame .c4 {
+  right: 0;
+  bottom: 0;
+  border-right-width: 3px;
+  border-bottom-width: 3px;
+  border-bottom-right-radius: 7px;
+}
+.ahScreenV81 .mScanCard {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 9px 11px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.96);
+}
+.ahScreenV81 .mScanCard > div {
+  flex: 1 1 auto;
+}
+.ahScreenV81 .mScanCard b {
+  font-size: 10.5px;
+}
+.ahScreenV81 .mSpin {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(40, 76, 162, 0.18);
+  border-top-color: #284ca2;
+  border-radius: 50%;
+  animation: ahSpinV81 0.9s linear infinite;
+}
+@keyframes ahSpinV81 {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.ahScreenV81 .mBar {
+  height: 4px;
+  margin-top: 5px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: #e5e9f0;
+}
+.ahScreenV81 .mBar i {
+  display: block;
+  width: 64%;
+  height: 100%;
+  border-radius: 2px;
+  background: #284ca2;
+  animation: ahBarV81 2.4s ease-in-out infinite;
+}
+@keyframes ahBarV81 {
+  from {
+    width: 12%;
+  }
+  to {
+    width: 92%;
+  }
+}
+.ahScreenV81 .mFilled {
+  display: grid;
+  gap: 6px;
+  padding: 2px;
+}
+
+/* Finansai ir užduotys */
+.ahScreenV81 .mAttach {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 30px;
+  border: 1px dashed #cfd6e2;
+  border-radius: 9px;
+  background: #fafbfd;
+  color: #284ca2;
+}
+.ahScreenV81 .mAttach.sm {
+  height: 28px;
+}
+.ahScreenV81 .mAttach b {
+  font-size: 9.5px;
+}
+.ahScreenV81 .mAttach svg {
+  width: 13px;
+  height: 13px;
+}
+.ahScreenV81 .mBlockHead {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ahScreenV81 .mBlockHead b {
+  font-size: 12px;
+  font-weight: 750;
+}
+.ahScreenV81 .mBlockHead em {
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: #edf1f7;
+  color: #5c6370;
+  font-size: 8.5px;
+  font-weight: 700;
+}
+.ahScreenV81 .mProg {
+  height: 4px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: #edf1f7;
+}
+.ahScreenV81 .mProg i {
+  display: block;
+  width: 33%;
+  height: 100%;
+  border-radius: 2px;
+  background: #284ca2;
+}
+.ahScreenV81 .mProg.p2 i {
+  width: 66%;
+}
+.ahScreenV81 .mTask {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 3px;
+  border-top: 1px solid #eef0f4;
+}
+.ahScreenV81 .mTask > div {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+.ahScreenV81 .mTask b {
+  font-size: 10.5px;
+}
+.ahScreenV81 .mTask em {
+  color: #5c6370;
+  font-size: 8.5px;
+  font-weight: 650;
+}
+.ahScreenV81 .mTask.late em {
+  color: #c0362c;
+}
+.ahScreenV81 .mTask em.today {
+  color: #284ca2;
+}
+.ahScreenV81 .mTask.open {
+  border-radius: 10px;
+  border-top-color: transparent;
+  background: #edf2fa;
+}
+.ahScreenV81 .mCircle {
+  display: grid;
+  place-items: center;
+  flex: 0 0 17px;
+  width: 17px;
+  height: 17px;
+  border: 1.6px solid #c9d0db;
+  border-radius: 50%;
+  background: #fff;
+}
+.ahScreenV81 .mTask.late .mCircle {
+  border-color: #e3a0a7;
+}
+.ahScreenV81 .mTask.done .mCircle {
+  border: 0;
+  background: #12805c;
+  color: #fff;
+}
+.ahScreenV81 .mTask.done .mCircle svg {
+  width: 10px;
+  height: 10px;
+}
+.ahScreenV81 .mTask.done b {
+  color: #5c6370;
+  text-decoration: line-through;
+}
+.ahScreenV81 .mDoneForm {
+  display: grid;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid #e3e5ea;
+  border-radius: 11px;
+  background: #f8fafc;
+}
+.ahScreenV81 .mAmount {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 28px;
+  padding: 0 8px;
+  border: 1px solid #dfe3ea;
+  border-radius: 9px;
+  background: #fff;
+}
+.ahScreenV81 .mAmount span,
+.ahScreenV81 .mAmount em {
+  color: #5c6370;
+  font-size: 9px;
+  font-weight: 600;
+}
+.ahScreenV81 .mAmount b {
+  margin-left: auto;
+  font-size: 11px;
+}
+.ahScreenV81 .mHint {
+  color: #5c6370;
+  font-size: 8px;
+  text-align: center;
+}
+.ahScreenV81 .mToast {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 14px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 11px;
+  border-radius: 12px;
+  background: #0f1626;
+  color: #fff;
+  font-size: 9.5px;
+  font-weight: 650;
+  box-shadow: 0 10px 22px rgba(15, 22, 38, 0.3);
+}
+.ahScreenV81 .mToast svg {
+  width: 12px;
+  height: 12px;
+  color: #4ade80;
+}
+
+/* Ataskaitos */
+.ahScreenV81 .mChip {
+  justify-self: start;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #edf1f7;
+  color: #5c6370;
+  font-size: 8.5px;
+  font-weight: 700;
+}
+.ahScreenV81 .mPeriod {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+}
+.ahScreenV81 .mPeriod span {
+  display: grid;
+  place-items: center;
+  height: 24px;
+  border: 1px solid #dfe3ea;
+  border-radius: 8px;
+  background: #fff;
+  color: #2b3240;
+  font-size: 9px;
+  font-weight: 650;
+}
+.ahScreenV81 .mPeriod span.on {
+  border-color: #284ca2;
+  background: #284ca2;
+  color: #fff;
+}
+.ahScreenV81 .mStats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+}
+.ahScreenV81 .mStats > div {
+  display: grid;
+  gap: 2px;
+  padding: 6px 7px;
+  border: 1px solid #eef0f4;
+  border-radius: 9px;
+  background: #f8fafc;
+}
+.ahScreenV81 .mStats span {
+  color: #5c6370;
+  font-size: 7.5px;
+  font-weight: 600;
+}
+.ahScreenV81 .mStats b {
+  font-size: 12px;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+.ahScreenV81 .mInfo {
+  padding: 6px 7px;
+  border-radius: 8px;
+  background: #edf2fa;
+  color: #284ca2;
+  font-size: 8px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.ahScreenV81 .mZip {
+  gap: 0;
+}
+.ahScreenV81 .mZipHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 7px;
+}
+.ahScreenV81 .mZipHead > div {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.ahScreenV81 .mZipHead b {
+  font-size: 9px;
+  word-break: break-all;
+}
+.ahScreenV81 .mZipIco {
+  display: grid;
+  place-items: center;
+  flex: 0 0 30px;
+  width: 30px;
+  height: 34px;
+  border-radius: 7px;
+  background: #fff4de;
+  color: #8a5a00;
+  font-size: 8px;
+  font-weight: 800;
+}
+.ahScreenV81 .mFile {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 0;
+  border-top: 1px solid #eef0f4;
+  color: #2b3240;
+  font-size: 9px;
+  font-weight: 600;
+}
+.ahScreenV81 .mFile svg {
+  width: 13px;
+  height: 13px;
+  color: #8d929b;
+}
+.ahScreenV81 .mFile.dir svg {
+  color: #e3a21a;
+}
+.ahScreenV81 .mShareSheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 7px 12px 18px;
+  border-radius: 20px 20px 0 0;
+  background: #fff;
+  box-shadow: 0 -8px 24px rgba(15, 22, 38, 0.14);
+}
+.ahScreenV81 .mGrabber {
+  display: block;
+  width: 30px;
+  height: 4px;
+  margin: 0 auto 10px;
+  border-radius: 2px;
+  background: #d5dae2;
+}
+
+/* Variantai ir Vadybininkas */
+.ahScreenV81 .mCall {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: 3px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: #e8f6ee;
+  color: #0f7a43;
+  font-size: 8.5px;
+  font-weight: 700;
+}
+.ahScreenV81 .mCall svg {
+  width: 10px;
+  height: 10px;
+}
+.ahScreenV81 .mRow {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 8px;
+  border: 1px solid #e3e5ea;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+}
+.ahScreenV81 .mRow > div {
+  display: grid;
+  flex: 1 1 auto;
+  gap: 1px;
+  min-width: 0;
+}
+.ahScreenV81 .mRow em {
+  color: #5c6370;
+  font-size: 7.5px;
+  font-weight: 600;
+}
+.ahScreenV81 .mRow b {
+  overflow: hidden;
+  font-size: 9.5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.ahScreenV81 .mRowIco {
+  display: grid;
+  place-items: center;
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: #edf1f7;
+  color: #26395c;
+}
+.ahScreenV81 .mRowIco svg {
+  width: 13px;
+  height: 13px;
+}
+.ahScreenV81 .mTag {
+  flex: 0 0 auto;
+  padding: 2px 5px;
+  border-radius: 6px;
+  background: #edf1f7;
+  color: #5c6370;
+  font-size: 7.5px;
+  font-weight: 750;
+}
+.ahScreenV81 .mTag.today {
+  background: #edf2fa;
+  color: #284ca2;
+}
+.ahScreenV81 .mTag.late {
+  background: #fdeeec;
+  color: #b42318;
+}
+.ahScreenV81 .mMore {
+  display: grid;
+  place-items: center;
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #edf1f7;
+  color: #2b3240;
+  font-size: 7px;
+  letter-spacing: -0.05em;
+}
+.ahScreenV81 .mList {
+  display: grid;
+  gap: 6px;
+}
+.ahScreenV81 .mBackRow {
+  display: flex;
+  justify-content: flex-end;
+}
+.ahScreenV81 .mHero {
+  overflow: hidden;
+  border: 1px solid #e3e5ea;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+}
+.ahScreenV81 .mHeroTag {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 1;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 7.5px;
+  font-weight: 750;
+}
+.ahScreenV81 .mHeroPhoto {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  height: 66px;
+  padding: 6px 8px;
+  background: linear-gradient(180deg, #eef1f6 10%, #9aa4b3);
+  color: #fff;
+}
+.ahScreenV81 .mHeroPhoto svg {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  width: 26px;
+  height: 26px;
+  margin-left: -13px;
+  color: #8f98a8;
+}
+.ahScreenV81 .mHeroPhoto b {
+  position: relative;
+  font-size: 11px;
+  font-weight: 750;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+.ahScreenV81 .mHeroBody {
+  display: grid;
+  gap: 2px;
+  padding: 7px 8px 8px;
+}
+.ahScreenV81 .mHeroBody b {
+  font-size: 11px;
+}
+.ahScreenV81 .mHeroBody span {
+  color: #5c6370;
+  font-size: 8.5px;
+}
+.ahScreenV81 .mHeroBody em {
+  color: #c0362c;
+  font-size: 8.5px;
+  font-weight: 700;
+}
+.ahScreenV81 .mBottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  display: grid;
+  gap: 8px;
+  padding: 7px 12px 18px;
+  border-radius: 22px 22px 0 0;
+  background: #fff;
+  box-shadow: 0 -8px 24px rgba(15, 22, 38, 0.16);
+}
+.ahScreenV81 .mBottom.tall {
+  top: 96px;
+  align-content: start;
+}
+.ahScreenV81 .mBottomTitle {
+  font-size: 11px;
+  text-align: center;
+}
+.ahScreenV81 .mSnooze {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 5px;
+}
+.ahScreenV81 .mSnooze span {
+  display: grid;
+  place-items: center;
+  height: 30px;
+  border-radius: 9px;
+  background: #edf1f7;
+  font-size: 9.5px;
+  font-weight: 700;
+}
+.ahScreenV81 .mDanger {
+  padding: 4px;
+  color: #b42318;
+  font-size: 9.5px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Nustatymai, skolos, prenumerata */
+.ahScreenV81 .mCaps {
+  margin-top: 2px;
+  color: #5c6370;
+  font-size: 8px;
+  font-weight: 750;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.ahScreenV81 .mInner {
+  display: grid;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid #e3e5ea;
+  border-radius: 11px;
+  background: #fff;
+}
+.ahScreenV81 .mInner > b {
+  font-size: 10.5px;
+}
+.ahScreenV81 .mRowLine {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ahScreenV81 .mFold {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0;
+}
+.ahScreenV81 .mFold b {
+  font-size: 11px;
+}
+.ahScreenV81 .mFoldIco {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: #edf1f7;
+  color: #26395c;
+  font-size: 11px;
+  font-weight: 800;
+}
+.ahScreenV81 .mDebt {
+  display: grid;
+  gap: 2px;
+  padding: 7px 0 2px;
+  border-top: 1px solid #eef0f4;
+}
+.ahScreenV81 .mDebtTop {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10.5px;
+}
+.ahScreenV81 .mDebt span {
+  color: #5c6370;
+  font-size: 8px;
+}
+.ahScreenV81 .mPlanTitle {
+  font-size: 14px;
+  font-weight: 800;
+}
+.ahScreenV81 .mPlanPrice {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.ahScreenV81 .mPlanPrice b {
+  font-size: 20px;
+  font-weight: 800;
+}
+.ahScreenV81 .mPlanPrice span {
+  color: #5c6370;
+  font-size: 9.5px;
+}
+.ahScreenV81 .mPlanPrice em {
+  margin-left: auto;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: #edf2fa;
+  color: #284ca2;
+  font-size: 8px;
+  font-weight: 750;
+}
+.ahScreenV81 .mFeat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #2b3240;
+  font-size: 9.5px;
+  font-weight: 600;
+}
+.ahScreenV81 .mFeat svg {
+  width: 11px;
+  height: 11px;
+  color: #12805c;
+}
+.ahScreenV81 .mFine {
+  color: #5c6370;
+  font-size: 7.5px;
+  text-align: center;
+}
+.ahScreenV81 .mPay {
+  display: grid;
+  align-content: start;
+  gap: 7px;
+  padding: 8px 14px;
+}
+.ahScreenV81 .mPayOrg {
+  font-size: 13px;
+  font-weight: 800;
+}
+.ahScreenV81 .mPayPrice {
+  font-size: 15px;
+  font-weight: 800;
+}
+.ahScreenV81 .mPayList {
+  display: grid;
+  gap: 6px;
+  margin: 4px 0;
+}
+.ahScreenV81 .mPayBtn {
+  display: grid;
+  place-items: center;
+  height: 30px;
+  border: 1px solid #dfe3ea;
+  border-radius: 8px;
+  background: #fff;
+  color: #0f1626;
+  font-size: 10px;
+  font-weight: 700;
+}
+.ahScreenV81 .mPayBtn.dark {
+  border-color: #000;
+  background: #000;
+  color: #fff;
+}
+.ahScreenV81 .mPayBtn.rev {
+  border-color: #191c22;
+  background: #191c22;
+  color: #fff;
+}
+.ahScreenV81 .mPayBtn.danger {
+  border-color: #f2b8b1;
+  color: #b42318;
+}
+.ahScreenV81 .mPayOr {
+  color: #8d929b;
+  font-size: 8px;
+  text-align: center;
+}
+.ahScreenV81 .mSubHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px;
+}
+.ahScreenV81 .mSubHead b {
+  font-size: 11px;
+}
+.ahScreenV81 .mBadgeSoft {
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: #edf2fa;
+  color: #284ca2;
+  font-size: 7.5px;
+  font-weight: 750;
+}
+.ahScreenV81 .mDl {
+  display: grid;
+}
+.ahScreenV81 .mDl > div {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-top: 1px solid #eef0f4;
+}
+.ahScreenV81 .mDl span {
+  color: #5c6370;
+  font-size: 9px;
+}
+.ahScreenV81 .mDl b {
+  font-size: 9.5px;
+}
+
+/* Mažiau judesio */
+@media (prefers-reduced-motion: reduce) {
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahPanelV81,
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .ahBackdropV81 {
+    transition: none !important;
+  }
+  .ahScreenV81 .mScr {
+    transition: none;
+  }
+  .ahScreenV81 .mHlOn::after,
+  .ahScreenV81 .mCamFrame::before,
+  .ahScreenV81 .mBar i,
+  .ahScreenV81 .mSpin {
+    animation: none;
+  }
+}
