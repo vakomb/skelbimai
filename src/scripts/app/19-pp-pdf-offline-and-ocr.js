@@ -315,7 +315,7 @@ ppGenerate = async function () {
     document.getElementById("ppResult")?.classList.add("show");
     const meta = document.getElementById("ppResultMeta");
     if (meta)
-      meta.textContent = `${[ppValue("ppMake"), ppValue("ppModel")].filter(Boolean).join(" ") || "Automobilis"} · ${ppRole === "buyer" ? "Visureigiai, UAB perka" : "Visureigiai, UAB parduoda"}`;
+      meta.textContent = `${[ppValue("ppMake"), ppValue("ppModel")].filter(Boolean).join(" ") || "Automobilis"} · ${ppRole === "buyer" ? `${profileDisplayNameV57() || "Mes"} perka` : `${profileDisplayNameV57() || "Mes"} parduoda`}`;
     toast("PP sutartis sugeneruota", "✓");
   } catch (e) {
     console.error(e);

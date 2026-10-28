@@ -3,7 +3,7 @@
 
 function ensureAccounting() {
   state.accounting = state.accounting && typeof state.accounting === "object" ? state.accounting : {};
-  if (!state.accounting.email) state.accounting.email = "info@visureigiai.lt";
+  if (!state.accounting.email) state.accounting.email = "";
   if (!Array.isArray(state.accounting.queue)) state.accounting.queue = [];
   if (!Array.isArray(state.accounting.history)) state.accounting.history = [];
   const soldIds = new Set(state.cars.filter(c => c.status === "parduotas").map(c => c.id));
@@ -165,8 +165,8 @@ async function shareAccountingCars(cars, scope = "automobilis") {
   btns.forEach(b => (b.disabled = true));
   try {
     const pack = await buildAccountingPackage(cars, scope),
-      email = state.accounting.email || "info@visureigiai.lt";
-    const subject = `Visureigiai, UAB — ${scope === "savaite" ? "savaitės buhalterija" : cars[0].name}`;
+      email = state.accounting.email || "";
+    const subject = `${profileDisplayNameV57() || "AutoEasier"} — ${scope === "savaite" ? "savaitės buhalterija" : cars[0].name}`;
     const file = new File([pack.blob], pack.name, { type: "application/zip" });
     let shared = false;
     try {
@@ -180,7 +180,7 @@ async function shareAccountingCars(cars, scope = "automobilis") {
     }
     if (!shared) {
       downloadAccountingBlob(pack.blob, pack.name);
-      const body = `Paruoštas Visureigiai, UAB dokumentų paketas: ${pack.name}. Prisegk atsisiųstą ZIP failą prie šio laiško.`;
+      const body = `Paruoštas ${profileDisplayNameV57() || "AutoEasier"} dokumentų paketas: ${pack.name}. Prisegk atsisiųstą ZIP failą prie šio laiško.`;
       window.location.href = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       toast("ZIP paruoštas ir atidarytas laiškas", "✉️");
       state.accounting.history.unshift({

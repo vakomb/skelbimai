@@ -274,6 +274,7 @@ Vadybininkas nebesiūlo „Kodėl dar ne skelbime?“ ir kainos peržiūros paga
 - **Duomenų langas.** `profileCheckV57` nebeatidaro privalomo lango, o rodo priminimą `#pfRemindV71` (atidedamas 3 d., raktas `autoeasier_profile_snooze_v71`); Nustatymuose – ženkliukas „Neužpildyta“ (`html.pfIncompleteV71`).
 - **Nustatymai.** `view-settings.html` suskirstyta į grupes: Paskyra (Prenumerata `#aeSubPanelV70`, Mano duomenys, el. paštas + Atsijungti `#setAccountSlotV71`), Sauga, Buhalterija, Programėlė, Duomenys. Meniu eilė: Kontaktai, Finansai, Pardavimų statistika, Veiksmų istorija, Nustatymai (ta pati eilė `147-…js` apibrėžimuose).
 - **Apatinė juosta.** `styles/181-v71.css`: mažesni vertikalūs tarpai (mygtukų dydis tas pats), fonas vientisas iki apačios. Literalus `\n` tarp skriptų `src/index.html` pašalintas.
+- **Nauji vartotojai be „Visureigiai“ (v71).** Numatytieji Visureigiai rekvizitai (PP_COMPANY, buhalterės el. paštas, kodas ataskaitose, antraštė) pašalinti. Pavadinimas rodomas tik užpildžius „Mano duomenys“ (`html.pfNamedV71`, `window.AutoEasierProfile.name/code/htmlName`); Nustatymuose – eilutė „Mano duomenys“ su būsena.
 - Testai: `tools/test-subscription.mjs` (užraktas), `tools/test-photos.mjs`, `tools/test-profile.mjs` (priminimas).
 
 ## Perrašymų grandinės (svarbu!)

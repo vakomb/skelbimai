@@ -100,8 +100,8 @@ shareAccountingCars = async function (cars, scope = "automobilis") {
   btns.forEach(b => (b.disabled = true));
   try {
     const pack = await accountingDirectFiles(cars, scope),
-      email = state.accounting.email || "info@visureigiai.lt",
-      subject = `Visureigiai, UAB — ${scope === "savaite" ? "savaitės buhalterija" : cars[0].name}`;
+      email = state.accounting.email || "",
+      subject = `${profileDisplayNameV57() || "AutoEasier"} — ${scope === "savaite" ? "savaitės buhalterija" : cars[0].name}`;
     if (navigator.clipboard?.writeText)
       try {
         await navigator.clipboard.writeText(email);
@@ -243,9 +243,9 @@ shareAccountingCars = async function (cars, scope = "automobilis") {
   btns.forEach(b => (b.disabled = true));
   try {
     const pack = await accountingDirectFiles(cars, scope),
-      email = state.accounting.email || "info@visureigiai.lt",
+      email = state.accounting.email || "",
       label = accountingScopeLabel(scope, cars),
-      subject = `Visureigiai, UAB — ${label}`;
+      subject = `${profileDisplayNameV57() || "AutoEasier"} — ${label}`;
     if (navigator.clipboard?.writeText)
       try {
         await navigator.clipboard.writeText(email);
@@ -327,7 +327,7 @@ renderAccountingCenter = function () {
     week = accountingPeriodCars("week"),
     month = accountingPeriodCars("month");
   const qDocs = queued.reduce((n, c) => n + (c.documents || []).length, 0);
-  root.innerHTML = `<div class="accountingHub">\n      <section class="accountingHero"><h3>Dokumentai vienoje vietoje</h3><strong>${queued.length} auto paruošta buhalterijai</strong></section>\n      <section class="accountingActionGrid">\n        <button class="accountingActionTile" type="button" data-accounting-action="pp"><span class="ico">🧾</span><strong>Generuoti PP</strong><b>Pirkimas / pardavimas</b></button>\n        <button class="accountingActionTile week" type="button" data-accounting-action="week"><span class="ico">7</span><strong>Savaitės ataskaita</strong><b>${week.length} auto</b></button>\n        <button class="accountingActionTile month" type="button" data-accounting-action="month"><span class="ico">30</span><strong>Mėnesio ataskaita</strong><b>${month.length} auto</b></button>\n        <button class="accountingActionTile queue" type="button" data-accounting-action="queue"><span class="ico">📁</span><strong>Dokumentų eilė</strong><b>${queued.length} auto · ${qDocs} dok.</b></button>\n      </section>\n      <section class="accountingBlock"><div class="accountingBlockTitle"><h3>Buhalterės el. paštas</h3></div><div class="accountingEmailRowPro"><input class="input" id="accountantEmail" type="email" autocomplete="email" value="${escapeHTML(state.accounting.email || "info@visureigiai.lt")}"><button class="btn secondary" id="saveAccountantEmail" type="button">Išsaugoti</button></div></section>\n      <section class="accountingBlock" id="accountingQueueBlock"><div class="accountingBlockTitle"><h3>Dokumentų eilė</h3><b>${queued.length} auto</b></div><div class="accountingQueuePro">${queued.map(c => `<div class="accountingQueueProRow"><button type="button" data-accounting-open-car="${escapeHTML(c.id)}"><strong>${escapeHTML(c.name)}</strong><b>${(c.documents || []).length} dok. · ${moneyFmt(c.soldPrice)}</b></button><button class="remove" type="button" data-accounting-queue-car="${escapeHTML(c.id)}" aria-label="Pašalinti">×</button></div>`).join("") || '<div class="accountingEmpty">Eilė tuščia</div>'}</div><div class="accountingPeriodActions"><button class="btn" id="sendAccountingQueue" type="button" ${queued.length ? "" : "disabled"}>Teikti buhalterei</button><button class="btn secondary" id="saveAccountingFolders" type="button" ${queued.length ? "" : "disabled"}>Išsaugoti aplankus</button></div></section>\n      ${ppGeneratorHtml()}\n    </div>`;
+  root.innerHTML = `<div class="accountingHub">\n      <section class="accountingHero"><h3>Dokumentai vienoje vietoje</h3><strong>${queued.length} auto paruošta buhalterijai</strong></section>\n      <section class="accountingActionGrid">\n        <button class="accountingActionTile" type="button" data-accounting-action="pp"><span class="ico">🧾</span><strong>Generuoti PP</strong><b>Pirkimas / pardavimas</b></button>\n        <button class="accountingActionTile week" type="button" data-accounting-action="week"><span class="ico">7</span><strong>Savaitės ataskaita</strong><b>${week.length} auto</b></button>\n        <button class="accountingActionTile month" type="button" data-accounting-action="month"><span class="ico">30</span><strong>Mėnesio ataskaita</strong><b>${month.length} auto</b></button>\n        <button class="accountingActionTile queue" type="button" data-accounting-action="queue"><span class="ico">📁</span><strong>Dokumentų eilė</strong><b>${queued.length} auto · ${qDocs} dok.</b></button>\n      </section>\n      <section class="accountingBlock"><div class="accountingBlockTitle"><h3>Buhalterės el. paštas</h3></div><div class="accountingEmailRowPro"><input class="input" id="accountantEmail" type="email" autocomplete="email" value="${escapeHTML(state.accounting.email || "")}"><button class="btn secondary" id="saveAccountantEmail" type="button">Išsaugoti</button></div></section>\n      <section class="accountingBlock" id="accountingQueueBlock"><div class="accountingBlockTitle"><h3>Dokumentų eilė</h3><b>${queued.length} auto</b></div><div class="accountingQueuePro">${queued.map(c => `<div class="accountingQueueProRow"><button type="button" data-accounting-open-car="${escapeHTML(c.id)}"><strong>${escapeHTML(c.name)}</strong><b>${(c.documents || []).length} dok. · ${moneyFmt(c.soldPrice)}</b></button><button class="remove" type="button" data-accounting-queue-car="${escapeHTML(c.id)}" aria-label="Pašalinti">×</button></div>`).join("") || '<div class="accountingEmpty">Eilė tuščia</div>'}</div><div class="accountingPeriodActions"><button class="btn" id="sendAccountingQueue" type="button" ${queued.length ? "" : "disabled"}>Teikti buhalterei</button><button class="btn secondary" id="saveAccountingFolders" type="button" ${queued.length ? "" : "disabled"}>Išsaugoti aplankus</button></div></section>\n      ${ppGeneratorHtml()}\n    </div>`;
   document
     .getElementById("sendAccountingQueue")
     ?.addEventListener("click", () => shareAccountingCars(queued, "queue"));

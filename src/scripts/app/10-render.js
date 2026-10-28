@@ -191,7 +191,7 @@ async function render() {
   ensureAccounting();
   const settingsAccountantEmail = document.getElementById("settingsAccountantEmail");
   if (settingsAccountantEmail && document.activeElement !== settingsAccountantEmail) {
-    settingsAccountantEmail.value = state.accounting.email || "info@visureigiai.lt";
+    settingsAccountantEmail.value = state.accounting.email || "";
   }
   renderSecuritySettings();
   state.ui = state.ui || {};

@@ -10,7 +10,7 @@
     return `${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}, ${days[d.getDay()]}`;
   }
   function brandRow() {
-    return `<div class="productRefBrandRow" data-product-ref-brand><div class="productRefBrand">${logo}<span>Visureigiai, UAB</span></div><div class="productRefDate">${calendar}<span>${dateLabel()}</span></div></div>`;
+    return `<div class="productRefBrandRow" data-product-ref-brand><div class="productRefBrand">${logo}<span></span></div><div class="productRefDate">${calendar}<span>${dateLabel()}</span></div></div>`;
   }
   function ensureChrome() {
     const ids = [

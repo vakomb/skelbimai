@@ -6,7 +6,7 @@ const defaultState = () => ({
   sound: true,
   vibrate: true,
   security: { enabled: false, pinHash: "" },
-  accounting: { email: "info@visureigiai.lt", queue: [], history: [] },
+  accounting: { email: "", queue: [], history: [] },
   selectedView: "garage",
   level: 1,
   xp: 0,

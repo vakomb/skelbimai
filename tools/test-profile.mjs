@@ -33,6 +33,17 @@ await p.waitForTimeout(3200);
 check(!(await ev(() => !!document.getElementById("pfform"))), "po prisijungimo langas NEiššoka iškart");
 check(await ev(() => !!document.getElementById("pfRemindV71")), "parodomas ramus priminimas");
 await p.screenshot({ path: path.join(root, ".verify/profile-remind.png") });
+check(
+  await ev(() => {
+    const c = document.querySelector(".autoEasierCompanyCellV4");
+    return !document.documentElement.classList.contains("pfNamedV71") && getComputedStyle(c).display === "none";
+  }),
+  "naujam vartotojui antraštėje įmonės pavadinimo nėra"
+);
+check(
+  await ev(() => document.getElementById("settingsAccountantEmail").value === ""),
+  "buhalterės el. paštas tuščias (be Visureigiai numatytųjų)"
+);
 await ev(() => document.querySelector("#pfRemindV71 .pfRemindXV71").click());
 await p.waitForTimeout(200);
 check(!(await ev(() => !!document.getElementById("pfRemindV71"))), "„Vėliau“ paslepia priminimą");

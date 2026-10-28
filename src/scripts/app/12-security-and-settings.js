@@ -149,7 +149,7 @@ document.getElementById("vibrateToggle").onclick = () => {
 document.getElementById("resetBtn").onclick = async () => {
   if (
     !window.confirm(
-      "Ištrinti visus „Visureigiai, UAB“ įrašus šiame įrenginyje? Prieš tęsdami išsaugokite atsarginę kopiją."
+      "Ištrinti visus įmonės įrašus šiame įrenginyje? Prieš tęsdami išsaugokite atsarginę kopiją."
     )
   )
     return;

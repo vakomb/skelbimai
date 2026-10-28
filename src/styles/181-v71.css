@@ -253,3 +253,17 @@ html.pfIncompleteV71 #view-settings .setProfileBadgeV71 {
 #view-settings .setDangerV71 .btn.ghost {
   color: #b4233b;
 }
+
+/* v71: įmonės pavadinimas rodomas tik užpildžius „Mano duomenys“ */
+html:not(#ae):not(#af):not(.pfNamedV71) body:not(#ae):not(#af) .autoEasierDividerV4,
+html:not(#ae):not(#af):not(.pfNamedV71) body:not(#ae):not(#af) .autoEasierCompanyCellV4,
+html:not(#ae):not(#af):not(.pfNamedV71) body:not(#ae):not(#af) .garageRefBrand,
+html:not(#ae):not(#af):not(.pfNamedV71) body:not(#ae):not(#af) .accountingRefBrand,
+html:not(#ae):not(#af):not(.pfNamedV71) body:not(#ae):not(#af) .productRefBrand,
+html:not(#ae):not(#af):not(.pfNamedV71) body:not(#ae):not(#af) .homeRefBrand,
+html:not(#ae):not(#af):not(.pfNamedV71) body:not(#ae):not(#af) .homeProBrandLeft {
+  display: none !important;
+}
+html:not(#ae):not(#af):not(.pfNamedV71) body:not(#ae):not(#af) .autoEasierHeaderV4 {
+  justify-content: center !important;
+}

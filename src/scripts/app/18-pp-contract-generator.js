@@ -3,11 +3,11 @@
 
 const PP_TEMPLATE_BASE64 = "";
 const PP_COMPANY = {
-  name: "Visureigiai, UAB",
-  code: "587119941",
-  phone: "+370 643 47774",
-  email: "info@visureigiai.lt",
-  representative: "Vaidas Kolosovas",
+  name: "",
+  code: "",
+  phone: "",
+  email: "",
+  representative: "",
   address: ""
 };
 let ppGeneratedBlob = null,
@@ -336,7 +336,7 @@ async function ppGenerate() {
     if (result) result.classList.add("show");
     const meta = document.getElementById("ppResultMeta");
     if (meta)
-      meta.textContent = `${[ppValue("ppMake"), ppValue("ppModel")].filter(Boolean).join(" ") || "Automobilis"} · ${ppRole === "buyer" ? "Visureigiai, UAB perka" : "Visureigiai, UAB parduoda"}`;
+      meta.textContent = `${[ppValue("ppMake"), ppValue("ppModel")].filter(Boolean).join(" ") || "Automobilis"} · ${ppRole === "buyer" ? `${profileDisplayNameV57() || "Mes"} perka` : `${profileDisplayNameV57() || "Mes"} parduoda`}`;
     toast("PP sutartis sugeneruota", "✓");
   } catch (e) {
     console.error(e);

@@ -4,7 +4,7 @@
 // Antraštėje dešinėje rodomas įmonės pavadinimas arba vardas ir pavardė.
 // Dalis bendro app IIFE: visi src/scripts/app/*.js failai sujungiami eilės tvarka į vieną scope (žr. ARCHITECTURE.md).
 
-const PROFILE_FIELDS_V57 = {
+var PROFILE_FIELDS_V57 = {
   person: [
     ["name", "Vardas, pavardė", ""],
     ["code", "Asmens kodas", 'inputmode="numeric" maxlength="11"'],
@@ -25,7 +25,7 @@ let profileOpenV57 = false;
 let profileRequiredV57 = false;
 
 function profileIsCompleteV57(p = state.profile) {
-  if (!p || !p.done || !["person", "company"].includes(p.type)) return false;
+  if (!PROFILE_FIELDS_V57 || !p || !p.done || !["person", "company"].includes(p.type)) return false;
   return PROFILE_FIELDS_V57[p.type].every(([k]) => String(p[k] || "").trim());
 }
 function profileDisplayNameV57() {
@@ -186,6 +186,15 @@ closeSheet = function () {
 // Antraštės pavadinimas (dešinėje viršuje) ir kiti prekės ženklo užrašai.
 function profileApplyBrandV57() {
   const name = profileDisplayNameV57();
+  // v71: kol duomenys neužpildyti, įmonės pavadinimas ir ženklas antraštėje bei puslapių viršuje nerodomi
+  document.documentElement.classList.toggle("pfNamedV71", !!name);
+  const sub = document.getElementById("setProfileSubV71");
+  if (sub) {
+    const text = name
+      ? `${name} · ${state.profile.type === "company" ? "Įmonė" : "Fizinis asmuo"}`
+      : "Fizinis asmuo arba įmonė – naudojama sutartyse, dokumentuose ir antraštėje";
+    if (sub.textContent !== text) sub.textContent = text;
+  }
   if (!name) return;
   const initials = name
     .replace(/,?\s*(UAB|MB|IĮ|AB|VšĮ)\b/gi, "")
@@ -301,6 +310,7 @@ for (const id of ["autoEasierLogin", "appLock"]) {
     });
 }
 setTimeout(profileCheckV57, 300);
+profileApplyBrandV57();
 // Nustatymuose – galimybė pakeisti duomenis.
 document.addEventListener("click", e => {
   const b = e.target.closest?.("[data-profile-edit]");
@@ -308,4 +318,10 @@ document.addEventListener("click", e => {
   e.preventDefault();
   openProfileSheetV57({ required: false });
 });
-window.AutoEasierProfile = { open: openProfileSheetV57, isComplete: profileIsCompleteV57 };
+window.AutoEasierProfile = {
+  open: openProfileSheetV57,
+  isComplete: profileIsCompleteV57,
+  name: () => profileDisplayNameV57(),
+  code: () => (profileIsCompleteV57() ? String(state.profile.code || "") : ""),
+  htmlName: () => escapeHTML(profileDisplayNameV57() || "AutoEasier")
+};

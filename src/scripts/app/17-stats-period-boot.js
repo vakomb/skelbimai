@@ -130,7 +130,7 @@ const bootRender = () => {
   try {
     if (!state.history.length)
       state.history.push({
-        title: "Visureigiai, UAB",
+        title: "AutoEasier",
         desc: "Darbo aplinka paruošta",
         icon: "🚗",
         time: nowLabel(),

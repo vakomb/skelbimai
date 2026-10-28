@@ -466,8 +466,8 @@ async function shareAccountingReportV8(range) {
   try {
     const pack = await buildAccountingReportZipV8(range),
       file = new File([pack.blob], pack.name, { type: "application/zip" }),
-      email = state.accounting.email || "info@visureigiai.lt",
-      subject = `Visureigiai, UAB — ataskaita ${range.from} – ${range.to}`;
+      email = state.accounting.email || "",
+      subject = `${profileDisplayNameV57() || "AutoEasier"} — ataskaita ${range.from} – ${range.to}`;
     let shared = false;
     if (navigator.share) {
       try {
@@ -549,7 +549,7 @@ renderAccountingCenter = function () {
     workspace = `<section class="accountingWorkspace show"><div class="accountingWorkspaceHead"><h3>Dokumentai buhalterei</h3></div><div class="accountingCleanRows">${queued.map(c => `<div class="accountingCleanRow"><button type="button" data-accounting-open-car="${escapeHTML(c.id)}"><strong>${escapeHTML(c.name)}</strong><span>${(c.documents || []).length} dok.</span></button><button class="accountingCleanRemove" type="button" data-accounting-queue-car="${escapeHTML(c.id)}">×</button></div>`).join("") || '<div class="accountingCleanEmpty">Įrašų nėra</div>'}</div><button class="btn accountingWorkspaceAction" id="accountingWorkspaceSend" type="button" ${queued.length ? "" : "disabled"}>Paruošti ZIP ir teikti</button></section>`;
   const action = (key, ico, title, wide = "") =>
     `<button type="button" class="accountingProAction ${wide} ${panel === key ? "active" : ""}" data-accounting-panel="${key}"><span class="left"><span class="ico">${ico}</span><strong>${title}</strong></span><span class="chev">›</span></button>`;
-  root.innerHTML = `<div class="accountingCleanHub"><div class="accountingProMenu">${action("pp", "🧾", "Generuoti PP")}${action("reports", "📊", "Ataskaitos")}${action("expense", "💸", "Pridėti išlaidą")}${action("income", "💶", "Pridėti įplauką")}${action("queue", "📁", "Dokumentai buhalterei", "wide")}</div>${workspace}<details class="accountingEmailFold"><summary><span>✉️</span><strong>Buhalterės el. paštas</strong><b>›</b></summary><div class="accountingEmailFoldBody"><input class="input" id="accountantEmail" type="email" value="${escapeHTML(state.accounting.email || "info@visureigiai.lt")}"><button class="btn secondary" id="saveAccountantEmail" type="button">Išsaugoti</button></div></details></div>`;
+  root.innerHTML = `<div class="accountingCleanHub"><div class="accountingProMenu">${action("pp", "🧾", "Generuoti PP")}${action("reports", "📊", "Ataskaitos")}${action("expense", "💸", "Pridėti išlaidą")}${action("income", "💶", "Pridėti įplauką")}${action("queue", "📁", "Dokumentai buhalterei", "wide")}</div>${workspace}<details class="accountingEmailFold"><summary><span>✉️</span><strong>Buhalterės el. paštas</strong><b>›</b></summary><div class="accountingEmailFoldBody"><input class="input" id="accountantEmail" type="email" value="${escapeHTML(state.accounting.email || "")}"><button class="btn secondary" id="saveAccountantEmail" type="button">Išsaugoti</button></div></details></div>`;
   root.querySelectorAll("[data-accounting-panel]").forEach(
     b =>
       (b.onclick = () => {
