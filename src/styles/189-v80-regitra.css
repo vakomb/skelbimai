@@ -1,0 +1,563 @@
+/* =====================================================================
+   AutoEasier v80 – Regitros įrankiai Meniu: „SDK paieška“ ir „Draudimo patikra“
+   (63-v80-regitra.js). Atsidaro Meniu skyriaus lange kaip kiti skyriai.
+   Prefiksas – 6 ID, todėl stipresnis už bendrus formų ir mygtukų sluoksnius.
+   ===================================================================== */
+
+/* Pradinėje vietoje (tiesiai po #view-menu) įrankiai paslėpti – matomi tik atidarytame skyriuje */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu > .menuToolV80 {
+  display: none !important;
+}
+
+/* Meniu plytelės: senesnis sluoksnis 5-ą plytelę tempė per visą plotį – dabar visos 2 stulpeliais
+   (SDK po „Pardavimų statistika“, Draudimas po „Nustatymai“) */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .menuLinks > .menuLink.menuToolTileV80 {
+  grid-column: auto !important;
+  justify-self: stretch !important;
+  width: auto !important;
+}
+
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 {
+  --rg-good: #0f7a43;
+  --rg-good-bg: #e8f6ee;
+  --rg-good-line: #a6dcbd;
+  --rg-bad: #b42318;
+  --rg-bad-bg: #fdeeec;
+  --rg-bad-line: #f2b8b1;
+  display: block !important;
+  min-width: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgStepV80 {
+  display: grid !important;
+  gap: 14px !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  animation: rgInV80 0.24s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .field,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .grid2 {
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .grid2 {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgCapsV80 {
+  text-transform: uppercase !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgCapsV80::placeholder {
+  text-transform: none !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgMonoV80 {
+  letter-spacing: 0.04em !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+/* Pagrindinis mygtukas */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgPrimaryV80 {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 9px !important;
+  width: 100% !important;
+  min-height: 54px !important;
+  margin: 2px 0 0 !important;
+  border: 0 !important;
+  border-radius: 16px !important;
+  background: var(--pv-brand) !important;
+  background-image: none !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-size: 16px !important;
+  font-weight: 650 !important;
+  box-shadow:
+    0 8px 18px rgba(40, 76, 162, 0.22),
+    0 2px 5px rgba(40, 76, 162, 0.14) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgPrimaryV80 svg {
+  width: 19px !important;
+  height: 19px !important;
+  flex: 0 0 auto !important;
+  color: #fff !important;
+  stroke: #fff !important;
+  fill: none !important;
+}
+/* Planšetėje ir kompiuteryje forma neištempiama per visą plotį */
+@media (min-width: 768px) {
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 {
+    max-width: 600px !important;
+  }
+}
+
+/* Klaida ir dabartinė kortelės būsena */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgErrV80 {
+  margin: -4px 2px 0 !important;
+  color: var(--rg-bad) !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  line-height: 1.35 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgErrV80[hidden] {
+  display: none !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgNowV80 {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: -4px 2px 0 !important;
+  color: var(--pv-muted) !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  line-height: 1.35 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgNowV80::before {
+  content: "" !important;
+  flex: 0 0 8px !important;
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background: #c4c9d2 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgNowV80.good::before {
+  background: #1f9d5b !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgNowV80.warn::before {
+  background: #e3a21a !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgNowV80.bad::before {
+  background: #d64545 !important;
+}
+
+/* VIN skaitiklis */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgVinLabelV80 {
+  display: flex !important;
+  align-items: baseline !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgCountV80 {
+  color: var(--pv-faint) !important;
+  font-size: 12.5px !important;
+  font-weight: 650 !important;
+  font-variant-numeric: tabular-nums !important;
+  transition: color 0.18s ease !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgCountV80.ok {
+  color: var(--rg-good) !important;
+}
+
+/* Laukimas: Regitra atidaryta */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgPulseV80 {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  padding: 15px 16px !important;
+  border-radius: 18px !important;
+  background: var(--pv-brand-soft) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgSpinV80 {
+  position: relative !important;
+  flex: 0 0 26px !important;
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 50% !important;
+  border: 3px solid rgba(40, 76, 162, 0.16) !important;
+  border-top-color: var(--pv-brand) !important;
+  animation: rgSpinV80 0.9s linear infinite !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgPulseTextV80 {
+  display: grid !important;
+  gap: 3px !important;
+  min-width: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgPulseTextV80 strong {
+  color: var(--pv-ink) !important;
+  font-size: 15.5px !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgPulseTextV80 span {
+  color: var(--pv-muted) !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  line-height: 1.35 !important;
+}
+
+/* Nukopijuojami duomenys */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgChipsV80 {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgChipV80 {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  max-width: 100% !important;
+  min-height: 48px !important;
+  margin: 0 !important;
+  padding: 7px 12px 7px 13px !important;
+  border: 1px solid var(--pv-line) !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  color: var(--pv-ink) !important;
+  text-align: left !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgChipV80 > span {
+  display: grid !important;
+  gap: 1px !important;
+  min-width: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgChipV80 em {
+  color: var(--pv-faint) !important;
+  font-size: 11.5px !important;
+  font-style: normal !important;
+  font-weight: 650 !important;
+  line-height: 1.2 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgChipV80 b {
+  overflow: hidden !important;
+  color: var(--pv-ink) !important;
+  font-size: 14.5px !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+  letter-spacing: 0.02em !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  font-variant-numeric: tabular-nums !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgChipV80 svg {
+  flex: 0 0 17px !important;
+  width: 17px !important;
+  height: 17px !important;
+  color: var(--pv-brand) !important;
+}
+
+/* Draudimo statusas: Galioja / Negalioja */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgLabelV80 {
+  margin: 2px 2px -6px !important;
+  color: var(--pv-muted) !important;
+  font-size: 13px !important;
+  font-weight: 650 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgSegV80 {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgSegBtnV80 {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  min-height: 54px !important;
+  margin: 0 !important;
+  padding: 0 12px !important;
+  border: 1px solid var(--pv-line) !important;
+  border-radius: 16px !important;
+  background: #fff !important;
+  font-size: 15.5px !important;
+  font-weight: 650 !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
+  transition:
+    background-color 0.16s ease,
+    border-color 0.16s ease !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgSegBtnV80 svg {
+  width: 19px !important;
+  height: 19px !important;
+  flex: 0 0 auto !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgSegBtnV80.good {
+  color: var(--rg-good) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgSegBtnV80.bad {
+  color: var(--rg-bad) !important;
+}
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  #view-menu
+  .rgToolV80
+  .rgSegBtnV80.good[aria-pressed="true"] {
+  border-color: var(--rg-good-line) !important;
+  background: var(--rg-good-bg) !important;
+}
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  #view-menu
+  .rgToolV80
+  .rgSegBtnV80.bad[aria-pressed="true"] {
+  border-color: var(--rg-bad-line) !important;
+  background: var(--rg-bad-bg) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgValidV80 {
+  display: grid !important;
+  gap: 12px !important;
+  animation: rgInV80 0.22s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgValidV80[hidden] {
+  display: none !important;
+}
+
+/* SDK įklijavimas ir veiksmai */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgPasteRowV80 {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  gap: 8px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgPasteV80 {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  min-height: 50px !important;
+  margin: 0 !important;
+  padding: 0 14px !important;
+  border: 1px solid var(--pv-line) !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  color: var(--pv-brand) !important;
+  font-size: 14.5px !important;
+  font-weight: 650 !important;
+  white-space: nowrap !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgPasteV80 svg {
+  width: 17px !important;
+  height: 17px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgActionsV80 {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) !important;
+  gap: 10px !important;
+  align-items: stretch !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgActionsV80 .rgPrimaryV80 {
+  margin: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgGhostV80 {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: 52px !important;
+  margin: 0 !important;
+  padding: 0 14px !important;
+  border: 0 !important;
+  border-radius: 16px !important;
+  background: var(--pv-chip) !important;
+  color: var(--pv-ink-2) !important;
+  font-size: 15.5px !important;
+  font-weight: 650 !important;
+}
+
+/* Antraeiliai veiksmai */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgLinksV80 {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  gap: 4px 18px !important;
+  margin: -2px 0 0 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgLinkV80 {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  min-height: 40px !important;
+  margin: 0 !important;
+  padding: 0 4px !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--pv-brand) !important;
+  font-size: 14px !important;
+  font-weight: 650 !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgLinkV80 svg {
+  width: 15px !important;
+  height: 15px !important;
+}
+
+/* Rezultatas */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgResultV80 {
+  display: grid !important;
+  gap: 12px !important;
+  justify-items: start !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgBadgeV80 {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  max-width: 100% !important;
+  padding: 12px 16px !important;
+  border-radius: 14px !important;
+  font-size: 15.5px !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgBadgeV80 b {
+  font-weight: 800 !important;
+  letter-spacing: 0.02em !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgBadgeV80 svg {
+  flex: 0 0 20px !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgBadgeV80.good {
+  background: #12805c !important;
+  color: #fff !important;
+  box-shadow: 0 8px 18px rgba(18, 128, 92, 0.2) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgBadgeV80.bad {
+  background: var(--rg-bad-bg) !important;
+  color: var(--rg-bad) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgBadgeV80.dark {
+  background: #1d2433 !important;
+  color: #fff !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgResultTextV80 {
+  margin: -2px 2px 0 !important;
+  color: var(--pv-muted) !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgFactsV80 {
+  display: grid !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgFactsV80 > div {
+  display: flex !important;
+  align-items: baseline !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  padding: 11px 2px !important;
+  border-top: 1px solid #eef0f4 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgFactsV80 dt {
+  color: var(--pv-muted) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgFactsV80 dd {
+  margin: 0 !important;
+  overflow: hidden !important;
+  color: var(--pv-ink) !important;
+  font-size: 15px !important;
+  font-weight: 650 !important;
+  text-align: right !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  font-variant-numeric: tabular-nums !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgSavedV80 {
+  display: flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  margin: -2px 2px 0 !important;
+  color: var(--rg-good) !important;
+  font-size: 13.5px !important;
+  font-weight: 650 !important;
+  line-height: 1.35 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgSavedV80::before {
+  content: "✓" !important;
+  font-weight: 800 !important;
+}
+
+/* SDK kodas – ryškus, lengvai nukopijuojamas blokas */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgSdkCardV80 {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  grid-template-areas:
+    "label copy"
+    "code copy" !important;
+  align-items: center !important;
+  gap: 4px 12px !important;
+  padding: 16px 16px 16px 18px !important;
+  border-radius: 18px !important;
+  background: #0f1626 !important;
+  color: #fff !important;
+  box-shadow: 0 10px 24px rgba(15, 22, 38, 0.22) !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgSdkLabelV80 {
+  grid-area: label !important;
+  color: rgba(255, 255, 255, 0.62) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.14em !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgSdkCodeV80 {
+  grid-area: code !important;
+  overflow: hidden !important;
+  color: #fff !important;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace !important;
+  font-size: 27px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.08em !important;
+  line-height: 1.2 !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  user-select: all !important;
+  -webkit-user-select: all !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgCopyBtnV80 {
+  grid-area: copy !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  min-height: 46px !important;
+  margin: 0 !important;
+  padding: 0 14px !important;
+  border: 0 !important;
+  border-radius: 13px !important;
+  background: rgba(255, 255, 255, 0.13) !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-size: 14.5px !important;
+  font-weight: 650 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgCopyBtnV80 svg {
+  width: 17px !important;
+  height: 17px !important;
+}
+
+/* Paspaudimai */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgChipV80:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgSegBtnV80:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgPasteV80:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgGhostV80:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgCopyBtnV80:active,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgPrimaryV80:active {
+  transform: scale(0.97) !important;
+  transition-duration: 0.07s !important;
+}
+
+/* Labai siauri ekranai: vardas ir pavardė – po vieną eilutėje */
+@media (max-width: 359px) {
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .grid2 {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-menu .rgToolV80 .rgSdkCodeV80 {
+    font-size: 23px !important;
+  }
+}
+
+@keyframes rgSpinV80 {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rgInV80 {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
