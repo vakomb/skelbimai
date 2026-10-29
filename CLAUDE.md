@@ -23,6 +23,7 @@ Kalba su vartotoju: **lietuvių**. Programėlė skirta telefonui (iPhone 15 Pro 
 - Pagrindinė logika: `src/scripts/app/` (aprašas kiekvieno failo pirmoje eilutėje).
 - Prisijungimas ir sinchronizacija: `src/scripts/155-autoeasier-supabase-auth-v1.js`.
 - Prenumerata (Stripe): `src/scripts/180-billing-v70.js`, `src/scripts/app/54-readonly-v70.js`, užraktas ir nuotraukos – žr. ARCHITECTURE v71 (`app/55-photo-preload-v71.js`), serveris – `supabase/` (migracijos ir Edge Functions). Stripe raktų ir webhook paslapčių į repozitoriją nedėk – tik Supabase secrets.
+- Sutartys ir sąskaitos faktūros su parašais: `src/scripts/app/37-contract-v52.js` (sutartis), `65-v82-signpad.js` (parašo langas), `66-v82-docsign.js` (langas po sukūrimo, parašų užraktas), `67-v82-invoice.js` (sąskaita faktūra), žr. ARCHITECTURE v82.
 - Admin skydelis (tik autoeasier@gmail.com): `src/scripts/182-admin-v72.js`, `supabase/functions/admin-action`, žr. ARCHITECTURE v72.
 - Detali architektūra: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 

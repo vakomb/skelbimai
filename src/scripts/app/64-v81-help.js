@@ -107,13 +107,14 @@ const AH_TOPICS_V81 = {
   sutartys: {
     title: "Sutarties generavimas",
     icon: AH_SVG_V81.doc,
-    lead: "Pirkimo–pardavimo sutartis oficialia Regitros forma – per minutę, tiesiai telefone.",
+    lead: "Pirkimo–pardavimo sutartis oficialia Regitros forma ir abiejų šalių parašai – tiesiai įrenginyje.",
     how: [
-      "Programa užpildo oficialią Regitros pirkimo–pardavimo sutarties formą ir sukuria PDF pačiame telefone – nereikia nei interneto, nei kitų programų.",
+      "Programa užpildo oficialią Regitros pirkimo–pardavimo sutarties formą ir sukuria PDF pačiame įrenginyje – nereikia nei interneto, nei kitų programų.",
       "Pasirinkus automobilį iš garažo, markė, modelis, VIN, valstybinis numeris, rida ir SDK paimami iš kortelės. Ko trūksta – įrašote arba nuskenuojate liudijimą.",
       "Kaina žodžiais surašoma automatiškai, pvz., „keturi tūkstančiai penki šimtai eurų 00 ct“.",
-      "Sutartis gauna numerį (pvz., PP-20261028-01) ir prisegama prie automobilio kortelės kaip pirkimo arba pardavimo sutartis.",
-      "„Siųsti“ atveria telefono dalinimosi meniu: Viber, WhatsApp, el. paštas ar „Failai“."
+      "Pirkėjas ir pardavėjas pasirašo pirštu ar rašikliu ekrane. Parašai įdedami sutartyje dešinėje nuo vardų.",
+      "„Siųsti“, „Peržiūrėti“ ir „Atsisiųsti į įrenginį“ atsirakina tik tada, kai abi šalys pasirašė ir parašai patalpinti. Pasirašyta sutartis prisegama prie automobilio kortelės.",
+      "„Siųsti“ atveria įrenginio dalinimosi meniu: Viber, WhatsApp, el. paštas ar „Failai“."
     ],
     steps: [
       {
@@ -123,13 +124,14 @@ const AH_TOPICS_V81 = {
       },
       { text: "Pažymėkite, ar jūsų įmonė automobilį perka, ar parduoda.", scr: "a", hl: "role" },
       { text: "Įrašykite kainą – žodžiais ją surašysime patys.", scr: "a", hl: "price" },
+      { text: "Įveskite kitos šalies duomenis ir spauskite „Sukurti sutartį“.", scr: "a", hl: "create" },
       {
-        text: "Kitos šalies duomenis įveskite dabar arba palikite „Pildys ranka“ – tada kita šalis juos įrašys ant popieriaus.",
-        scr: "a",
-        hl: "party"
+        text: "Spauskite „Pasirašyti pirkėjui“ ir „Pasirašyti pardavėjui“ – pasirašius mygtukas pažaliuoja.",
+        scr: "b",
+        hl: "signs"
       },
-      { text: "Spauskite „Sukurti sutartį“.", scr: "a", hl: "create" },
-      { text: "Spauskite „Siųsti“ ir pasirinkite Viber, WhatsApp arba el. paštą.", scr: "b", hl: "send" }
+      { text: "Spauskite „Patalpinti parašus“ – parašai atsiras sutartyje.", scr: "b", hl: "place" },
+      { text: "Spauskite „Siųsti“ ir pasirinkite Viber, WhatsApp arba el. paštą.", scr: "c", hl: "send" }
     ],
     mock: () =>
       mkScreenV81(
@@ -137,17 +139,29 @@ const AH_TOPICS_V81 = {
         `<div class="mSheet">${mkSheetHeadV81("Pirkimo–pardavimo sutartis")}
           <div class="mCard">${mkSelectV81("Automobilis", "Nissan X-Trail · ABC123", "car")}${mkSegV81(["Perka", "Parduoda"], 0, "role", "Mano įmonė")}</div>
           <div class="mCard">${mkFieldV81("Kaina, €", "4 500", "price")}<div class="mGrid2">${mkFieldV81("Data", "2026-10-28")}${mkFieldV81("Laikas", "14:30")}</div></div>
-          <div class="mCard"${mkHlV81("party")}>${mkSegV81(["Pildys ranka", "Pildyti dabar"], 1, "", "Pardavėjo duomenys")}${mkFieldV81("Vardas, pavardė", "Jonas Jonaitis")}</div>
+          <div class="mCard">${mkSegV81(["Pildys ranka", "Pildyti dabar"], 1, "", "Pardavėjo duomenys")}${mkFieldV81("Vardas, pavardė", "Jonas Jonaitis")}</div>
           ${mkBtnV81("Sukurti sutartį", "create", "big")}
         </div>`
       ) +
       mkScreenV81(
         "b",
         `<div class="mDim"></div><div class="mDone">
-          <span class="mDoneIco">${AH_SVG_V81.check}</span>
-          <b>Sutartis paruošta</b><span class="mMuted">PP-20261028-01 · prisegta prie automobilio</span>
+          <span class="mDoneIco mDocIcoV82">${AH_SVG_V81.doc}</span>
+          <b>Sutartis sukurta</b><span class="mMuted">PP-20261028-01</span>
           <div class="mPaper"><i></i><i></i><i class="w60"></i><em>keturi tūkstančiai penki šimtai eurų 00 ct</em><i></i><i class="w40"></i></div>
-          ${mkBtnV81("Siųsti", "send")}${mkBtnV81("Peržiūrėti", "", "ghost")}
+          <div class="mSignRowV82"${mkHlV81("signs")}><span class="mSignV82 on">${AH_SVG_V81.check}Pasirašyti pirkėjui</span><span class="mSignV82 on">${AH_SVG_V81.check}Pasirašyti pardavėjui</span></div>
+          <div class="mPlaceV82"${mkHlV81("place")}>Patalpinti parašus</div>
+          <div class="mLockedV82">${mkBtnV81("Siųsti", "")}<div class="mGrid2">${mkBtnV81("Peržiūrėti", "", "ghostLine")}${mkBtnV81("Atsisiųsti į įrenginį", "", "ghostLine")}</div></div>
+        </div>`
+      ) +
+      mkScreenV81(
+        "c",
+        `<div class="mDim"></div><div class="mDone">
+          <span class="mDoneIco">${AH_SVG_V81.check}</span>
+          <b>Sutartis pasirašyta</b><span class="mMuted">PP-20261028-01 · prisegta prie automobilio</span>
+          <div class="mSignRowV82"><span class="mSignV82 on">${AH_SVG_V81.check}Pasirašyti pirkėjui</span><span class="mSignV82 on">${AH_SVG_V81.check}Pasirašyti pardavėjui</span></div>
+          <div class="mPlaceV82 done">${AH_SVG_V81.check}Parašai patalpinti</div>
+          ${mkBtnV81("Siųsti", "send")}<div class="mGrid2 mFullV82">${mkBtnV81("Peržiūrėti", "", "ghostLine")}${mkBtnV81("Atsisiųsti į įrenginį", "", "ghostLine")}</div>
           <div class="mShare"><span><i class="v">V</i>Viber</span><span><i class="w">W</i>WhatsApp</span><span><i class="m">@</i>Paštas</span><span><i class="f">${AH_SVG_V81.folder}</i>Failai</span></div>
         </div>`
       )
@@ -643,7 +657,11 @@ const AH_TOPICS_V81 = {
 
 // ---------- „?“ mygtukų vietos ----------
 const AH_ANCHORS_V81 = [
-  { id: "sutartys", sel: "#sheet .sheetHead h3", when: () => !!document.querySelector("#sheet .ctFormV52") },
+  {
+    id: "sutartys",
+    sel: "#sheet .sheetHead h3",
+    when: () => !!document.querySelector("#sheet .ctFormV52:not(.invFormV82)")
+  },
   { id: "skeneris", sel: ".regCardHeadV50 strong" },
   { id: "pajamos", sel: "#accountingRoot .accountingWorkspaceHead h3", text: "Pridėti įplauką" },
   { id: "islaidos", sel: "#accountingRoot .accountingWorkspaceHead h3", text: "Pridėti išlaidą" },

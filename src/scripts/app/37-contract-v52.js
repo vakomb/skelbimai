@@ -1,7 +1,7 @@
 // Pirkimo–pardavimo sutarties generatorius (v52/v53): pildo oficialią Regitros sutarties formą.
 // Šaltiniai: esamas automobilis, nuskenuotas / įkeltas registracijos liudijimas arba ranka įvesti duomenys.
-// PDF kuriamas pačiame telefone: puslapiai piešiami ant canvas (palaiko lietuviškas raides) ir sudedami
-// į PDF be jokių išorinių bibliotekų ar interneto.
+// PDF kuriamas pačiame įrenginyje: puslapiai piešiami ant canvas (palaiko lietuviškas raides) ir sudedami
+// į PDF be jokių išorinių bibliotekų ar interneto. v82: abiejų šalių parašai (65-v82-signpad.js, 66-v82-docsign.js).
 // Dalis bendro app IIFE: visi src/scripts/app/*.js failai sujungiami eilės tvarka į vieną scope (žr. ARCHITECTURE.md).
 
 // ---------- Suma žodžiais (lietuviškai) ----------
@@ -95,9 +95,15 @@ async function ctPdfFromCanvasesV52(canvases) {
   const W = 595.28,
     H = 841.89;
   const jpgs = [];
+  // v82: toDataURL vietoj toBlob – Chrome toBlob koduoja tik „laisvu“ metu ir, vykstant animacijoms, kiekvienas
+  // puslapis gali laukti ~1 s. Sinchroninis kodavimas trunka kelias dešimtis ms ir yra nuspėjamas.
   for (const c of canvases) {
-    const blob = await new Promise(r => c.toBlob(r, "image/jpeg", 0.9));
-    jpgs.push(new Uint8Array(await blob.arrayBuffer()));
+    const b64 = c.toDataURL("image/jpeg", 0.9).split(",")[1] || "";
+    const bin = atob(b64),
+      bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    jpgs.push(bytes);
+    await new Promise(r => setTimeout(r, 0));
   }
   push("%PDF-1.4\n%\xE2\xE3\xCF\xD3\n");
   const pageIds = canvases.map((_, i) => 3 + i * 3);
@@ -317,13 +323,14 @@ function ctLoadBackgroundsV53() {
   });
   return ctBgPromiseV53;
 }
-async function ctRenderPagesV52(d) {
+async function ctRenderPagesV52(d, sigs = null) {
   const bgs = await ctLoadBackgroundsV53();
   const pages = bgs.map(img => {
     const c = document.createElement("canvas");
     c.width = img.naturalWidth;
     c.height = img.naturalHeight;
-    const x = c.getContext("2d");
+    // Programinis (CPU) canvas: PDF'ui puslapis nuskaitomas (toBlob), o GPU canvas nuskaitymas gali užtrukti sekundes.
+    const x = c.getContext("2d", { willReadFrequently: true });
     x.drawImage(img, 0, 0);
     return c;
   });
@@ -345,6 +352,30 @@ async function ctRenderPagesV52(d) {
     x.textAlign = align;
     const tx = align === "center" ? ((r[1] + r[3]) / 2) * S : (r[1] + 2) * S;
     x.fillText(s, tx, ((r[2] + r[4]) / 2 + 0.4) * S);
+  };
+  // v82: centruotas laukas (vardas, tel. nr., el. paštas, adresas, valstybė, kaina žodžiais) – horizontaliai ir
+  // vertikaliai lauko viduryje, šiek tiek didesniu šriftu (11 pt vietoj 9,5 pt). Vertikaliai centruojamas didžiųjų
+  // raidžių aukštis, o uodegėlės (j, g, ą, ų) niekada neužlipa ant lauko linijos.
+  const textCenter = (r, value, { pt = 11, w = 600 } = {}) => {
+    const s = String(value ?? "")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (!r || !s) return;
+    const x = ctxOf(r),
+      width = (r[3] - r[1] - 6) * S;
+    let size = pt;
+    setFont(x, size, w);
+    while (x.measureText(s).width > width && size > 6) setFont(x, (size -= 0.25), w);
+    // Matuojama nuo raidžių linijos (alphabetic), kitaip aukštis skaičiuojamas nuo „middle“
+    x.textBaseline = "alphabetic";
+    const cap = x.measureText("H").actualBoundingBoxAscent || size * 0.72 * S;
+    const desc = x.measureText(s).actualBoundingBoxDescent || 0;
+    const mid = ((r[2] + r[4]) / 2) * S;
+    const baseline = Math.min(mid + cap / 2, r[4] * S - desc - 0.9 * S);
+    x.fillStyle = ink;
+    x.textAlign = "center";
+    x.textBaseline = "alphabetic";
+    x.fillText(s, ((r[1] + r[3]) / 2) * S, baseline);
   };
   // Po vieną simbolį į langelius.
   const cells = (list, value, { align = "left" } = {}) => {
@@ -399,13 +430,13 @@ async function ctRenderPagesV52(d) {
   cells(F.dateD, day);
   cells(F.timeH, hh);
   cells(F.timeM, mm);
-  textIn(F.country, d.country || "Lietuva");
+  textCenter(F.country, d.country || "Lietuva");
   const party = (p, k) => {
     cells(F[k + "Code"], p.code);
-    textIn(F[k + "Name"], p.type === "company" && p.rep ? `${p.name}, atst. ${p.rep}` : p.name);
-    textIn(F[k + "Phone"], p.phone);
-    textIn(F[k + "Email"], p.email);
-    textIn(F[k + "Addr"], p.address);
+    textCenter(F[k + "Name"], p.type === "company" && p.rep ? `${p.name}, atst. ${p.rep}` : p.name);
+    textCenter(F[k + "Phone"], p.phone);
+    textCenter(F[k + "Email"], p.email);
+    textCenter(F[k + "Addr"], p.address);
   };
   party(d.seller, "s");
   party(d.buyer, "b");
@@ -425,7 +456,7 @@ async function ctRenderPagesV52(d) {
   const ev = ctSplitLinesV53(d.events, [F.events1, F.events2], 9);
   ev.forEach(([r, s]) => textIn(r, s, { pt: 9, w: 500 }));
   cells(F.price, String(Math.round(Number(d.price) || 0)), { align: "right" });
-  textIn(F.priceWords, ctMoneyWordsV52(d.price), { pt: 10, w: 600 });
+  textCenter(F.priceWords, ctMoneyWordsV52(d.price));
   // Atsiskaitymo būdas / momentas, draudimas, įvykiai ir trūkumai žymimi tik jei nurodyti (kitu atveju – ranka).
   if (d.payment === "cash") tick(F.payCash);
   if (d.payment === "bank") tick(F.payBank);
@@ -436,10 +467,43 @@ async function ctRenderPagesV52(d) {
   }
   if (d.insurance) tick(F.insurance);
   ctSplitLinesV53(d.terms, [F.extra1, F.extra2], 9).forEach(([r, s]) => textIn(r, s, { pt: 9, w: 500 }));
-  const signName = p => (p.type === "company" ? [p.rep, p.name].filter(Boolean).join(", ") : p.name || "");
-  textIn(F.sSign, signName(d.seller), { pt: 9.5 });
-  textIn(F.bSign, signName(d.buyer), { pt: 9.5 });
+  // Vardas prie parašo linijos (kairėje, 9,5 pt). v82: parašas – dešinėje nuo vardo, apatiniame sluoksnyje
+  // (piešiamas prieš vardą), ~2 kartus aukštesnis už vardo šriftą (spPlaceOnLineV82).
+  const signLine = (r, p, sig) => {
+    const name = ctSignNameV82(p);
+    const img = sig?.img && sig.img.naturalWidth ? sig.img : null;
+    const x = ctxOf(r);
+    let size = 9.5,
+      nameEnd = r[1];
+    if (name) {
+      const maxW = (r[3] - r[1] - 4) * (img ? 0.6 : 1) * S;
+      setFont(x, size, 600);
+      while (x.measureText(name).width > maxW && size > 5.5) setFont(x, (size -= 0.25), 600);
+      nameEnd = r[1] + 2 + x.measureText(name).width / S;
+    }
+    if (img)
+      spPlaceOnLineV82(x, img, {
+        x: name ? nameEnd + 12 : r[1] + (r[3] - r[1]) * 0.3,
+        lineY: r[4],
+        maxX: r[3] - 4,
+        fontPt: 9.5,
+        S
+      });
+    if (name) {
+      setFont(x, size, 600);
+      x.fillStyle = ink;
+      x.textBaseline = "middle";
+      x.textAlign = "left";
+      x.fillText(name, (r[1] + 2) * S, ((r[2] + r[4]) / 2 + 0.4) * S);
+    }
+  };
+  signLine(F.sSign, d.seller, sigs?.seller);
+  signLine(F.bSign, d.buyer, sigs?.buyer);
   return pages;
+}
+// Vardas prie parašo: įmonei – „atstovas, įmonė“, fiziniam asmeniui – vardas, pavardė.
+function ctSignNameV82(p = {}) {
+  return p.type === "company" ? [p.rep, p.name].filter(Boolean).join(", ") : p.name || "";
 }
 // Ilgą tekstą paskirsto per kelias eilutes (laukus).
 function ctSplitLinesV53(text, rects, pt) {
@@ -601,46 +665,6 @@ function ctDownloadV56(blob, fileName) {
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 60000);
-}
-function ctOpenResultV56({ blob, pages, fileName, number, attached }) {
-  document.getElementById("ctResultV56")?.remove();
-  const file = new File([blob], fileName, { type: "application/pdf" });
-  const canShare = ctShareSupportedV56(file);
-  const ov = document.createElement("div");
-  ov.id = "ctResultV56";
-  ov.className = "ctOverlayV56";
-  ov.innerHTML = `<div class="ctPanelV56" role="dialog" aria-modal="true" aria-label="Sutartis paruošta">
-    <div class="ctDoneIcoV56"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></div>
-    <h3>Sutartis paruošta</h3>
-    <p>${escapeHTML(number)}${attached ? " · prisegta prie automobilio" : ""}</p>
-    <button type="button" class="ctThumbV56" data-ct-view><img src="${pages[0].toDataURL("image/jpeg", 0.7)}" alt="Sutarties peržiūra"></button>
-    <div class="ctActionsV56">
-      <button type="button" class="ctBtnV56 primary" data-ct-send>${canShare ? "Siųsti" : "Atsisiųsti"}</button>
-      <button type="button" class="ctBtnV56" data-ct-view>Peržiūrėti</button>
-      ${canShare ? '<button type="button" class="ctBtnV56" data-ct-download>Atsisiųsti į telefoną</button>' : ""}
-      <button type="button" class="ctBtnV56 ghost" data-ct-close>Uždaryti</button>
-    </div>
-  </div>`;
-  document.body.appendChild(ov);
-  requestAnimationFrame(() => ov.classList.add("show"));
-  const close = () => {
-    ov.classList.remove("show");
-    setTimeout(() => ov.remove(), 200);
-  };
-  ov.addEventListener("click", async e => {
-    if (e.target === ov || e.target.closest("[data-ct-close]")) return close();
-    if (e.target.closest("[data-ct-view]")) return ctOpenViewerV56(pages, number);
-    if (e.target.closest("[data-ct-download]")) return ctDownloadV56(blob, fileName);
-    if (e.target.closest("[data-ct-send]")) {
-      if (!canShare) return ctDownloadV56(blob, fileName);
-      // Sistemos meniu: el. paštas, žinutės, WhatsApp, Viber, „Įrašyti į Failus“ ir kt.
-      try {
-        await navigator.share({ files: [file], title: number });
-      } catch (err) {
-        if (err && err.name !== "AbortError") ctDownloadV56(blob, fileName);
-      }
-    }
-  });
 }
 function ctOpenViewerV56(pages, number) {
   document.getElementById("ctViewerV56")?.remove();
@@ -857,7 +881,7 @@ function openContractSheetV52({ carId = "" } = {}) {
       const blob = await ctPdfFromCanvasesV52(pages);
       num.commit();
       const fileName = `${d.number}-${accountingSafeName([d.make, d.model].join(" "))}.pdf`;
-      let attached = false;
+      const docKind = seg("role") === "buyer" ? "purchase" : "sale";
       if (car) {
         // Ranka įvesti trūkstami duomenys išsaugomi ir automobilio kortelėje.
         for (const f of CT_CAR_FIELDS_V55) {
@@ -865,26 +889,7 @@ function openContractSheetV52({ carId = "" } = {}) {
           car[f.key] = f.num ? Number(v[f.key]) : f.caps ? v[f.key].toUpperCase() : v[f.key];
         }
         if (seg("ta") && !["valid", "invalid"].includes(car.taStatus)) car.taStatus = seg("ta");
-        try {
-          const key = await putDocument(blob);
-          car.documents = [
-            ...(car.documents || []),
-            {
-              id: uid(),
-              key,
-              kind: seg("role") === "buyer" ? "purchase" : "sale",
-              name: fileName,
-              type: "application/pdf",
-              size: blob.size,
-              addedAt: nowLabel(),
-              addedDateISO: todayISO()
-            }
-          ];
-          if (!byHand) car.ppParty = other;
-          attached = true;
-        } catch (e) {
-          console.warn("Sutarties prisegimas", e);
-        }
+        if (!byHand) car.ppParty = other;
       }
       addHistory(
         "Sukurta PP sutartis",
@@ -892,11 +897,65 @@ function openContractSheetV52({ carId = "" } = {}) {
         "🧾"
       );
       saveState();
+      // v82: sutartis prisegama prie automobilio tik su abiejų šalių parašais (po „Patalpinti parašus“).
+      const carId = car?.id || "";
+      const session = dsSessionV82({
+        domId: "ctResultV56",
+        number: d.number,
+        fileName,
+        title: "Sutartis sukurta",
+        doneTitle: "Sutartis pasirašyta",
+        placedToast: "Parašai patalpinti į sutartį",
+        pages,
+        blob,
+        thumbPage: 0,
+        signers: [
+          {
+            key: "buyer",
+            label: "Pasirašyti pirkėjui",
+            padTitle: "Pirkėjo parašas",
+            name: ctSignNameV82(d.buyer)
+          },
+          {
+            key: "seller",
+            label: "Pasirašyti pardavėjui",
+            padTitle: "Pardavėjo parašas",
+            name: ctSignNameV82(d.seller)
+          }
+        ],
+        render: sigs => ctRenderPagesV52(d, sigs),
+        onPlaced: async ({ blob: signed }) => {
+          const reopen = document.querySelector("#ctReopen strong");
+          if (reopen) reopen.textContent = "Sutartis pasirašyta";
+          const live = carId ? (state.cars || []).find(c => c.id === carId) : null;
+          addHistory("Pasirašyta PP sutartis", `${d.number} · ${[d.make, d.model].join(" ")}`, "✍️");
+          if (!live) {
+            saveState();
+            return "";
+          }
+          const key = await putDocument(signed);
+          live.documents = [
+            ...(live.documents || []),
+            {
+              id: uid(),
+              key,
+              kind: docKind,
+              name: fileName,
+              type: "application/pdf",
+              size: signed.size,
+              addedAt: nowLabel(),
+              addedDateISO: todayISO()
+            }
+          ];
+          saveState();
+          return "prisegta prie automobilio";
+        }
+      });
       const res = $("ctResult");
       res.hidden = false;
-      res.innerHTML = `<button type="button" class="ctResultOpenV56" id="ctReopen"><img src="${pages[0].toDataURL("image/jpeg", 0.5)}" alt=""><span><strong>Sutartis paruošta</strong><em>Atidaryti</em></span></button>`;
-      $("ctReopen").onclick = () => ctOpenResultV56({ blob, pages, fileName, number: d.number, attached });
-      ctOpenResultV56({ blob, pages, fileName, number: d.number, attached });
+      res.innerHTML = `<button type="button" class="ctResultOpenV56" id="ctReopen"><img src="${pages[0].toDataURL("image/jpeg", 0.5)}" alt=""><span><strong>Sutartis sukurta</strong><em>Atidaryti</em></span></button>`;
+      $("ctReopen").onclick = () => session.open();
+      session.open();
       toast("Sutartis sukurta", "✓");
     } catch (e) {
       toast(e.message || "Nepavyko sukurti sutarties", "!");
@@ -935,5 +994,9 @@ window.AutoEasierContract = {
   open: openContractSheetV52,
   render: ctRenderPagesV52,
   pdf: ctPdfFromCanvasesV52,
-  words: ctMoneyWordsV52
+  words: ctMoneyWordsV52,
+  // Formos geometrija (testams): laukų stačiakampiai taškais, y poslinkis ir puslapio dydis
+  form: CT_FORM_V53,
+  yoff: CT_YOFF_V53,
+  pagePt: CT_PAGE_PT_V53
 };

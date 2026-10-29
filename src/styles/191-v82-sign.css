@@ -1,0 +1,542 @@
+/* v82: parašai sutartyse ir sąskaitose faktūrose (65-v82-signpad.js, 66-v82-docsign.js), sąskaitos faktūros
+   langas (67-v82-invoice.js). Spalvos ir dydžiai – kaip esamame sutarties lange (167-car-card-v55.css). */
+
+/* ---------- Dokumento langas po sukūrimo ---------- */
+.dsPanelV82 {
+  max-height: calc(100dvh - 10px);
+  padding-top: 18px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.dsPanelV82 .dsHeadIcoV82 {
+  width: 52px;
+  height: 52px;
+  margin-bottom: 8px;
+  background: #edf3fb;
+  color: #1f5aa6;
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease;
+}
+.dsPanelV82 .dsHeadIcoV82.is-done {
+  background: #e9f5ee;
+  color: #2f7d5b;
+}
+.dsPanelV82 .dsHeadIcoV82 svg {
+  width: 27px;
+  height: 27px;
+}
+.dsPanelV82 .dsMetaV82 {
+  margin: 4px 0 12px;
+  font-size: 14px;
+  color: #66768a;
+}
+.dsPanelV82 .ctThumbV56 {
+  margin-bottom: 14px;
+}
+.dsPanelV82 .ctThumbV56 img {
+  width: 118px;
+  height: 167px;
+}
+.dsPanelV82 .ctThumbV56.dsLockedV82 {
+  pointer-events: none;
+  cursor: default;
+}
+
+.dsSignGridV82 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.dsSignBtnV82 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 70px;
+  padding: 10px 8px;
+  border: 0;
+  border-radius: 15px;
+  background-color: #1f5aa6;
+  color: #fff;
+  font: inherit;
+  font-size: 14.5px;
+  font-weight: 750;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(23, 74, 139, 0.18);
+  transition:
+    background-color 0.4s ease,
+    box-shadow 0.4s ease,
+    transform 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.dsSignBtnV82:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.dsSignBtnV82.is-signed {
+  background-color: #4b8c71;
+  box-shadow: 0 6px 16px rgba(56, 115, 90, 0.2);
+}
+.dsSignBtnV82:disabled {
+  cursor: default;
+}
+.dsSignIcoV82 {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.17);
+}
+.dsSignIcoV82 svg {
+  width: 15px;
+  height: 15px;
+}
+.dsSignTxtV82 {
+  min-width: 0;
+}
+
+.dsPlaceBtnV82 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 52px;
+  margin-top: 8px;
+  border: 1.5px dashed #c9d4e2;
+  border-radius: 15px;
+  background: #f6f9fc;
+  color: #8592a3;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 750;
+  cursor: default;
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.dsPlaceBtnV82 .dsPlaceIcoV82 {
+  display: grid;
+  place-items: center;
+}
+.dsPlaceBtnV82 svg {
+  width: 19px;
+  height: 19px;
+}
+.dsPlaceBtnV82.is-ready {
+  border-color: transparent;
+  background: linear-gradient(180deg, #1f5aa6, #174a8b);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(23, 74, 139, 0.24);
+}
+.dsPlaceBtnV82.is-busy {
+  border-color: transparent;
+  background: #1f5aa6;
+  color: #fff;
+  opacity: 0.85;
+}
+.dsPlaceBtnV82.is-done {
+  border-color: transparent;
+  background: #eef7f2;
+  color: #2f7d5b;
+}
+
+.dsStatusV82 {
+  min-height: 36px;
+  margin: 8px 4px 8px;
+  padding-top: 9px;
+  color: #66768a;
+  font-size: 13px;
+  line-height: 1.35;
+  text-align: center;
+  text-wrap: balance;
+}
+.dsStatusV82 svg {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 5px;
+  vertical-align: -2px;
+}
+.dsStatusV82.is-done {
+  color: #2f7d5b;
+}
+.dsActionsV82 {
+  transition: opacity 0.35s ease;
+}
+.dsActionsV82.dsLockedV82 {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.dsActionsV82 > .ctBtnV56:nth-child(2):nth-last-child(2) {
+  grid-column: auto;
+}
+.dsActionsV82 .ctBtnV56:disabled {
+  cursor: default;
+}
+.dsPanelV82 .dsCloseV82 {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+}
+
+/* ---------- Parašo langas ---------- */
+.spRootV82 {
+  position: fixed;
+  inset: 0;
+  z-index: 101000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+.spScrimV82 {
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 22, 36, 0);
+  transition: background-color 0.3s ease;
+  touch-action: none;
+}
+.spRootV82.show .spScrimV82 {
+  background: rgba(12, 22, 36, 0.5);
+}
+.spDrawerV82 {
+  position: relative;
+  width: min(560px, 100%);
+  padding: 8px 16px calc(14px + env(safe-area-inset-bottom));
+  border-radius: 26px 26px 0 0;
+  background: #fff;
+  box-shadow: 0 -16px 48px rgba(12, 22, 36, 0.24);
+  outline: none;
+  transform: translate3d(0, 100%, 0);
+  transition: transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+  touch-action: none;
+  overscroll-behavior: contain;
+}
+.spRootV82.show .spDrawerV82 {
+  transform: translate3d(0, 0, 0);
+}
+.spRootV82 .spGrabV82 {
+  width: 38px;
+  height: 5px;
+  margin: 0 auto 10px;
+  border-radius: 3px;
+  background: #d9e0e8;
+}
+.spRootV82 .spHeadV82 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  text-align: left;
+}
+.spRootV82 .spIcoV82 {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #edf3fb;
+  color: #1f5aa6;
+}
+.spRootV82 .spIcoV82 svg {
+  width: 22px;
+  height: 22px;
+}
+.spRootV82 .spHeadTxtV82 {
+  flex: 1;
+  min-width: 0;
+}
+.spRootV82 .spHeadTxtV82 h3 {
+  margin: 0;
+  color: #12233a;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+.spRootV82 .spHeadTxtV82 p {
+  margin: 2px 0 0;
+  overflow: hidden;
+  color: #66768a;
+  font-size: 13.5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.spRootV82 .spCloseV82 {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #f3f6f9;
+  color: #5b6878;
+  cursor: pointer;
+}
+.spRootV82 .spCloseV82 svg {
+  width: 16px;
+  height: 16px;
+}
+.spRootV82 .spPadV82 {
+  position: relative;
+  height: clamp(190px, 34vh, 290px);
+  overflow: hidden;
+  border: 1px solid #dfe6ee;
+  border-radius: 18px;
+  background: #fff;
+  contain: strict;
+}
+.spRootV82 .spCanvasV82 {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  touch-action: none;
+}
+.spRootV82 .spGuideV82 {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 26%;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  pointer-events: none;
+}
+.spRootV82 .spGuideV82 span {
+  color: #9aa7b6;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1;
+  transform: translateY(5px);
+}
+.spRootV82 .spGuideV82 i {
+  flex: 1;
+  height: 0;
+  border-bottom: 1.5px dashed #cdd6e1;
+}
+.spRootV82 .spHintV82 {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  padding-bottom: 16%;
+  color: #b2bdca;
+  font-size: 17px;
+  font-weight: 650;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.spRootV82.spInkedV82 .spHintV82 {
+  opacity: 0;
+}
+.spRootV82 .spNoteV82 {
+  margin: 8px 2px 10px;
+  color: #8492a3;
+  font-size: 12.5px;
+  line-height: 1.35;
+  text-align: center;
+}
+.spRootV82 .spBarV82 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.spRootV82 .spBtnV82 {
+  min-height: 52px;
+  border: 1px solid #d6dee8;
+  border-radius: 15px;
+  background: #fff;
+  color: #12233a;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 750;
+  cursor: pointer;
+  transition:
+    opacity 0.2s ease,
+    transform 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.spRootV82 .spBtnV82.primary {
+  border: 0;
+  background: linear-gradient(180deg, #1f5aa6, #174a8b);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(23, 74, 139, 0.18);
+}
+.spRootV82 .spBtnV82:disabled {
+  opacity: 0.45;
+  cursor: default;
+  box-shadow: none;
+}
+.spRootV82 .spBtnV82:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* ---------- Sąskaita faktūra ---------- */
+.invCalcV82 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #f6f9fc;
+  color: #5b6a7c;
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+.invCalcV82 b {
+  color: #12233a;
+  font-weight: 750;
+  white-space: nowrap;
+}
+.invCalcV82 em {
+  flex-basis: 100%;
+  color: #66768a;
+  font-size: 13px;
+  font-style: normal;
+}
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .invFormV82
+  .invBVatWrapV82[hidden] {
+  display: none !important;
+}
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .invFormV82
+  .cfGridV51:has(> .invBVatWrapV82[hidden]) {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .carBottomActions
+  .carInvBottomBtn {
+  border: 1px solid var(--ds-line-2, #d6dee8) !important;
+  background: #fff !important;
+  background-image: none !important;
+  color: var(--ds-ink, #12233a) !important;
+  -webkit-text-fill-color: var(--ds-ink, #12233a) !important;
+  font-weight: 800 !important;
+  padding: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .carBottomActions.aeInvRowV82
+  #editCarInfoBtn {
+  grid-column: 1 / -1 !important;
+}
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  .app
+  .accountingRefMenu
+  .accountingRefAction.invTileV82 {
+  grid-column: 1 / -1 !important;
+}
+
+/* ---------- Pagalbos maketas („?“ prie sutarties): parašai ---------- */
+.ahScreenV81 .mDone .mDocIcoV82 {
+  background: #edf3fb;
+  color: #284ca2;
+}
+.ahScreenV81 .mSignRowV82 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  width: 100%;
+}
+.ahScreenV81 .mSignV82 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  height: 34px;
+  border-radius: 9px;
+  background: #284ca2;
+  color: #fff;
+  font-size: 7.8px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.ahScreenV81 .mSignV82.on {
+  background: #4b8c71;
+}
+.ahScreenV81 .mSignV82 svg {
+  width: 9px;
+  height: 9px;
+}
+.ahScreenV81 .mPlaceV82 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+  height: 28px;
+  border-radius: 9px;
+  background: #284ca2;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(40, 76, 162, 0.22);
+}
+.ahScreenV81 .mPlaceV82.done {
+  background: #eef7f2;
+  color: #2f7d5b;
+  box-shadow: none;
+}
+.ahScreenV81 .mPlaceV82 svg {
+  width: 11px;
+  height: 11px;
+}
+.ahScreenV81 .mLockedV82 {
+  display: grid;
+  gap: 5px;
+  width: 100%;
+  opacity: 0.5;
+}
+.ahScreenV81 .mFullV82 {
+  width: 100%;
+}
+.ahScreenV81 .mDone .mGrid2 .mBtn {
+  font-size: 8.5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spDrawerV82,
+  .spScrimV82,
+  .dsSignBtnV82,
+  .dsPlaceBtnV82,
+  .dsActionsV82 {
+    transition: none;
+  }
+}
