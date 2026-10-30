@@ -49,7 +49,8 @@ const defaultState = () => ({
     historyOpen: false,
     garageTaskGroups: { autos: false, custom: false },
     leadFilters: { query: "", due: "all", sort: "due" },
-    menuSections: { shop: false, stats: false }
+    menuSections: { shop: false, stats: false },
+    carSections: {}
   }
 });
 // v75: nuotraukų nuorodos į puslapį įterpiamos kaip <img src>; priimamos tik saugios formos (užkerta HTML įterpimą
@@ -183,7 +184,12 @@ function loadState() {
         garageTaskGroups: { autos: false, custom: false, ...(parsed.ui?.garageTaskGroups || {}) },
         leadFilters: { query: "", due: "all", sort: "due", ...(parsed.ui?.leadFilters || {}) },
         menuSections: { shop: false, stats: false, ...(parsed.ui?.menuSections || {}) },
-        soldCarsOpen: !!parsed.ui?.soldCarsOpen
+        soldCarsOpen: !!parsed.ui?.soldCarsOpen,
+        // v83: automobilio kortelės atidarytos skiltys (užduotys, nuotraukos, dokumentai, duomenys)
+        carSections:
+          parsed.ui?.carSections && typeof parsed.ui.carSections === "object"
+            ? { ...parsed.ui.carSections }
+            : {}
       }
     };
   } catch (e) {

@@ -315,18 +315,21 @@ await ev(() =>
   [...document.querySelectorAll("[data-open-car]")].find(e => e.dataset.openCar === "car-demo-1").click()
 );
 await p.waitForTimeout(500);
+// v83: PP sutartis ir sąskaita faktūra – juostos meniu „Dokumentai“
+await ev(() => document.querySelector('#sheet [data-cc-menu="docs"]')?.click());
+await p.waitForTimeout(250);
 const cardBtn = await ev(() => {
-  const a = document.querySelector("#sheet .carBottomActions");
-  const btn = a?.querySelector("[data-inv-car]");
-  const pp = a?.querySelector(".carPpBottomBtn");
-  if (!btn || !pp) return null;
+  const m = document.querySelector('#sheet .carBottomActions [data-cc-menu-panel="docs"]');
+  const btn = m?.querySelector("[data-inv-car]");
+  const pp = m?.querySelector(".carPpBottomBtn");
+  if (!btn || !pp || m.hidden) return null;
   const rb = btn.getBoundingClientRect(),
     rp = pp.getBoundingClientRect();
-  return { text: btn.textContent.trim(), sameRow: Math.abs(rb.top - rp.top) < 2, w: Math.round(rb.width) };
+  return { text: btn.textContent.trim(), visible: rb.width > 0 && rp.width > 0, w: Math.round(rb.width) };
 });
 check(
-  cardBtn && cardBtn.text === "Sąskaita faktūra" && cardBtn.sameRow,
-  "kortelėje – „Sąskaita faktūra“ šalia „PP sutartis“ " + JSON.stringify(cardBtn)
+  cardBtn && cardBtn.text === "Sąskaita faktūra" && cardBtn.visible,
+  "kortelėje – „Sąskaita faktūra“ šalia „PP sutartis“ meniu „Dokumentai“ " + JSON.stringify(cardBtn)
 );
 await ev(() => document.querySelector("#sheet [data-inv-car]").click());
 await p.waitForTimeout(400);

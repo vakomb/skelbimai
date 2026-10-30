@@ -1,0 +1,1062 @@
+/* v83: automobilio kortelė (68-v83-car-card.js). Paskutinis kortelės sluoksnis: balti blokai ant #f3f7fa,
+   tekstas #12233a / #66768a, mėlyna #1f5aa6, žalia #1f9d5f, raudona tik vėlavimui ir pasibaigusiems terminams. */
+
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet.ccV83 .ccHiddenV83 {
+  display: none !important;
+}
+
+/* ---------- Antraštė: valst. nr. ir dienos ---------- */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet.ccV83 .premiumSheetTitle {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .premiumSheetTitle
+  .ccSubV83 {
+  display: flex !important;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+#sheet.ccV83 .ccSubV83 .lcPlateV61 {
+  transform: scale(0.86);
+  transform-origin: center;
+  margin: -2px -6px;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .premiumSheetTitle
+  .ccDaysV83 {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 5px;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: #eef2f7;
+  color: #4b5a6c;
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+#sheet.ccV83 .ccDaysV83 svg {
+  width: 14px;
+  height: 14px;
+}
+#sheet.ccV83 .ccDaysV83.amber {
+  background: #fdf3e1;
+  color: #8f6210;
+}
+#sheet.ccV83 .ccDaysV83.red {
+  background: #fdecea;
+  color: #b4362c;
+}
+#sheet.ccV83 .ccDaysV83.sold {
+  background: #e9f6ef;
+  color: #1d7a4c;
+}
+
+/* ---------- Nuotraukos ---------- */
+#sheet.ccV83 .ccHeroV83 {
+  position: relative;
+  margin: 0 0 12px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #e9eef4;
+  box-shadow:
+    0 1px 2px rgba(16, 24, 40, 0.04),
+    0 6px 18px rgba(16, 24, 40, 0.06);
+}
+#sheet.ccV83 .ccHeroTrackV83 {
+  display: flex;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+#sheet.ccV83 .ccHeroTrackV83::-webkit-scrollbar {
+  display: none;
+}
+#sheet.ccV83 .ccHeroSlideV83 {
+  flex: 0 0 100%;
+  aspect-ratio: 16 / 10;
+  max-height: 280px;
+  padding: 0;
+  border: 0;
+  background: #e9eef4;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+  cursor: zoom-in;
+}
+#sheet.ccV83 .ccHeroSlideV83 img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+#sheet.ccV83 .ccHeroCountV83 {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(12, 22, 36, 0.58);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+#sheet.ccV83 .ccHeroEmptyV83 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin: 0 0 12px;
+  padding: 12px 14px;
+  border: 1.5px dashed #cfd9e5;
+  border-radius: 18px;
+  background: #fff;
+  color: #12233a;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+#sheet.ccV83 .ccHeroEmptyIcoV83 {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  background: #edf2fa;
+  color: #1f5aa6;
+}
+#sheet.ccV83 .ccHeroEmptyIcoV83 svg {
+  width: 22px;
+  height: 22px;
+}
+#sheet.ccV83 .ccHeroEmptyV83 strong {
+  display: block;
+  font-size: 15.5px;
+  font-weight: 750;
+}
+#sheet.ccV83 .ccHeroEmptyV83 small {
+  display: block;
+  margin-top: 2px;
+  color: #66768a;
+  font-size: 13px;
+  font-weight: 550;
+}
+
+/* ---------- Bendri blokai ---------- */
+#sheet.ccV83 .ccCardV83 {
+  margin: 0 0 12px;
+  border: 1px solid #e3e5ea;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow:
+    0 1px 2px rgba(16, 24, 40, 0.04),
+    0 6px 18px rgba(16, 24, 40, 0.05);
+  color: #12233a;
+}
+#sheet.ccV83 .ccChevV83 {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  color: #8592a3;
+  transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+#sheet.ccV83 .ccChevV83 svg {
+  width: 18px;
+  height: 18px;
+}
+#sheet.ccV83 .is-open > button .ccChevV83,
+#sheet.ccV83 .is-open > .ccSecHeadV83 .ccChevV83,
+#sheet.ccV83 .ccNumsV83.is-open .ccCostBtnV83 .ccChevV83 {
+  transform: rotate(180deg);
+}
+#sheet.ccV83 .ccAccBodyV83 {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+#sheet.ccV83 .is-open > .ccAccBodyV83 {
+  grid-template-rows: 1fr;
+}
+#sheet.ccV83 .ccAccInnerV83 {
+  min-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+#sheet.ccV83 :not(.is-open) > .ccAccBodyV83 > .ccAccInnerV83 {
+  content-visibility: auto;
+  visibility: hidden;
+}
+#sheet.ccV83 .is-open > .ccAccBodyV83 > .ccAccInnerV83 {
+  opacity: 1;
+}
+#sheet.ccV83.ccInstantV83 .ccAccBodyV83,
+#sheet.ccV83.ccInstantV83 .ccAccInnerV83,
+#sheet.ccV83.ccInstantV83 .ccChevV83 {
+  transition: none !important;
+}
+#sheet.ccV83 button.ccSecToggleV83,
+#sheet.ccV83 button.ccRdyHeadV83,
+#sheet.ccV83 button.ccNumV83,
+#sheet.ccV83 .ccPillV83,
+#sheet.ccV83 .ccBarBtnV83,
+#sheet.ccV83 .ccHeroEmptyV83 {
+  -webkit-tap-highlight-color: transparent;
+}
+#sheet.ccV83 button.ccSecToggleV83:active,
+#sheet.ccV83 button.ccRdyHeadV83:active,
+#sheet.ccV83 button.ccNumV83:active,
+#sheet.ccV83 .ccPillV83:active,
+#sheet.ccV83 .ccBarBtnV83:active,
+#sheet.ccV83 .ccHeroEmptyV83:active {
+  transform: scale(0.98);
+}
+#sheet.ccV83 .ccCardV83 :focus-visible,
+#sheet.ccV83 .ccBarV83 :focus-visible {
+  outline: 2px solid #1f5aa6;
+  outline-offset: 2px;
+}
+
+/* ---------- Pagrindiniai skaičiai ---------- */
+#sheet.ccV83 .ccNumsGridV83 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+#sheet.ccV83 .ccNumV83 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+  min-height: 76px;
+  padding: 12px 6px;
+  border: 0;
+  background: transparent;
+  color: #12233a;
+  font: inherit;
+  text-align: center;
+  transition: transform 0.15s ease;
+}
+#sheet.ccV83 .ccNumV83 + .ccNumV83 {
+  box-shadow: inset 1px 0 0 #eef1f5;
+}
+#sheet.ccV83 .ccNumV83 > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: #66768a;
+  font-size: 13px;
+  font-weight: 600;
+}
+#sheet.ccV83 .ccNumV83 > span .ccChevV83 {
+  width: 16px;
+  height: 16px;
+}
+#sheet.ccV83 .ccNumV83 > span .ccChevV83 svg {
+  width: 15px;
+  height: 15px;
+}
+#sheet.ccV83 .ccNumV83 b {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-variant-numeric: tabular-nums;
+}
+#sheet.ccV83 .ccNumV83 b.pos {
+  color: #1d8a52;
+}
+#sheet.ccV83 .ccNumV83 b.neg {
+  color: #c0362c;
+}
+#sheet.ccV83 .ccNumV83 b.none {
+  color: #a0abb9;
+}
+#sheet.ccV83 button.ccCostBtnV83 {
+  cursor: pointer;
+}
+#sheet.ccV83 .ccPriceBtnV83,
+#sheet.ccV83 .ccSetPriceV83 {
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #12233a;
+  font: inherit;
+  cursor: pointer;
+}
+#sheet.ccV83 .ccPriceBtnV83 b {
+  display: block;
+  border-bottom: 1.5px dashed #c3cedb;
+}
+#sheet.ccV83 .ccSetPriceV83 {
+  height: 32px;
+  padding: 0 10px;
+  border-radius: 10px;
+  background: #edf2fa;
+  color: #284ca2;
+  font-size: 13.5px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+#sheet.ccV83 .ccPriceEditV83 {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  max-width: 100%;
+  height: 34px;
+  padding: 0 8px;
+  border: 1.5px solid #1f5aa6;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(31, 90, 166, 0.12);
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet.ccV83 .ccPriceEditV83 input {
+  width: 74px !important;
+  min-width: 0 !important;
+  height: 30px !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #12233a !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  text-align: right !important;
+  outline: none !important;
+}
+#sheet.ccV83 .ccPriceEditV83 i {
+  color: #66768a;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+}
+#sheet.ccV83 .ccCostListV83 {
+  margin: 0 14px;
+  padding-top: 4px;
+  border-top: 1px solid #eef1f5;
+}
+#sheet.ccV83 .ccCostRowV83 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid #f1f4f8;
+}
+#sheet.ccV83 .ccCostRowV83 span {
+  min-width: 0;
+}
+#sheet.ccV83 .ccCostRowV83 strong {
+  display: block;
+  overflow: hidden;
+  font-size: 14.5px;
+  font-weight: 650;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#sheet.ccV83 .ccCostRowV83 small {
+  display: block;
+  margin-top: 1px;
+  color: #8592a3;
+  font-size: 12px;
+  font-weight: 550;
+}
+#sheet.ccV83 .ccCostRowV83 b {
+  flex: none;
+  font-size: 14.5px;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+#sheet.ccV83 .ccCostRowV83 b.neg {
+  color: #1d8a52;
+}
+#sheet.ccV83 .ccCostRowV83.total {
+  border-bottom: 0;
+}
+#sheet.ccV83 .ccCostRowV83.total strong,
+#sheet.ccV83 .ccCostRowV83.total b {
+  font-size: 15.5px;
+  font-weight: 800;
+}
+#sheet.ccV83 .ccLinkV83 {
+  display: block;
+  width: calc(100% - 28px);
+  margin: 2px 14px 12px;
+  padding: 10px 0;
+  border: 0;
+  border-radius: 12px;
+  background: #f4f7fb;
+  color: #284ca2;
+  font: inherit;
+  font-size: 14.5px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+/* ---------- Pasirengimas ---------- */
+#sheet.ccV83 .ccRdyV83 {
+  padding: 0 0 2px;
+}
+#sheet.ccV83 .ccRdyHeadV83 {
+  display: block;
+  width: 100%;
+  padding: 14px 14px 12px;
+  border: 0;
+  background: transparent;
+  color: #12233a;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+#sheet.ccV83 .ccRdyHeadV83.static {
+  cursor: default;
+}
+#sheet.ccV83 .ccRdyTopV83 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+#sheet.ccV83 .ccRdyTopV83 strong {
+  flex: 1;
+  min-width: 0;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.012em;
+}
+#sheet.ccV83 .ccRdyCountV83 {
+  color: #66768a;
+  font-size: 13.5px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+#sheet.ccV83 .ccRdyCountV83 b {
+  color: #12233a;
+  font-weight: 800;
+}
+#sheet.ccV83 .ccDoneMarkV83 {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #e9f6ef;
+  color: #1d8a52;
+}
+#sheet.ccV83 .ccDoneMarkV83 svg {
+  width: 14px;
+  height: 14px;
+}
+#sheet.ccV83 .ccSegsV83 {
+  display: flex;
+  gap: 4px;
+}
+#sheet.ccV83 .ccSegsV83 i {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: #e9eef5;
+  transform-origin: left center;
+  animation: ccSegInV83 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+#sheet.ccV83 .ccSegsV83 i:nth-child(2) {
+  animation-delay: 40ms;
+}
+#sheet.ccV83 .ccSegsV83 i:nth-child(3) {
+  animation-delay: 80ms;
+}
+#sheet.ccV83 .ccSegsV83 i:nth-child(4) {
+  animation-delay: 120ms;
+}
+#sheet.ccV83 .ccSegsV83 i:nth-child(5) {
+  animation-delay: 160ms;
+}
+#sheet.ccV83 .ccSegsV83 i:nth-child(6) {
+  animation-delay: 200ms;
+}
+#sheet.ccV83 .ccSegsV83 i:nth-child(n + 7) {
+  animation-delay: 240ms;
+}
+#sheet.ccV83 .ccSegsV83 i.done {
+  background: #1f5aa6;
+}
+#sheet.ccV83 .ccSegsV83 i.all {
+  background: #1f9d5f;
+}
+#sheet.ccV83 .ccSegsV83 i.bad {
+  background: #d14b41;
+}
+@keyframes ccSegInV83 {
+  from {
+    opacity: 0;
+    transform: scaleX(0.3);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+#sheet.ccV83.ccInstantV83 .ccSegsV83 i {
+  animation: none;
+}
+#sheet.ccV83 .ccNextV83 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 12px 12px;
+  padding: 10px 10px 10px 12px;
+  border-radius: 14px;
+  background: #f5f8fc;
+}
+#sheet.ccV83 .ccNextV83.bad {
+  background: #fdf1ef;
+}
+#sheet.ccV83 .ccNextV83 > span {
+  flex: 1;
+  min-width: 0;
+}
+#sheet.ccV83 .ccNextV83 small {
+  display: block;
+  color: #8592a3;
+  font-size: 11.5px;
+  font-weight: 750;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+#sheet.ccV83 .ccNextV83 b {
+  display: block;
+  margin-top: 1px;
+  overflow: hidden;
+  font-size: 15px;
+  font-weight: 750;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#sheet.ccV83 .ccPillV83 {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 3px;
+  height: 36px;
+  padding: 0 10px 0 13px;
+  border: 0;
+  border-radius: 12px;
+  background: #e7eef9;
+  color: #224a9c;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 750;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    background-color 0.2s ease;
+}
+#sheet.ccV83 .ccPillV83 svg {
+  width: 14px;
+  height: 14px;
+}
+#sheet.ccV83 .ccPillV83.danger {
+  background: #c0362c;
+  color: #fff;
+}
+#sheet.ccV83 .ccRowsV83 {
+  margin: 0 14px;
+  border-top: 1px solid #eef1f5;
+}
+#sheet.ccV83 .ccRowV83 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 54px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f4f8;
+}
+#sheet.ccV83 .ccRowsV83 > .ccRowV83:last-child,
+#sheet.ccV83 .ccRowsV83 > .ccChoiceV83:last-child {
+  border-bottom: 0;
+}
+#sheet.ccV83 .ccRowIcoV83 {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+}
+#sheet.ccV83 .ccRowIcoV83 svg {
+  width: 15px;
+  height: 15px;
+}
+#sheet.ccV83 .ccRowV83.done .ccRowIcoV83 {
+  background: #e9f6ef;
+  color: #1d8a52;
+}
+#sheet.ccV83 .ccRowV83.todo .ccRowIcoV83 {
+  box-shadow: inset 0 0 0 2px #cfd8e3;
+}
+#sheet.ccV83 .ccRowV83.bad .ccRowIcoV83 {
+  background: #fdecea;
+  color: #c0362c;
+}
+#sheet.ccV83 .ccRowMainV83 {
+  flex: 1;
+  min-width: 0;
+}
+#sheet.ccV83 .ccRowMainV83 strong {
+  display: block;
+  overflow: hidden;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#sheet.ccV83 .ccRowV83.done .ccRowMainV83 strong {
+  color: #3b4b60;
+  font-weight: 650;
+}
+#sheet.ccV83 .ccRowMainV83 small {
+  display: block;
+  margin-top: 2px;
+  color: #66768a;
+  font-size: 12.5px;
+  font-weight: 550;
+}
+#sheet.ccV83 .ccRowMainV83 small em,
+#sheet.ccV83 .ccRowV83.bad .ccRowMainV83 small {
+  color: #c0362c;
+  font-style: normal;
+  font-weight: 700;
+}
+#sheet.ccV83 .ccRowMetaV83 {
+  max-width: 44%;
+  overflow: hidden;
+  color: #66768a;
+  font-size: 13px;
+  font-weight: 650;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#sheet.ccV83 .ccRowMetaV83.warn {
+  color: #8f6210;
+}
+#sheet.ccV83 .ccChoiceV83 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 0 0 10px 38px;
+  border-bottom: 1px solid #f1f4f8;
+}
+#sheet.ccV83 .ccChoiceV83[hidden] {
+  display: none;
+}
+#sheet.ccV83 .ccChoiceV83 button {
+  height: 40px;
+  border: 1px solid #d6dee8;
+  border-radius: 12px;
+  background: #fff;
+  color: #12233a;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+#sheet.ccV83 .ccSendV83 {
+  margin: 0 14px 12px;
+}
+#sheet.ccV83 .ccRdyV83.is-complete .ccSendV83 {
+  margin-top: -2px;
+}
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccSendV83
+  .accountingCarActions {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 8px !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccSendV83
+  .accountingCarActions
+  .btn {
+  min-height: 44px !important;
+  margin: 0 !important;
+  border-radius: 13px !important;
+  font-size: 14px !important;
+}
+
+/* ---------- Skiltys ---------- */
+#sheet.ccV83 .ccSecHeadV83 {
+  display: flex;
+  align-items: center;
+  padding-right: 8px;
+}
+#sheet.ccV83 .ccSecToggleV83 {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  min-height: 58px;
+  padding: 0 6px 0 14px;
+  border: 0;
+  background: transparent;
+  color: #12233a;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+#sheet.ccV83 .ccSecTitleV83 {
+  flex: none;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.012em;
+}
+#sheet.ccV83 .ccSecSumV83 {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: #66768a;
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: right;
+}
+#sheet.ccV83 .ccSecSumV83 em {
+  color: #c0362c;
+  font-style: normal;
+  font-weight: 700;
+}
+#sheet.ccV83 .ccHelpSlotV83:empty {
+  display: none;
+}
+#sheet.ccV83 .ccHelpSlotV83 {
+  display: inline-flex;
+  align-items: center;
+}
+#sheet.ccV83 .ccSecV83 .ccAccInnerV83 {
+  padding: 0;
+}
+#sheet.ccV83 .ccSecV83.is-open .ccAccInnerV83 {
+  padding: 0 14px 6px;
+}
+/* Perkelti esami blokai skilčių viduje – be savo rėmelių ir antraščių */
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccAccInnerV83
+  > .carTasksBlock,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccAccInnerV83
+  > #carDetailPhotos,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccAccInnerV83
+  > #carDetailDocuments,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccAccInnerV83
+  > .cdSpecsV60 {
+  margin: 0 !important;
+  padding: 0 0 8px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccAccInnerV83
+  .carTasksSectionHead,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccAccInnerV83
+  #carDetailPhotos
+  > .premiumSectionHead
+  > div,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccAccInnerV83
+  #carDetailDocuments
+  > summary {
+  display: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccAccInnerV83
+  #carDetailPhotos
+  > .premiumSectionHead {
+  justify-content: flex-end !important;
+  min-height: 0 !important;
+  margin: 0 0 8px !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccAccInnerV83
+  .cdSpecsV60
+  > div:first-child {
+  border-top: 0 !important;
+}
+
+/* ---------- Veiksmų juosta ---------- */
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) #modalBackdrop #sheet.ccV83 {
+  padding-bottom: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccAccInnerV83
+  #carDetailPhotos
+  .premiumCount {
+  display: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  > .carBottomActions.ccBarV83 {
+  position: sticky !important;
+  bottom: 0 !important;
+  z-index: 20 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 8px calc(-1 * var(--ccPadV83, 10px)) 0 !important;
+  padding: 10px var(--ccPadV83, 10px) calc(10px + env(safe-area-inset-bottom)) !important;
+  border-top: 1px solid #e8edf3 !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+  box-shadow: 0 -10px 26px rgba(16, 24, 40, 0.07) !important;
+  -webkit-backdrop-filter: saturate(1.4) blur(12px);
+  backdrop-filter: saturate(1.4) blur(12px);
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  > .ccBarV83
+  > .carSellBottom {
+  flex: 1 1 auto !important;
+  order: 0 !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  > .ccBarV83
+  #sellCarBtn {
+  width: 100% !important;
+  min-height: 52px !important;
+  margin: 0 !important;
+  border-radius: 15px !important;
+  font-size: 16px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  > .ccBarV83
+  > .ccBarBtnV83 {
+  display: inline-flex !important;
+  flex: none !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  width: auto !important;
+  min-width: 52px !important;
+  height: 52px !important;
+  min-height: 52px !important;
+  margin: 0 !important;
+  padding: 0 14px !important;
+  border: 1px solid #d6dee8 !important;
+  border-radius: 15px !important;
+  background: #fff !important;
+  color: #12233a !important;
+  -webkit-text-fill-color: #12233a !important;
+  font: inherit !important;
+  font-size: 15px !important;
+  font-weight: 750 !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+  transition:
+    transform 0.15s ease,
+    border-color 0.2s ease !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  > .ccBarV83
+  > .ccBarBtnV83.wide {
+  flex: 1 1 auto !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  > .ccBarV83
+  > .ccBarBtnV83[aria-expanded="true"] {
+  border-color: #9fb6da !important;
+  background: #f4f7fc !important;
+}
+#sheet.ccV83 .ccBarBtnV83 svg {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+#sheet.ccV83 .ccMoreBtnV83 {
+  padding: 0 !important;
+}
+#sheet.ccV83 .ccMenuV83 {
+  position: absolute;
+  right: 16px;
+  bottom: calc(100% + 8px);
+  min-width: 220px;
+  padding: 6px;
+  border: 1px solid #e3e5ea;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 18px 44px rgba(16, 24, 40, 0.18);
+  opacity: 0;
+  transform: translateY(6px) scale(0.98);
+  transform-origin: bottom right;
+  transition:
+    opacity 0.16s ease,
+    transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+#sheet.ccV83 .ccMenuV83[hidden] {
+  display: none;
+}
+#sheet.ccV83 .ccMenuV83.show {
+  opacity: 1;
+  transform: none;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccMenuV83
+  > button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  width: 100% !important;
+  min-height: 48px !important;
+  height: 48px !important;
+  margin: 0 !important;
+  padding: 0 14px !important;
+  border: 0 !important;
+  border-radius: 12px !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  color: #12233a !important;
+  -webkit-text-fill-color: #12233a !important;
+  font-size: 15.5px !important;
+  font-weight: 700 !important;
+  text-align: left !important;
+  grid-column: auto !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccMenuV83
+  > button:active,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccMenuV83
+  > button:hover {
+  background: #f3f6fa !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccMenuV83
+  > #deleteCarBtn {
+  color: #c0362c !important;
+  -webkit-text-fill-color: #c0362c !important;
+}
+
+@media (min-width: 768px) {
+  #sheet.ccV83 .ccHeroSlideV83 {
+    max-height: 320px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #sheet.ccV83 .ccAccBodyV83,
+  #sheet.ccV83 .ccAccInnerV83,
+  #sheet.ccV83 .ccChevV83,
+  #sheet.ccV83 .ccMenuV83 {
+    transition: none !important;
+  }
+  #sheet.ccV83 .ccSegsV83 i {
+    animation: none !important;
+  }
+}

@@ -474,6 +474,8 @@
       }
     });
   }
+  // v83: automobilio kortelė („Dokumentai buhalterei“) naudoja tą patį sąrašą ir formą (68-v83-car-card.js)
+  window.__aeRequiredDocsV83 = { list: accountingRequiredDocumentsV1, open: accountingOpenRequiredDocV1 };
   const __renderAccountingRequiredDocsBaseV1 = renderAccountingCenter;
   renderAccountingCenter = function () {
     __renderAccountingRequiredDocsBaseV1.apply(this, arguments);

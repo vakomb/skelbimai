@@ -666,7 +666,12 @@ const AH_ANCHORS_V81 = [
   { id: "pajamos", sel: "#accountingRoot .accountingWorkspaceHead h3", text: "Pridėti įplauką" },
   { id: "islaidos", sel: "#accountingRoot .accountingWorkspaceHead h3", text: "Pridėti išlaidą" },
   { id: "ataskaitos", sel: "#accountingRoot .accountingWorkspaceHead h3", text: "Ataskaitos" },
-  { id: "uzduotys", sel: "#sheet .carTasksSectionTitle h4" },
+  {
+    id: "uzduotys",
+    sel: "#sheet .carTasksSectionTitle h4",
+    when: () => !document.querySelector("#sheet.ccV83")
+  },
+  { id: "uzduotys", sel: "#sheet .ccHelpSlotV83" },
   { id: "uzduotys", sel: "#garageTasksSection > .sectionHead h2" },
   { id: "variantai", sel: "#view-garage-leads > .sectionHead h2" },
   { id: "vadybininkas", sel: "#view-garage-what .garageWhatHead", before: ".garageWhatBack" },

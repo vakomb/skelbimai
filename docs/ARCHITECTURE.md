@@ -390,3 +390,9 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
 - **Įėjimai**: automobilio kortelėje „Sąskaita faktūra“ šalia „PP sutartis“ (`renderCarSheet` apvalkalas), Buhalterijoje – plytelė per visą plotį (`renderAccountingCenter` apvalkalas). Pasirašyta sąskaita prisegama kaip `kind: "invoice"` („Sąskaitos“). API: `window.AutoEasierInvoice`.
 - „?“ tema „sutartys“ (`64-v81-help.js`) papildyta pasirašymu, žodis „telefonas“ (įrenginio prasme) pakeistas „įrenginys“; sąskaitos lange sutarties „?“ nerodomas.
 - Stilius: `styles/191-v82-sign.css`. Testai: `tools/test-contract.mjs` (parašai, užraktas, prisegimas, centravimas, šriftas, parašo vieta), `tools/test-invoice.mjs`.
+
+## v83 – nauja automobilio kortelė
+
+- `src/scripts/app/68-v83-car-card.js` apgaubia `renderCarSheet` ir perdėlioja esamus elementus (ID ir klasės lieka): antraštė su numeriu ir „Garaže N d.“ / „Parduota per N d.“, nuotraukų juosta su skaitikliu, skaičių kortelė (Savikaina · Kaina · Marža, kaina redaguojama vietoje → `askingPrice`, savikainos išskaidymas), pasirengimo juosta „N iš 7 paruošta“ su „Kitas žingsnis“ (parduotam – „Dokumentai buhalterei“ pagal `accountingRequiredDocumentsV1`, pasiekiama per `window.__aeRequiredDocsV83`), akordeonai Užduotys / Nuotraukos / Dokumentai / Duomenys (būsena `state.ui.carSections`) ir prilipusi juosta Parduoti · Dokumentai (PP sutartis, Sąskaita faktūra) · ⋯ (Redaguoti, Ištrinti).
+- Stilius: `src/styles/192-v83-car-card.css` (prefiksas su `:not(#ah)`, kad perrašytų 185-v76).
+- Testas: `tools/test-car-card.mjs` (430 ir 1280 px).
