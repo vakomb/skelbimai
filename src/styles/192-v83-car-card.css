@@ -1560,7 +1560,7 @@ html:not(#ae):not(#af):not(#ag):not(#ah)
   cursor: pointer;
   transition: transform 0.15s ease;
 }
-#sheet.ccV83 .ccVinV85 > span:first-child {
+#sheet.ccV83 .ccVinV85 > span:not(.ccSpecIcoV85):not(.ccCopyIcoV85) {
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -1911,7 +1911,7 @@ html:not(#ae):not(#af):not(#ag):not(#ah)
   border-radius: 0;
   background: transparent;
 }
-#sheet.ccV83 .ccVinV85 > span:first-child {
+#sheet.ccV83 .ccVinV85 > span:not(.ccSpecIcoV85):not(.ccCopyIcoV85) {
   flex: 1;
   flex-direction: row;
   align-items: center;
@@ -1969,4 +1969,254 @@ html:not(#ae):not(#af):not(#ag):not(#ah)
 }
 #sheet.ccV83 .ccNextV83 b {
   font-size: 16px;
+}
+
+/* ---------- v88: Užduotys · Nuotraukos · Dokumentai – plytelės kaip Garaže ---------- */
+#sheet.ccV83 .ccHubV88 {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+#sheet.ccV83 .ccTilesV88 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+#sheet.ccV83 .ccTileV88 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  min-width: 0;
+  min-height: 106px;
+  margin: 0;
+  padding: 12px 12px 11px;
+  border: 1px solid #e3e5ea;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 6px 18px rgba(15, 23, 42, 0.06);
+  color: #12233a;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
+}
+#sheet.ccV83 .ccTileV88:active {
+  transform: scale(0.97);
+}
+#sheet.ccV83 .ccTileIcoV88 {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 7px;
+  border-radius: 12px;
+  background: #f1f4f8;
+  color: #26395c;
+  transition:
+    background-color 0.22s ease,
+    color 0.22s ease;
+}
+#sheet.ccV83 .ccTileIcoV88 svg {
+  width: 23px;
+  height: 23px;
+}
+#sheet.ccV83 .ccTileV88 strong {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.012em;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#sheet.ccV83 .ccTileV88 small {
+  max-width: 100%;
+  overflow: hidden;
+  color: #66768a;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-variant-numeric: tabular-nums;
+}
+#sheet.ccV83 .ccTileBadgeV88 {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #e5484d;
+  color: #fff;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 800;
+  box-shadow: 0 3px 8px rgba(229, 72, 77, 0.3);
+}
+#sheet.ccV83 .ccTileV88[aria-expanded="true"] {
+  border-color: #b9c8e6;
+  box-shadow:
+    0 0 0 3px rgba(40, 76, 162, 0.12),
+    0 6px 18px rgba(15, 23, 42, 0.06);
+}
+#sheet.ccV83 .ccTileV88[aria-expanded="true"] .ccTileIcoV88 {
+  background: #e7eef9;
+  color: #1f5aa6;
+}
+/* Atidarytos plytelės turinys – kortelė po plytelėmis su snapeliu */
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccPaneV88
+  .ccAccInnerV83 {
+  padding: 10px 0 0 !important;
+}
+#sheet.ccV83 .ccPaneCardV88 {
+  --ccNxV88: 50%;
+  position: relative;
+  padding: 12px 14px 6px;
+  border: 1px solid #e3e5ea;
+  border-radius: 18px;
+  background: #fff;
+}
+#sheet.ccV83 .ccPaneCardV88::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: calc(var(--ccNxV88) - 6px);
+  width: 12px;
+  height: 12px;
+  border-top: 1px solid #e3e5ea;
+  border-left: 1px solid #e3e5ea;
+  border-top-left-radius: 3px;
+  background: #fff;
+  transform: rotate(45deg);
+}
+#sheet.ccV83 [data-cc-sec="tasks"] .ccPaneCardV88 {
+  --ccNxV88: calc((100% - 20px) / 6);
+}
+#sheet.ccV83 [data-cc-sec="docs"] .ccPaneCardV88 {
+  --ccNxV88: calc(100% - (100% - 20px) / 6);
+}
+#sheet.ccV83 .ccPaneHeadV88 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  margin: 0 0 6px;
+  padding: 0;
+}
+#sheet.ccV83 .ccPaneHeadV88 strong {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+}
+#sheet.ccV83 .ccPaneSumV88 {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: #66768a;
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: right;
+}
+#sheet.ccV83 .ccPaneSumV88 em {
+  color: #c0362c;
+  font-style: normal;
+  font-weight: 700;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccPaneCardV88
+  > .carTasksBlock,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccPaneCardV88
+  > #carDetailPhotos,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccPaneCardV88
+  > #carDetailDocuments {
+  margin: 0 !important;
+  padding: 0 0 8px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+/* Duomenų eilutės – su ramia ikonėle kairėje (lengviau akims rasti) */
+#sheet.ccV83 .ccSpecV85 .ccSpecIcoV85 {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: #f1f4f8;
+  color: #4b5a6c;
+}
+#sheet.ccV83 .ccSpecV85 .ccSpecIcoV85 svg {
+  width: 18px;
+  height: 18px;
+}
+#sheet.ccV83 .ccSpecV85.empty .ccSpecIcoV85 {
+  background: #f5f7fa;
+  color: #a3aebc;
+}
+@media (max-width: 360px) {
+  #sheet.ccV83 .ccTilesV88 {
+    gap: 8px;
+  }
+  #sheet.ccV83 .ccTileV88 {
+    padding: 10px;
+  }
+  #sheet.ccV83 .ccTileV88 strong {
+    font-size: 14px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #sheet.ccV83 .ccTileV88,
+  #sheet.ccV83 .ccTileIcoV88 {
+    transition: none;
+  }
+}
+#sheet.ccV83 .ccVinV85 {
+  gap: 10px;
+}
+#sheet.ccV83 .ccVinV85 > .ccSpecIcoV85 {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: #f1f4f8;
+  color: #4b5a6c;
+}
+#sheet.ccV83 .ccVinV85.empty > .ccSpecIcoV85 {
+  background: #f5f7fa;
+  color: #a3aebc;
+}
+#sheet.ccV83 .ccVinV85 > .ccSpecIcoV85 svg {
+  width: 18px;
+  height: 18px;
 }

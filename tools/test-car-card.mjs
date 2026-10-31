@@ -225,8 +225,20 @@ for (const W of [430, 1280]) {
   check(exp.tx === "120/accounting", "išlaida įrašyta su automobiliu (Buhalterija): " + exp.tx);
 
   // Akordeonai
-  const tasksOpen = await p.evaluate(() => document.querySelector('#sheet [data-cc-sec="tasks"]')?.classList.contains("is-open"));
-  check(tasksOpen, "Užduotys atidarytos (yra vėluojančių)");
+  // v88: plytelės (Užduotys · Nuotraukos · Dokumentai), vienu metu atidaryta viena
+  const tiles = await p.evaluate(() => [...document.querySelectorAll("#sheet .ccTilesV88 .ccTileV88")].map(t => t.dataset.ccSecToggle + ":" + (t.querySelector(".ccTileBadgeV88")?.textContent || "")));
+  check(tiles.length === 3 && /^tasks:\d+/.test(tiles[0]), "plytelės kaip Garaže, Užduotyse vėluojančių ženklelis: " + tiles.join(", "));
+  if (!(await p.evaluate(() => document.querySelector('#sheet [data-cc-sec="tasks"]')?.classList.contains("is-open")))) {
+    await p.click('#sheet [data-cc-sec-toggle="tasks"]');
+    await wait(p, 500);
+  }
+  const tasksOpen = await p.evaluate(() => document.querySelector('#sheet [data-cc-sec="tasks"]')?.classList.contains("is-open") && document.querySelectorAll("#sheet .ccPaneV88.is-open").length === 1);
+  check(tasksOpen, "Užduotys atidarytos, kitos uždarytos");
+  if (W === 430) {
+    await p.evaluate(() => document.querySelector('#sheet [data-cc-hub]')?.scrollIntoView({ block: "start" }));
+    await wait(p, 200);
+    await p.screenshot({ path: path.join(out, "car-card-tasks.png") });
+  }
   check(!!(await p.$('#sheet [data-cc-sec="tasks"] .ccSecHeadV83 .ccHelpSlotV83 .aeHelpBtnV81, #sheet [data-cc-sec="tasks"] .ccSecHeadV83 [data-help]')), "„?“ prie Užduočių");
   await p.click('#sheet [data-cc-sec-toggle="photos"]');
   await wait(p, 120);
@@ -246,6 +258,8 @@ for (const W of [430, 1280]) {
   });
   check(mid.anim >= 1 && mid.h < docsSec.h, `skiltis išsiskleidžia sklandžiai (animacija: ${Math.round(mid.h)} → ${docsSec.h} px)`);
   check(docsSec.open && docsSec.exp === "true" && docsSec.vis === "visible", "Nuotraukos atsidaro");
+  check(await p.evaluate(() => !document.querySelector('#sheet [data-cc-sec="tasks"]').classList.contains("is-open") && document.querySelector('#sheet [data-cc-sec-toggle="tasks"]').getAttribute("aria-expanded") === "false"), "atidarius Nuotraukas Užduotys užsidaro (viena atidaryta)");
+  if (W === 430) await p.screenshot({ path: path.join(out, "car-card-tiles.png") });
   await p.waitForTimeout(300);
   check((await p.evaluate(k => JSON.parse(localStorage.getItem(k)).ui?.carSections?.photos, KEY)) === true, "akordeono būsena išsaugota state.ui.carSections");
 

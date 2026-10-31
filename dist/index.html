@@ -51313,6 +51313,13 @@ window.AutoEasierInvoice = {
 const CC_SVG_V83 = d =>
   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const CC_ICON_V83 = {
+  tasks:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 6.8 1.7 1.7L9 5.2"/><path d="M12.5 7h7.5"/><path d="m4 12.8 1.7 1.7L9 11.2"/><path d="M12.5 13h7.5"/><path d="M5 18.5h3.5M12.5 18.5h7.5"/></svg>',
+  photo:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="m20.5 15.5-4.6-4.6L7 19"/></svg>',
+  folder:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3.5H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.5z"/><path d="M14 3.5v5h5"/><path d="M8.5 12.5h7M8.5 16h5"/></svg>',
+  hash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M9.5 4 7.5 20M16.5 4l-2 16M4.5 9h15M4 15h15"/></svg>',
   chev: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>',
   check:
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
@@ -51610,7 +51617,7 @@ function ccAccountantItemsV83(car) {
 // ---------- Sklandus išskleidimas (aukštis + turinys) ----------
 // Uždarytas blokas turi klasę ccShutV85 (aukštis 0, nematomas). Animacija – Web Animations API: aukštis keičiasi
 // nuo dabartinio (net jei ankstesnė animacija dar nesibaigė) iki galutinio, turinys išryškėja ir pasislenka 6 px.
-function ccAnimBodyV85(body, open) {
+function ccAnimBodyV85(body, open, fixedDur) {
   if (!body) return;
   const inner = body.firstElementChild;
   const from = body.getBoundingClientRect().height;
@@ -51622,16 +51629,19 @@ function ccAnimBodyV85(body, open) {
   if (ccReducedV85() || !body.animate) return;
   const to = open ? body.getBoundingClientRect().height : 0;
   if (Math.abs(to - from) < 1) return;
-  const dur = Math.round(Math.min(380, Math.max(220, 180 + Math.abs(to - from) * 0.22)));
+  const dur = fixedDur || Math.round(Math.min(380, Math.max(220, 180 + Math.abs(to - from) * 0.22)));
   body._ccAnim = body.animate(
     [
       { height: from + "px", visibility: "visible" },
       { height: to + "px", visibility: "visible" }
     ],
-    {
-      duration: open ? dur : Math.round(dur * 0.82),
-      easing: open ? "cubic-bezier(.2,.8,.2,1)" : "cubic-bezier(.4,0,.2,1)"
-    }
+    fixedDur
+      ? // Sinchronizuotas sukeitimas (viena užsidaro, kita atsidaro): ta pati trukmė ir kreivė – bendras aukštis kinta tolygiai
+        { duration: dur, easing: "cubic-bezier(.32,.72,0,1)" }
+      : {
+          duration: open ? dur : Math.round(dur * 0.82),
+          easing: open ? "cubic-bezier(.2,.8,.2,1)" : "cubic-bezier(.4,0,.2,1)"
+        }
   );
   if (inner)
     body._ccFade = inner.animate(
@@ -51806,6 +51816,30 @@ function ccExpFormHTMLV85(car) {
     <div class="ccExpActsV85"><button type="button" class="ghost" data-cc-exp-cancel>Atšaukti</button><button type="submit" class="go">Pridėti išlaidą</button></div>
   </form>`;
 }
+// v88: skiltys – plytelės kaip Garaže (Užduotys · Nuotraukos · Dokumentai); vienu metu atidaryta viena,
+// jos turinys – kortelė po plytelėmis su „snapeliu“ į atidarytą plytelę.
+function ccTileHTMLV88(key, title, summary, ico, open, badge = "") {
+  return `<button type="button" class="ccTileV88" data-cc-sec-toggle="${key}" aria-expanded="${open}" aria-controls="ccSec-${key}"><span class="ccTileIcoV88">${CC_ICON_V83[ico]}</span>${badge ? `<i class="ccTileBadgeV88">${badge}</i>` : ""}<strong>${escapeHTML(title)}</strong><small>${summary}</small></button>`;
+}
+function ccPaneHTMLV88(key, title, summary, open, help = "") {
+  return `<div class="ccSecV83 ccPaneV88${open ? " is-open" : ""}" data-cc-sec="${key}">${ccBodyHTMLV85(open, "ccSec-" + key, "", `<div class="ccPaneCardV88" data-cc-sec-body="${key}"><div class="ccSecHeadV83 ccPaneHeadV88"><strong>${escapeHTML(title)}</strong><span class="ccPaneSumV88">${summary}</span>${help}</div></div>`)}</div>`;
+}
+function ccPaneSetV88(key, open, { dur = 340 } = {}) {
+  const sheet = document.getElementById("sheet");
+  const sec = sheet?.querySelector(`[data-cc-sec="${key}"]`);
+  if (!sec) return null;
+  const st = ccSectionsStateV83();
+  if (open)
+    sheet.querySelectorAll(".ccPaneV88.is-open").forEach(other => {
+      if (other === sec) return;
+      ccToggleV83(other, false, dur);
+      st[other.dataset.ccSec] = false;
+    });
+  if (sec.classList.contains("is-open") !== open) ccToggleV83(sec, open, dur);
+  st[key] = open;
+  saveState();
+  return sec;
+}
 function ccSecHTMLV83(key, title, summary, open, help = "") {
   return `<section class="ccCardV83 ccSecV83${open ? " is-open" : ""}" data-cc-sec="${key}"><div class="ccSecHeadV83"><button type="button" class="ccSecToggleV83" data-cc-sec-toggle="${key}" aria-expanded="${open}" aria-controls="ccSec-${key}"><span class="ccSecTitleV83">${escapeHTML(title)}</span><span class="ccSecSumV83">${summary}</span><span class="ccChevV83">${CC_ICON_V83.chev}</span></button>${help}</div>${ccBodyHTMLV85(open, "ccSec-" + key, `data-cc-sec-body="${key}"`, "")}</section>`;
 }
@@ -51873,8 +51907,8 @@ function ccDataHTMLV85(car) {
     .join("");
   const vin = String(car.vin || "").trim();
   const vinRow = vin
-    ? `<button type="button" class="ccVinV85" data-cc-copy="${escapeHTML(vin)}" aria-label="Kopijuoti VIN ${escapeHTML(vin)}"><span><small>VIN</small><b>${escapeHTML(vin)}</b></span><span class="ccCopyIcoV85">${CC_ICON_V83.copy}${CC_ICON_V83.check}</span></button>`
-    : `<button type="button" class="ccVinV85 empty" data-cc-edit="vin"><span><small>VIN</small><b>Įrašyti</b></span><span class="ccCopyIcoV85">${CC_ICON_V83.pen}</span></button>`;
+    ? `<button type="button" class="ccVinV85" data-cc-copy="${escapeHTML(vin)}" aria-label="Kopijuoti VIN ${escapeHTML(vin)}"><span class="ccSpecIcoV85">${CC_ICON_V83.hash}</span><span><small>VIN</small><b>${escapeHTML(vin)}</b></span><span class="ccCopyIcoV85">${CC_ICON_V83.copy}${CC_ICON_V83.check}</span></button>`
+    : `<button type="button" class="ccVinV85 empty" data-cc-edit="vin"><span class="ccSpecIcoV85">${CC_ICON_V83.hash}</span><span><small>VIN</small><b>Įrašyti</b></span><span class="ccCopyIcoV85">${CC_ICON_V83.pen}</span></button>`;
   const notes = String(car.notes || "").trim();
   return `<section class="ccCardV83 ccDataV85" data-cc-data>
     <div class="ccCardHeadV85"><h4>Duomenys</h4><button type="button" class="ccEditLinkV85" data-cc-edit="all">${CC_ICON_V83.pen}Redaguoti</button></div>
@@ -51927,19 +51961,34 @@ function ccBuildV83(sheet, car) {
   const tasks = ccTaskStatsV83(car);
   const photos = ccPhotosV83(car).length;
   const docs = (car.documents || []).length;
-  const taskSum = tasks.total
+  const taskSum = tasks.total ? `${tasks.done} iš ${tasks.total}` : "Nėra";
+  const taskPane = tasks.total
     ? `${tasks.done}/${tasks.total}${tasks.late ? ` · <em>${tasks.late} vėluoja</em>` : ""}`
-    : "Nėra";
-  const html =
-    ccSecHTMLV83(
+    : "";
+  // Viena atidaryta: paskutinė pasirinkta, o jei nieko – Užduotys, kai yra vėluojančių
+  const openKey = ["tasks", "photos", "docs"].find(k => st[k]) || (tasks.late > 0 ? "tasks" : "");
+  const html = `<div class="ccHubV88" data-cc-hub><div class="ccTilesV88">${
+    ccTileHTMLV88(
       "tasks",
       "Užduotys",
       taskSum,
-      tasks.late > 0 || !!st.tasks,
+      "tasks",
+      openKey === "tasks",
+      tasks.late ? String(tasks.late) : ""
+    ) +
+    ccTileHTMLV88("photos", "Nuotraukos", photos ? `${photos} vnt.` : "Nėra", "photo", openKey === "photos") +
+    ccTileHTMLV88("docs", "Dokumentai", docs ? `${docs} vnt.` : "Nėra", "folder", openKey === "docs")
+  }</div>${
+    ccPaneHTMLV88(
+      "tasks",
+      "Užduotys",
+      taskPane,
+      openKey === "tasks",
       '<span class="ccHelpSlotV83" data-help-slot="uzduotys"></span>'
     ) +
-    ccSecHTMLV83("photos", "Nuotraukos", photos ? String(photos) : "Nėra", !!st.photos) +
-    ccSecHTMLV83("docs", "Dokumentai", docs ? String(docs) : "Nėra", !!st.docs);
+    ccPaneHTMLV88("photos", "Nuotraukos", photos ? `${photos} vnt.` : "", openKey === "photos") +
+    ccPaneHTMLV88("docs", "Dokumentai", docs ? `${docs} vnt.` : "", openKey === "docs")
+  }</div>`;
   body.querySelector(":scope > [data-cc-ready]").insertAdjacentHTML("afterend", html);
   const slot = key => body.querySelector(`[data-cc-sec-body="${key}"]`);
   const tasksBlock = sheet.querySelector(".carTasksBlock");
@@ -52118,18 +52167,25 @@ function ccEditPriceV83(car) {
   input.focus({ preventScroll: true });
   input.select();
 }
-function ccToggleV83(section, open) {
+function ccToggleV83(section, open, dur) {
   const body = section.querySelector(":scope > .ccAccBodyV83");
   section.classList.toggle("is-open", open);
-  section.querySelector(":scope [aria-expanded]")?.setAttribute("aria-expanded", String(open));
-  ccAnimBodyV85(body, open);
+  const key = section.dataset.ccSec;
+  const ctl = key
+    ? document.querySelector(`#sheet [data-cc-sec-toggle="${key}"]`)
+    : section.querySelector(":scope [aria-expanded]");
+  ctl?.setAttribute("aria-expanded", String(open));
+  ccAnimBodyV85(body, open, dur);
 }
 function ccOpenSectionV83(key, scroll = true) {
   const sec = document.querySelector(`#sheet [data-cc-sec="${key}"]`);
   if (!sec) return;
-  if (!sec.classList.contains("is-open")) ccToggleV83(sec, true);
-  ccSectionsStateV83()[key] = true;
-  saveState();
+  if (sec.classList.contains("ccPaneV88")) ccPaneSetV88(key, true);
+  else {
+    if (!sec.classList.contains("is-open")) ccToggleV83(sec, true);
+    ccSectionsStateV83()[key] = true;
+    saveState();
+  }
   if (scroll) aeRevealV87(sec);
 }
 function ccCloseMenusV83(except = "") {
@@ -52327,12 +52383,12 @@ document.addEventListener("click", e => {
   const secToggle = t.closest("[data-cc-sec-toggle]");
   if (secToggle) {
     const key = secToggle.dataset.ccSecToggle;
-    const sec = secToggle.closest("[data-cc-sec]");
+    const sec = document.querySelector(`#sheet [data-cc-sec="${key}"]`);
+    if (!sec) return;
     const open = !sec.classList.contains("is-open");
-    ccToggleV83(sec, open);
-    ccSectionsStateV83()[key] = open;
-    saveState();
-    if (open) aeRevealV87(sec);
+    vibrate(6);
+    ccPaneSetV88(key, open);
+    if (open) aeRevealV87(sec, { follow: 420 });
     return;
   }
   if (t.closest("[data-cc-ready-toggle]")) {
@@ -54372,7 +54428,7 @@ function bvOnEditV86(item) {
 }
 
 // ---------- Sklandus išskleidimas ----------
-function bvAnimV86(body, open) {
+function bvAnimV86(body, open, fixedDur) {
   if (!body) return;
   const from = body.getBoundingClientRect().height;
   body._a?.cancel();
@@ -54381,16 +54437,18 @@ function bvAnimV86(body, open) {
   if (matchMedia("(prefers-reduced-motion: reduce)").matches || !body.animate) return;
   const to = open ? body.getBoundingClientRect().height : 0;
   if (Math.abs(to - from) < 1) return;
-  const dur = Math.round(Math.min(420, Math.max(220, 180 + Math.abs(to - from) * 0.18)));
+  const dur = fixedDur || Math.round(Math.min(420, Math.max(220, 180 + Math.abs(to - from) * 0.18)));
   body._a = body.animate(
     [
       { height: from + "px", visibility: "visible" },
       { height: to + "px", visibility: "visible" }
     ],
-    {
-      duration: open ? dur : Math.round(dur * 0.8),
-      easing: open ? "cubic-bezier(.2,.8,.2,1)" : "cubic-bezier(.4,0,.2,1)"
-    }
+    fixedDur
+      ? { duration: dur, easing: "cubic-bezier(.32,.72,0,1)" }
+      : {
+          duration: open ? dur : Math.round(dur * 0.8),
+          easing: open ? "cubic-bezier(.2,.8,.2,1)" : "cubic-bezier(.4,0,.2,1)"
+        }
   );
   body.firstElementChild?.animate(
     open
@@ -54402,25 +54460,46 @@ function bvAnimV86(body, open) {
     { duration: open ? dur : Math.round(dur * 0.5), easing: "ease" }
   );
 }
+// v88: viena kortelė užsidaro, kita atsidaro VIENU judesiu: abi animuojamos ta pačia trukme ir kreive, o ekranas
+// slenka kartu (aeSyncScrollV88) į iš anksto apskaičiuotą vietą – paspausta antraštė lieka po pirštu, o kita
+// kortelė („Išsaugoti ir toliau“) atplaukia į ekrano viršų. Forma sukuriama prieš matuojant, todėl niekas „nešokinėja“.
+const BV_SWAP_MS_V88 = 420;
 function bvOpenItemV86(id, { scroll = true } = {}) {
   const root = bvRootV86();
   if (!root) return;
   const prev = bvV86.open;
   bvV86.open = prev === id ? "" : id;
-  if (prev && prev !== bvV86.open) {
-    const el = root.querySelector(`[data-bv-item="${prev}"]`);
-    el?.classList.remove("is-open");
-    el?.querySelector(".bvHeadV86")?.setAttribute("aria-expanded", "false");
-    bvAnimV86(el?.querySelector(".bvBodyV86"), false);
+  const prevEl = prev && prev !== bvV86.open ? root.querySelector(`[data-bv-item="${prev}"]`) : null;
+  const item = bvV86.open ? bvItemV86(bvV86.open) : null;
+  if (item) bvEnsureFormV86(item);
+  const nextEl = item ? root.querySelector(`[data-bv-item="${item.id}"]`) : null;
+  // Kur atsidurs atidaroma kortelė
+  let scroller = null,
+    dy = 0;
+  if (scroll && nextEl) {
+    scroller = aeScrollerV87(nextEl);
+    const { top, bottom } = aeViewportV87(scroller, nextEl);
+    const head = nextEl.getBoundingClientRect().top;
+    const prevBody = prevEl?.querySelector(".bvBodyV86");
+    const collapse =
+      prevBody && prevEl.compareDocumentPosition(nextEl) & Node.DOCUMENT_POSITION_FOLLOWING
+        ? prevBody.getBoundingClientRect().height
+        : 0;
+    const desired = top + 12;
+    // Antraštė matoma viršutinėje ekrano dalyje – lieka po pirštu; žemiau ar už ekrano – atplaukia į viršų
+    const target = head > top + (bottom - top) * 0.45 || head < desired ? desired : head;
+    dy = head - collapse - target;
   }
-  if (bvV86.open) {
-    const item = bvItemV86(bvV86.open);
-    bvEnsureFormV86(item);
-    const el = root.querySelector(`[data-bv-item="${item.id}"]`);
-    el.classList.add("is-open");
-    el.querySelector(".bvHeadV86")?.setAttribute("aria-expanded", "true");
-    bvAnimV86(el.querySelector(".bvBodyV86"), true);
-    if (scroll) aeRevealV87(el, { follow: 520 });
+  if (prevEl) {
+    prevEl.classList.remove("is-open");
+    prevEl.querySelector(".bvHeadV86")?.setAttribute("aria-expanded", "false");
+    bvAnimV86(prevEl.querySelector(".bvBodyV86"), false, nextEl ? BV_SWAP_MS_V88 : 0);
+  }
+  if (nextEl) {
+    nextEl.classList.add("is-open");
+    nextEl.querySelector(".bvHeadV86")?.setAttribute("aria-expanded", "true");
+    bvAnimV86(nextEl.querySelector(".bvBodyV86"), true, BV_SWAP_MS_V88);
+    if (scroll) aeSyncScrollV88(scroller, dy, BV_SWAP_MS_V88);
   }
 }
 function bvNextOpenV86(afterId) {
@@ -54821,8 +54900,9 @@ document.addEventListener("click", async e => {
     if (ok) {
       vibrate(10);
       toast(`Pridėta: ${item.carName || bvTitleV86(item)}`, "✓");
-      bvNextOpenV86(item.id);
       bvRefreshTopV86();
+      // Kitas kadras: išdėstymas po išsaugojimo nusistovi, tada matuojama ir pradedamas vienas sklandus perėjimas
+      requestAnimationFrame(() => bvNextOpenV86(item.id));
     }
     return;
   }
@@ -55010,21 +55090,19 @@ function aeReducedV87() {
   return matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 function aeScrollerV87(el) {
-  for (
-    let n = el.parentElement;
-    n && n !== document.body && n !== document.documentElement;
-    n = n.parentElement
-  ) {
+  for (let n = el.parentElement; n && n !== document.documentElement; n = n.parentElement) {
     const oy = getComputedStyle(n).overflowY;
     if ((oy === "auto" || oy === "scroll") && n.scrollHeight > n.clientHeight + 1) return n;
   }
-  return null; // puslapis
+  // Puslapis: programėlėje dažnai slenka pats <body> (overflow: auto), kitur – dokumentas
+  const se = document.scrollingElement;
+  return se && se.scrollHeight > se.clientHeight + 1 ? se : null;
 }
 function aeViewportV87(scroller, el) {
   const H = window.visualViewport?.height || window.innerHeight;
   let top = 0,
     bottom = H;
-  if (scroller) {
+  if (scroller && scroller !== document.scrollingElement && scroller !== document.documentElement) {
     const r = scroller.getBoundingClientRect();
     top = Math.max(top, r.top);
     bottom = Math.min(bottom, r.bottom);
@@ -55158,6 +55236,60 @@ function aeAnimHeightV87(el, open, { dur } = {}) {
   el._aeH.oncancel = () => {
     el.style.overflow = "";
   };
+}
+// v88: slinkimas, sinchronizuotas su aukščio animacija (ta pati trukmė ir kreivė). Naudojama, kai iš anksto
+// žinoma, kur turi atsidurti elementas (pvz. pakete: viena kortelė užsidaro, kita atsidaro) – tada nėra
+// „vijimosi“, ekranas juda vienu tolygiu judesiu kartu su turiniu.
+function aeBezierV88(x1, y1, x2, y2) {
+  const cx = 3 * x1,
+    bx = 3 * (x2 - x1) - cx,
+    ax = 1 - cx - bx,
+    cy = 3 * y1,
+    by = 3 * (y2 - y1) - cy,
+    ay = 1 - cy - by;
+  const sx = t => ((ax * t + bx) * t + cx) * t;
+  const sy = t => ((ay * t + by) * t + cy) * t;
+  const dx = t => (3 * ax * t + 2 * bx) * t + cx;
+  return x => {
+    let t = x;
+    for (let i = 0; i < 6; i++) {
+      const e = sx(t) - x,
+        d = dx(t);
+      if (Math.abs(e) < 1e-4 || !d) break;
+      t -= e / d;
+    }
+    return sy(Math.min(1, Math.max(0, t)));
+  };
+}
+const AE_EASE_V88 = aeBezierV88(0.32, 0.72, 0, 1);
+function aeSyncScrollV88(scroller, dy, dur) {
+  aeRevealStopV87();
+  if (Math.abs(dy) < 1) return;
+  const get = () => (scroller ? scroller.scrollTop : window.scrollY);
+  const set = y => (scroller ? (scroller.scrollTop = y) : window.scrollTo(0, y));
+  const start = get();
+  if (aeReducedV87()) return set(start + dy);
+  const t0 = performance.now();
+  const cancel = () => aeRevealStopV87();
+  const opts = { passive: true, capture: true };
+  window.addEventListener("touchstart", cancel, opts);
+  window.addEventListener("wheel", cancel, opts);
+  // Naršyklės slinkimo „inkaras“ perėjimo metu išjungiamas – kitaip jis taisytų poziciją kartu su mumis
+  const anchorEl = scroller || document.scrollingElement;
+  const prevAnchor = anchorEl?.style.overflowAnchor ?? "";
+  if (anchorEl) anchorEl.style.overflowAnchor = "none";
+  AE_REVEAL_V87.stop = () => {
+    window.removeEventListener("touchstart", cancel, opts);
+    window.removeEventListener("wheel", cancel, opts);
+    if (anchorEl) anchorEl.style.overflowAnchor = prevAnchor;
+  };
+  const step = now => {
+    const p = Math.min(1, (now - t0) / dur);
+    set(start + dy * AE_EASE_V88(p));
+    if (p < 1) AE_REVEAL_V87.raf = requestAnimationFrame(step);
+    else cancel();
+  };
+  AE_REVEAL_V87.raf = requestAnimationFrame(step);
 }
 window.AutoEasierReveal = aeRevealV87;
 
@@ -80631,7 +80763,7 @@ html:not(#ae):not(#af):not(#ag):not(#ah)
   cursor: pointer;
   transition: transform 0.15s ease;
 }
-#sheet.ccV83 .ccVinV85 > span:first-child {
+#sheet.ccV83 .ccVinV85 > span:not(.ccSpecIcoV85):not(.ccCopyIcoV85) {
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -80982,7 +81114,7 @@ html:not(#ae):not(#af):not(#ag):not(#ah)
   border-radius: 0;
   background: transparent;
 }
-#sheet.ccV83 .ccVinV85 > span:first-child {
+#sheet.ccV83 .ccVinV85 > span:not(.ccSpecIcoV85):not(.ccCopyIcoV85) {
   flex: 1;
   flex-direction: row;
   align-items: center;
@@ -81040,6 +81172,256 @@ html:not(#ae):not(#af):not(#ag):not(#ah)
 }
 #sheet.ccV83 .ccNextV83 b {
   font-size: 16px;
+}
+
+/* ---------- v88: Užduotys · Nuotraukos · Dokumentai – plytelės kaip Garaže ---------- */
+#sheet.ccV83 .ccHubV88 {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+#sheet.ccV83 .ccTilesV88 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+#sheet.ccV83 .ccTileV88 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  min-width: 0;
+  min-height: 106px;
+  margin: 0;
+  padding: 12px 12px 11px;
+  border: 1px solid #e3e5ea;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 6px 18px rgba(15, 23, 42, 0.06);
+  color: #12233a;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
+}
+#sheet.ccV83 .ccTileV88:active {
+  transform: scale(0.97);
+}
+#sheet.ccV83 .ccTileIcoV88 {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 7px;
+  border-radius: 12px;
+  background: #f1f4f8;
+  color: #26395c;
+  transition:
+    background-color 0.22s ease,
+    color 0.22s ease;
+}
+#sheet.ccV83 .ccTileIcoV88 svg {
+  width: 23px;
+  height: 23px;
+}
+#sheet.ccV83 .ccTileV88 strong {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.012em;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#sheet.ccV83 .ccTileV88 small {
+  max-width: 100%;
+  overflow: hidden;
+  color: #66768a;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-variant-numeric: tabular-nums;
+}
+#sheet.ccV83 .ccTileBadgeV88 {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #e5484d;
+  color: #fff;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 800;
+  box-shadow: 0 3px 8px rgba(229, 72, 77, 0.3);
+}
+#sheet.ccV83 .ccTileV88[aria-expanded="true"] {
+  border-color: #b9c8e6;
+  box-shadow:
+    0 0 0 3px rgba(40, 76, 162, 0.12),
+    0 6px 18px rgba(15, 23, 42, 0.06);
+}
+#sheet.ccV83 .ccTileV88[aria-expanded="true"] .ccTileIcoV88 {
+  background: #e7eef9;
+  color: #1f5aa6;
+}
+/* Atidarytos plytelės turinys – kortelė po plytelėmis su snapeliu */
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccPaneV88
+  .ccAccInnerV83 {
+  padding: 10px 0 0 !important;
+}
+#sheet.ccV83 .ccPaneCardV88 {
+  --ccNxV88: 50%;
+  position: relative;
+  padding: 12px 14px 6px;
+  border: 1px solid #e3e5ea;
+  border-radius: 18px;
+  background: #fff;
+}
+#sheet.ccV83 .ccPaneCardV88::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: calc(var(--ccNxV88) - 6px);
+  width: 12px;
+  height: 12px;
+  border-top: 1px solid #e3e5ea;
+  border-left: 1px solid #e3e5ea;
+  border-top-left-radius: 3px;
+  background: #fff;
+  transform: rotate(45deg);
+}
+#sheet.ccV83 [data-cc-sec="tasks"] .ccPaneCardV88 {
+  --ccNxV88: calc((100% - 20px) / 6);
+}
+#sheet.ccV83 [data-cc-sec="docs"] .ccPaneCardV88 {
+  --ccNxV88: calc(100% - (100% - 20px) / 6);
+}
+#sheet.ccV83 .ccPaneHeadV88 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  margin: 0 0 6px;
+  padding: 0;
+}
+#sheet.ccV83 .ccPaneHeadV88 strong {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+}
+#sheet.ccV83 .ccPaneSumV88 {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: #66768a;
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: right;
+}
+#sheet.ccV83 .ccPaneSumV88 em {
+  color: #c0362c;
+  font-style: normal;
+  font-weight: 700;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccPaneCardV88
+  > .carTasksBlock,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccPaneCardV88
+  > #carDetailPhotos,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccPaneCardV88
+  > #carDetailDocuments {
+  margin: 0 !important;
+  padding: 0 0 8px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+/* Duomenų eilutės – su ramia ikonėle kairėje (lengviau akims rasti) */
+#sheet.ccV83 .ccSpecV85 .ccSpecIcoV85 {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: #f1f4f8;
+  color: #4b5a6c;
+}
+#sheet.ccV83 .ccSpecV85 .ccSpecIcoV85 svg {
+  width: 18px;
+  height: 18px;
+}
+#sheet.ccV83 .ccSpecV85.empty .ccSpecIcoV85 {
+  background: #f5f7fa;
+  color: #a3aebc;
+}
+@media (max-width: 360px) {
+  #sheet.ccV83 .ccTilesV88 {
+    gap: 8px;
+  }
+  #sheet.ccV83 .ccTileV88 {
+    padding: 10px;
+  }
+  #sheet.ccV83 .ccTileV88 strong {
+    font-size: 14px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #sheet.ccV83 .ccTileV88,
+  #sheet.ccV83 .ccTileIcoV88 {
+    transition: none;
+  }
+}
+#sheet.ccV83 .ccVinV85 {
+  gap: 10px;
+}
+#sheet.ccV83 .ccVinV85 > .ccSpecIcoV85 {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: #f1f4f8;
+  color: #4b5a6c;
+}
+#sheet.ccV83 .ccVinV85.empty > .ccSpecIcoV85 {
+  background: #f5f7fa;
+  color: #a3aebc;
+}
+#sheet.ccV83 .ccVinV85 > .ccSpecIcoV85 svg {
+  width: 18px;
+  height: 18px;
 }
 </style>
 <style id="v84">/* =====================================================================
@@ -83775,10 +84157,11 @@ html:not(#ae):not(#af):not(#ag)
   > :not(.sectionHead):not(#bvRootV86) {
   display: none !important;
 }
+/* Be !important – kitaip uždarymo animacija (Web Animations) neveiktų ir kortelė „šoktų“ */
 html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .bvShutV86 {
-  height: 0 !important;
-  overflow: hidden !important;
-  visibility: hidden !important;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
 }
 .bvHintV86 {
   margin: 8px 2px 0;
@@ -84344,34 +84727,10 @@ html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage #addCarPanel
 #bvRootV86 .bvListV86 {
   gap: 12px;
 }
-/* Kortelė: kairėje būsenos juostelė, didesnė miniatiūra, aiškus eilės numeris */
+/* Kortelė: didesnė miniatiūra, aiškus eilės numeris (v88 – be spalvotų juostelių kairėje) */
 #bvRootV86 .bvItemV86 {
   position: relative;
   border-radius: 20px;
-}
-#bvRootV86 .bvItemV86::before {
-  content: "";
-  position: absolute;
-  top: 14px;
-  bottom: 14px;
-  left: 0;
-  width: 3px;
-  border-radius: 0 3px 3px 0;
-  background: #d5dde8;
-  transition: background-color 0.25s ease;
-}
-#bvRootV86 .bvItemV86.is-ready::before,
-#bvRootV86 .bvItemV86.is-saved::before {
-  background: #1f9d5f;
-}
-#bvRootV86 .bvItemV86.is-missing::before {
-  background: #e3a33a;
-}
-#bvRootV86 .bvItemV86.is-error::before {
-  background: #d9483b;
-}
-#bvRootV86 .bvItemV86.is-scan::before {
-  background: #1f5aa6;
 }
 #bvRootV86 .bvItemV86.is-open {
   border-color: #bcd0ea;
@@ -84455,6 +84814,12 @@ html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #bvRootV86 .bvItemActsV86
   #bvRootV86 .bvInnerV86 {
     padding: 4px 20px 20px;
   }
+}
+
+/* v88: slinkimą valdo programa (aeSyncScrollV88) – naršyklės „inkaravimas“ nesikiša */
+#bvRootV86,
+#bvRootV86 * {
+  overflow-anchor: none;
 }
 </style>
 <script id="ready-v77">// v77: visi stiliai ir skriptai perskaityti – rodome puslapį vienu kartu (be tarpinių, nesustilizuotų kadrų).

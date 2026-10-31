@@ -15,6 +15,13 @@
 const CC_SVG_V83 = d =>
   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const CC_ICON_V83 = {
+  tasks:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 6.8 1.7 1.7L9 5.2"/><path d="M12.5 7h7.5"/><path d="m4 12.8 1.7 1.7L9 11.2"/><path d="M12.5 13h7.5"/><path d="M5 18.5h3.5M12.5 18.5h7.5"/></svg>',
+  photo:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="m20.5 15.5-4.6-4.6L7 19"/></svg>',
+  folder:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3.5H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.5z"/><path d="M14 3.5v5h5"/><path d="M8.5 12.5h7M8.5 16h5"/></svg>',
+  hash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M9.5 4 7.5 20M16.5 4l-2 16M4.5 9h15M4 15h15"/></svg>',
   chev: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>',
   check:
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
@@ -312,7 +319,7 @@ function ccAccountantItemsV83(car) {
 // ---------- Sklandus išskleidimas (aukštis + turinys) ----------
 // Uždarytas blokas turi klasę ccShutV85 (aukštis 0, nematomas). Animacija – Web Animations API: aukštis keičiasi
 // nuo dabartinio (net jei ankstesnė animacija dar nesibaigė) iki galutinio, turinys išryškėja ir pasislenka 6 px.
-function ccAnimBodyV85(body, open) {
+function ccAnimBodyV85(body, open, fixedDur) {
   if (!body) return;
   const inner = body.firstElementChild;
   const from = body.getBoundingClientRect().height;
@@ -324,16 +331,19 @@ function ccAnimBodyV85(body, open) {
   if (ccReducedV85() || !body.animate) return;
   const to = open ? body.getBoundingClientRect().height : 0;
   if (Math.abs(to - from) < 1) return;
-  const dur = Math.round(Math.min(380, Math.max(220, 180 + Math.abs(to - from) * 0.22)));
+  const dur = fixedDur || Math.round(Math.min(380, Math.max(220, 180 + Math.abs(to - from) * 0.22)));
   body._ccAnim = body.animate(
     [
       { height: from + "px", visibility: "visible" },
       { height: to + "px", visibility: "visible" }
     ],
-    {
-      duration: open ? dur : Math.round(dur * 0.82),
-      easing: open ? "cubic-bezier(.2,.8,.2,1)" : "cubic-bezier(.4,0,.2,1)"
-    }
+    fixedDur
+      ? // Sinchronizuotas sukeitimas (viena užsidaro, kita atsidaro): ta pati trukmė ir kreivė – bendras aukštis kinta tolygiai
+        { duration: dur, easing: "cubic-bezier(.32,.72,0,1)" }
+      : {
+          duration: open ? dur : Math.round(dur * 0.82),
+          easing: open ? "cubic-bezier(.2,.8,.2,1)" : "cubic-bezier(.4,0,.2,1)"
+        }
   );
   if (inner)
     body._ccFade = inner.animate(
@@ -508,6 +518,30 @@ function ccExpFormHTMLV85(car) {
     <div class="ccExpActsV85"><button type="button" class="ghost" data-cc-exp-cancel>Atšaukti</button><button type="submit" class="go">Pridėti išlaidą</button></div>
   </form>`;
 }
+// v88: skiltys – plytelės kaip Garaže (Užduotys · Nuotraukos · Dokumentai); vienu metu atidaryta viena,
+// jos turinys – kortelė po plytelėmis su „snapeliu“ į atidarytą plytelę.
+function ccTileHTMLV88(key, title, summary, ico, open, badge = "") {
+  return `<button type="button" class="ccTileV88" data-cc-sec-toggle="${key}" aria-expanded="${open}" aria-controls="ccSec-${key}"><span class="ccTileIcoV88">${CC_ICON_V83[ico]}</span>${badge ? `<i class="ccTileBadgeV88">${badge}</i>` : ""}<strong>${escapeHTML(title)}</strong><small>${summary}</small></button>`;
+}
+function ccPaneHTMLV88(key, title, summary, open, help = "") {
+  return `<div class="ccSecV83 ccPaneV88${open ? " is-open" : ""}" data-cc-sec="${key}">${ccBodyHTMLV85(open, "ccSec-" + key, "", `<div class="ccPaneCardV88" data-cc-sec-body="${key}"><div class="ccSecHeadV83 ccPaneHeadV88"><strong>${escapeHTML(title)}</strong><span class="ccPaneSumV88">${summary}</span>${help}</div></div>`)}</div>`;
+}
+function ccPaneSetV88(key, open, { dur = 340 } = {}) {
+  const sheet = document.getElementById("sheet");
+  const sec = sheet?.querySelector(`[data-cc-sec="${key}"]`);
+  if (!sec) return null;
+  const st = ccSectionsStateV83();
+  if (open)
+    sheet.querySelectorAll(".ccPaneV88.is-open").forEach(other => {
+      if (other === sec) return;
+      ccToggleV83(other, false, dur);
+      st[other.dataset.ccSec] = false;
+    });
+  if (sec.classList.contains("is-open") !== open) ccToggleV83(sec, open, dur);
+  st[key] = open;
+  saveState();
+  return sec;
+}
 function ccSecHTMLV83(key, title, summary, open, help = "") {
   return `<section class="ccCardV83 ccSecV83${open ? " is-open" : ""}" data-cc-sec="${key}"><div class="ccSecHeadV83"><button type="button" class="ccSecToggleV83" data-cc-sec-toggle="${key}" aria-expanded="${open}" aria-controls="ccSec-${key}"><span class="ccSecTitleV83">${escapeHTML(title)}</span><span class="ccSecSumV83">${summary}</span><span class="ccChevV83">${CC_ICON_V83.chev}</span></button>${help}</div>${ccBodyHTMLV85(open, "ccSec-" + key, `data-cc-sec-body="${key}"`, "")}</section>`;
 }
@@ -575,8 +609,8 @@ function ccDataHTMLV85(car) {
     .join("");
   const vin = String(car.vin || "").trim();
   const vinRow = vin
-    ? `<button type="button" class="ccVinV85" data-cc-copy="${escapeHTML(vin)}" aria-label="Kopijuoti VIN ${escapeHTML(vin)}"><span><small>VIN</small><b>${escapeHTML(vin)}</b></span><span class="ccCopyIcoV85">${CC_ICON_V83.copy}${CC_ICON_V83.check}</span></button>`
-    : `<button type="button" class="ccVinV85 empty" data-cc-edit="vin"><span><small>VIN</small><b>Įrašyti</b></span><span class="ccCopyIcoV85">${CC_ICON_V83.pen}</span></button>`;
+    ? `<button type="button" class="ccVinV85" data-cc-copy="${escapeHTML(vin)}" aria-label="Kopijuoti VIN ${escapeHTML(vin)}"><span class="ccSpecIcoV85">${CC_ICON_V83.hash}</span><span><small>VIN</small><b>${escapeHTML(vin)}</b></span><span class="ccCopyIcoV85">${CC_ICON_V83.copy}${CC_ICON_V83.check}</span></button>`
+    : `<button type="button" class="ccVinV85 empty" data-cc-edit="vin"><span class="ccSpecIcoV85">${CC_ICON_V83.hash}</span><span><small>VIN</small><b>Įrašyti</b></span><span class="ccCopyIcoV85">${CC_ICON_V83.pen}</span></button>`;
   const notes = String(car.notes || "").trim();
   return `<section class="ccCardV83 ccDataV85" data-cc-data>
     <div class="ccCardHeadV85"><h4>Duomenys</h4><button type="button" class="ccEditLinkV85" data-cc-edit="all">${CC_ICON_V83.pen}Redaguoti</button></div>
@@ -629,19 +663,34 @@ function ccBuildV83(sheet, car) {
   const tasks = ccTaskStatsV83(car);
   const photos = ccPhotosV83(car).length;
   const docs = (car.documents || []).length;
-  const taskSum = tasks.total
+  const taskSum = tasks.total ? `${tasks.done} iš ${tasks.total}` : "Nėra";
+  const taskPane = tasks.total
     ? `${tasks.done}/${tasks.total}${tasks.late ? ` · <em>${tasks.late} vėluoja</em>` : ""}`
-    : "Nėra";
-  const html =
-    ccSecHTMLV83(
+    : "";
+  // Viena atidaryta: paskutinė pasirinkta, o jei nieko – Užduotys, kai yra vėluojančių
+  const openKey = ["tasks", "photos", "docs"].find(k => st[k]) || (tasks.late > 0 ? "tasks" : "");
+  const html = `<div class="ccHubV88" data-cc-hub><div class="ccTilesV88">${
+    ccTileHTMLV88(
       "tasks",
       "Užduotys",
       taskSum,
-      tasks.late > 0 || !!st.tasks,
+      "tasks",
+      openKey === "tasks",
+      tasks.late ? String(tasks.late) : ""
+    ) +
+    ccTileHTMLV88("photos", "Nuotraukos", photos ? `${photos} vnt.` : "Nėra", "photo", openKey === "photos") +
+    ccTileHTMLV88("docs", "Dokumentai", docs ? `${docs} vnt.` : "Nėra", "folder", openKey === "docs")
+  }</div>${
+    ccPaneHTMLV88(
+      "tasks",
+      "Užduotys",
+      taskPane,
+      openKey === "tasks",
       '<span class="ccHelpSlotV83" data-help-slot="uzduotys"></span>'
     ) +
-    ccSecHTMLV83("photos", "Nuotraukos", photos ? String(photos) : "Nėra", !!st.photos) +
-    ccSecHTMLV83("docs", "Dokumentai", docs ? String(docs) : "Nėra", !!st.docs);
+    ccPaneHTMLV88("photos", "Nuotraukos", photos ? `${photos} vnt.` : "", openKey === "photos") +
+    ccPaneHTMLV88("docs", "Dokumentai", docs ? `${docs} vnt.` : "", openKey === "docs")
+  }</div>`;
   body.querySelector(":scope > [data-cc-ready]").insertAdjacentHTML("afterend", html);
   const slot = key => body.querySelector(`[data-cc-sec-body="${key}"]`);
   const tasksBlock = sheet.querySelector(".carTasksBlock");
@@ -820,18 +869,25 @@ function ccEditPriceV83(car) {
   input.focus({ preventScroll: true });
   input.select();
 }
-function ccToggleV83(section, open) {
+function ccToggleV83(section, open, dur) {
   const body = section.querySelector(":scope > .ccAccBodyV83");
   section.classList.toggle("is-open", open);
-  section.querySelector(":scope [aria-expanded]")?.setAttribute("aria-expanded", String(open));
-  ccAnimBodyV85(body, open);
+  const key = section.dataset.ccSec;
+  const ctl = key
+    ? document.querySelector(`#sheet [data-cc-sec-toggle="${key}"]`)
+    : section.querySelector(":scope [aria-expanded]");
+  ctl?.setAttribute("aria-expanded", String(open));
+  ccAnimBodyV85(body, open, dur);
 }
 function ccOpenSectionV83(key, scroll = true) {
   const sec = document.querySelector(`#sheet [data-cc-sec="${key}"]`);
   if (!sec) return;
-  if (!sec.classList.contains("is-open")) ccToggleV83(sec, true);
-  ccSectionsStateV83()[key] = true;
-  saveState();
+  if (sec.classList.contains("ccPaneV88")) ccPaneSetV88(key, true);
+  else {
+    if (!sec.classList.contains("is-open")) ccToggleV83(sec, true);
+    ccSectionsStateV83()[key] = true;
+    saveState();
+  }
   if (scroll) aeRevealV87(sec);
 }
 function ccCloseMenusV83(except = "") {
@@ -1029,12 +1085,12 @@ document.addEventListener("click", e => {
   const secToggle = t.closest("[data-cc-sec-toggle]");
   if (secToggle) {
     const key = secToggle.dataset.ccSecToggle;
-    const sec = secToggle.closest("[data-cc-sec]");
+    const sec = document.querySelector(`#sheet [data-cc-sec="${key}"]`);
+    if (!sec) return;
     const open = !sec.classList.contains("is-open");
-    ccToggleV83(sec, open);
-    ccSectionsStateV83()[key] = open;
-    saveState();
-    if (open) aeRevealV87(sec);
+    vibrate(6);
+    ccPaneSetV88(key, open);
+    if (open) aeRevealV87(sec, { follow: 420 });
     return;
   }
   if (t.closest("[data-cc-ready-toggle]")) {

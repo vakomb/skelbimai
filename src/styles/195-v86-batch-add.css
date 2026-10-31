@@ -5,10 +5,11 @@ html:not(#ae):not(#af):not(#ag)
   > :not(.sectionHead):not(#bvRootV86) {
   display: none !important;
 }
+/* Be !important – kitaip uždarymo animacija (Web Animations) neveiktų ir kortelė „šoktų“ */
 html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .bvShutV86 {
-  height: 0 !important;
-  overflow: hidden !important;
-  visibility: hidden !important;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
 }
 .bvHintV86 {
   margin: 8px 2px 0;
@@ -574,34 +575,10 @@ html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage #addCarPanel
 #bvRootV86 .bvListV86 {
   gap: 12px;
 }
-/* Kortelė: kairėje būsenos juostelė, didesnė miniatiūra, aiškus eilės numeris */
+/* Kortelė: didesnė miniatiūra, aiškus eilės numeris (v88 – be spalvotų juostelių kairėje) */
 #bvRootV86 .bvItemV86 {
   position: relative;
   border-radius: 20px;
-}
-#bvRootV86 .bvItemV86::before {
-  content: "";
-  position: absolute;
-  top: 14px;
-  bottom: 14px;
-  left: 0;
-  width: 3px;
-  border-radius: 0 3px 3px 0;
-  background: #d5dde8;
-  transition: background-color 0.25s ease;
-}
-#bvRootV86 .bvItemV86.is-ready::before,
-#bvRootV86 .bvItemV86.is-saved::before {
-  background: #1f9d5f;
-}
-#bvRootV86 .bvItemV86.is-missing::before {
-  background: #e3a33a;
-}
-#bvRootV86 .bvItemV86.is-error::before {
-  background: #d9483b;
-}
-#bvRootV86 .bvItemV86.is-scan::before {
-  background: #1f5aa6;
 }
 #bvRootV86 .bvItemV86.is-open {
   border-color: #bcd0ea;
@@ -685,4 +662,10 @@ html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #bvRootV86 .bvItemActsV86
   #bvRootV86 .bvInnerV86 {
     padding: 4px 20px 20px;
   }
+}
+
+/* v88: slinkimą valdo programa (aeSyncScrollV88) – naršyklės „inkaravimas“ nesikiša */
+#bvRootV86,
+#bvRootV86 * {
+  overflow-anchor: none;
 }

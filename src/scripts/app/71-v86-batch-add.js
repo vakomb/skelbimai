@@ -321,7 +321,7 @@ function bvOnEditV86(item) {
 }
 
 // ---------- Sklandus išskleidimas ----------
-function bvAnimV86(body, open) {
+function bvAnimV86(body, open, fixedDur) {
   if (!body) return;
   const from = body.getBoundingClientRect().height;
   body._a?.cancel();
@@ -330,16 +330,18 @@ function bvAnimV86(body, open) {
   if (matchMedia("(prefers-reduced-motion: reduce)").matches || !body.animate) return;
   const to = open ? body.getBoundingClientRect().height : 0;
   if (Math.abs(to - from) < 1) return;
-  const dur = Math.round(Math.min(420, Math.max(220, 180 + Math.abs(to - from) * 0.18)));
+  const dur = fixedDur || Math.round(Math.min(420, Math.max(220, 180 + Math.abs(to - from) * 0.18)));
   body._a = body.animate(
     [
       { height: from + "px", visibility: "visible" },
       { height: to + "px", visibility: "visible" }
     ],
-    {
-      duration: open ? dur : Math.round(dur * 0.8),
-      easing: open ? "cubic-bezier(.2,.8,.2,1)" : "cubic-bezier(.4,0,.2,1)"
-    }
+    fixedDur
+      ? { duration: dur, easing: "cubic-bezier(.32,.72,0,1)" }
+      : {
+          duration: open ? dur : Math.round(dur * 0.8),
+          easing: open ? "cubic-bezier(.2,.8,.2,1)" : "cubic-bezier(.4,0,.2,1)"
+        }
   );
   body.firstElementChild?.animate(
     open
@@ -351,25 +353,46 @@ function bvAnimV86(body, open) {
     { duration: open ? dur : Math.round(dur * 0.5), easing: "ease" }
   );
 }
+// v88: viena kortelė užsidaro, kita atsidaro VIENU judesiu: abi animuojamos ta pačia trukme ir kreive, o ekranas
+// slenka kartu (aeSyncScrollV88) į iš anksto apskaičiuotą vietą – paspausta antraštė lieka po pirštu, o kita
+// kortelė („Išsaugoti ir toliau“) atplaukia į ekrano viršų. Forma sukuriama prieš matuojant, todėl niekas „nešokinėja“.
+const BV_SWAP_MS_V88 = 420;
 function bvOpenItemV86(id, { scroll = true } = {}) {
   const root = bvRootV86();
   if (!root) return;
   const prev = bvV86.open;
   bvV86.open = prev === id ? "" : id;
-  if (prev && prev !== bvV86.open) {
-    const el = root.querySelector(`[data-bv-item="${prev}"]`);
-    el?.classList.remove("is-open");
-    el?.querySelector(".bvHeadV86")?.setAttribute("aria-expanded", "false");
-    bvAnimV86(el?.querySelector(".bvBodyV86"), false);
+  const prevEl = prev && prev !== bvV86.open ? root.querySelector(`[data-bv-item="${prev}"]`) : null;
+  const item = bvV86.open ? bvItemV86(bvV86.open) : null;
+  if (item) bvEnsureFormV86(item);
+  const nextEl = item ? root.querySelector(`[data-bv-item="${item.id}"]`) : null;
+  // Kur atsidurs atidaroma kortelė
+  let scroller = null,
+    dy = 0;
+  if (scroll && nextEl) {
+    scroller = aeScrollerV87(nextEl);
+    const { top, bottom } = aeViewportV87(scroller, nextEl);
+    const head = nextEl.getBoundingClientRect().top;
+    const prevBody = prevEl?.querySelector(".bvBodyV86");
+    const collapse =
+      prevBody && prevEl.compareDocumentPosition(nextEl) & Node.DOCUMENT_POSITION_FOLLOWING
+        ? prevBody.getBoundingClientRect().height
+        : 0;
+    const desired = top + 12;
+    // Antraštė matoma viršutinėje ekrano dalyje – lieka po pirštu; žemiau ar už ekrano – atplaukia į viršų
+    const target = head > top + (bottom - top) * 0.45 || head < desired ? desired : head;
+    dy = head - collapse - target;
   }
-  if (bvV86.open) {
-    const item = bvItemV86(bvV86.open);
-    bvEnsureFormV86(item);
-    const el = root.querySelector(`[data-bv-item="${item.id}"]`);
-    el.classList.add("is-open");
-    el.querySelector(".bvHeadV86")?.setAttribute("aria-expanded", "true");
-    bvAnimV86(el.querySelector(".bvBodyV86"), true);
-    if (scroll) aeRevealV87(el, { follow: 520 });
+  if (prevEl) {
+    prevEl.classList.remove("is-open");
+    prevEl.querySelector(".bvHeadV86")?.setAttribute("aria-expanded", "false");
+    bvAnimV86(prevEl.querySelector(".bvBodyV86"), false, nextEl ? BV_SWAP_MS_V88 : 0);
+  }
+  if (nextEl) {
+    nextEl.classList.add("is-open");
+    nextEl.querySelector(".bvHeadV86")?.setAttribute("aria-expanded", "true");
+    bvAnimV86(nextEl.querySelector(".bvBodyV86"), true, BV_SWAP_MS_V88);
+    if (scroll) aeSyncScrollV88(scroller, dy, BV_SWAP_MS_V88);
   }
 }
 function bvNextOpenV86(afterId) {
@@ -770,8 +793,9 @@ document.addEventListener("click", async e => {
     if (ok) {
       vibrate(10);
       toast(`Pridėta: ${item.carName || bvTitleV86(item)}`, "✓");
-      bvNextOpenV86(item.id);
       bvRefreshTopV86();
+      // Kitas kadras: išdėstymas po išsaugojimo nusistovi, tada matuojama ir pradedamas vienas sklandus perėjimas
+      requestAnimationFrame(() => bvNextOpenV86(item.id));
     }
     return;
   }

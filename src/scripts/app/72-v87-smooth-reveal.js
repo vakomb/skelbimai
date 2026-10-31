@@ -14,21 +14,19 @@ function aeReducedV87() {
   return matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 function aeScrollerV87(el) {
-  for (
-    let n = el.parentElement;
-    n && n !== document.body && n !== document.documentElement;
-    n = n.parentElement
-  ) {
+  for (let n = el.parentElement; n && n !== document.documentElement; n = n.parentElement) {
     const oy = getComputedStyle(n).overflowY;
     if ((oy === "auto" || oy === "scroll") && n.scrollHeight > n.clientHeight + 1) return n;
   }
-  return null; // puslapis
+  // Puslapis: programėlėje dažnai slenka pats <body> (overflow: auto), kitur – dokumentas
+  const se = document.scrollingElement;
+  return se && se.scrollHeight > se.clientHeight + 1 ? se : null;
 }
 function aeViewportV87(scroller, el) {
   const H = window.visualViewport?.height || window.innerHeight;
   let top = 0,
     bottom = H;
-  if (scroller) {
+  if (scroller && scroller !== document.scrollingElement && scroller !== document.documentElement) {
     const r = scroller.getBoundingClientRect();
     top = Math.max(top, r.top);
     bottom = Math.min(bottom, r.bottom);
@@ -162,5 +160,59 @@ function aeAnimHeightV87(el, open, { dur } = {}) {
   el._aeH.oncancel = () => {
     el.style.overflow = "";
   };
+}
+// v88: slinkimas, sinchronizuotas su aukščio animacija (ta pati trukmė ir kreivė). Naudojama, kai iš anksto
+// žinoma, kur turi atsidurti elementas (pvz. pakete: viena kortelė užsidaro, kita atsidaro) – tada nėra
+// „vijimosi“, ekranas juda vienu tolygiu judesiu kartu su turiniu.
+function aeBezierV88(x1, y1, x2, y2) {
+  const cx = 3 * x1,
+    bx = 3 * (x2 - x1) - cx,
+    ax = 1 - cx - bx,
+    cy = 3 * y1,
+    by = 3 * (y2 - y1) - cy,
+    ay = 1 - cy - by;
+  const sx = t => ((ax * t + bx) * t + cx) * t;
+  const sy = t => ((ay * t + by) * t + cy) * t;
+  const dx = t => (3 * ax * t + 2 * bx) * t + cx;
+  return x => {
+    let t = x;
+    for (let i = 0; i < 6; i++) {
+      const e = sx(t) - x,
+        d = dx(t);
+      if (Math.abs(e) < 1e-4 || !d) break;
+      t -= e / d;
+    }
+    return sy(Math.min(1, Math.max(0, t)));
+  };
+}
+const AE_EASE_V88 = aeBezierV88(0.32, 0.72, 0, 1);
+function aeSyncScrollV88(scroller, dy, dur) {
+  aeRevealStopV87();
+  if (Math.abs(dy) < 1) return;
+  const get = () => (scroller ? scroller.scrollTop : window.scrollY);
+  const set = y => (scroller ? (scroller.scrollTop = y) : window.scrollTo(0, y));
+  const start = get();
+  if (aeReducedV87()) return set(start + dy);
+  const t0 = performance.now();
+  const cancel = () => aeRevealStopV87();
+  const opts = { passive: true, capture: true };
+  window.addEventListener("touchstart", cancel, opts);
+  window.addEventListener("wheel", cancel, opts);
+  // Naršyklės slinkimo „inkaras“ perėjimo metu išjungiamas – kitaip jis taisytų poziciją kartu su mumis
+  const anchorEl = scroller || document.scrollingElement;
+  const prevAnchor = anchorEl?.style.overflowAnchor ?? "";
+  if (anchorEl) anchorEl.style.overflowAnchor = "none";
+  AE_REVEAL_V87.stop = () => {
+    window.removeEventListener("touchstart", cancel, opts);
+    window.removeEventListener("wheel", cancel, opts);
+    if (anchorEl) anchorEl.style.overflowAnchor = prevAnchor;
+  };
+  const step = now => {
+    const p = Math.min(1, (now - t0) / dur);
+    set(start + dy * AE_EASE_V88(p));
+    if (p < 1) AE_REVEAL_V87.raf = requestAnimationFrame(step);
+    else cancel();
+  };
+  AE_REVEAL_V87.raf = requestAnimationFrame(step);
 }
 window.AutoEasierReveal = aeRevealV87;
