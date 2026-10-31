@@ -396,3 +396,10 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
 - `src/scripts/app/68-v83-car-card.js` apgaubia `renderCarSheet` ir perdėlioja esamus elementus (ID ir klasės lieka): antraštė su numeriu ir „Garaže N d.“ / „Parduota per N d.“, nuotraukų juosta su skaitikliu, skaičių kortelė (Savikaina · Kaina · Marža, kaina redaguojama vietoje → `askingPrice`, savikainos išskaidymas), pasirengimo juosta „N iš 7 paruošta“ su „Kitas žingsnis“ (parduotam – „Dokumentai buhalterei“ pagal `accountingRequiredDocumentsV1`, pasiekiama per `window.__aeRequiredDocsV83`), akordeonai Užduotys / Nuotraukos / Dokumentai / Duomenys (būsena `state.ui.carSections`) ir prilipusi juosta Parduoti · Dokumentai (PP sutartis, Sąskaita faktūra) · ⋯ (Redaguoti, Ištrinti).
 - Stilius: `src/styles/192-v83-car-card.css` (prefiksas su `:not(#ah)`, kad perrašytų 185-v76).
 - Testas: `tools/test-car-card.mjs` (430 ir 1280 px).
+
+## v84 – „Ką moka AutoEasier“ (funkcijų vitrina prisijungimo ekrane)
+
+- Mygtukas `#aeFtEntryV84` po „Išbandyti 7 d. nemokamai“ (`src/partials/login.html`).
+- `src/scripts/app/69-v84-features.js`: telefone langas iš apačios (88 %, nutempiamas žemyn, „Atgal“ uždaro detalę, po to langą), kompiuteryje – centruotas langas dviem stulpeliais (sąrašas | detalė), planšetėje detalė vienu stulpeliu. 9 funkcijos (`FT_LIST_V84`), kiekviena su nauda, gyvu CSS/SVG maketu (`FT_MOCK_V84`: `data-on/off/hot/cls/num`, „pirštas“ taikosi į `data-t`), 3–4 žingsniais (automatinis grojimas 3,2 s, pauzė palietus, braukimas, rodyklės), „Seniau / Su AutoEasier“, 3 ženkleliais ir „Kita funkcija“. CTA spaudžia esamą `#autoEasierSubscription` (v70 prenumeratos langas). DOM kuriamas tik atidarius. API: `window.AutoEasierFeatures.open(id?) / close() / list`.
+- Stilius: `src/styles/193-v84-features.css` (prefiksas su `#aeFtV84`; globalus `small { font-size … !important }` perrašomas `!important`). Mažiau judesio – be automatinio grojimo ir slinkimo.
+- Testas: `tools/test-features.mjs` (430 / 1280 px, reduced-motion). `verify-browser` žingsnis `features`.

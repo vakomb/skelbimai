@@ -113,7 +113,9 @@ const STEPS = [
       await tap('.navBtn[data-view="garage"]')(p);
       await tap("#activeCarGrid [data-open-car], #activeCarGrid .carListCard")(p);
     }
-  ]
+  ],
+  // v84: funkcijų vitrina (prisijungimo ekrano „Ką moka AutoEasier“) – detalė „Savikaina ir marža“
+  ["features", p => p.evaluate(() => window.AutoEasierFeatures?.open("marza"))]
 ];
 
 async function run(file, tag) {
