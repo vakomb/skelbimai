@@ -1,0 +1,17 @@
+/* v102: erdvesnis vaizdas telefone (kartu su scripts/000-viewport-v102.js – ekranas tolygiai sumažintas ~8 %).
+   Dviejų stulpelių plytelėse (Garažas, Buhalterija, Meniu) nebėra rodyklės „›“ – plytelė ir taip aiškiai
+   paspaudžiama, o pavadinimas telpa vienoje eilutėje. Pilno pločio eilutės (Vadybininkas, Sąskaita faktūra)
+   rodyklę išlaiko. */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) .garageRefTile > .garageRefTileArrow,
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) .accountingRefAction:not(.invoice) > .arrow {
+  display: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) .garageRefTile.tiTileV89,
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) .accountingRefAction.tiTileV89:not(.invoice) {
+  gap: 10px !important;
+  padding-right: 10px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) .garageRefTile.tiTileV89 > strong,
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) .accountingRefAction.tiTileV89 > strong {
+  text-wrap: balance;
+}
