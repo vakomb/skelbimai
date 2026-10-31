@@ -29,6 +29,7 @@ Kalba su vartotoju: **lietuvių**. Programėlė skirta telefonui (iPhone 15 Pro 
 - Garažo paieška ir kelių automobilių pridėjimas (v86/v87): `src/scripts/app/70-v86-garage-search.js`, `71-v86-batch-add.js`, žr. ARCHITECTURE v86, v87.
 - Sklandus slinkimas tik ten, kur reikia (v87): `src/scripts/app/72-v87-smooth-reveal.js` (`aeRevealV87`).
 - Plytelių ikonos ir vienodas Garažo / Buhalterijos / Meniu viršus (v89): `src/scripts/app/73-v89-tile-icons.js`, `src/styles/196-v89-pages.css`.
+- Buhalterijos ataskaitos ir ZIP (v93): `src/scripts/app/76-v93-reports.js`, `src/styles/200-v93-reports.css`, testas `tools/test-reports.mjs`.
 - Admin skydelis (tik autoeasier@gmail.com): `src/scripts/182-admin-v72.js`, `supabase/functions/admin-action`, žr. ARCHITECTURE v72.
 - Detali architektūra: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 

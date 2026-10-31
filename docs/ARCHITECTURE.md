@@ -459,3 +459,10 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
 - `src/styles/199-v92-heads.css` (`<style id="v92">`): vienodas „Uždaryti“ visuose skydeliuose; Garažo „Aktyvūs automobiliai“ – rami etiketė (`.activeHeadV92`, kaip Nustatymų skilčių pavadinimai).
 - `tools/test-panels.mjs` tikrina visą antraštės išvaizdą (šriftas, svoris, spalva, „Uždaryti“ fonas ir šriftas, linija, skydelio fonas, rėmelis, paraštės) – visi 11 skydelių turi sutapti.
 - Paaiškinimas „Galite pažymėti kelis liudijimus…“ pašalintas (71-v86-batch-add.js).
+
+## v93 – Buhalterijos ataskaitos
+
+- `src/scripts/app/76-v93-reports.js` perrašo `accountingRangeV8` (+ „Praėjęs mėn.“, „Šie metai“), `accountingReportsV8` (skydelis) ir `buildAccountingReportZipV8` (ZIP). Mygtukų / laukų ID nepakito (`data-report-mode`, `#accountingReportFrom/To`, `#accountingBuildReportV8`) – juos susieja 26-ui-product-system.js.
+- Skydelis: 6 laikotarpiai, rezultatas (pajamos − išlaidos), išskaidymas (pardavimai, pirkimai, automobilių ir bendros išlaidos, įplaukos), „Ataskaitoje bus“ (aplankai), „Patikra prieš siunčiant“ (trūkstamos pirkimo / pardavimo sutartys, išlaidos be čekio), mygtukas su eiga („Ruošiama… 3 iš 12“).
+- ZIP: `<Įmonė>-Ataskaita-<nuo>-<iki>/` → `Suvestine.html` (spausdinama, nuorodos į visus failus), `Lentele-Automobiliai.csv`, `Lentele-Islaidos-ir-iplaukos.csv`, `1-Parduoti-automobiliai/NN-<auto>/` (`Ataskaita.html`, `Dokumentai/`, `Cekiai/`), `2-Nupirkti-automobiliai/`, `3-Kiti-automobiliai/`, `4-Bendros-islaidos-ir-iplaukos/Cekiai/`. Parduotiems ir nupirktiems – visa byla ir visa savikaina, kitiems – tik laikotarpio įrašai. Nepavykę failai išvardijami suvestinėje.
+- Stilius `src/styles/200-v93-reports.css` (`<style id="v93">`). Testas `tools/test-reports.mjs`.

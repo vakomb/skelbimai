@@ -1,0 +1,304 @@
+/* v93: Buhalterija → Ataskaitos (76-v93-reports.js). Tas pats stilius kaip kituose skydeliuose: baltos kortelės,
+   #e3e5ea rėmelis, mėlyna #1f5aa6, tekstas #12233a / #66768a. */
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpModesV93 {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpModeV93 {
+  min-width: 0 !important;
+  height: 42px !important;
+  min-height: 42px !important;
+  margin: 0 !important;
+  padding: 0 6px !important;
+  border: 1px solid #e3e5ea !important;
+  border-radius: 12px !important;
+  background: #fff !important;
+  box-shadow: none !important;
+  color: #33445a !important;
+  font-size: 14.5px !important;
+  font-weight: 650 !important;
+  white-space: nowrap !important;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.12s ease !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpModeV93:active {
+  transform: scale(0.97) !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpModeV93.active {
+  border-color: #1f5aa6 !important;
+  background: #1f5aa6 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpRangeV93 {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpPeriodV93 {
+  margin: -4px 2px 0 !important;
+  color: #66768a !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  font-variant-numeric: tabular-nums !important;
+}
+/* Rezultatas */
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpResultV93 {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+  padding: 16px !important;
+  border: 1px solid #e3e8ef !important;
+  border-radius: 16px !important;
+  background: #f7f9fc !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpResultV93 > small {
+  color: #66768a !important;
+  font-size: 13px !important;
+  font-weight: 650 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpResultV93 > strong {
+  color: #12233a !important;
+  font-size: 30px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  font-variant-numeric: tabular-nums !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpResultV93.pos > strong {
+  color: #1d8a52 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpResultV93.neg > strong {
+  color: #c0362c !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpSplitV93 {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+  margin-top: 10px !important;
+  padding-top: 10px !important;
+  border-top: 1px solid #e3e8ef !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpSplitV93 span {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpSplitV93 small {
+  color: #66768a !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpSplitV93 b {
+  color: #12233a !important;
+  font-size: 17px !important;
+  font-weight: 750 !important;
+  font-variant-numeric: tabular-nums !important;
+}
+/* Išskaidymas */
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpRowsV93 {
+  display: flex !important;
+  flex-direction: column !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpRowV93 {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  min-height: 54px !important;
+  padding: 8px 2px !important;
+  border-bottom: 1px solid #eef1f5 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpRowV93:last-child {
+  border-bottom: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpRowV93 > span {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1px !important;
+  min-width: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpRowV93 b {
+  color: #12233a !important;
+  font-size: 15.5px !important;
+  font-weight: 650 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpRowV93 small {
+  color: #66768a !important;
+  font-size: 13px !important;
+  font-weight: 550 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpRowV93 > strong {
+  flex: none !important;
+  color: #12233a !important;
+  font-size: 16px !important;
+  font-weight: 750 !important;
+  font-variant-numeric: tabular-nums !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpRowV93.out > strong {
+  color: #4b5a6c !important;
+}
+/* Turinys ir patikra */
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpBlockV93 h4 {
+  margin: 4px 2px 8px !important;
+  color: #7a8799 !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.07em !important;
+  text-transform: uppercase !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 :is(.rpTreeV93, .rpChecksV93) {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpTreeV93 li {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  min-height: 50px !important;
+  padding: 8px 12px 8px 8px !important;
+  border: 1px solid #e3e5ea !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpTreeV93 li > svg {
+  flex: none !important;
+  width: 34px !important;
+  height: 34px !important;
+  padding: 7px !important;
+  border-radius: 10px !important;
+  background: #eef3fa !important;
+  color: #1f5aa6 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  .app
+  .rpV93
+  :is(.rpTreeV93, .rpChecksV93)
+  li
+  > span {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1px !important;
+  min-width: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpTreeV93 b {
+  color: #12233a !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpTreeV93 small {
+  overflow: hidden !important;
+  color: #66768a !important;
+  font-size: 13px !important;
+  font-weight: 550 !important;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpChecksV93 li {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 10px !important;
+  padding: 11px 12px !important;
+  border-radius: 14px !important;
+  font-size: 14.5px !important;
+  font-weight: 550 !important;
+  line-height: 1.4 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpChecksV93 li > svg {
+  flex: none !important;
+  width: 19px !important;
+  height: 19px !important;
+  margin-top: 1px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpChecksV93 li.warn {
+  border: 1px solid #f3dfb7 !important;
+  background: #fff8ea !important;
+  color: #6e4c0d !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpChecksV93 li.warn > svg {
+  color: #c78a14 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpChecksV93 li.ok {
+  border: 1px solid #c9ead7 !important;
+  background: #eefaf3 !important;
+  color: #1d6b43 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpEmptyV93 {
+  padding: 18px 14px !important;
+  border: 1px dashed #d3dce7 !important;
+  border-radius: 14px !important;
+  color: #66768a !important;
+  font-size: 14.5px !important;
+  text-align: center !important;
+}
+/* Mygtukas */
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpBuildV93 {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  width: 100% !important;
+  height: 56px !important;
+  min-height: 56px !important;
+  margin: 2px 0 0 !important;
+  border-radius: 16px !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpBuildV93 > svg {
+  flex: none !important;
+  width: 21px !important;
+  height: 21px !important;
+  color: #fff !important;
+  stroke: #fff !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpBuildV93 > span {
+  font-size: 16.5px !important;
+  font-weight: 750 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpNoteV93 {
+  margin: -6px 0 0 !important;
+  color: #66768a !important;
+  font-size: 13px !important;
+  font-weight: 550 !important;
+  text-align: center !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpChecksV93 li > span {
+  display: block !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpBuildV93.is-busy > svg {
+  animation: rpPulseV93 1s ease-in-out infinite !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  .app
+  .rpV93
+  .rpBuildV93:disabled:not(.is-busy) {
+  opacity: 0.5 !important;
+}
+@keyframes rpPulseV93 {
+  50% {
+    transform: translateY(3px);
+  }
+}
+@media (max-width: 389px) {
+  html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .rpV93 .rpModeV93 {
+    font-size: 13.5px !important;
+  }
+}
