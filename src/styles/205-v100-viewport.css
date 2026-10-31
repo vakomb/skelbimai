@@ -1,0 +1,7 @@
+/* v100: stabilus dydis kiekviename telefone (žr. 80-v100-viewport-lock.js).
+   Šriftų iOS nedidina savavališkai (pasukus ar grįžus), dukart bakstelėjus nepriartina. */
+html {
+  -webkit-text-size-adjust: 100% !important;
+  text-size-adjust: 100% !important;
+  touch-action: manipulation;
+}

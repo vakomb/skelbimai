@@ -1,22 +1,21 @@
-/* v91: langai ir skydeliai.
-   1) Langų (#sheet) aukštis – pagal tikrą matomą ekrano aukštį (--ae-vh, 75-v91-viewport.js), ne pasenusį vh.
+/* v91 / v100: langai ir skydeliai.
+   1) Puslapio (html, body) ir langų (#modalBackdrop) aukštis – pačios naršyklės matomas ekranas (100 % / inset: 0),
+      ne JS išmatuotas skaičius. iPhone programėlė pradžios ekrane paleidimo ar grįžimo metu kartais trumpam praneša
+      neteisingą aukštį – anksčiau jis „užstrigdavo“ ir kiekvieną kartą atsidarius išdėstymas būdavo kitoks.
    2) Lango antraštė neprilimpa – slenka kartu su turiniu.
    3) Lango apačioje – pakankamai vietos (telefono apvalūs kampai ir „home“ juosta nebenukerpa mygtuko).
    4) Puslapio apačia – virš apatinio meniu ir „home“ juostos. */
 html,
 body {
-  height: var(--ae-vh, 100%) !important;
+  height: 100% !important;
 }
 html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) #modalBackdrop {
   top: 0 !important;
-  bottom: auto !important;
-  height: var(--ae-vh, 100dvh) !important;
+  bottom: 0 !important;
+  height: auto !important;
 }
 html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) #modalBackdrop #sheet {
-  max-height: min(
-    calc(var(--ae-vh, 100dvh) * 0.94),
-    calc(var(--ae-vh, 100dvh) - env(safe-area-inset-top) - 12px)
-  ) !important;
+  max-height: min(94%, calc(100% - env(safe-area-inset-top) - 12px)) !important;
 }
 @media (max-width: 767px) {
   html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) #modalBackdrop #sheet:not(.ccV83) {
@@ -25,8 +24,8 @@ html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) #modalB
 }
 @media (min-width: 768px) {
   html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) #modalBackdrop #sheet {
-    height: var(--ae-vh, 100vh) !important;
-    max-height: var(--ae-vh, 100vh) !important;
+    height: 100% !important;
+    max-height: 100% !important;
   }
 }
 html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) #modalBackdrop #sheet > .sheetHead,
