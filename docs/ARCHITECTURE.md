@@ -466,3 +466,7 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
 - Skydelis: 6 laikotarpiai, rezultatas (pajamos − išlaidos), išskaidymas (pardavimai, pirkimai, automobilių ir bendros išlaidos, įplaukos), „Ataskaitoje bus“ (aplankai), „Patikra prieš siunčiant“ (trūkstamos pirkimo / pardavimo sutartys, išlaidos be čekio), mygtukas su eiga („Ruošiama… 3 iš 12“).
 - ZIP: `<Įmonė>-Ataskaita-<nuo>-<iki>/` → `Suvestine.html` (spausdinama, nuorodos į visus failus), `Lentele-Automobiliai.csv`, `Lentele-Islaidos-ir-iplaukos.csv`, `1-Parduoti-automobiliai/NN-<auto>/` (`Ataskaita.html`, `Dokumentai/`, `Cekiai/`), `2-Nupirkti-automobiliai/`, `3-Kiti-automobiliai/`, `4-Bendros-islaidos-ir-iplaukos/Cekiai/`. Parduotiems ir nupirktiems – visa byla ir visa savikaina, kitiems – tik laikotarpio įrašai. Nepavykę failai išvardijami suvestinėje.
 - Stilius `src/styles/200-v93-reports.css` (`<style id="v93">`). Testas `tools/test-reports.mjs`.
+
+## v94 – kompaktiškesnis apatinis meniu
+
+- `198-v91-sheets.css`: telefone `.navWrap` apačia `max(4px, safe-area − 14px)` (iPhone ~20 px vietoj 36 px), `.nav` 58 px, mygtukai 56 px. Baltas fonas iki ekrano apačios. Puslapio apačia (`196-v89-pages.css`) atitinkamai `76px + max(4px, safe-area − 14px)`.

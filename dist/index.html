@@ -85550,7 +85550,7 @@ html:not(#ae):not(#af):not(#ag)
   body:not(#ae):not(#af):has(#view-garage.active, #view-accounting.active, #view-menu.active)
   .app {
   padding-top: 16px !important;
-  padding-bottom: calc(92px + env(safe-area-inset-bottom)) !important;
+  padding-bottom: calc(76px + max(4px, calc(env(safe-area-inset-bottom) - 14px))) !important;
 }
 html:not(#ae):not(#af):not(#ag):not(#ah)
   body:not(#ae):not(#af)
@@ -86065,6 +86065,34 @@ html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
   z-index: auto !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
+}
+
+/* ---------- v94: apatinis meniu – kompaktiškesnis, mažiau tuščios vietos po pavadinimais ----------
+   Baltas fonas eina iki pat ekrano apačios, bet po mygtukais paliekama tik tiek, kiek reikia „home“ juostai
+   (iPhone saugi zona 34 px → apie 20 px; be saugios zonos – 4 px). */
+@media (max-width: 767px) {
+  html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) .navWrap {
+    padding: 0 10px max(4px, calc(env(safe-area-inset-bottom) - 14px)) !important;
+    background: #fff !important;
+  }
+  html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) .navWrap .nav {
+    height: 58px !important;
+    min-height: 58px !important;
+    padding: 2px 6px 0 !important;
+    background: #fff !important;
+  }
+  html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) .navWrap .nav .navBtn,
+  html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) .navWrap .nav .navBtn.active,
+  html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+    body:not(#ae):not(#af)
+    .navWrap
+    .nav
+    .navBtn[aria-current="page"] {
+    height: 56px !important;
+    min-height: 56px !important;
+    padding: 6px 3px 7px !important;
+    gap: 3px !important;
+  }
 }
 </style>
 <style id="v92">/* v92: vienodos išskleidžiamų skydelių antraštės („Pavadinimas | Uždaryti“) visuose puslapiuose – tas pats šriftas,

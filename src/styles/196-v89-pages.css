@@ -15,7 +15,7 @@ html:not(#ae):not(#af):not(#ag)
   body:not(#ae):not(#af):has(#view-garage.active, #view-accounting.active, #view-menu.active)
   .app {
   padding-top: 16px !important;
-  padding-bottom: calc(92px + env(safe-area-inset-bottom)) !important;
+  padding-bottom: calc(76px + max(4px, calc(env(safe-area-inset-bottom) - 14px))) !important;
 }
 html:not(#ae):not(#af):not(#ag):not(#ah)
   body:not(#ae):not(#af)
