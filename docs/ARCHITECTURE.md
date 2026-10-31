@@ -475,3 +475,14 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
 
 - `src/styles/201-v95-spacing.css` (`<style id="v95">`): telefone viršuje 8 px + saugi zona, antraštė 44 px, iki Vadybininko 10 px; Vadybininkas 72 px, plytelės 76 px, tarpai 10 px; skydeliai 10 px po plytelėmis. Sekcijų etiketės „Aktyvūs automobiliai“ (Garažas) ir „Laukia pateikimo“ (Buhalterija) – vienodos: 14 px, didžiosios raidės, skaičius dešinėje, 22 px virš / 10 px po.
 - `196-v89-pages.css`: viršutinė paraštė vėl su `env(safe-area-inset-top)` (v89 buvo be jos).
+
+## v96 – programėlės ikona
+
+- „AE“ baltomis raidėmis mėlyname fone. v96b: raidės švelnios – Inter Display ExtraBold, kiekviena raidė atskirai suapvalinta (visi kampai), kontūrai paversti vektoriumi. Šaltiniai: `src/assets/icon/app-icon.svg` (App Store, be suapvalinimų), `favicon.svg` (suapvalinta), generatorius `soft.py` (raidės) + `compose.py` (ikona).
+- `src/index.html`: SVG favicon (data URI), `/icon-512.png`, `/apple-touch-icon.png` (180 px, pridėjus į iPhone pradžios ekraną). PNG failai – repozitorijos šaknyje (Vercel juos pateikia tiesiogiai).
+
+## v97 – logotipas, tuščias Garažas, parduoti automobiliai
+
+- `src/assets/brand-logo.png`: „Easier“ – vientisa mėlyna (#245ccc) vietoj gradiento.
+- `src/scripts/app/77-v97-garage-empty.js`: `emptyCarsHTMLV75` perrašyta – naujas tekstas, ikona be fono, be paaiškinimo po mygtuku; `#soldCarsSection` nerodomas, kol parduotų nėra; „Aktyvūs automobiliai“ etiketė nerodoma, kai aktyvių nėra.
+- `src/styles/202-v97-garage.css` (`<style id="v97">`): tuščios būsenos ikona 64 px be fono; „Parduoti automobiliai“ – 48 px, pilkas 14,5 px tekstas, skaičius be ženklelio.

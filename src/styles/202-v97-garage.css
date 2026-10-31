@@ -1,0 +1,129 @@
+/* v97: Garažo tuščia būsena (ikona be fono, aiškus tekstas) ir ramesnė „Parduoti automobiliai“ eilutė. */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  #view-garage
+  #soldCarsSection[hidden],
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  #view-garage
+  .sectionHead.activeHeadV92[hidden] {
+  display: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) .app #view-garage .emptyCarsV97 {
+  margin-top: 16px !important;
+  padding: 28px 22px 22px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  #view-garage
+  .emptyCarsV97
+  .emptyCarsIcoV75 {
+  display: grid !important;
+  place-items: center !important;
+  width: 64px !important;
+  height: 64px !important;
+  margin: 0 auto !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #1f5aa6 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  #view-garage
+  .emptyCarsV97
+  .emptyCarsIcoV75
+  svg {
+  width: 64px !important;
+  height: 64px !important;
+  stroke-width: 2 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) .app #view-garage .emptyCarsV97 h3 {
+  margin: 10px 0 0 !important;
+  font-size: 18px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) .app #view-garage .emptyCarsV97 p {
+  max-width: 290px !important;
+  font-size: 14.5px !important;
+  line-height: 1.45 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  #view-garage
+  .emptyCarsV97
+  .emptyCarsBtnV75 {
+  margin-top: 18px !important;
+}
+/* Parduoti automobiliai – antraeilė eilutė */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  #view-garage
+  .garageRefSoldToggle {
+  min-height: 48px !important;
+  height: 48px !important;
+  padding: 0 14px 0 12px !important;
+  gap: 10px !important;
+  border: 1px solid #e3e5ea !important;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  #view-garage
+  .garageRefSoldToggle
+  .garageRefSoldIcon {
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
+  flex-basis: 30px !important;
+  border-radius: 9px !important;
+  background: #f1f4f8 !important;
+  color: #66768a !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  #view-garage
+  .garageRefSoldToggle
+  .garageRefSoldIcon
+  svg {
+  width: 17px !important;
+  height: 17px !important;
+  color: #66768a !important;
+  stroke: currentColor !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  #view-garage
+  .garageRefSoldToggle
+  strong {
+  color: #4b5a6c !important;
+  -webkit-text-fill-color: #4b5a6c !important;
+  font-size: 14.5px !important;
+  font-weight: 600 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  #view-garage
+  .garageRefSoldToggle
+  .garageRefSoldCount {
+  min-width: 0 !important;
+  height: auto !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #8592a3 !important;
+  -webkit-text-fill-color: #8592a3 !important;
+  font-size: 14px !important;
+  font-weight: 650 !important;
+}
