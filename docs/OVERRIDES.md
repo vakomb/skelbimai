@@ -68,4 +68,7 @@ nes deklaracijos „iškeliamos“ – hoisting), `reassigned` = `X = function�
 | `tkListHTMLV62` | 43-tasks-hub-v62:146 (function) → 62-v78-tasks:83 (reassigned) |
 | `tkRenderV62` | 43-tasks-hub-v62:168 (function) → 62-v78-tasks:99 (reassigned) |
 | `emptyCarsHTMLV75` | 58-v75:5 (function) → 77-v97-garage-empty:10 (reassigned) |
-| `aeSetVhV91` | 75-v91-viewport:8 (function) → 80-v100-viewport-lock:23 (reassigned) |
+| `ccDataHTMLV85` | 68-v83-car-card:575 (function) → 81-v104-car-card:13 (reassigned) |
+| `ccBuildV83` | 68-v83-car-card:630 (function) → 81-v104-car-card:137 (reassigned) |
+| `ccBuildBarV83` | 68-v83-car-card:717 (function) → 81-v104-car-card:95 (reassigned) |
+| `aeSetVhV91` | 75-v91-viewport:8 (function) → 80-v100-viewport-lock:20 (reassigned) |

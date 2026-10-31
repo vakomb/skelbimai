@@ -1,14 +1,9 @@
 .vehicleDetails {
-  border: 1px solid var(--line);
-  border-radius: 14px;
   margin: 12px 0;
-  background: var(--surface);
   overflow: hidden;
 }
 .vehicleDetails summary {
-  padding: 14px 12px;
   cursor: pointer;
-  font-size: 14px;
   font-weight: 750;
   line-height: 1.4;
   color: var(--text);
@@ -19,8 +14,6 @@
 }
 .vehicleFields {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
   padding: 0 12px 4px;
 }
 .vehicleFields .field {
@@ -34,20 +27,10 @@
   padding: 11px 10px !important;
   font-weight: 500 !important;
 }
-.vehicleFields label {
-  display: block;
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  margin-bottom: 7px;
-  line-height: 1.4;
-}
-.vehicleFields .vehicleWide {
-  grid-column: 1/-1;
-}
+
 .sdkFields {
   padding: 0;
   margin: 12px 0;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
 }
 .sdkFields select {
   font-size: 13px !important;
@@ -65,21 +48,16 @@
 }
 .vehicleSdkDisplay > div > span {
   display: block;
-  font-size: 12px;
   color: var(--muted);
 }
 .vehicleSdkDisplay strong {
   display: block;
-  font-size: 16px;
   overflow-wrap: anywhere;
   margin-top: 5px;
 }
 .vehicleSdkBadge {
-  font-size: 12px;
   font-weight: 700;
   border: 1px solid transparent;
-  border-radius: 9px;
-  padding: 7px 10px;
   max-width: 60%;
   line-height: 1.4;
 }
@@ -113,20 +91,16 @@
   display: flex;
   justify-content: space-between;
   gap: 15px;
-  padding: 10px 0;
   border-bottom: 1px solid var(--line);
 }
 .vehicleInfo > div:last-child {
   border-bottom: 0;
 }
 .vehicleInfo dt {
-  font-size: 13px;
   color: var(--muted);
   flex: 1;
 }
 .vehicleInfo dd {
-  font-size: 14px;
-  font-weight: 600;
   margin: 0;
   text-align: right;
   max-width: 60%;
@@ -139,19 +113,16 @@
 }
 .vehicleDocInputs {
   display: grid;
-  gap: 12px;
   padding: 0 12px 14px;
 }
 .vehicleDocPicker {
   display: grid;
-  gap: 7px;
   font-size: 13px !important;
   font-weight: 600 !important;
   min-width: 0;
 }
 .vehicleDocPicker input {
   display: block;
-  width: 100%;
   max-width: 100%;
   min-width: 0;
   font: inherit;
@@ -195,12 +166,10 @@
 }
 .vehicleDocDownload strong {
   display: block;
-  font-size: 13px;
   overflow-wrap: anywhere;
 }
 .vehicleDocDownload span {
   display: block;
-  font-size: 11px;
   color: var(--muted);
   margin-top: 5px;
 }
@@ -208,9 +177,7 @@
   border: 0;
   background: transparent;
   color: var(--danger);
-  font-size: 24px;
   min-width: 36px;
-  min-height: 40px;
   cursor: pointer;
 }
 .vehicleDocuments {
@@ -236,9 +203,6 @@ html[data-theme="dark"] .sdkPending {
   border-color: #705825 !important;
 }
 @media (max-width: 360px) {
-  .sdkFields {
-    grid-template-columns: 1fr;
-  }
   .vehicleFields:not(.sdkFields) {
     gap: 8px;
   }

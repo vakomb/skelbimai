@@ -1,21 +1,14 @@
 .ppGeneratorCard {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 22px;
-  padding: 15px;
   margin-top: 12px;
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.055);
 }
 .ppGeneratorHead {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 12px;
 }
 .ppGeneratorHead h3 {
   margin: 0;
-  font-size: 20px;
   letter-spacing: -0.025em;
 }
 .ppGeneratorHead .ppBadge {
@@ -32,26 +25,18 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  min-height: 72px;
-  padding: 12px;
   border: 1.5px dashed #b9cec8;
-  border-radius: 17px;
   background: #f7fbfa;
   cursor: pointer;
 }
 .ppScanDrop .ppScanIcon {
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
   display: grid;
   place-items: center;
   background: #e6f4f0;
-  font-size: 23px;
   flex: 0 0 auto;
 }
 .ppScanDrop strong {
   display: block;
-  font-size: 15px;
 }
 .ppScanDrop span {
   display: block;
@@ -76,26 +61,19 @@
 }
 .ppScanPreview img {
   width: 100%;
-  max-height: 220px;
   object-fit: contain;
   display: block;
 }
 .ppScanState {
   margin-top: 9px;
-  font-size: 12px;
-  font-weight: 850;
   color: var(--muted);
 }
 .ppRoleGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-top: 12px;
 }
 .ppRoleBtn {
-  min-height: 52px;
   border: 1px solid var(--line);
-  border-radius: 14px;
   background: #fff;
   color: var(--text);
   font: inherit;
@@ -109,8 +87,6 @@
 }
 .ppFields {
   display: grid;
-  gap: 8px;
-  margin-top: 12px;
 }
 .ppFields .grid2 {
   gap: 8px;
@@ -128,12 +104,9 @@
   font-size: 16px !important;
 }
 .ppSectionTitle {
-  font-size: 12px;
   font-weight: 950;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
   color: var(--muted);
-  margin-top: 5px;
 }
 .ppGenerateBtn {
   width: 100%;
@@ -143,17 +116,13 @@
 .ppResult {
   display: none;
   margin-top: 12px;
-  padding: 12px;
-  border-radius: 16px;
   border: 1px solid #bfe2d8;
   background: #eff9f6;
 }
 .ppResult.show {
   display: block;
 }
-.ppResult strong {
-  font-size: 15px;
-}
+
 .ppResultActions {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -184,14 +153,10 @@
 }
 .carPpQuick {
   width: 100%;
-  margin-top: 9px;
-  min-height: 43px;
   border: 1px solid #c8ddd7;
   background: #f2faf8;
   color: #0f766e;
-  border-radius: 12px;
   font: inherit;
-  font-size: 13px;
   font-weight: 900;
   cursor: pointer;
 }
@@ -202,20 +167,7 @@
   width: 100%;
 }
 @media (max-width: 430px) {
-  .ppGeneratorCard {
-    border-radius: 20px;
-    padding: 13px;
-  }
-  .ppGeneratorHead h3 {
-    font-size: 19px;
-  }
-  .ppRoleBtn {
-    min-height: 54px;
-  }
   .ppResultActions {
     grid-template-columns: 1fr;
-  }
-  .garageMenuGridPro {
-    grid-template-columns: 1fr 1fr !important;
   }
 }

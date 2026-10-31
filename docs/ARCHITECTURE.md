@@ -497,3 +497,21 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
 ## v99 – iPhone / iPad įdiegimo gidas
 
 - `src/scripts/app/79-v99-ios-guide.js` + `src/styles/204-v99-ios-guide.css` (`<style id="v99">`): iPhone / iPad paspaudus „Įdiegti programėlę“ – animuota rodyklė į Safari „Bendrinti“ (iPhone apačioje, iPad ir Chrome iOS – viršuje dešinėje) ir animuotas „Bendrinti“ meniu pavyzdys (nuslenka iki „Įtraukti į pradžios ekraną“, parodo „Įtraukti“). Apple neleidžia puslapiui pačiam atidaryti šio meniu ar pridėti ikonos.
+
+## v100–v103: ekrano dydis, CSS valymas, programėlės dydžiai
+
+- **v100** (`app/80-v100-viewport-lock.js`, `styles/205-v100-viewport.css`): html/body/langų aukštis – naršyklės
+  ekranas (100 % / inset: 0), ne JS skaičius; po paleidimo / grįžimo dydis dar ~1,5 s pertikrinamas; priartinimas
+  blokuojamas ir, jei liko, grąžinamas.
+- **v101** (`tools/css-clean.py`, `tools/style-diff.mjs`): pašalintos nenaudojamos ir perrašytos CSS taisyklės
+  (1411 → 1042 KB). Kiekvieną CSS valymą tikrinti `node tools/style-diff.mjs .verify/baseline.html dist/index.html`
+  (lygina visų elementų apskaičiuotą stilių 34 būsenose, 4 pločiuose).
+- **v102, v103** (ekrano mastelis, nauja kortelė) – atšaukti v104 (grįžta vakarykštis dizainas).
+- **v104** (`styles/206-v104-app.css`, `app/81-v104-car-card.js`): dideli mygtukai Garaže / Buhalterijoje / Meniu
+  (plytelė 108 px: ikona viršuje, pavadinimas apačioje 17 px; Vadybininkas 80 px; Sąskaita faktūra – eilutė 72 px).
+  Automobilio kortelė – ankstesnis (v82) išdėstymas: tik pavadinimas → žemesnė nuotrauka → Užduotys → Duomenys
+  (TA · Draudimas · SDK, eilutės su valst. nr.) → Pirkta · Išlaidos · Savikaina → Nuotraukos → Dokumentai →
+  Pasirengimas → visi mygtukai (Parduoti, PP sutartis, Sąskaita faktūra, Redaguoti, Ištrinti). v88 plytelių
+  skydeliai perkeliami į visada atidarytus blokus (`ccOpenSecV104`, `.ccAccInnerV83` viduje), `ccBuildBarV83`
+  perrašyta. v100 pašalintas ne „passive“ `touchmove` klausytojas (slinkimo strigimai); `content-visibility: auto`
+  Garažo kortelėms.

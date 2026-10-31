@@ -1,81 +1,9 @@
 /* Pagrindinis: šiandienos būtini darbai - ramus blankiai rausvas app blokas. */
-#view-home .homePriorityBoard {
-  background: linear-gradient(180deg, #fff7f8 0%, #fff0f2 100%) !important;
-  color: #24181b !important;
-  border: 1px solid #f3cbd1 !important;
-  box-shadow: 0 12px 30px rgba(120, 32, 48, 0.07) !important;
-}
-#view-home .homePriorityBoard:before,
-#view-home .homePriorityBoard:after {
-  display: none !important;
-  content: none !important;
-}
-#view-home .homePriorityTop span {
-  color: #b4233b !important;
-}
-#view-home .homePriorityTop strong {
-  color: #21191b !important;
-}
+
 #view-home .homePriorityCounts b {
-  background: #fff !important;
   border-color: #efc6cd !important;
-  color: #9f2438 !important;
 }
-#view-home .homePriorityCounts b.late {
-  background: #ffe4e8 !important;
-  border-color: #f2b8c2 !important;
-  color: #c51632 !important;
-}
+
 #view-home .homePriorityItem {
-  background: rgba(255, 255, 255, 0.82) !important;
   border-color: #efd9dd !important;
-  color: #21191b !important;
-  box-shadow: none !important;
-}
-#view-home .homePriorityItem.today {
-  background: #fff !important;
-  border-color: #efcbd1 !important;
-}
-#view-home .homePriorityItem.late {
-  background: #fff5f6 !important;
-  border-color: #edb8c1 !important;
-}
-#view-home .homePriorityIcon {
-  background: #fbe5e9 !important;
-  color: #9f2438 !important;
-}
-#view-home .homePriorityCopy small {
-  color: #a93448 !important;
-}
-#view-home .homePriorityCopy strong {
-  color: #21191b !important;
-}
-#view-home .homePriorityCopy span {
-  color: #765a60 !important;
-}
-#view-home .homePriorityStatus {
-  color: #a93448 !important;
-}
-#view-home .homePriorityItem.late .homePriorityCopy strong,
-#view-home .homePriorityItem.late .homePriorityStatus {
-  color: #c51632 !important;
-}
-html[data-theme="dark"] #view-home .homePriorityBoard {
-  background: linear-gradient(180deg, #29171c 0%, #241317 100%) !important;
-  border-color: #58313a !important;
-  color: #fff !important;
-}
-html[data-theme="dark"] #view-home .homePriorityTop strong {
-  color: #fff !important;
-}
-html[data-theme="dark"] #view-home .homePriorityItem {
-  background: #321d22 !important;
-  border-color: #563039 !important;
-  color: #fff !important;
-}
-html[data-theme="dark"] #view-home .homePriorityCopy strong {
-  color: #fff !important;
-}
-html[data-theme="dark"] #view-home .homePriorityCopy span {
-  color: #d7b9bf !important;
 }

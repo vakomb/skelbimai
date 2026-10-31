@@ -3,45 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, shrink-to-fit=no" />
-  <script id="viewport-v102">// v102: telefone programa išdėstoma ~8 % platesniame ekrane ir tolygiai sumažinama iki telefono pločio.
-// Taip ekrane telpa daugiau, viskas atrodo erdviau ir tvarkingiau, o proporcijos lieka tos pačios kiekviename
-// telefone (iPhone 15 Pro Max: 430 → 464 CSS px). Planšetėje ir kompiuteryje – įprastai (device-width).
-// Vykdoma <head> pradžioje, prieš stilius, kad nebūtų „šuolio“. Žymą atnaujina ir pasukus telefoną.
-(function () {
-  var K = 1.08;
-  function base() {
-    var sw = screen.width || 0,
-      sh = screen.height || 0,
-      portrait = !window.matchMedia || matchMedia("(orientation: portrait)").matches;
-    return portrait ? Math.min(sw, sh) : Math.max(sw, sh);
-  }
-  function content() {
-    var short = Math.min(screen.width || 0, screen.height || 0);
-    var tail = ", user-scalable=no, viewport-fit=cover, shrink-to-fit=no";
-    if (!short || short >= 600) return "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" + tail;
-    var b = base(),
-      w = Math.round(b * K),
-      s = (b / w).toFixed(4);
-    return "width=" + w + ", initial-scale=" + s + ", minimum-scale=" + s + ", maximum-scale=" + s + tail;
-  }
-  function apply() {
-    var m = document.querySelector('meta[name="viewport"]');
-    if (!m) return;
-    var c = content();
-    if (m.getAttribute("content") !== c) m.setAttribute("content", c);
-  }
-  window.aeViewportContentV102 = content;
-  window.aeViewportApplyV102 = apply;
-  apply();
-  window.addEventListener("orientationchange", function () {
-    setTimeout(apply, 60);
-  });
-  if (window.matchMedia) {
-    var mq = matchMedia("(orientation: portrait)");
-    mq.addEventListener ? mq.addEventListener("change", apply) : mq.addListener(apply);
-  }
-})();
-</script>
   <style id="boot-v77">/* v77: kol neperskaityti visi stiliai, puslapis nerodomas (be „šokinėjimo“ ir nesustilizuoto turinio).
    Žymę aeStyledV77 uždeda scripts/190-ready-v77.js pačiame dokumento gale; atsarginis laikmatis – boot-v77.js. */
 
@@ -889,7 +850,6 @@ html[data-theme="dark"] .financeRow {
   display: none !important;
 }
 @media (max-width: 430px) {
-  
   .topbar {
     margin-left: -12px;
     margin-right: -12px;
@@ -902,8 +862,6 @@ html[data-theme="dark"] .financeRow {
   .menuLinks {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  
-  
 }
 
 :root {
@@ -1579,7 +1537,7 @@ html[data-theme="dark"] {
   .accountingActionTile {
     min-height: 120px;
   }
-  
+
   .accountingEmailRowPro {
     grid-template-columns: 1fr;
   }
@@ -1617,14 +1575,9 @@ html[data-theme="dark"] {
   color: #991b1b;
   border-color: #fca5a5;
 }
-
 </style>
-<style id="v4-1-tasks">
-
-</style>
-<style>
-
-.leadCallBtn {
+<style id="v4-1-tasks"></style>
+<style>.leadCallBtn {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -1632,11 +1585,7 @@ html[data-theme="dark"] {
   -webkit-tap-highlight-color: transparent !important;
   white-space: nowrap !important;
 }
-</style><style>
-
-</style><style>
-
-</style>
+</style><style></style><style></style>
 <style id="final-app-polish">:root {
   --app-line: #e2e8f0;
   --app-muted: #64748b;
@@ -1711,15 +1660,11 @@ body {
 }
 
 @media (max-width: 370px) {
-  
   .topbar {
     margin-left: -9px !important;
     margin-right: -9px !important;
   }
-  
-  
-  
-  
+
   .leadCallBtn {
     padding-left: 8px !important;
     padding-right: 8px !important;
@@ -1729,13 +1674,12 @@ body {
   *,
   *::before,
   *::after {
-  animation-duration: 0.01ms !important;
-  transition-duration: 0.01ms !important;
-}
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 </style>
-<style id="garage-stats-final-polish">
-#view-garage-stats .sectionHead span {
+<style id="garage-stats-final-polish">#view-garage-stats .sectionHead span {
   font-size: 11px !important;
 }
 #view-garage-stats .garageMenuTitle strong {
@@ -1954,25 +1898,16 @@ body {
   font-size: 11px;
 }
 @media (max-width: 370px) {
-  
-  
   .businessResultPro .businessMetric .v {
     font-size: 15px !important;
   }
-  
-  
-  
+
   .soldCarNumbers span {
     padding: 7px 5px;
   }
 }
 </style>
-<style id="final-type">
-
-</style><style id="today-important-ui">
-
-</style><style id="garage-task-ui">
-.garageCarTaskHead {
+<style id="final-type"></style><style id="today-important-ui"></style><style id="garage-task-ui">.garageCarTaskHead {
   margin: 0 !important;
   border-bottom: 1px solid var(--line);
 }
@@ -2121,14 +2056,9 @@ body {
 .garageCarTaskCard .taskMeta {
   align-items: center !important;
 }
-
 </style>
-<style id="garage-menu-pro">
-
-</style>
-<style id="final-app-polish">
-
-</style>
+<style id="garage-menu-pro"></style>
+<style id="final-app-polish"></style>
 <style id="ultra-polish">:root {
   --brand-soft: #e8f7f4;
   --text: #152238;
@@ -2222,14 +2152,12 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   * {
-  animation-duration: 0.01ms !important;
-  transition-duration: 0.01ms !important;
-}
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 </style>
-<style id="final-clean-header">
-
-</style>
+<style id="final-clean-header"></style>
 <style id="pro-full-app-ui">:root {
   --app-muted: #667892;
   --app-line: #d9e3ec;
@@ -2271,7 +2199,6 @@ body {
   -webkit-backdrop-filter: blur(18px) !important;
   padding: 7px 8px calc(9px + env(safe-area-inset-bottom)) !important;
 }
-
 </style>
 <style id="full-app-ux-polish">:root {
   --brand-soft: #e8f7f4;
@@ -2353,7 +2280,6 @@ body {
 .modalBackdrop {
   z-index: 100000 !important;
 }
-
 </style>
 <style id="garage-car-list-card-polish">#activeCarGrid,
 #soldCarGrid {
@@ -2462,9 +2388,6 @@ body {
     flex-basis: 94px;
     border-radius: 13px;
   }
-  
-  
-  
 }
 </style>
 <style id="car-detail-ux-polish">.carSheetHead {
@@ -2631,12 +2554,6 @@ body {
   padding-bottom: 4px !important;
 }
 @media (max-width: 370px) {
-  
-  
-  
-  
-  
-  
   .carPhotoGrid {
     grid-template-columns: repeat(3, 1fr) !important;
   }
@@ -2812,7 +2729,6 @@ html[data-theme="dark"] .btn.ghost {
   color: var(--text) !important;
   border-color: var(--line) !important;
 }
-
 </style>
 <style id="green-theme-fonts-v4">:root {
   --accent: #187968 !important;
@@ -2896,13 +2812,9 @@ button[data-primary="true"] {
 #view-settings .input {
   font-size: 115% !important;
 }
-
 </style>
-<style id="only-car-lead-cards-fonts-15">
-
-</style>
-<style id="last-small-ui-fixes">
-#view-garage .garageAction .ico,
+<style id="only-car-lead-cards-fonts-15"></style>
+<style id="last-small-ui-fixes">#view-garage .garageAction .ico,
 #view-garage [data-garage-action="addcar"] .ico,
 #view-garage .addCarBtn .ico {
   color: #fff !important;
@@ -2942,9 +2854,7 @@ button[data-primary="true"] {
   height: 31px !important;
 }
 </style>
-<style id="global-type-hierarchy-v2">
-
-.historyDateRow .input {
+<style id="global-type-hierarchy-v2">.historyDateRow .input {
   font-size: 14px !important;
   min-height: 48px !important;
 }
@@ -3007,12 +2917,8 @@ button[data-primary="true"] {
   font-size: 12px !important;
 }
 </style>
-<style id="home-priority-plus-5">
-
-</style>
-<style id="final-smooth-proportion-system">
-
-.sectionHead span,
+<style id="home-priority-plus-5"></style>
+<style id="final-smooth-proportion-system">.sectionHead span,
 .subtle {
   line-height: 1.25 !important;
 }
@@ -3078,12 +2984,10 @@ label {
 .navWrap {
   padding: 7px 8px calc(8px + env(safe-area-inset-bottom)) !important;
 }
-
 </style>
 <style id="car-ui-text-button-fix">.carSectionEyebrow {
   letter-spacing: 0.06em !important;
 }
-
 </style>
 <style id="final-typography-button-balance">html,
 body {
@@ -3202,7 +3106,6 @@ label {
 .navWrap {
   padding: 7px 8px calc(8px + env(safe-area-inset-bottom)) !important;
 }
-
 </style>
 <style id="garage-stats-clean-v2">#view-garage-stats {
   padding-bottom: 8px !important;
@@ -3687,14 +3590,10 @@ label {
     height: 185px !important;
     min-height: 185px !important;
   }
-  
-  
-  
+
   .premiumThumbGrid {
     grid-template-columns: repeat(3, 1fr) !important;
   }
-  
-  
 }
 </style>
 <style id="real-car-delete-button">.carDeleteReal {
@@ -3728,14 +3627,12 @@ label {
 }
 @media (max-width: 370px) {
   .carDeleteReal {
-  min-height: 42px !important;
-  padding: 9px 13px !important;
-}
+    min-height: 42px !important;
+    padding: 9px 13px !important;
+  }
 }
 </style>
-<style id="sale-form-and-task-compact-fix">
-
-</style>
+<style id="sale-form-and-task-compact-fix"></style>
 <style id="vehicle-cards-readable-polish-v5">#activeCarGrid .carListCard,
 #soldCarGrid .carListCard,
 #garageLeadRoot .leadListCard {
@@ -3768,8 +3665,7 @@ label {
   font-size: 13px !important;
 }
 </style>
-<style id="remove-car-card-progress-only">
-</style>
+<style id="remove-car-card-progress-only"></style>
 <style id="wide-readable-premium-v1">:root {
   --text: #172033 !important;
   --muted: #4f5d73 !important;
@@ -3918,17 +3814,10 @@ label {
   border-color: #c5e1da !important;
 }
 </style>
-<style id="car-card-main-photo-size-only">
-
-</style>
-<style id="remove-duplicate-car-card-meta">
-</style>
-<style id="restore-active-points-only">
-
-</style>
-<style id="home-subtle-balance-only">
-
-#view-home .bar {
+<style id="car-card-main-photo-size-only"></style>
+<style id="remove-duplicate-car-card-meta"></style>
+<style id="restore-active-points-only"></style>
+<style id="home-subtle-balance-only">#view-home .bar {
   height: 12px !important;
 }
 
@@ -3954,9 +3843,7 @@ label {
   height: 27px !important;
 }
 </style>
-<style id="home-today-tasks-fonts-only">
-
-</style>
+<style id="home-today-tasks-fonts-only"></style>
 <style id="ai-assistant-professional-ui">#view-ai .sectionHead {
   margin-bottom: 12px !important;
 }
@@ -3972,11 +3859,8 @@ label {
   gap: 8px !important;
   padding: 2px !important;
 }
-
 </style>
-<style id="typography-normalize-professional">
-
-.carEditSection .carSectionEyebrow,
+<style id="typography-normalize-professional">.carEditSection .carSectionEyebrow,
 .carSheetEyebrow {
   font-size: 11px !important;
 }
@@ -3985,11 +3869,8 @@ label {
   font-size: 19px !important;
 }
 </style>
-<style id="car-card-fonts-plus-only">
-
-</style>
-<style id="screenshot-font-normalization-only">
-#garageTaskForm .field label {
+<style id="car-card-fonts-plus-only"></style>
+<style id="screenshot-font-normalization-only">#garageTaskForm .field label {
   font-size: 12.5px !important;
   line-height: 1.2 !important;
 }
@@ -4021,11 +3902,8 @@ label {
   min-height: 40px !important;
   padding: 8px 12px !important;
 }
-
 </style>
-<style id="daily-actions-card">
-
-</style>
+<style id="daily-actions-card"></style>
 <style id="vehicle-cards-all-elements-plus">#activeCarGrid .carListCard,
 #soldCarGrid .carListCard {
   min-width: 0 !important;
@@ -4036,38 +3914,30 @@ label {
 }
 
 @media (max-width: 430px) {
-  
   #activeCarGrid .carListPhoto,
   #soldCarGrid .carListPhoto {
-  min-width: 132px !important;
-}
+    min-width: 132px !important;
+  }
 }
 @media (max-width: 360px) {
-  
   #activeCarGrid .carListPhoto,
   #soldCarGrid .carListPhoto {
-  min-width: 120px !important;
-}
+    min-width: 120px !important;
+  }
 }
 </style>
 <style id="nav-mobile-fit-only">.navWrap {
   padding-left: 8px !important;
   padding-right: 8px !important;
 }
-
 </style>
-<style id="car-card-actions-smooth-layout">
-
-.carTasksSectionHead h4 {
+<style id="car-card-actions-smooth-layout">.carTasksSectionHead h4 {
   margin-left: auto !important;
   margin-right: auto !important;
   text-align: center !important;
 }
-
 </style>
-<style id="sell-inline-between-actions">
-
-</style>
+<style id="sell-inline-between-actions"></style>
 <style id="car-detail-actions-final-v2">.carTasksSectionHead {
   justify-content: center !important;
   text-align: center !important;
@@ -4077,7 +3947,6 @@ label {
   display: flex !important;
   justify-content: center !important;
 }
-
 </style>
 <style id="car-card-task-clean-and-cost-bottom">.carTaskRow {
   align-items: center !important;
@@ -4165,17 +4034,10 @@ label {
 .premiumMedia .premiumEyebrow {
   display: none !important;
 }
-
 </style>
-<style id="swap-delete-sell-button-sizes">
-
-</style>
-<style id="delete-sell-identical-size">
-
-</style>
-<style id="variant-cards-match-car-ui">
-
-#garageLeadRoot .garageLeadTags {
+<style id="swap-delete-sell-button-sizes"></style>
+<style id="delete-sell-identical-size"></style>
+<style id="variant-cards-match-car-ui">#garageLeadRoot .garageLeadTags {
   gap: 8px !important;
   margin-top: 10px !important;
 }
@@ -4220,7 +4082,6 @@ label {
   border-radius: 14px !important;
   font-size: 13px !important;
 }
-
 </style>
 <style id="sale-modal-and-profit-ui">.saleModal {
   position: fixed;
@@ -4389,7 +4250,6 @@ label {
 #sheet .premiumChecklist .listItem .small {
   font-size: 12px !important;
 }
-
 </style>
 <style id="car-green-action-buttons">#sheet .carTasksAddWide {
   border: 1px solid rgba(16, 110, 90, 0.32) !important;
@@ -4397,7 +4257,6 @@ label {
 #sheet .carTasksAddWide:hover {
   filter: brightness(1.04) !important;
 }
-
 </style>
 <style id="green-task-number-red-x">button.smallBtn.danger,
 .smallBtn.danger,
@@ -4449,12 +4308,8 @@ button.smallBtn.danger:hover,
   display: none !important;
 }
 </style>
-<style id="car-edit-info-bottom-gold">
-
-</style>
-<style id="edit-info-yellow-outline-only">
-
-</style>
+<style id="car-edit-info-bottom-gold"></style>
+<style id="edit-info-yellow-outline-only"></style>
 <style id="edit-info-brown-outline-final">.carBottomActions .carEditInfoBottomBtn {
   width: 100% !important;
   min-height: 44px !important;
@@ -4481,9 +4336,7 @@ button.smallBtn.danger:hover,
   filter: none !important;
 }
 </style>
-<style id="car-hero-contain-and-edit-text">
-
-#sheet .carEditInfoBottomBtn {
+<style id="car-hero-contain-and-edit-text">#sheet .carEditInfoBottomBtn {
   width: 100% !important;
   min-height: 44px !important;
   height: 44px !important;
@@ -4492,7 +4345,6 @@ button.smallBtn.danger:hover,
   font-size: 13px !important;
   font-weight: 800 !important;
 }
-
 </style>
 <style id="edit-info-brown-border-only">#sheet .carEditInfoBottomBtn {
   outline: none !important;
@@ -4508,8 +4360,7 @@ button.smallBtn.danger:hover,
   outline: none !important;
 }
 </style>
-<style id="car-photo-delete-fix">
-#sheet .premiumThumbDelete {
+<style id="car-photo-delete-fix">#sheet .premiumThumbDelete {
   width: 32px !important;
   height: 32px !important;
   min-width: 32px !important;
@@ -4545,12 +4396,9 @@ button.smallBtn.danger:hover,
 #sheet .carPhotoGrid {
   display: grid !important;
 }
-
 </style>
-<style id="remove-photo-accordion-final">
-</style>
-<style id="edit-info-preserve-brown">
-</style>
+<style id="remove-photo-accordion-final"></style>
+<style id="edit-info-preserve-brown"></style>
 <style id="photo-actions-centered-clean">#sheet .premiumMediaActions {
   display: flex !important;
   justify-content: center !important;
@@ -4712,9 +4560,7 @@ button.smallBtn.danger:hover,
   line-height: 1 !important;
 }
 </style>
-<style id="car-main-photo-full-width-final">
-
-#sheet .premiumHeroShade {
+<style id="car-main-photo-full-width-final">#sheet .premiumHeroShade {
   position: absolute !important;
   inset: 0 !important;
   pointer-events: none !important;
@@ -4722,7 +4568,6 @@ button.smallBtn.danger:hover,
 #sheet .premiumDetail {
   padding: 0 !important;
 }
-
 </style>
 <style id="car-hero-exact-4x3-final">#sheet .premiumHero {
   max-height: none !important;
@@ -4992,7 +4837,6 @@ body,
 .menuIntro {
   background-image: none !important;
 }
-
 </style>
 <style id="final-premium-mobile-system">:root {
   --surface: #ffffff !important;
@@ -5009,9 +4853,6 @@ body,
   --warn: #b38318 !important;
 }
 @media (max-width: 899px) {
-  
-  
-  
   .topbar {
     margin-left: -8px !important;
     margin-right: -8px !important;
@@ -5020,37 +4861,34 @@ body,
     margin-bottom: 8px !important;
   }
   .panel,
-.menuIntro,
-.menuLink,
-.taskGroup,
-.taskCard,
-.smallStatBox,
-.switch,
-.financeRow,
-.historyItem,
-.garageAction,
-.garageCarTaskCard {
-  border: 1px solid var(--line) !important;
-  box-shadow: 0 5px 18px rgba(31, 52, 59, 0.045) !important;
-  background: var(--surface) !important;
-  background-image: none !important;
-}
+  .menuIntro,
+  .menuLink,
+  .taskGroup,
+  .taskCard,
+  .smallStatBox,
+  .switch,
+  .financeRow,
+  .historyItem,
+  .garageAction,
+  .garageCarTaskCard {
+    border: 1px solid var(--line) !important;
+    box-shadow: 0 5px 18px rgba(31, 52, 59, 0.045) !important;
+    background: var(--surface) !important;
+    background-image: none !important;
+  }
   .panel .panel,
-.panel .taskCard,
-.panel .smallStatBox,
-.panel .financeRow,
-.panel .historyItem,
-.panel .listItem,
-.panel .garageAction,
-.panel .menuLink,
-.panel .garageCarTaskCard {
+  .panel .taskCard,
+  .panel .smallStatBox,
+  .panel .financeRow,
+  .panel .historyItem,
+  .panel .listItem,
+  .panel .garageAction,
+  .panel .menuLink,
+  .panel .garageCarTaskCard {
     border-color: transparent !important;
     box-shadow: none !important;
   }
-  
-  
-  
-  
+
   .sectionHead span {
     padding: 0 !important;
     background: transparent !important;
@@ -5058,44 +4896,40 @@ body,
     font-size: 11px !important;
     color: var(--muted) !important;
   }
-  
+
   .smallStatBox {
-  padding: 12px !important;
-}
+    padding: 12px !important;
+  }
   .smallStatBox .label {
     font-size: 11px !important;
   }
-  
+
   .btn,
   .btn.secondary,
   .btn.ghost,
   .smallBtn,
   .closeBtn {
-  font-size: 14px !important;
-  font-family: inherit !important;
-  font-weight: 800 !important;
-}
-  
-  
-  
-  
+    font-size: 14px !important;
+    font-family: inherit !important;
+    font-weight: 800 !important;
+  }
+
   .taskGroup {
-  margin-bottom: 8px !important;
-  overflow: hidden !important;
-}
-  
-  
+    margin-bottom: 8px !important;
+    overflow: hidden !important;
+  }
+
   .taskList {
     gap: 6px !important;
   }
   .taskCard {
-  padding: 11px 10px !important;
-  gap: 10px !important;
-}
+    padding: 11px 10px !important;
+    gap: 10px !important;
+  }
   .taskMain strong {
-  line-height: 1.25 !important;
-}
-  
+    line-height: 1.25 !important;
+  }
+
   .check {
     width: 29px !important;
     height: 29px !important;
@@ -5107,12 +4941,12 @@ body,
     gap: 2px !important;
   }
   .garageCarTaskCard {
-  padding: 11px !important;
-}
+    padding: 11px !important;
+  }
   .garageCarTaskHead {
     margin-bottom: 7px !important;
   }
-  
+
   .garageCarTaskCard .list {
     gap: 6px !important;
   }
@@ -5139,30 +4973,26 @@ body,
   [class*="priority"] .taskCard {
     background: rgba(255, 248, 249, 0.98) !important;
   }
-  
+
   .menuLink,
   .garageAction {
-  border-radius: 18px !important;
-}
-  
+    border-radius: 18px !important;
+  }
+
   .garageAction .ico,
   .menuLink .ico {
-  border-radius: 13px !important;
-  background: #edf5f2 !important;
-}
-  
-  
+    border-radius: 13px !important;
+    background: #edf5f2 !important;
+  }
+
   .sheet {
-  max-height: 91vh !important;
-}
-  
-  
-  
+    max-height: 91vh !important;
+  }
+
   #sheet .premiumSectionHead h4 {
     font-size: 16px !important;
   }
-  
-  
+
   #sheet .premiumMediaActions {
     display: flex !important;
     justify-content: center !important;
@@ -5171,11 +5001,11 @@ body,
     max-width: 280px !important;
     width: 100% !important;
   }
-  
+
   #sheet .carBottomCostGrid .premiumStat {
-  box-shadow: none !important;
-  text-align: center !important;
-}
+    box-shadow: none !important;
+    text-align: center !important;
+  }
   #sheet .carBottomCostGrid .premiumStat span,
   #sheet .carBottomCostGrid .premiumStat strong {
     width: 100% !important;
@@ -5199,24 +5029,21 @@ body,
     box-shadow: none !important;
   }
   .navWrap {
-  padding: 7px 6px calc(8px + env(safe-area-inset-bottom)) !important;
-}
-  
-  
-  
+    padding: 7px 6px calc(8px + env(safe-area-inset-bottom)) !important;
+  }
+
   .historyItem,
   .financeRow {
-  padding: 12px !important;
-}
+    padding: 12px !important;
+  }
 }
 </style>
 <style id="sold-car-money-fit-final">@media (max-width: 899px) {
-  
   .premiumResultGrid > div {
-  min-width: 0 !important;
-  text-align: center !important;
-  overflow: hidden !important;
-}
+    min-width: 0 !important;
+    text-align: center !important;
+    overflow: hidden !important;
+  }
   .premiumResultGrid > div > span {
     display: block !important;
     font-size: 11px !important;
@@ -5344,24 +5171,17 @@ body,
 }
 </style>
 <style id="iphone-15-pro-max-only">@media (min-width: 420px) and (max-width: 450px) {
-  
   .topbar {
     margin-left: -9px !important;
     margin-right: -9px !important;
     padding-left: 9px !important;
     padding-right: 9px !important;
   }
-  
-  
-  
+
   .taskCard {
     padding: 11px 10px !important;
   }
-  
-  
-  
-  
-  
+
   #sheet .carTaskMain strong {
     font-size: 15.5px !important;
   }
@@ -5374,7 +5194,6 @@ body,
     padding-left: 7px !important;
     padding-right: 7px !important;
   }
-  
 }
 </style>
 <style id="visureigiai-company">.saleModal {
@@ -5583,23 +5402,15 @@ html[data-theme="dark"] .textarea {
   #companyHome {
     margin: auto;
   }
-  
-  
+
   #customerList {
     grid-template-columns: 1fr;
   }
-  
 }
 @media (max-width: 370px) {
-  
-  
-  
-  
-  
   .companyDate {
     max-width: 140px;
   }
-  
 }
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -5612,11 +5423,9 @@ html[data-theme="dark"] .textarea {
 }
 @media (max-width: 370px) {
   .navBtn {
-  padding-left: 1px !important;
-  padding-right: 1px !important;
-}
-  
-  
+    padding-left: 1px !important;
+    padding-right: 1px !important;
+  }
 }
 html[data-theme="dark"] .nav {
   background: var(--surface) !important;
@@ -5631,7 +5440,6 @@ html[data-theme="dark"] .navBtn.active {
   color: #6ee7b7 !important;
   border-color: #245b50 !important;
 }
-
 </style>
 <style id="vehicle-enhancement">.vehicleDetails {
   margin: 12px 0;
@@ -5838,7 +5646,6 @@ html[data-theme="dark"] .sdkPending {
   border-color: #705825 !important;
 }
 @media (max-width: 360px) {
-  
   .vehicleFields:not(.sdkFields) {
     gap: 8px;
   }
@@ -5883,8 +5690,7 @@ html[data-theme="dark"] .sdkPending {
   gap: 8px;
 }
 </style>
-<style id="work-home-final">
-.workHead {
+<style id="work-home-final">.workHead {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -6080,8 +5886,6 @@ html[data-theme="dark"] .workTextButton {
   color: #80e7b6;
 }
 @media (max-width: 360px) {
-  
-  
   .periodTabs {
     grid-template-columns: 1fr 1fr;
   }
@@ -6093,8 +5897,7 @@ html[data-theme="dark"] .workTextButton {
   }
 }
 </style>
-<style id="home-dashboard-security-v2">
-body {
+<style id="home-dashboard-security-v2">body {
   -webkit-text-size-adjust: 100%;
 }
 .app,
@@ -6552,7 +6355,6 @@ html[data-theme="dark"] .accountingCarBox {
   border-color: #245b50;
 }
 @media (max-width: 380px) {
-  
   .accountingCarActions {
     grid-template-columns: 1fr;
   }
@@ -6737,13 +6539,9 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   width: 100%;
 }
 @media (max-width: 430px) {
-  
-  
-  
   .ppResultActions {
     grid-template-columns: 1fr;
   }
-  
 }
 </style>
 <style id="visureigiai-final-ui">:root {
@@ -6915,10 +6713,8 @@ html[data-theme="dark"] .accountingDirectBadge {
 }
 @media (max-width: 560px) {
   .app {
-  padding: 14px 14px 132px !important;
-}
-  
-  
+    padding: 14px 14px 132px !important;
+  }
 }
 @media (max-width: 380px) {
   .accountingFolderActions {
@@ -7413,7 +7209,6 @@ html[data-theme="dark"] .accountingZipBadge {
   color: #bbf7d0;
 }
 @media (max-width: 380px) {
-  
   .homePriorityBoard {
     padding: 15px;
   }
@@ -7435,12 +7230,6 @@ html[data-theme="dark"] .accountingZipBadge {
   .homePriorityCopy strong {
     font-size: 16px;
   }
-  
-  
-  
-  
-  
-  
 }
 </style>
 
@@ -7449,7 +7238,7 @@ html[data-theme="dark"] .accountingZipBadge {
   border-color: rgba(255, 255, 255, 0.07) !important;
 }
 
- /* Buhalterija: veiksmai pirmiausia, tik vienas atvertas turinys. */
+/* Buhalterija: veiksmai pirmiausia, tik vienas atvertas turinys. */
 #view-accounting > .sectionHead {
   margin-bottom: 12px !important;
 }
@@ -7711,7 +7500,6 @@ html[data-theme="dark"] .accountingCleanRemove {
   background: #3b151b;
   color: #fecdd3;
 }
-
 </style>
 
 <style id="home-priority-soft-pink-v2">/* Pagrindinis: šiandienos būtini darbai - ramus blankiai rausvas app blokas. */
@@ -7723,7 +7511,6 @@ html[data-theme="dark"] .accountingCleanRemove {
 #view-home .homePriorityItem {
   border-color: #efd9dd !important;
 }
-
 </style>
 
 
@@ -7776,7 +7563,7 @@ html[data-theme="dark"] .accountingCleanRemove {
   margin: 0;
 }
 
- /* Accounting tiles */
+/* Accounting tiles */
 .accountingSourceChooser {
   display: grid;
 }
@@ -7883,13 +7670,9 @@ html[data-theme="dark"] .accountingCleanRemove {
   margin-top: 2px;
 }
 @media (max-width: 390px) {
-  
-  
   .accountingSourceTile small {
     grid-column: 2;
   }
-  
-  
 }
 </style>
 
@@ -7929,7 +7712,7 @@ main.view {
   max-width: 100%;
   min-width: 0;
 }
- /* Type scale */
+/* Type scale */
 .homeDashHead h2,
 .garageWhatHead h2,
 .financeMobileHead h2,
@@ -7990,7 +7773,7 @@ small {
 .financeMobileSectionHead > span {
   line-height: 1.2 !important;
 }
- /* Native-size controls */
+/* Native-size controls */
 
 .smallBtn,
 .contactIconBtn,
@@ -8328,12 +8111,12 @@ input[type="tel"] {
   line-height: 1.25 !important;
 }
 
- /* LEADS */
+/* LEADS */
 #view-garage-leads .panel.pad {
   padding: 14px !important;
 }
 
- /* STATS */
+/* STATS */
 #view-garage-stats {
   padding-top: 0 !important;
 }
@@ -8391,7 +8174,7 @@ input[type="tel"] {
   gap: 10px !important;
 }
 
- /* MENU + HISTORY */
+/* MENU + HISTORY */
 
 .menuIntro .garageMenuTitle strong {
   font-size: 18px !important;
@@ -8449,7 +8232,7 @@ input[type="tel"] {
   border-radius: 15px !important;
 }
 
- /* ACCOUNTING + PP */
+/* ACCOUNTING + PP */
 #view-accounting > .sectionHead {
   margin: 3px 2px 14px !important;
 }
@@ -8563,7 +8346,7 @@ input[type="tel"] {
 .vehicleRegBody {
   padding: 12px !important;
 }
- /* SETTINGS */
+/* SETTINGS */
 #view-settings .companyStorage,
 #view-settings .securitySettingsPanel,
 #view-settings > .panel {
@@ -8637,7 +8420,7 @@ html[data-theme="dark"] .navWrap {
   font-size: 15px !important;
 }
 
- /* Long forms: no desktop squeezing on 430px */
+/* Long forms: no desktop squeezing on 430px */
 #addCarPanel .grid2,
 #addGarageLeadPanel .grid2,
 .companyForm .grid2,
@@ -8669,7 +8452,7 @@ html[data-theme="dark"] .navWrap {
   font-size: 14px !important;
 }
 
- /* Dark mode keeps same sizing / hierarchy */
+/* Dark mode keeps same sizing / hierarchy */
 html[data-theme="dark"] #view-home .homePriorityBoard {
   background: #27171c !important;
   border-color: #54313a !important;
@@ -8708,8 +8491,7 @@ html[data-theme="dark"] .homePriorityMore > summary {
   #view-settings > .sectionHead:first-child h2 {
     font-size: 26px !important;
   }
-  
-  
+
   .historyQuickRow {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
@@ -8923,8 +8705,6 @@ html[data-theme="dark"] #view-home .homeTodayCount {
   align-items: center !important;
 }
 @media (max-width: 390px) {
-  
-  
   .accountingSourceGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
@@ -9079,7 +8859,7 @@ html[data-theme="dark"] #view-home .homeTodayCount {
   align-items: center !important;
   justify-content: center !important;
 }
- /* Open car: spacious native sheet, not a dense web form */
+/* Open car: spacious native sheet, not a dense web form */
 #modalBackdrop {
   padding: 0 !important;
 }
@@ -9348,7 +9128,6 @@ html[data-theme="dark"] #view-home .homeTodayCount {
   margin-top: 10px !important;
 }
 @media (max-width: 380px) {
-  
   #soldCarGrid .carListFacts.soldFacts {
     grid-template-columns: 1fr 1fr !important;
   }
@@ -9521,7 +9300,7 @@ html[data-theme="dark"] #view-home .homeTodayCount {
   font-size: 12px !important;
   font-weight: 850 !important;
 }
- /* Keep the list proportion comfortable on iPhone 15 Pro Max and smaller iPhones. */
+/* Keep the list proportion comfortable on iPhone 15 Pro Max and smaller iPhones. */
 @media (max-width: 390px) {
   #activeCarGrid .carListCard,
   #garageLeadRoot .leadListCard {
@@ -10386,9 +10165,6 @@ body[data-ae-view="view-garage"]:not(#aeV90) .navBtn.active::after {
   background: #bd9558;
 }
 @media (max-width: 390px) {
-  
-  
-  
   .garageRefTile {
     padding: 7px 8px;
     grid-template-columns: 34px minmax(0, 1fr) 14px;
@@ -10397,12 +10173,11 @@ body[data-ae-view="view-garage"]:not(#aeV90) .navBtn.active::after {
     width: 34px;
     height: 34px;
   }
-  
+
   .garageRefCarMain {
     grid-template-columns: 42% minmax(0, 58%) !important;
     gap: 8px !important;
   }
-  
 }
 </style>
 
@@ -11077,13 +10852,13 @@ html {
   content: none !important;
 }
 
- /* Universal brand row for secondary pages */
+/* Universal brand row for secondary pages */
 
 .productRefLogo {
   display: block;
 }
 
- /* Page title hierarchy */
+/* Page title hierarchy */
 #view-finance .financeMobileHead,
 #view-menu > .sectionHead:first-of-type,
 #view-settings > .sectionHead:first-of-type,
@@ -11152,7 +10927,7 @@ html {
   background: #fff !important;
   box-shadow: var(--ref-shadow-soft) !important;
 }
- /* Buttons */
+/* Buttons */
 .btn,
 .smallBtn,
 .closeBtn {
@@ -11239,7 +11014,7 @@ input[type="file"].input::file-selector-button {
   stroke-linejoin: round !important;
 }
 
- /* ================= FINANSAI ================= */
+/* ================= FINANSAI ================= */
 #view-finance .financeSummaryShell {
   padding: 0 !important;
   border: 0 !important;
@@ -11634,7 +11409,7 @@ input[type="file"].input::file-selector-button {
 #showAddGarageLeadBtn {
   border-color: #e4ddfb !important;
 }
- /* ================= STATISTIKA ================= */
+/* ================= STATISTIKA ================= */
 #view-garage-stats .garageStatsHeader {
   display: flex !important;
   align-items: flex-end !important;
@@ -11760,7 +11535,7 @@ input[type="file"].input::file-selector-button {
   color: #667386 !important;
 }
 
- /* ================= NUSTATYMAI ================= */
+/* ================= NUSTATYMAI ================= */
 #view-settings .companyStorage,
 #view-settings .securitySettingsPanel,
 #view-settings > .panel.pad:last-of-type {
@@ -11814,7 +11589,7 @@ input[type="file"].input::file-selector-button {
   font-weight: 820 !important;
 }
 
- /* ================= ADD CAR / TASK FORMS ================= */
+/* ================= ADD CAR / TASK FORMS ================= */
 #addCarPanel,
 #garageTaskForm,
 .otherTaskFormPro {
@@ -12046,14 +11821,6 @@ input[type="file"].input::file-selector-button {
   font-family: inherit !important;
 }
 @media (max-width: 390px) {
-  
-  
-  
-  
-  
-  
-  
-  
   #view-garage-leads .leadListCard {
     grid-template-columns: 100px minmax(0, 1fr) !important;
   }
@@ -12257,7 +12024,6 @@ input[type="file"].input::file-selector-button {
   box-shadow: 0 10px 28px rgba(13, 28, 47, 0.18) !important;
   font-size: 12.5px !important;
 }
-
 </style>
 
 
@@ -12266,7 +12032,7 @@ input[type="file"].input::file-selector-button {
   --v16-border: #e5ebf1;
 } /* Four-item bottom navigation: Finance lives in Menu. */
 
- /* Keep all pages on the same visual scale as the three supplied references. */
+/* Keep all pages on the same visual scale as the three supplied references. */
 .productRefBrandRow,
 .homeRefBrandRow,
 .garageRefBrandRow,
@@ -12291,12 +12057,12 @@ input[type="file"].input::file-selector-button {
   border-radius: 22px !important;
 }
 
- /* Universal compact controls: large enough to tap, not oversized. */
+/* Universal compact controls: large enough to tap, not oversized. */
 
 .field label {
   margin-bottom: 5px !important;
 }
- /* Add vehicle: clean, compact purchase workflow. */
+/* Add vehicle: clean, compact purchase workflow. */
 #view-garage #addCarPanel {
   margin-top: 10px !important;
 }
@@ -12532,7 +12298,7 @@ input[type="file"].input::file-selector-button {
   align-content: center !important;
 }
 
- /* New premium home hero: clean image, typography rendered by the app, not baked into photo. */
+/* New premium home hero: clean image, typography rendered by the app, not baked into photo. */
 #view-home .homeRefHero {
   height: 192px !important;
   margin: 15px -14px -18px !important;
@@ -12568,7 +12334,6 @@ input[type="file"].input::file-selector-button {
   z-index: 2 !important;
 }
 @media (max-width: 390px) {
-  
   #view-garage #addCarPanel .vehicleFields .vehicleWide,
   #sheet .premiumFieldsGrid .full,
   #sheet .vehicleFields .vehicleWide,
@@ -12596,7 +12361,7 @@ input[type="file"].input::file-selector-button {
   padding: calc(env(safe-area-inset-top) + 15px) 14px calc(86px + env(safe-area-inset-bottom)) !important;
 }
 
- /* Shared brand/date chrome */
+/* Shared brand/date chrome */
 .productRefBrandRow,
 .garageRefBrandRow,
 .accountingRefBrandRow {
@@ -12663,7 +12428,7 @@ input[type="file"].input::file-selector-button {
   display: none !important;
 } /* Universal cards */
 
- /* Controls / forms */
+/* Controls / forms */
 .btn {
   letter-spacing: -0.01em !important;
 }
@@ -12682,7 +12447,7 @@ textarea.input {
   resize: vertical !important;
 }
 
- /* Add car / add variant forms: compact native sheet rhythm */
+/* Add car / add variant forms: compact native sheet rhythm */
 #view-garage #addCarPanel,
 #view-garage-leads #addGarageLeadPanel,
 #garageTaskForm,
@@ -12807,12 +12572,12 @@ textarea.input {
   border-radius: 18px !important;
 } /* ===== HOME v17: exact structure of supplied final concept ===== */
 
- /* Bottom navigation follows the new screenshot: clean full-width iOS dock */
+/* Bottom navigation follows the new screenshot: clean full-width iOS dock */
 .navWrap {
   padding: 4px 10px calc(7px + env(safe-area-inset-bottom)) !important;
 }
 
- /* Remove desktopy / explanatory noise app-wide. */
+/* Remove desktopy / explanatory noise app-wide. */
 .menuLink span:not(.ico),
 .garageAction span:not(.ico):not(.chev),
 .smallStatBox .hint,
@@ -12820,7 +12585,6 @@ textarea.input {
 .securityFootnote {
   font-size: 11.5px !important;
 }
-
 </style>
 
 
@@ -12840,7 +12604,7 @@ textarea.input {
   padding: 0 !important;
 }
 
- /* One visual language throughout the app */
+/* One visual language throughout the app */
 
 .btn {
   font: inherit !important;
@@ -12947,14 +12711,6 @@ textarea.input {
 }
 
 @media (max-width: 390px) {
-  
-  
-  
-  
-  
-  
-  
-  
   #view-garage #addCarPanel .sdkFields,
   #view-garage #addCarPanel .vehicleFields,
   #view-garage-leads #addGarageLeadPanel .grid2,
@@ -12992,7 +12748,7 @@ textarea.input {
   padding: 3px 10px calc(6px + env(safe-area-inset-bottom)) !important;
 }
 
- /* Whole app follows the same compact, clean theme */
+/* Whole app follows the same compact, clean theme */
 
 .app {
   padding: calc(env(safe-area-inset-top) + 15px) 13px calc(80px + env(safe-area-inset-bottom)) !important;
@@ -13006,7 +12762,6 @@ textarea.input {
   max-height: 92svh !important;
   padding: 12px 13px calc(14px + env(safe-area-inset-bottom)) !important;
 }
-
 </style>
 
 
@@ -13169,7 +12924,7 @@ body {
   border-radius: 17px !important;
   box-shadow: var(--vu-shadow-small) !important;
 }
- /* ---------- THE IMPORTANT CHANGE:
+/* ---------- THE IMPORTANT CHANGE:
    all old green primary buttons -> the smooth soft-blue variant style ---------- */
 .btn:not(.secondary):not(.ghost):not(.danger):not(.warn),
 #showAddCarFormBtn,
@@ -13239,7 +12994,7 @@ button[style*="background: var(--success)"] {
   color: #8b5a12 !important;
   box-shadow: none !important;
 } /* Make the inspiration button itself use the same final blue */
- /* Forms / add car / add variant */
+/* Forms / add car / add variant */
 .field {
   margin-bottom: 9px !important;
 }
@@ -13414,7 +13169,6 @@ textarea.input:focus {
   background: var(--vu-gold) !important;
 }
 @media (max-width: 390px) {
-  
   .homeExactHero {
     height: 162px !important;
     min-height: 162px !important;
@@ -13815,14 +13569,11 @@ body #showAddGarageLeadBtn {
   color: #c42b3e !important;
 } /* 4) HOME — slightly smaller, same composition. */
 
- /* very small screen safety */
+/* very small screen safety */
 @media (max-width: 390px) {
   body:has(.view.active) .navWrap .nav .navBtn {
     font-size: 11px !important;
   }
-  
-  
-  
 }
 </style>
 
@@ -13985,13 +13736,9 @@ body .workTabs button.selected:active {
   justify-content: center !important;
 }
 
- /* If no phone, Open still fills the footer. */
+/* If no phone, Open still fills the footer. */
 
 @media (max-width: 390px) {
-  
-  
-  
-  
   #view-settings .accountantSettingsForm {
     grid-template-columns: 1fr !important;
   }
@@ -14041,7 +13788,7 @@ body .workTabs button.selected:active {
   justify-content: flex-end !important;
 } /* ===== HOME: only a VERY small size increase ===== */
 
- /* ===== CAR DETAIL: hero -> tasks immediately -> essentials -> more info ===== */
+/* ===== CAR DETAIL: hero -> tasks immediately -> essentials -> more info ===== */
 #sheet .premiumDetail {
   gap: 0 !important;
 }
@@ -14210,7 +13957,6 @@ body .workTabs button.selected:active {
 #garageLeadRoot .garageVariantCall {
   min-width: 96px !important;
 }
-
 </style>
 
 
@@ -14285,7 +14031,6 @@ body .workTabs button.selected:active {
   line-height: 1.35;
   font-weight: 700;
 }
-
 </style>
 
 
@@ -14922,7 +14667,7 @@ body .workTabs button.selected:active {
   .homeProFoldCopy small {
     font-size: 10px;
   }
-  
+
   .homeProCompactHead strong {
     font-size: 17.5px;
   }
@@ -15172,7 +14917,7 @@ body .workTabs button.selected:active {
 #addCarPanel[data-add-mode="scan"] #newVehiclelistingStatus {
   display: none !important;
 }
- /* Hide the parent fields for scan-only simplicity. */
+/* Hide the parent fields for scan-only simplicity. */
 #addCarPanel[data-add-mode="scan"] .vehicleDetails .field:has(#newVehicletaUntil),
 #addCarPanel[data-add-mode="scan"] .vehicleDetails .field:has(#newVehicleinsuranceUntil),
 #addCarPanel[data-add-mode="scan"] .vehicleDetails .field:has(#newVehicleaskingPrice),
@@ -16170,7 +15915,7 @@ html[data-theme="dark"] .registrationMismatchDiffV33 {
       <div class="menuLinks">
         <button class="menuLink accountingRefAction" type="button" data-open-view="customers"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5c.5-3.2 2.3-4.8 5.5-4.8s5 1.6 5.5 4.8"/><path d="M16 5.4a3 3 0 0 1 0 5.8M17 14.8c2.1.5 3.2 2 3.5 4.7"/></svg></span><strong>Kontaktai</strong><span class="arrow" aria-hidden="true">›</span></button>
         <button class="menuLink accountingRefAction" type="button" data-open-history><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><strong>Veiksmų istorija</strong><span class="arrow" aria-hidden="true">›</span></button>
-        <button class="menuLink accountingRefAction" type="button" data-open-view="garage-stats"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 20V13h3v7zM10.5 20V8h3v12zM17 20V4h3v16z"/></svg></span><strong>Statistika</strong><span class="arrow" aria-hidden="true">›</span></button>
+        <button class="menuLink accountingRefAction" type="button" data-open-view="garage-stats"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 20V13h3v7zM10.5 20V8h3v12zM17 20V4h3v16z"/></svg></span><strong>Pardavimų statistika</strong><span class="arrow" aria-hidden="true">›</span></button>
         <button class="menuLink accountingRefAction" type="button" data-open-view="settings"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3.5 14 4l.8 2 1.8 1 2-.4 1.4 2.4-1.2 1.8v2l1.2 1.8-1.4 2.4-2-.4-1.8 1-.8 2-2 .5-2-.5-.8-2-1.8-1-2 .4L4 14.6l1.2-1.8v-2L4 9l1.4-2.4 2 .4 1.8-1 .8-2z"/><circle cx="12" cy="11.8" r="3"/></svg></span><strong>Nustatymai</strong><span class="arrow" aria-hidden="true">›</span></button>
       </div>
     </div>
@@ -43600,9 +43345,6 @@ window.AutoEasierIosGuide = { open: iosGuideOpenV99, close: iosGuideCloseV99 };
 const VP_V100 = { timer: 0, until: 0 };
 const VP_META_V100 =
   "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, shrink-to-fit=no";
-function vpMetaV100() {
-  return window.aeViewportContentV102 ? window.aeViewportContentV102() : VP_META_V100;
-}
 
 function vpTypingV100() {
   const a = document.activeElement;
@@ -43620,15 +43362,12 @@ aeSetVhV91 = function () {
 };
 // Priartinimas liko (pvz. iOS atkūrė grįžus) – perrašome viewport žymą, tada iOS grąžina mastelį 1
 function vpResetZoomV100() {
-  // v102: mastelis telefone ne 1 (žr. scripts/000-viewport-v102.js), todėl tikriname, ar matoma sritis siauresnė
   const vv = window.visualViewport;
-  const lw = document.documentElement.clientWidth;
-  if (!vv || !lw || vv.width >= lw * 0.98) return;
+  if (!vv || Math.abs(vv.scale - 1) < 0.01) return;
   const m = document.querySelector('meta[name="viewport"]');
   if (!m) return;
-  const c = vpMetaV100();
-  m.setAttribute("content", c.replace(/maximum-scale=([\d.]+)/, (x, v) => "maximum-scale=" + (+v + 0.01).toFixed(4)));
-  requestAnimationFrame(() => m.setAttribute("content", c));
+  m.setAttribute("content", VP_META_V100.replace("maximum-scale=1", "maximum-scale=1.01"));
+  requestAnimationFrame(() => m.setAttribute("content", VP_META_V100));
 }
 // Po paleidimo / grįžimo / pasukimo kelis kartus pertikriname, kol iOS praneša galutinį dydį
 function vpSettleV100(ms = 1500) {
@@ -43645,7 +43384,7 @@ function vpSettleV100(ms = 1500) {
 }
 (() => {
   const m = document.querySelector('meta[name="viewport"]');
-  if (m && m.getAttribute("content") !== vpMetaV100()) m.setAttribute("content", vpMetaV100());
+  if (m && m.getAttribute("content") !== VP_META_V100) m.setAttribute("content", VP_META_V100);
   vpSettleV100(2000);
   window.addEventListener("load", () => vpSettleV100());
   window.addEventListener("pageshow", () => vpSettleV100());
@@ -43658,14 +43397,161 @@ function vpSettleV100(ms = 1500) {
   const stop = e => e.preventDefault();
   document.addEventListener("gesturestart", stop, { passive: false });
   document.addEventListener("gesturechange", stop, { passive: false });
-  document.addEventListener(
-    "touchmove",
-    e => {
-      if (e.touches.length > 1) e.preventDefault();
-    },
-    { passive: false }
-  );
+  // v104: jokio ne „passive“ touchmove klausytojo – jis priverstų naršyklę laukti JS kiekvieno slinkimo metu
+  // (strigimai). Dviejų pirštų priartinimą iOS sustabdo gesturestart / gesturechange.
 })();
+
+// v103 automobilio kortelės ir formos pakeitimai atšaukti v104 (žr. 81-v104-car-card.js).
+// Failas paliktas tuščias, kad įkėlus į GitHub senasis turinys būtų perrašytas.
+
+// v104: automobilio kortelė – ankstesnis (v82) išdėstymas, patobulintas:
+//   pavadinimas (be valst. nr. ir dienų) → žemesnė nuotrauka (jei yra) → Užduotys → Duomenys (TA · Draudimas · SDK
+//   ir eilutės: valst. numeris, registracija, rida, variklis, kuras, liudijimas, VIN) → Pirkta · Išlaidos ·
+//   Savikaina → Nuotraukos → Dokumentai → Pasirengimas pardavimui → visi veiksmų mygtukai matomi (Parduoti,
+//   PP sutartis, Sąskaita faktūra, Redaguoti, Ištrinti) – kaip anksčiau, be „⋯“ meniu.
+// Užduotys, Nuotraukos ir Dokumentai – visada atidaryti blokai (perkeliami esami v83 blokai su visais įvykiais;
+// data-cc-sec + is-open, todėl ccOpenSectionV83 tiesiog nuslenka iki jų). Stilius – styles/206-v104-app.css.
+// Dalis bendro app IIFE: visi src/scripts/app/*.js failai sujungiami eilės tvarka į vieną scope (žr. ARCHITECTURE.md).
+
+CC_EDIT_FIELD_V85.plate = "plate";
+
+// ---------- Duomenys: būsenos ir paprastos eilutės (be ikonų) ----------
+ccDataHTMLV85 = function (car) {
+  const sdkLabel =
+    !car.sdkStatus || car.sdkStatus === "unset"
+      ? "Nepateikta"
+      : SDK_STATES.find(x => x[0] === car.sdkStatus)?.[1] || "Nepateikta";
+  const sdkTone =
+    { sdkDone: "good", sdkLate: "bad", sdkPending: "warn", sdkUnset: "neutral" }[sdkClass(car.sdkStatus)] ||
+    "neutral";
+  const sdkOk = sdkTone === "good" || car.sdkStatus === "submitted";
+  const stats =
+    ccStatForV85("ta", "TA", car.taStatus, car.taUntil) +
+    ccStatForV85("insurance", "Draudimas", car.insuranceStatus, car.insuranceUntil) +
+    ccStatTileV85("sdk", "SDK", sdkOk ? "good" : sdkTone, sdkOk ? "Pateikta" : sdkLabel, car.sdk || "");
+  const mileage = Number(car.mileage) > 0 ? `${Number(car.mileage).toLocaleString("lt-LT")} km` : "";
+  const engine = [car.engineCc ? `${car.engineCc} cm³` : "", car.powerKw ? `${car.powerKw} kW` : ""]
+    .filter(Boolean)
+    .join(" · ");
+  const row = (field, label, value, html = "") =>
+    `<button type="button" class="ccSpecV85${value ? "" : " empty"}" data-cc-edit="${field}"><span class="ccSpecTxtV85"><small>${escapeHTML(label)}</small><b>${value ? html || escapeHTML(String(value)) : "Įrašyti"}</b></span></button>`;
+  const plate = String(car.plate || "").trim();
+  const rows =
+    row("plate", "Valstybinis numeris", plate, plate ? lcPlateHTMLV61(plate) : "") +
+    row(
+      "firstRegistrationDate",
+      "Pirmoji registracija",
+      car.firstRegistrationDate || (car.year ? String(car.year) : "")
+    ) +
+    row("mileage", "Rida", mileage) +
+    row("engineCc", "Variklis", engine) +
+    row("fuelType", "Kuras", car.fuelType || "") +
+    row("registrationDoc", "Liudijimas", car.registrationDoc || car.regDoc || "");
+  const vin = String(car.vin || "").trim();
+  const vinRow = vin
+    ? `<button type="button" class="ccVinV85" data-cc-copy="${escapeHTML(vin)}" aria-label="Kopijuoti VIN ${escapeHTML(vin)}"><span><small>VIN</small><b>${escapeHTML(vin)}</b></span><span class="ccCopyIcoV85">${CC_ICON_V83.copy}${CC_ICON_V83.check}</span></button>`
+    : `<button type="button" class="ccVinV85 empty" data-cc-edit="vin"><span><small>VIN</small><b>Įrašyti</b></span></button>`;
+  const notes = String(car.notes || "").trim();
+  return `<section class="ccCardV83 ccDataV85 ccDataV104" data-cc-data>
+    <div class="ccCardHeadV85"><h4>Duomenys</h4><button type="button" class="ccEditLinkV85" data-cc-edit="all">${CC_ICON_V83.pen}Redaguoti</button></div>
+    <div class="ccStatsV85">${stats}</div>
+    <div class="ccSpecsV85">${rows}</div>
+    ${vinRow}
+    ${notes ? `<p class="ccNotesV85"><small>Pastabos</small>${escapeHTML(notes)}</p>` : ""}
+  </section>`;
+};
+
+// ---------- Užduotys / Nuotraukos / Dokumentai – atidaryti blokai ----------
+function ccOpenSecV104(hub, key) {
+  const pane = hub.querySelector(`[data-cc-sec="${key}"]`);
+  const card = pane?.querySelector(`.ccPaneCardV88[data-cc-sec-body="${key}"]`);
+  if (!card) return null;
+  const sec = document.createElement("section");
+  // ccCardV83 – kad perpiešiant kortelę (ccBuildV83) sena sekcija būtų pašalinta kaip ir kitos
+  sec.className = `ccCardV83 ccOpenSecV104 is-open`;
+  sec.dataset.ccSec = key;
+  // .ccAccInnerV83 – kad galiotų esamos taisyklės (perkeltų blokų antraštės slepiamos, be rėmelių)
+  const inner = document.createElement("div");
+  inner.className = "ccAccInnerV83 ccOpenInV104";
+  inner.appendChild(card);
+  sec.appendChild(inner);
+  pane.remove();
+  return sec;
+}
+function ccLayoutV104(sheet) {
+  const body = sheet.querySelector(".premiumDetailBody");
+  const hub = body?.querySelector(":scope > [data-cc-hub]");
+  if (!body || !hub) return;
+  const tasks = ccOpenSecV104(hub, "tasks");
+  const photos = ccOpenSecV104(hub, "photos");
+  const docs = ccOpenSecV104(hub, "docs");
+  hub.remove();
+  // Be nuotraukų viršuje nieko – nuotraukas prideda „Nuotraukos“ blokas
+  const heroEmpty = sheet.querySelector(".premiumDetail > .ccHeroEmptyV83");
+  if (heroEmpty && photos) heroEmpty.remove();
+  if (tasks) body.prepend(tasks);
+  const nums = body.querySelector(":scope > [data-cc-nums]");
+  const after = nums || body.querySelector(":scope > [data-cc-data]");
+  if (after) after.after(...[photos, docs].filter(Boolean));
+  const ready = body.querySelector(":scope > [data-cc-ready]");
+  if (ready) body.appendChild(ready);
+}
+
+// ---------- Veiksmai – visi mygtukai matomi, kortelės pabaigoje ----------
+ccBuildBarV83 = function (sheet, car, sold) {
+  const bar = sheet.querySelector(".carBottomActions");
+  if (!bar) return;
+  bar.classList.remove("ccBarV83");
+  bar.classList.add("ccActsV104");
+  bar.querySelectorAll(".ccBarBtnV83, .ccMenuV83, .ccActRowV104").forEach(n => {
+    // Mygtukai iš ankstesnio išdėstymo grąžinami į juostą prieš perdėliojant
+    n.querySelectorAll("button:not(.ccBarBtnV83)").forEach(b => bar.appendChild(b));
+    n.remove();
+  });
+  const sell = bar.querySelector(".carSellBottom") || bar.querySelector("#sellCarBtn");
+  const pp = bar.querySelector(".carPpBottomBtn");
+  const inv = bar.querySelector(".carInvBottomBtn");
+  const edit = bar.querySelector("#editCarInfoBtn");
+  const del = bar.querySelector("#deleteCarBtn");
+  if (pp) pp.textContent = "PP sutartis";
+  if (inv) inv.textContent = "Sąskaita faktūra";
+  if (edit) edit.textContent = "Redaguoti";
+  if (del) del.textContent = "Ištrinti";
+  const rowOf = (cls, items) => {
+    const list = items.filter(Boolean);
+    if (!list.length) return null;
+    const r = document.createElement("div");
+    r.className = "ccActRowV104 " + cls;
+    list.forEach(n => r.appendChild(n));
+    return r;
+  };
+  const known = new Set([sell, pp, inv, edit, del].filter(Boolean));
+  const rest = [...bar.children].filter(n => !known.has(n));
+  const rows = [
+    rowOf("one sell", [sell]),
+    rowOf("two", [pp, inv]),
+    rowOf("one", [edit, ...rest]),
+    rowOf("one del", [del])
+  ].filter(Boolean);
+  rows.forEach(r => bar.appendChild(r));
+  const body = sheet.querySelector(".premiumDetailBody");
+  if (body && bar.parentElement !== body) body.appendChild(bar);
+  else if (body) body.appendChild(bar);
+};
+
+const __ccBuildV104 = ccBuildV83;
+ccBuildV83 = function (sheet, car) {
+  __ccBuildV104(sheet, car);
+  try {
+    ccLayoutV104(sheet);
+    // Veiksmai – visada paskutiniai
+    const body = sheet.querySelector(".premiumDetailBody");
+    const acts = sheet.querySelector(".carBottomActions.ccActsV104");
+    if (body && acts) body.appendChild(acts);
+  } catch (e) {
+    console.warn("v104 kortelė", e);
+  }
+};
 
 })();
 </script><script id="visureigiai-product-system-v15-js">(function () {
@@ -44691,7 +44577,7 @@ function vpSettleV100(ms = 1500) {
 #view-menu .menuLink:active {
   transform: scale(0.986) !important;
 }
- /* One card surface for task groups, accounting, menu, contacts, finance and history. */
+/* One card surface for task groups, accounting, menu, contacts, finance and history. */
 .panel,
 .taskGroup,
 .menuIntro,
@@ -44824,15 +44710,15 @@ textarea.input {
     --component-icon-size: 40px;
   }
   .sectionHead h2,
-.homeDashHead h2,
-.financeMobileHead h2,
-.contactsHead h2,
-.garageStatsHeader h2,
-.statsSectionHead h3,
-.financeMobileSectionHead h3,
-.garageUnifiedSectionHead h3,
-.accountingRefSectionTitle,
-.accountingRefOpsHead h3 {
+  .homeDashHead h2,
+  .financeMobileHead h2,
+  .contactsHead h2,
+  .garageStatsHeader h2,
+  .statsSectionHead h3,
+  .financeMobileSectionHead h3,
+  .garageUnifiedSectionHead h3,
+  .accountingRefSectionTitle,
+  .accountingRefOpsHead h3 {
     font-size: 21px !important;
   }
   #view-garage .garageRefTile,
@@ -44976,30 +44862,27 @@ html body[data-ae-view="view-menu"]:not(#aeV90) .app > .topbar {
     padding-left: 5px !important;
     padding-right: 8px !important;
   }
-  
+
   .app > .topbar .autoEasierCompanyCellV4 {
     gap: 6px !important;
     padding-left: 11px !important;
     padding-right: 0 !important;
   }
-  
+
   .app > .topbar .autoEasierCompanyMarkV4 svg {
     width: 21px !important;
     height: 16px !important;
   }
-  
+
   .app > .topbar .autoEasierDividerV4 {
     height: 25px !important;
   }
 }
 @media (max-width: 350px) {
-  
   .app > .topbar .autoEasierCompanyCellV4 {
     padding-left: 9px !important;
     gap: 5px !important;
   }
-  
-  
 } /* Hide the former company/date strip on every page; the new shared header replaces it. */
 #view-home .homeProBrand,
 #view-home .homeRefBrandRow,
@@ -45244,8 +45127,8 @@ html body[data-ae-view="view-menu"]:not(#aeV90) .app > .topbar {
 
 @media (max-width: 380px) {
   .garageUnifiedTask {
-  gap: 7px;
-}
+    gap: 7px;
+  }
   .garageUnifiedTaskCopy strong {
     font-size: 13px;
   }
@@ -45284,7 +45167,7 @@ html body[data-ae-view="view-menu"]:not(#aeV90) .app > .topbar {
   -webkit-tap-highlight-color: transparent;
 }
 
- /* Keep the Accounting manager action aligned with Garage. */
+/* Keep the Accounting manager action aligned with Garage. */
 #view-accounting .accountingManagerWrap {
   width: 100% !important;
   margin: 0 0 10px !important;
@@ -45324,12 +45207,9 @@ body:has(.view.active) .navWrap .nav .navBtn {
   padding-right: 2px !important;
   justify-self: stretch !important;
 }
-
 </style>
 
-<style id="garage-task-hub-polish-v2">
-
-body:has(.view.active) .navWrap .nav {
+<style id="garage-task-hub-polish-v2">body:has(.view.active) .navWrap .nav {
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
 }
 #garageTasksSection > .sectionHead {
@@ -46145,8 +46025,7 @@ body[data-ae-view="view-garage"]:not(#aeV90) .nav {
   }
 }
 </style>
-<style id="garage-menu-inline-premium-v1">
-#view-garage #garageTasksSection > .sectionHead {
+<style id="garage-menu-inline-premium-v1">#view-garage #garageTasksSection > .sectionHead {
   flex-wrap: wrap !important;
 }
 #view-garage #garageTasksSection > .sectionHead h2 {
@@ -46403,8 +46282,8 @@ body[data-ae-view="view-garage"]:not(#aeV90) .nav {
   .garageInlineClose,
   .accountingWorkspaceClose,
   .menuDisclosureClose {
-  animation: none !important;
-}
+    animation: none !important;
+  }
 } /* Garage task hub: keep all task sections on the same full-width card system. */
 
 #view-garage #garageTasksSection .garageUnifiedSectionHead {
@@ -48270,8 +48149,6 @@ body[data-ae-view="view-garage"]:not(#aeV90) .nav {
   margin-left: auto !important;
 }
 @media (max-width: 390px) {
-  
-  
   #view-garage #garageTasksSection #garageCustomTasksRoot .otherTaskCard {
     grid-template-columns: 38px minmax(0, 1fr) auto !important;
     gap: 8px !important;
@@ -48641,9 +48518,9 @@ body[data-ae-view="view-garage"]:not(#aeV90) .nav {
 }
 @media (max-width: 390px) {
   #view-accounting .accountingRefWait.accountingRequiredRowV1 {
-  padding: 10px !important;
-}
-  
+    padding: 10px !important;
+  }
+
   #view-accounting .accountingRequiredRowV1 .accountingRefWaitCopy strong {
     font-size: 16px !important;
   }
@@ -48655,8 +48532,6 @@ body[data-ae-view="view-garage"]:not(#aeV90) .nav {
     padding: 0 8px !important;
     font-size: 13px !important;
   }
-  
-  
 }
 @media (prefers-reduced-motion: reduce) {
   .accountingRefOpsFoldChevronV1,
@@ -48665,8 +48540,7 @@ body[data-ae-view="view-garage"]:not(#aeV90) .nav {
   }
 }
 </style>
-<style id="garage-personal-task-accordion-v1">
-#view-garage #garageTasksSection .sectionHead > #garageTaskSummary {
+<style id="garage-personal-task-accordion-v1">#view-garage #garageTasksSection .sectionHead > #garageTaskSummary {
   display: none !important;
 }
 #view-garage #garageTasksSection .garageUnifiedSectionToggle {
@@ -50561,8 +50435,6 @@ body {
   overflow-wrap: anywhere !important;
 }
 @media (max-width: 390px) {
-  
-  
   #view-garage #garageTasksSection #garageAutoTasksRoot .listItem {
     grid-template-columns: 36px minmax(0, 1fr) 72px !important;
     gap: 7px !important;
@@ -51400,7 +51272,7 @@ body {
   box-shadow: none !important;
 }
 
- /* Manager entry and add-variant action use light app surfaces, never heavy dark fills. */
+/* Manager entry and add-variant action use light app surfaces, never heavy dark fills. */
 
 #view-garage .garageRefWhatIcon,
 #view-accounting .accountingManagerButton .garageRefWhatIcon,
@@ -52631,7 +52503,6 @@ html body input[type="time"] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
-
 </style><style id="design-system-v54">/* =====================================================================
    AutoEasier dizaino sistema (v54) – paskutinis sluoksnis.
    Vienodi šriftai, tarpai, mygtukai, laukai, kortelės ir langai visoje programėlėje.
@@ -55096,7 +54967,6 @@ html:not(#ae):not(#af)
     transform: translateY(-4px);
   }
 }
-
 </style><style id="tasks-hub-v62">/* Užduočių skydelis (v62) */
 html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage #garageTasksSection.tkV62 > .garageUnifiedSection,
 html:not(#ae):not(#af)
@@ -55645,7 +55515,6 @@ html:not(#ae):not(#af)
   letter-spacing: 0.07em !important;
 }
 @media (max-width: 400px) {
-  
   html:not(#ae):not(#af)
     body:not(#ae):not(#af)
     #modalBackdrop
@@ -57467,12 +57336,12 @@ html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .garageRefSoldToggle 
 /* ---------- Apačios juosta (telefonas): vienodi dydžiai visuose puslapiuose ---------- */
 @media (max-width: 767px) {
   html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap {
-  padding: 3px 10px calc(6px + env(safe-area-inset-bottom)) !important;
-  border: 0 !important;
-}
+    padding: 3px 10px calc(6px + env(safe-area-inset-bottom)) !important;
+    border: 0 !important;
+  }
   html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav {
-  gap: 0 !important;
-}
+    gap: 0 !important;
+  }
   html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn,
   html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn.active,
   html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn[aria-current="page"] {
@@ -58210,16 +58079,16 @@ html:not(#ae):not(#af)
 /* ---------- Apačios juosta: nepermatomas fonas iki pat ekrano apačios ---------- */
 @media (max-width: 767px) {
   html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap {
-  border-top: 1px solid var(--ds-line) !important;
-  box-shadow: 0 -6px 18px rgba(13, 25, 42, 0.04) !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
+    border-top: 1px solid var(--ds-line) !important;
+    box-shadow: 0 -6px 18px rgba(13, 25, 42, 0.04) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
   html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav {
-  box-shadow: none !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
 }
 @media (min-width: 768px) and (max-width: 1099px) {
   html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav {
@@ -71696,7 +71565,6 @@ html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
   > h2 {
   -webkit-text-fill-color: #7a8799 !important;
 }
-
 </style>
 <style id="v93">/* v93: Buhalterija → Ataskaitos (76-v93-reports.js). Tas pats stilius kaip kituose skydeliuose: baltos kortelės,
    #e3e5ea rėmelis, mėlyna #1f5aa6, tekstas #12233a / #66768a. */
@@ -72992,22 +72860,612 @@ html {
   touch-action: manipulation;
 }
 </style>
-<style id="v102">/* v102: erdvesnis vaizdas telefone (kartu su scripts/000-viewport-v102.js – ekranas tolygiai sumažintas ~8 %).
-   Dviejų stulpelių plytelėse (Garažas, Buhalterija, Meniu) nebėra rodyklės „›“ – plytelė ir taip aiškiai
-   paspaudžiama, o pavadinimas telpa vienoje eilutėje. Pilno pločio eilutės (Vadybininkas, Sąskaita faktūra)
-   rodyklę išlaiko. */
-html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) .garageRefTile > .garageRefTileArrow,
-html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) .accountingRefAction:not(.invoice) > .arrow {
+<style id="v104">/* v104: dideli, aiškūs mygtukai Garaže, Buhalterijoje ir Meniu (kaip programėlėje) ir patogesnė automobilio
+   kortelė (81-v104-car-card.js). Remiamasi vakarykščiu (v99) dizainu – tos pačios spalvos, rėmeliai, šešėliai.
+   Plytelės: ikona viršuje, pavadinimas apačioje, 108 px, 17 px tekstas, be rodyklių – pavadinimas visada
+   telpa vienoje eilutėje. Vadybininkas 80 px. Sąskaita faktūra – plati eilutė 72 px. */
+
+/* ================= Garažas · Buhalterija · Meniu ================= */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  .garageRefWhat {
+  height: 80px !important;
+  min-height: 80px !important;
+  border-radius: 22px !important;
+  padding: 0 20px 0 15px !important;
+  gap: 15px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  .garageRefWhat
+  .garageRefWhatIcon {
+  width: 50px !important;
+  height: 50px !important;
+  min-width: 50px !important;
+  flex-basis: 50px !important;
+  border-radius: 15px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  .garageRefWhat
+  .garageRefWhatIcon
+  svg {
+  width: 27px !important;
+  height: 27px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  .garageRefWhat
+  strong {
+  font-size: 19px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.015em !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  :is(.garageRefTile, .accountingRefAction):not(.invoice) {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  grid-template-rows: auto minmax(0, 1fr) !important;
+  align-items: start !important;
+  justify-items: start !important;
+  gap: 0 !important;
+  height: 108px !important;
+  min-height: 108px !important;
+  padding: 14px 14px 13px !important;
+  border-radius: 20px !important;
+  text-align: left !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  :is(.garageRefTile, .accountingRefAction):not(.invoice)
+  > :is(.garageRefTileIcon, .ico) {
+  grid-row: 1 !important;
+  grid-column: 1 !important;
+  width: 46px !important;
+  height: 46px !important;
+  min-width: 46px !important;
+  flex: none !important;
+  border-radius: 14px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  :is(.garageRefTile, .accountingRefAction)
+  > :is(.garageRefTileIcon, .ico)
+  svg {
+  width: 26px !important;
+  height: 26px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  :is(.garageRefTile, .accountingRefAction):not(.invoice)
+  > strong {
+  grid-row: 2 !important;
+  grid-column: 1 !important;
+  align-self: end !important;
+  justify-self: stretch !important;
+  font-size: 17px !important;
+  font-weight: 650 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.015em !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  :is(.garageRefTile, .accountingRefAction):not(.invoice)
+  > :is(.garageRefTileArrow, .arrow) {
   display: none !important;
 }
-html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) .garageRefTile.tiTileV89,
-html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) .accountingRefAction.tiTileV89:not(.invoice) {
-  gap: 10px !important;
-  padding-right: 10px !important;
+/* Skaičiukai (Užduotys, Variantai) – viršuje dešinėje */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  .garageRefTile
+  > :is(.garageTaskBadgeSlot, .garageVariantBadgeSlot) {
+  position: absolute !important;
+  top: 14px !important;
+  right: 14px !important;
+  left: auto !important;
+  bottom: auto !important;
+  margin: 0 !important;
+  transform: none !important;
 }
-html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) .garageRefTile.tiTileV89 > strong,
-html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) .accountingRefAction.tiTileV89 > strong {
-  text-wrap: balance;
+/* Sąskaita faktūra – plati eilutė */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  .accountingRefAction.invoice {
+  height: 72px !important;
+  min-height: 72px !important;
+  border-radius: 20px !important;
+  padding: 0 16px 0 14px !important;
+  gap: 14px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  .accountingRefAction.invoice
+  > .ico {
+  width: 46px !important;
+  height: 46px !important;
+  min-width: 46px !important;
+  flex: 0 0 46px !important;
+  border-radius: 14px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  .accountingRefAction.invoice
+  > strong {
+  font-size: 17px !important;
+  font-weight: 650 !important;
+}
+
+/* ================= Automobilio kortelė (81-v104-car-card.js) =================
+   Ankstesnis išdėstymas: pavadinimas → nuotrauka → Užduotys → Duomenys → skaičiai → Nuotraukos → Dokumentai →
+   pasirengimas → mygtukai. Didesnis, aiškesnis tekstas, mažiau smulkių užrašų. */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccSubV83 {
+  display: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .premiumSheetTitle
+  h3 {
+  font-size: 21px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+}
+/* Žemesnė nuotrauka */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccHeroSlideV83 {
+  aspect-ratio: auto !important;
+  height: 196px !important;
+  max-height: 196px !important;
+}
+/* Atidaryti blokai: Užduotys, Nuotraukos, Dokumentai */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccOpenSecV104 {
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccOpenSecV104
+  > .ccOpenInV104 {
+  padding: 0 !important;
+  margin: 0 !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccOpenSecV104
+  .ccPaneCardV88 {
+  padding: 14px 16px 10px !important;
+  border: 1px solid #e3e5ea !important;
+  border-radius: 20px !important;
+  background: #fff !important;
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 6px 18px rgba(15, 23, 42, 0.05) !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccOpenSecV104
+  .ccPaneCardV88::before {
+  display: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccOpenSecV104
+  .ccPaneHeadV88 {
+  min-height: 30px !important;
+  margin: 0 0 8px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccPaneHeadV88
+  strong {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccPaneSumV88 {
+  font-size: 14px !important;
+}
+/* Pasirengimas – be smulkaus „Kitas žingsnis“ */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccNextV83
+  small {
+  display: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccNextV83
+  b {
+  font-size: 16px !important;
+  font-weight: 650 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccRdyTopV83
+  strong {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+}
+/* Duomenys */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccCardHeadV85
+  h4 {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccStatV85 {
+  padding: 11px 11px 10px !important;
+  border-radius: 14px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccStatV85
+  small {
+  font-size: 13px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccStatV85
+  b {
+  font-size: 16px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccStatV85
+  em {
+  font-size: 12.5px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  .ccSpecsV85 {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  :is(.ccSpecV85, .ccVinV85) {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  width: 100% !important;
+  min-height: 50px !important;
+  margin: 0 !important;
+  padding: 0 2px !important;
+  border: 0 !important;
+  border-top: 1px solid #eef1f5 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  .ccSpecsV85
+  > .ccSpecV85:first-child {
+  border-top: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  :is(.ccSpecV85, .ccVinV85):active {
+  background: #f6f8fb !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  .ccSpecTxtV85,
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  .ccVinV85
+  > span:first-child {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  min-width: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  :is(.ccSpecTxtV85, .ccVinV85 > span:first-child)
+  small {
+  flex: none !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  color: #5d6b7e !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  :is(.ccSpecTxtV85, .ccVinV85 > span:first-child)
+  b {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  font-size: 15.5px !important;
+  font-weight: 650 !important;
+  color: #12233a !important;
+  text-align: right !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  .ccVinV85:not(.empty)
+  > span:first-child
+  b {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace !important;
+  font-size: 14.5px !important;
+  letter-spacing: 0.02em !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  :is(.ccSpecV85, .ccVinV85).empty
+  b {
+  padding: 6px 14px !important;
+  border-radius: 999px !important;
+  background: #eef3fb !important;
+  color: #1f5aa6 !important;
+  font-family: inherit !important;
+  font-size: 14px !important;
+  font-weight: 650 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.2 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  .ccSpecTxtV85
+  b
+  .lcPlateV61,
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  .ccSpecTxtV85
+  b
+  [class*="Plate"] {
+  vertical-align: middle;
+}
+/* Veiksmai – visi mygtukai matomi */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .carBottomActions.ccActsV104 {
+  position: static !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  margin: 2px 0 calc(14px + env(safe-area-inset-bottom)) !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccActsV104
+  > .ccActRowV104 {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 10px !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccActsV104
+  > .ccActRowV104.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccActsV104
+  .carSellBottom {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccActsV104
+  button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 52px !important;
+  min-height: 52px !important;
+  margin: 0 !important;
+  padding: 0 14px !important;
+  border: 1px solid #e3e5ea !important;
+  border-radius: 16px !important;
+  background: #fff !important;
+  color: #12233a !important;
+  -webkit-text-fill-color: #12233a !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
+  font-size: 16px !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.01em !important;
+  text-transform: none !important;
+  transition: transform 0.15s ease !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccActsV104
+  button:active {
+  transform: scale(0.98) !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccActsV104
+  #sellCarBtn {
+  border: 0 !important;
+  background: #1d8a56 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  box-shadow: 0 6px 16px rgba(29, 138, 86, 0.25) !important;
+  font-size: 17px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccActsV104
+  #deleteCarBtn {
+  height: 44px !important;
+  min-height: 44px !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #c0362c !important;
+  -webkit-text-fill-color: #c0362c !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+}
+/* Be smulkaus „Dokumentų dar nėra“ – mygtukas „Pridėti dokumentą“ pasako viską */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .csDocEmptyV61 {
+  display: none !important;
+}
+/* Greitesnis perjungimas į Garažą: už ekrano esančios automobilių kortelės nepiešiamos, kol iki jų nenuslenkama */
+@supports (content-visibility: auto) {
+  html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) #activeCarGrid > .carListCard {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 154px;
+  }
 }
 </style>
 <script id="ready-v77">// v77: visi stiliai ir skriptai perskaityti – rodome puslapį vienu kartu (be tarpinių, nesustilizuotų kadrų).
