@@ -1,4 +1,4 @@
-// v99: iPhone / iPad įdiegimo gidas. Apple neleidžia puslapiui pačiam pridėti ikonos ar atidaryti „Bendrinti“ meniu,
+// v99: iPhone / iPad įdiegimo gidas. v99b: rodyklė – apačioje dešinėje (Safari „⋯“), žingsniai ⋯ → Bendrinti → Įtraukti. Apple neleidžia puslapiui pačiam pridėti ikonos ar atidaryti „Bendrinti“ meniu,
 // todėl parodome tiksliai kur spausti: animuota rodyklė į Safari „Bendrinti“ mygtuką (iPhone – apačioje per vidurį,
 // iPad ir Chrome – viršuje dešinėje) ir animuotas „Bendrinti“ meniu pavyzdys, kuris pats nuslenka žemyn iki
 // „Įtraukti į pradžios ekraną“ ir parodo „Pridėti“. Kitose platformose – v98 instrukcija.
@@ -35,7 +35,7 @@ function iosGuideOpenV99() {
         <div class="aeIosCardV99">
           <button class="aeInstXV98" type="button" data-ios-close aria-label="Uždaryti">${INST_ICON_V98.x}</button>
           <h2>Įdiekite AutoEasier</h2>
-          <p>Du paspaudimai – ir AutoEasier bus pradžios ekrane kaip programėlė.</p>
+          <p>Keli paspaudimai – ir AutoEasier bus pradžios ekrane kaip programėlė.</p>
           <div class="aeIosDemoV99" aria-hidden="true">
             <div class="aeIosPhoneV99">
               <div class="aeIosSheetV99">
@@ -52,7 +52,8 @@ function iosGuideOpenV99() {
             </div>
           </div>
           <ol class="aeIosStepsV99">
-            <li><span class="aeInstIcoV98">${INST_ICON_V98.share}</span><span>Spauskite <b>Bendrinti</b> – rodo rodyklė</span></li>
+            <li><span class="aeInstIcoV98"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5.5" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="18.5" cy="12" r="1.9"/></svg></span><span>Apačioje dešinėje spauskite <b>⋯</b></span></li>
+            <li><span class="aeInstIcoV98">${INST_ICON_V98.share}</span><span>Pasirinkite <b>Bendrinti</b></span></li>
             <li><span class="aeInstIcoV98">${INST_ICON_V98.addHome}</span><span>Slinkite žemyn ir spauskite <b>Įtraukti į pradžios ekraną</b>, tada <b>Įtraukti</b></span></li>
           </ol>
         </div>
