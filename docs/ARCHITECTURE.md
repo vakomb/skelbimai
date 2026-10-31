@@ -470,3 +470,8 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
 ## v94 – kompaktiškesnis apatinis meniu
 
 - `198-v91-sheets.css`: telefone `.navWrap` apačia `max(4px, safe-area − 14px)` (iPhone ~20 px vietoj 36 px), `.nav` 58 px, mygtukai 56 px. Baltas fonas iki ekrano apačios. Puslapio apačia (`196-v89-pages.css`) atitinkamai `76px + max(4px, safe-area − 14px)`.
+
+## v95 – vienodi tarpai Garaže, Buhalterijoje, Meniu
+
+- `src/styles/201-v95-spacing.css` (`<style id="v95">`): telefone viršuje 8 px + saugi zona, antraštė 44 px, iki Vadybininko 10 px; Vadybininkas 72 px, plytelės 76 px, tarpai 10 px; skydeliai 10 px po plytelėmis. Sekcijų etiketės „Aktyvūs automobiliai“ (Garažas) ir „Laukia pateikimo“ (Buhalterija) – vienodos: 14 px, didžiosios raidės, skaičius dešinėje, 22 px virš / 10 px po.
+- `196-v89-pages.css`: viršutinė paraštė vėl su `env(safe-area-inset-top)` (v89 buvo be jos).

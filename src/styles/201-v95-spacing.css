@@ -1,0 +1,196 @@
+/* v95: Garažas, Buhalterija, Meniu – vienodi, logiški tarpai (8 px tinklelis).
+   Antraštė (logotipas + įmonė) kompaktiška: viršuje 8 px (+ telefono saugi zona), aukštis 44 px, iki Vadybininko 10 px.
+   Vadybininkas 72 px, plytelės 76 px, tarpai tarp jų 10 px. Sekcijų etiketės („AKTYVŪS AUTOMOBILIAI“,
+   „LAUKIA PATEIKIMO“) – vienodos, 14 px, 22 px virš ir 10 px po jomis. */
+@media (max-width: 767px) {
+  html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+    body:not(#ae):not(#af):is(
+      [data-ae-view="view-garage"],
+      [data-ae-view="view-accounting"],
+      [data-ae-view="view-menu"]
+    )
+    .app {
+    padding-top: calc(env(safe-area-inset-top) + 8px) !important;
+  }
+  html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+    body:not(#ae):not(#af):is(
+      [data-ae-view="view-garage"],
+      [data-ae-view="view-accounting"],
+      [data-ae-view="view-menu"]
+    )
+    .app
+    > .topbar {
+    height: 44px !important;
+    min-height: 44px !important;
+    margin: 0 0 10px !important;
+    padding: 0 !important;
+  }
+  html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+    body:not(#ae):not(#af):is(
+      [data-ae-view="view-garage"],
+      [data-ae-view="view-accounting"],
+      [data-ae-view="view-menu"]
+    )
+    .app
+    > .topbar
+    .autoEasierHeaderV4,
+  html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+    body:not(#ae):not(#af):is(
+      [data-ae-view="view-garage"],
+      [data-ae-view="view-accounting"],
+      [data-ae-view="view-menu"]
+    )
+    .app
+    > .topbar
+    :is(.autoEasierBrandCellV4, .autoEasierCompanyCellV4) {
+    height: 44px !important;
+    min-height: 44px !important;
+  }
+}
+/* Vadybininkas ir plytelės */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  :is(#view-garage, #view-accounting, #view-menu)
+  .garageRefWhat.tiTileV89 {
+  height: 72px !important;
+  min-height: 72px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  :is(#view-garage, #view-accounting, #view-menu)
+  .garageRefWhat.tiTileV89
+  .garageRefWhatIcon {
+  width: 46px !important;
+  height: 46px !important;
+  min-width: 46px !important;
+  flex-basis: 46px !important;
+  border-radius: 14px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  :is(#view-garage, #view-accounting, #view-menu)
+  .tiTileV89:is(.garageRefTile, .accountingRefAction) {
+  height: 76px !important;
+  min-height: 76px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  :is(#view-garage, #view-accounting, #view-menu)
+  :is(.garageRefMenuGrid, .accountingRefMenu, .menuLinks) {
+  gap: 10px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) .app #view-garage .garageRefMenu {
+  row-gap: 10px !important;
+  margin-bottom: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  :is(#view-garage, #view-accounting, #view-menu)
+  :is(.accountingManagerWrap, .menuManagerWrap) {
+  margin: 0 0 10px !important;
+}
+/* Išskleidžiami skydeliai – 10 px po plytelėmis */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  #view-garage
+  :is(#addCarPanel, #garageTasksSection.garageDisclosurePanel, .garageInlinePanel.garageInlineOpen),
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  #view-accounting
+  .accountingRefWorkspace,
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  #view-menu
+  #menuInlineDisclosure.menuDisclosure {
+  margin-top: 10px !important;
+}
+
+/* ---------- Sekcijų etiketės: Garažas „Aktyvūs automobiliai“ = Buhalterija „Laukia pateikimo“ ---------- */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  #view-garage
+  .sectionHead.activeHeadV92,
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  #view-accounting
+  .accountingRefPendingSection
+  > .sectionHead {
+  display: flex !important;
+  align-items: baseline !important;
+  justify-content: space-between !important;
+  min-height: 0 !important;
+  height: auto !important;
+  margin: 22px 4px 10px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  #view-accounting
+  .accountingRefPendingSection {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  #view-garage
+  .sectionHead.activeHeadV92
+  > h2,
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  #view-accounting
+  .accountingRefPendingSection
+  > .sectionHead
+  > h2 {
+  margin: 0 !important;
+  color: #66768a !important;
+  -webkit-text-fill-color: #66768a !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  #view-garage
+  .sectionHead.activeHeadV92
+  > #activeCarCount,
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  #view-accounting
+  .accountingRefPendingSection
+  > .sectionHead
+  > .accountingRequiredCountV1 {
+  display: inline !important;
+  min-width: 0 !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #66768a !important;
+  -webkit-text-fill-color: #66768a !important;
+  font-size: 14px !important;
+  font-weight: 650 !important;
+  line-height: 1.3 !important;
+  font-variant-numeric: tabular-nums !important;
+}
