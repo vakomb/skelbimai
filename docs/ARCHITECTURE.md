@@ -440,3 +440,8 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
 
 - `src/scripts/app/73-v89-tile-icons.js`: 14 minimalistinių „duotone“ ikonų (24×24, 1,75 linija) – Vadybininkas, Užduotys, Generuoti sutartį, Variantai, Pridėti automobilį, Finansai, Ataskaitos, Pridėti išlaidą / įplauką, Sąskaita faktūra, Kontaktai, Veiksmų istorija, Pardavimų statistika, Nustatymai. Įdedamos per MutationObserver (prieš piešimą), plytelė gauna `.tiTileV89`, dėžutė – `.tiIcoV89`. Vadybininko skaičiukas nukopijuojamas iš karto (Buhalterijai persipiešus nemirksi).
 - `src/styles/196-v89-pages.css` (`<style id="v89">` faile `src/index.html`): vienodos `.app` paraštės (16/92 px – anksčiau Meniu antraštė pašokdavo 1 px), Vadybininkas 80 px, tarpas iki plytelių 12 px, plytelės 84 px, 16 px tekstas, 44 px ikonėlės dėžutė, vienas šešėlis, fokusas tik klaviatūrai.
+
+## v90 – greitis ir vientisumas
+
+- Greitis: `body:has(#view-…active)` (61 taisyklė) pakeista į `body[data-ae-view="view-…"]:not(#aeV90)` (tas pats specifiškumas); atributą sinchroniškai nustato `src/scripts/app/74-v90-view-attr.js`. Pašalinti priverstiniai išdėstymai: `openCar` (56-v73) nustato scrollTop prieš perpiešiant, `companyGo` (13) ir kortelės juostos paraštė (68 `ccBuildBarV83`) – kitame kadre. Kortelės atidarymo JS ~3 kartus greitesnis.
+- `src/styles/197-v90-unify.css` (`<style id="v90">`): „Pridėti automobilį“ – skydelis permatomas, skiltys – baltos kortelės per visą plotį (forma platesnė); laukų etiketės visur 14 px; TA/draudimo pasirinkimas 42 px / 15 px; statistikos laikotarpis 2 × 2; kontaktų paieška kaip Garažo.

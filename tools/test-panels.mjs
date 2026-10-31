@@ -88,6 +88,7 @@ for (const [title, seq] of CASES) {
   }
 }
 const same = k => ref.every(r => r[k] === ref[0][k]);
+if (process.env.DBG) console.log(ref.map(r => JSON.stringify(r)).join("\n"));
 check(
   ["h", "l", "w", "cw", "ch", "fs"].every(same),
   "visų antraščių matmenys vienodi " + JSON.stringify(ref[0])

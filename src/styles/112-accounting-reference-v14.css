@@ -1,20 +1,20 @@
 /* ===== BUHALTERIJA — reference visual v14 / iPhone 15 Pro Max ===== */
-body:has(#view-accounting.active) {
+body[data-ae-view="view-accounting"]:not(#aeV90) {
   background: #f7f9fc !important;
 }
-body:has(#view-accounting.active) .app {
+body[data-ae-view="view-accounting"]:not(#aeV90) .app {
   box-sizing: border-box !important;
   width: 100% !important;
   max-width: 460px !important;
   margin: 0 auto !important;
   padding: calc(env(safe-area-inset-top) + 16px) 9px calc(92px + env(safe-area-inset-bottom)) !important;
 }
-body:has(#view-accounting.active) .app::before,
-body:has(#view-accounting.active) .app::after {
+body[data-ae-view="view-accounting"]:not(#aeV90) .app::before,
+body[data-ae-view="view-accounting"]:not(#aeV90) .app::after {
   display: none !important;
   content: none !important;
 }
-body:has(#view-accounting.active) .topbar {
+body[data-ae-view="view-accounting"]:not(#aeV90) .topbar {
   display: none !important;
 }
 #view-accounting {
@@ -577,11 +577,11 @@ body:has(#view-accounting.active) .topbar {
 .accountingRefPage .accountingEmailFold {
   margin-top: 10px !important;
 }
-body:has(#view-accounting.active) .navWrap {
+body[data-ae-view="view-accounting"]:not(#aeV90) .navWrap {
   background: linear-gradient(180deg, rgba(247, 249, 252, 0.15), rgba(247, 249, 252, 0.96)) !important;
   border-top: 0 !important;
 }
-body:has(#view-accounting.active) .nav {
+body[data-ae-view="view-accounting"]:not(#aeV90) .nav {
   max-width: 430px !important;
   background: rgba(255, 255, 255, 0.96) !important;
   border: 0 !important;
@@ -589,7 +589,7 @@ body:has(#view-accounting.active) .nav {
   border-radius: 0 !important;
   padding: 6px 6px 4px !important;
 }
-body:has(#view-accounting.active) .navBtn {
+body[data-ae-view="view-accounting"]:not(#aeV90) .navBtn {
   position: relative !important;
   background: transparent !important;
   border: 0 !important;
@@ -600,14 +600,14 @@ body:has(#view-accounting.active) .navBtn {
   font-size: 11px !important;
   font-weight: 560 !important;
 }
-body:has(#view-accounting.active) .navBtn .ico {
+body[data-ae-view="view-accounting"]:not(#aeV90) .navBtn .ico {
   width: 25px;
   height: 25px;
   font-size: 0 !important;
   display: grid;
   place-items: center;
 }
-body:has(#view-accounting.active) .navBtn .ico svg {
+body[data-ae-view="view-accounting"]:not(#aeV90) .navBtn .ico svg {
   width: 24px;
   height: 24px;
   display: block;
@@ -617,11 +617,11 @@ body:has(#view-accounting.active) .navBtn .ico svg {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-body:has(#view-accounting.active) .navBtn.active {
+body[data-ae-view="view-accounting"]:not(#aeV90) .navBtn.active {
   color: #0c1829 !important;
   font-weight: 760 !important;
 }
-body:has(#view-accounting.active) .navBtn.active::after {
+body[data-ae-view="view-accounting"]:not(#aeV90) .navBtn.active::after {
   content: "";
   position: absolute;
   left: 25%;

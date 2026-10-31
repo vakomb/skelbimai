@@ -737,7 +737,12 @@ function ccBuildBarV83(sheet, car, sold) {
   if (del) del.textContent = "Ištrinti";
   // Juosta – paskutinis lango elementas, kad prilimptų apačioje; per visą lango plotį (be šoninių paraščių)
   if (bar.parentElement !== sheet) sheet.appendChild(bar);
-  sheet.style.setProperty("--ccPadV83", getComputedStyle(sheet).paddingLeft || "10px");
+  // v90: paraštė nuskaitoma kitame kadre (stiliai tada vis tiek skaičiuojami) – kortelė atsidaro be priverstinio
+  // viso dokumento stilių perskaičiavimo; telefone paraštė 10 px = numatyta reikšmė, todėl niekas nepasislenka
+  requestAnimationFrame(() => {
+    if (sheet.isConnected)
+      sheet.style.setProperty("--ccPadV83", getComputedStyle(sheet).paddingLeft || "10px");
+  });
 }
 async function ccFillHeroV83(sheet, entity, kind = "car") {
   const hero = sheet.querySelector(".ccHeroV83");

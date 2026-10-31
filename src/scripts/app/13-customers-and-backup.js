@@ -8,7 +8,11 @@ function companyGo(view) {
   state.selectedView = view;
   saveState();
   render();
-  window.scrollTo({ top: 0, behavior: "instant" });
+  // v90: į viršų – kitame kadre (be priverstinio išdėstymo spustelėjimo metu); slenka <body> arba dokumentas
+  requestAnimationFrame(() => {
+    if (document.body) document.body.scrollTop = 0;
+    if (document.scrollingElement) document.scrollingElement.scrollTop = 0;
+  });
 }
 function companyDate(date) {
   if (!date) return "Be termino";

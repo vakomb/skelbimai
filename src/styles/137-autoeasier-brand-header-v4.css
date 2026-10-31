@@ -1,6 +1,6 @@
 /* Balanced two-part brand header with centered content and one shared divider. */
 body:has(.app) .app > .topbar,
-body:has(#view-garage.active) .app > .topbar {
+body[data-ae-view="view-garage"]:not(#aeV90) .app > .topbar {
   box-sizing: border-box !important;
   display: flex !important;
   position: static !important;
@@ -16,10 +16,10 @@ body:has(#view-garage.active) .app > .topbar {
   background: transparent !important;
   text-align: left !important;
 }
-html body:has(#view-home.active) .app > .topbar,
-html body:has(#view-garage.active) .app > .topbar,
-html body:has(#view-accounting.active) .app > .topbar,
-html body:has(#view-menu.active) .app > .topbar {
+html body[data-ae-view="view-home"]:not(#aeV90) .app > .topbar,
+html body[data-ae-view="view-garage"]:not(#aeV90) .app > .topbar,
+html body[data-ae-view="view-accounting"]:not(#aeV90) .app > .topbar,
+html body[data-ae-view="view-menu"]:not(#aeV90) .app > .topbar {
   display: flex !important;
 }
 .app > .topbar .autoEasierHeaderV4 {
@@ -105,7 +105,7 @@ html body:has(#view-menu.active) .app > .topbar {
 }
 @media (max-width: 390px) {
   body:has(.app) .app > .topbar,
-  body:has(#view-garage.active) .app > .topbar {
+  body[data-ae-view="view-garage"]:not(#aeV90) .app > .topbar {
     height: 52px !important;
     min-height: 52px !important;
     flex-basis: 52px !important;

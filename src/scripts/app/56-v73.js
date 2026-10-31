@@ -4,9 +4,13 @@ const __openCarV73 = openCar;
 openCar = function () {
   const sheet = document.getElementById("sheet");
   const back = document.getElementById("modalBackdrop");
+  // v90: į viršų – PRIEŠ perpiešiant (išdėstymas tada dar galioja, todėl pigu). Po perpiešimo nustatyti scrollTop
+  // reikėtų viso dokumento išdėstymo spustelėjimo metu – kortelė atsidarydavo su pastrigimu.
+  [sheet, back].forEach(el => el && el.scrollTop && (el.scrollTop = 0));
   const r = __openCarV73.apply(this, arguments);
-  [sheet, back].forEach(el => el && (el.scrollTop = 0));
-  requestAnimationFrame(() => [sheet, back].forEach(el => el && el.scrollTo({ top: 0, behavior: "smooth" })));
+  requestAnimationFrame(() =>
+    [sheet, back].forEach(el => el && el.scrollTop && el.scrollTo({ top: 0, behavior: "smooth" }))
+  );
   return r;
 };
 
