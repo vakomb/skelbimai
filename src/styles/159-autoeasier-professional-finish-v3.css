@@ -227,7 +227,6 @@ body {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  min-height: 42px !important;
   gap: 10px !important;
 }
 .garageWhatHead h2 {
@@ -354,70 +353,17 @@ body {
   color: #42566d !important;
   box-shadow: none !important;
 }
-.garageWhatMenuBtn {
-  min-height: 64px !important;
-  border: 1px solid #dce8f3 !important;
-  border-radius: 16px !important;
-  background: linear-gradient(110deg, #f6faff, #eaf3fb) !important;
-  color: #17324d !important;
-  box-shadow: 0 2px 9px rgba(30, 69, 104, 0.06) !important;
-}
-.garageWhatMenuBtn .ico {
-  background: #e1eef9 !important;
-  color: #24577f !important;
-}
-.garageWhatMenuBtn strong,
-.garageWhatMenuArrow {
-  color: #17324d !important;
-} /* Manager entry and add-variant action use light app surfaces, never heavy dark fills. */
-#view-garage .garageRefWhat,
-#view-accounting .accountingManagerButton,
-#view-menu .menuManagerButton {
-  border: 1px solid #dce8f3 !important;
-  background: linear-gradient(110deg, #f7fbff, #edf5fc) !important;
-  color: #17324d !important;
-  box-shadow: 0 3px 10px rgba(30, 69, 104, 0.06) !important;
-}
-#view-garage .garageRefWhat::after,
-#view-accounting .accountingManagerButton::after,
-#view-menu .menuManagerButton::after {
-  display: none !important;
-}
+
+/* Manager entry and add-variant action use light app surfaces, never heavy dark fills. */
+
 #view-garage .garageRefWhatIcon,
 #view-accounting .accountingManagerButton .garageRefWhatIcon,
 #view-menu .menuManagerButton .garageRefWhatIcon {
   border-color: #d9e9f7 !important;
-  background: #e4f1fc !important;
-  color: #24577f !important;
-  box-shadow: none !important;
 }
-#view-garage .garageRefWhatIcon svg,
-#view-accounting .accountingManagerButton .garageRefWhatIcon svg,
-#view-menu .menuManagerButton .garageRefWhatIcon svg {
-  color: #24577f !important;
-  stroke: #24577f !important;
-}
-#view-garage .garageRefWhat strong,
-#view-accounting .accountingManagerButton strong,
-#view-menu .menuManagerButton strong {
-  color: #17324d !important;
-}
-#view-garage .garageRefWhatArrow,
-#view-accounting .accountingManagerButton .garageRefWhatArrow,
-#view-menu .menuManagerButton .garageRefWhatArrow {
-  color: #55718b !important;
-}
+
 #showAddGarageLeadBtn {
   box-sizing: border-box !important;
-  min-height: 48px !important;
-  padding: 0 16px !important;
-  border: 1px solid #d6e6f4 !important;
-  border-radius: 15px !important;
-  background: linear-gradient(110deg, #f5faff, #eaf4fc) !important;
-  color: #1e5278 !important;
-  font-size: 15px !important;
-  font-weight: 800 !important;
-  box-shadow: 0 2px 8px rgba(30, 69, 104, 0.05) !important;
 }
 #showAddGarageLeadBtn:active {
   transform: scale(0.985) !important;

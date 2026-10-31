@@ -3,9 +3,6 @@ body[data-ae-view="view-garage"]:not(#aeV90) {
   background: #f7f9fc !important;
 }
 body[data-ae-view="view-garage"]:not(#aeV90) .app {
-  box-sizing: border-box !important;
-  width: 100% !important;
-  max-width: 460px !important;
   margin: 0 auto !important;
   padding: calc(env(safe-area-inset-top) + 16px) 9px calc(92px + env(safe-area-inset-bottom)) !important;
 }
@@ -23,98 +20,14 @@ body[data-ae-view="view-garage"]:not(#aeV90) .topbar {
   margin: 0 !important;
   overflow: visible !important;
 }
-.garageRefBrandRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  min-height: 50px;
-  margin: 0 2px 13px;
-}
-.garageRefBrand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-  color: #0f1b2b;
-  font-weight: 850;
-  font-size: 17px;
-  letter-spacing: -0.018em;
-}
-.garageRefLogo {
-  width: 38px;
-  height: 27px;
-  flex: 0 0 auto;
-}
-.garageRefDate {
-  height: 47px;
-  padding: 0 14px;
-  border-radius: 24px;
-  background: #f3f5f8;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  color: #172236;
-  font-size: 15px;
-  font-weight: 520;
-  white-space: nowrap;
-}
-.garageRefDate svg {
-  width: 20px;
-  height: 20px;
-  stroke-width: 1.8;
-}
-.garageRefTitleRow {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 12px;
-  margin: 0 2px 13px;
-}
-.garageRefTitleRow h2 {
-  margin: 0;
-  color: #07152a;
-  font-size: 43px !important;
-  line-height: 0.98 !important;
-  font-weight: 950 !important;
-  letter-spacing: -0.058em !important;
-}
-.garageRefCount {
-  min-height: 37px;
-  padding: 0 13px 0 37px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  position: relative;
-  background: #eaf8f3;
-  color: #0b5e53;
-  font-size: 13px;
-  font-weight: 850;
-  white-space: nowrap;
-}
-.garageRefCount::before {
-  content: "";
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  width: 18px;
-  height: 18px;
-  transform: translateY(-50%);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230c7769' stroke-width='2'%3E%3Cpath d='M3 14.5 4.8 9h14.4l1.8 5.5'/%3E%3Cpath d='M5 9 7 5.5h10L19 9'/%3E%3Crect x='3' y='12' width='18' height='7' rx='2'/%3E%3Ccircle cx='7' cy='16' r='1.2'/%3E%3Ccircle cx='17' cy='16' r='1.2'/%3E%3C/svg%3E");
-}
+
 .garageRefMenu {
   display: grid;
-  gap: 10px;
   margin-bottom: 17px;
 }
 .garageRefWhat {
   width: 100%;
-  min-height: 56px;
   border: 0;
-  border-radius: 18px;
   padding: 0 14px;
   display: grid;
   grid-template-columns: 42px minmax(0, 1fr) 24px;
@@ -125,7 +38,6 @@ body[data-ae-view="view-garage"]:not(#aeV90) .topbar {
   font: inherit;
   cursor: pointer;
   background: linear-gradient(118deg, #10213d 0%, #234264 100%);
-  box-shadow: 0 10px 22px rgba(16, 33, 61, 0.13);
   overflow: hidden;
   position: relative;
 }
@@ -143,7 +55,6 @@ body[data-ae-view="view-garage"]:not(#aeV90) .topbar {
   display: grid;
   place-items: center;
   background: rgba(255, 255, 255, 0.12);
-  position: relative;
   z-index: 1;
 }
 .garageRefWhatIcon svg {
@@ -170,12 +81,9 @@ body[data-ae-view="view-garage"]:not(#aeV90) .topbar {
 .garageRefMenuGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
 }
 .garageRefTile {
-  min-height: 57px;
   border: 1px solid rgba(168, 190, 211, 0.22);
-  border-radius: 17px;
   padding: 8px 10px;
   display: grid;
   grid-template-columns: 37px minmax(0, 1fr) 16px;
@@ -185,7 +93,6 @@ body[data-ae-view="view-garage"]:not(#aeV90) .topbar {
   color: #101c2c;
   font: inherit;
   cursor: pointer;
-  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.04);
 }
 .garageRefTile.tileTasks {
   background: linear-gradient(115deg, #edf6ff 0%, #f9fcff 100%);
@@ -228,7 +135,6 @@ body[data-ae-view="view-garage"]:not(#aeV90) .topbar {
   stroke-width: 1.8;
 }
 .garageRefTile strong {
-  font-size: 14.5px;
   line-height: 1.1;
   font-weight: 850;
   letter-spacing: -0.02em;
@@ -269,9 +175,7 @@ body[data-ae-view="view-garage"]:not(#aeV90) .topbar {
 #view-garage > .section:has(#activeCarGrid) > .sectionHead span {
   display: none !important;
 }
-#activeCarGrid {
-  gap: 10px !important;
-}
+
 #activeCarGrid .garageRefCarCard,
 #soldCarGrid .garageRefCarCard {
   display: block !important;
@@ -334,57 +238,7 @@ body[data-ae-view="view-garage"]:not(#aeV90) .topbar {
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
 }
-.garageRefRecommendation {
-  margin: 0 !important;
-  padding: 6px 8px !important;
-  border: 0 !important;
-  border-radius: 10px !important;
-  background: #ffebee !important;
-  min-height: 28px !important;
-  display: flex !important;
-  align-items: center !important;
-  color: #a01526 !important;
-}
-.garageRefRecommendation strong {
-  font-size: 11.5px !important;
-  line-height: 1.1 !important;
-  font-weight: 800 !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  color: inherit !important;
-}
-.garageRefStatuses {
-  display: flex !important;
-  gap: 5px !important;
-  flex-wrap: nowrap !important;
-  overflow: hidden !important;
-  margin: 0 !important;
-}
-#activeCarGrid .garageRefStatuses .vehicleStatusChip,
-#soldCarGrid .garageRefStatuses .vehicleStatusChip {
-  min-height: 24px !important;
-  padding: 4px 7px !important;
-  border-radius: 999px !important;
-  font-size: 9.5px !important;
-  line-height: 1 !important;
-  font-weight: 800 !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-}
-#activeCarGrid .garageRefStatuses .vehicleStatusChip:first-child,
-#soldCarGrid .garageRefStatuses .vehicleStatusChip:first-child {
-  background: #e9f8f1 !important;
-  border-color: #cdebdc !important;
-  color: #0a6a42 !important;
-}
-#activeCarGrid .garageRefStatuses .vehicleStatusChip:nth-child(2),
-#soldCarGrid .garageRefStatuses .vehicleStatusChip:nth-child(2) {
-  background: #edf5ff !important;
-  border-color: #d6e7fb !important;
-  color: #174f89 !important;
-}
+
 #activeCarGrid .garageRefFacts,
 #soldCarGrid .garageRefFacts {
   display: grid !important;
@@ -430,45 +284,7 @@ body[data-ae-view="view-garage"]:not(#aeV90) .topbar {
   overflow: hidden !important;
   text-overflow: ellipsis !important;
 }
-.garageRefOpen {
-  height: 34px;
-  margin: 6px 7px 7px;
-  border-radius: 10px;
-  background: linear-gradient(110deg, #152945 0%, #203e5e 100%);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  font-size: 13px;
-  font-weight: 650;
-}
-.garageRefOpen span {
-  font-size: 22px;
-  line-height: 1;
-  margin-top: -1px;
-}
-.garageRefSoldTitle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 7px;
-  min-width: 0;
-}
-#soldCarGrid .garageRefSoldTitle .carListDate {
-  font-size: 9.5px !important;
-  line-height: 1 !important;
-  color: #697688 !important;
-  font-weight: 750 !important;
-  white-space: nowrap !important;
-}
-#soldCarGrid .carListProfit {
-  top: 8px !important;
-  right: 8px !important;
-  font-size: 10.5px !important;
-  padding: 5px 7px !important;
-  border-radius: 999px !important;
-}
+
 #soldCarsSection {
   margin-top: 11px !important;
 }
@@ -515,8 +331,6 @@ body[data-ae-view="view-garage"]:not(#aeV90) .navWrap {
   border-top: 0 !important;
 }
 body[data-ae-view="view-garage"]:not(#aeV90) .nav {
-  width: 100% !important;
-  max-width: 430px !important;
   min-height: 74px !important;
   margin: 0 auto !important;
   padding: 6px 6px 4px !important;
@@ -569,17 +383,6 @@ body[data-ae-view="view-garage"]:not(#aeV90) .navBtn.active::after {
   background: #bd9558;
 }
 @media (max-width: 390px) {
-  .garageRefTitleRow h2 {
-    font-size: 39px !important;
-  }
-  .garageRefCount {
-    padding-left: 34px;
-    padding-right: 10px;
-    font-size: 12px;
-  }
-  .garageRefMenuGrid {
-    gap: 8px;
-  }
   .garageRefTile {
     padding: 7px 8px;
     grid-template-columns: 34px minmax(0, 1fr) 14px;
@@ -588,14 +391,9 @@ body[data-ae-view="view-garage"]:not(#aeV90) .navBtn.active::after {
     width: 34px;
     height: 34px;
   }
-  .garageRefTile strong {
-    font-size: 13.5px;
-  }
+
   .garageRefCarMain {
     grid-template-columns: 42% minmax(0, 58%) !important;
     gap: 8px !important;
-  }
-  .garageRefRecommendation strong {
-    font-size: 11px !important;
   }
 }

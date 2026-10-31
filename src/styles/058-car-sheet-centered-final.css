@@ -36,24 +36,3 @@
 .premiumMedia .premiumEyebrow {
   display: none !important;
 }
-.carDetailActions .carDeleteReal,
-.carDetailActions #sellCarBtn {
-  min-height: 44px !important;
-  height: 44px !important;
-  padding: 10px 14px !important;
-  border-radius: 14px !important;
-  font-size: 13px !important;
-  line-height: 1.1 !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-.carDetailActions #sellCarBtn {
-  color: #16705f !important;
-}
-.carDetailActions #sellCarBtn:hover {
-  color: #125b4e !important;
-}
-.carDetailActions {
-  align-items: stretch !important;
-}

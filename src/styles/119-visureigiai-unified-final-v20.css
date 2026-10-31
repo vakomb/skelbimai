@@ -3,10 +3,7 @@
    One visual language for every page / form / modal.
    ========================================================= */
 :root {
-  --vu-bg: #f8fafc;
-  --vu-surface: #ffffff;
   --vu-text: #0b182b;
-  --vu-muted: #657489;
   --vu-line: #e5ebf1;
   --vu-line-strong: #dce4ec;
   --vu-soft: #f3f8fd;
@@ -29,8 +26,6 @@ body {
   letter-spacing: -0.012em !important;
 }
 .app {
-  width: 100% !important;
-  max-width: 430px !important;
   margin: 0 auto !important;
   padding: calc(env(safe-area-inset-top) + 15px) 13px calc(80px + env(safe-area-inset-bottom)) !important;
   background: transparent !important;
@@ -102,7 +97,6 @@ body {
   height: 19px !important;
   stroke-width: 1.8 !important;
 } /* Consistent heading rhythm across secondary pages */
-#view-garage .garageRefTitleRow,
 #view-accounting .accountingRefTitleRow,
 #view-finance .financeMobileHead,
 #view-menu > .sectionHead:first-of-type,
@@ -114,7 +108,6 @@ body {
   margin-top: 0 !important;
   margin-bottom: 12px !important;
 }
-#view-garage .garageRefTitleRow h2,
 #view-accounting .accountingRefTitle,
 #view-finance .financeMobileHead h2,
 #view-menu > .sectionHead:first-of-type h2,
@@ -132,25 +125,17 @@ body {
 .section {
   margin-top: 12px !important;
 }
-.sectionHead {
-  margin: 0 2px 8px !important;
-}
+
 .sectionHead h2,
 .statsSectionHead h3,
 .financeMobileSectionHead h3 {
   color: var(--vu-text) !important;
-  font-size: 20px !important;
-  line-height: 1.08 !important;
-  font-weight: 900 !important;
-  letter-spacing: -0.035em !important;
 } /* ---------- One universal card finish ---------- */
 .panel,
 .taskCard,
-.carCard,
 .carListCard,
 .leadListCard,
 .garageCarTaskCard,
-.garageLeadCard,
 .smallStatBox,
 .financeRow,
 .historyItem,
@@ -163,7 +148,6 @@ body {
 .contactGroupCard,
 .accountingWorkspace,
 .accountingEmailFold,
-.financeMobileCard,
 .financeMobileFold,
 .statsSection,
 .vehicleDetails,
@@ -173,17 +157,13 @@ body {
   border-radius: 17px !important;
   box-shadow: var(--vu-shadow-small) !important;
 }
-.panel.pad {
-  padding: 13px !important;
-} /* ---------- THE IMPORTANT CHANGE:
+/* ---------- THE IMPORTANT CHANGE:
    all old green primary buttons -> the smooth soft-blue variant style ---------- */
 .btn:not(.secondary):not(.ghost):not(.danger):not(.warn),
 #showAddCarFormBtn,
 #addCarBtn,
 #addGarageLeadBtn,
 #sellCarBtn,
-.carSellBtn,
-.carConfirmSellBtn,
 .premiumPrimaryBtn,
 .saleModalConfirm,
 .carTasksAddWide,
@@ -209,8 +189,6 @@ button[style*="background: var(--success)"] {
 #addCarBtn *,
 #addGarageLeadBtn *,
 #sellCarBtn *,
-.carSellBtn *,
-.carConfirmSellBtn *,
 .premiumPrimaryBtn *,
 .saleModalConfirm *,
 .carTasksAddWide * {
@@ -221,8 +199,6 @@ button[style*="background: var(--success)"] {
 #addCarBtn:active,
 #addGarageLeadBtn:active,
 #sellCarBtn:active,
-.carSellBtn:active,
-.carConfirmSellBtn:active,
 .premiumPrimaryBtn:active,
 .saleModalConfirm:active,
 .carTasksAddWide:active {
@@ -251,16 +227,7 @@ button[style*="background: var(--success)"] {
   color: #8b5a12 !important;
   box-shadow: none !important;
 } /* Make the inspiration button itself use the same final blue */
-#showAddGarageLeadBtn {
-  min-height: 50px !important;
-  border: 1px solid var(--vu-soft-border) !important;
-  border-radius: 15px !important;
-  background: linear-gradient(120deg, var(--vu-soft), var(--vu-soft-2)) !important;
-  color: var(--vu-soft-text) !important;
-  box-shadow: 0 4px 12px rgba(40, 89, 135, 0.045) !important;
-  font-size: 14px !important;
-  font-weight: 820 !important;
-} /* Forms / add car / add variant */
+/* Forms / add car / add variant */
 .field {
   margin-bottom: 9px !important;
 }
@@ -277,19 +244,13 @@ select.input,
 textarea.input {
   width: 100% !important;
   min-width: 0 !important;
-  min-height: 44px !important;
-  padding: 10px 12px !important;
   border: 1px solid var(--vu-line-strong) !important;
-  border-radius: 12px !important;
   background: #fff !important;
   color: var(--vu-text) !important;
   box-shadow: none !important;
   font: inherit !important;
-  font-size: 14px !important;
 }
-textarea.input {
-  min-height: 76px !important;
-}
+
 .input:focus,
 select.input:focus,
 textarea.input:focus {
@@ -315,7 +276,6 @@ textarea.input:focus {
   border: 1px solid var(--vu-line) !important;
   border-radius: 23px 23px 0 0 !important;
   background: #fff !important;
-  box-shadow: 0 -14px 44px rgba(15, 28, 47, 0.14) !important;
 }
 .sheetHead {
   min-height: 48px !important;
@@ -339,52 +299,24 @@ textarea.input:focus {
   color: #152236 !important;
   box-shadow: none !important;
 } /* Menu becomes part of the same product instead of a different dashboard */
-#view-menu .menuIntro {
-  padding: 0 !important;
-  border: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-}
+
 #view-menu .menuLinks {
-  display: grid !important;
-  grid-template-columns: 1fr !important;
-  gap: 7px !important;
   margin-top: 0 !important;
 }
-#view-menu .menuLink {
-  min-height: 59px !important;
-  padding: 9px 10px !important;
-  display: grid !important;
-  grid-template-columns: 36px minmax(0, 1fr) 16px !important;
-  align-items: center !important;
-  gap: 9px !important;
-  text-align: left !important;
-  border-radius: 15px !important;
-}
+
 #view-menu .menuLink::after {
   content: "›";
   color: #748398;
   font-size: 22px !important;
 }
 #view-menu .menuLink .ico {
-  width: 36px !important;
-  height: 36px !important;
-  margin: 0 !important;
-  border-radius: 11px !important;
-  background: #f1f5f9 !important;
-  display: grid !important;
-  place-items: center !important;
   font-size: 16px !important;
 }
-#view-menu .menuLink strong {
-  font-size: 14.5px !important;
-  font-weight: 820 !important;
-}
+
 #view-menu .menuLink span:not(.ico),
 .garageAction span:not(.ico):not(.chev),
 .switch .sub,
-.securitySettingsHead p,
-.contactsSubtitle {
+.securitySettingsHead p {
   display: none !important;
 } /* Garage and accounting pastel cards keep their identities but same material */
 .garageRefTile,
@@ -426,8 +358,6 @@ textarea.input:focus {
   min-height: 65px !important;
   padding: 2px 5px !important;
   margin: 0 auto !important;
-  display: grid !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   gap: 1px !important;
   border: 0 !important;
   border-radius: 0 !important;
@@ -436,14 +366,9 @@ textarea.input:focus {
 }
 .navBtn {
   position: relative !important;
-  min-height: 59px !important;
-  padding: 5px 2px 8px !important;
   border: 0 !important;
-  border-radius: 10px !important;
   background: transparent !important;
   color: #68778a !important;
-  font-size: 11px !important;
-  font-weight: 610 !important;
   gap: 2px !important;
 }
 .navBtn .ico {
@@ -477,10 +402,6 @@ textarea.input:focus {
   background: var(--vu-gold) !important;
 }
 @media (max-width: 390px) {
-  .app {
-    padding-left: 11px !important;
-    padding-right: 11px !important;
-  }
   .homeExactHero {
     height: 162px !important;
     min-height: 162px !important;

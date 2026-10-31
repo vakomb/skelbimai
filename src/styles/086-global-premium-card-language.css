@@ -1,5 +1,4 @@
 :root {
-  --bg: #f3f6f8 !important;
   --surface: #ffffff !important;
   --surface-2: #f5f8f7 !important;
   --surface-3: #edf2f1 !important;
@@ -17,41 +16,20 @@
 }
 html,
 body {
-  background: #f3f6f8 !important;
   color: var(--text) !important;
 }
-body {
-  font-family:
-    Inter,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif !important;
-}
-.app {
-  max-width: 520px !important;
-  padding: 14px 12px 132px !important;
-}
+
 .panel,
-.dailyCard,
-.heroCard,
 .menuIntro,
 .menuLink,
 .taskCard,
-.carCard,
-.rewardCard,
 .smallStatBox,
-.zoneCard,
-.achievement,
 .switch,
 .listItem,
 .financeRow,
 .historyItem,
 .garageAction,
-.garageCarTaskCard,
-.garageLeadCard,
-.skillCard {
+.garageCarTaskCard {
   background: #fff !important;
   border: 1px solid #dfe7e5 !important;
   border-radius: 22px !important;
@@ -60,36 +38,18 @@ body {
 .panel {
   overflow: hidden !important;
 }
-.panel.pad {
-  padding: 14px !important;
-}
-.heroCard,
-.dailyCard,
+
 .menuIntro,
 .menuLink,
 .taskCard,
-.carCard,
-.rewardCard,
 .financeRow,
 .historyItem,
 .garageAction,
-.garageCarTaskCard,
-.garageLeadCard {
+.garageCarTaskCard {
   backdrop-filter: none !important;
   background-image: none !important;
 }
-.section {
-  margin-top: 15px !important;
-}
-.sectionHead {
-  margin: 0 4px 9px !important;
-}
-.sectionHead h2 {
-  font-size: 18px !important;
-  font-weight: 900 !important;
-  letter-spacing: -0.025em !important;
-  color: var(--text) !important;
-}
+
 .sectionHead span {
   padding: 0 !important;
   background: transparent !important;
@@ -97,18 +57,7 @@ body {
   font-size: 11px !important;
   color: var(--muted) !important;
 }
-.heroCard {
-  padding: 16px !important;
-  border-radius: 24px !important;
-}
-.miniStat,
-.smallStatBox {
-  background: #f6f8f8 !important;
-  border: 1px solid #e2e9e7 !important;
-  box-shadow: none !important;
-  border-radius: 18px !important;
-}
-.miniStat .value,
+
 .smallStatBox .value {
   color: var(--text) !important;
 }
@@ -119,72 +68,29 @@ body {
 .bar .fill {
   background: linear-gradient(90deg, #199173 0%, #16866d 100%) !important;
 }
-.xpLine strong {
-  color: var(--text) !important;
-}
+
 .btn,
 .btn.secondary,
 .btn.ghost,
 .smallBtn {
   font-family: inherit !important;
   font-weight: 800 !important;
-  border-radius: 14px !important;
-  min-height: 44px !important;
-  box-shadow: none !important;
 }
-.btn {
-  background: #16866d !important;
-  color: #fff !important;
-  border: 1px solid #16866d !important;
-}
+
 .btn:hover {
   filter: brightness(1.03) !important;
 }
-.btn.secondary {
-  background: #fff !important;
-  color: var(--text) !important;
-  border: 1px solid #d6e0dd !important;
-}
-.btn.ghost {
-  background: transparent !important;
-  color: var(--text) !important;
-  border: 1px solid #d6e0dd !important;
-}
-.btn.danger {
-  background: #fff !important;
-  color: #d94b51 !important;
-  border: 1px solid #efb5b8 !important;
-}
-.smallBtn {
-  background: #fff !important;
-  border: 1px solid #d6e0dd !important;
-}
+
 .smallBtn.danger {
   background: transparent !important;
   color: #dc3f45 !important;
   border: 0 !important;
 }
-.taskGroup {
-  background: #fff !important;
-  border: 1px solid #dfe7e5 !important;
-  border-radius: 22px !important;
-}
-.taskGroupHead {
-  background: #fff !important;
-  border: 0 !important;
-}
-.taskGroupHead h3 {
-  color: var(--text) !important;
-  font-size: 13px !important;
-  letter-spacing: 0.06em !important;
-}
+
 .taskCard {
   padding: 13px 14px !important;
-  border-radius: 18px !important;
-  box-shadow: none !important;
 }
 .taskMain strong {
-  font-size: 15px !important;
   color: var(--text) !important;
 }
 .taskMeta {
@@ -209,14 +115,9 @@ body {
   font-size: 21px !important;
   color: var(--text) !important;
 }
-.menuLinks,
-.garageMenuGrid {
-  gap: 10px !important;
-}
+
 .menuLink,
 .garageAction {
-  min-height: 104px !important;
-  padding: 15px !important;
   border-radius: 20px !important;
   background: #fff !important;
   box-shadow: none !important;
@@ -228,90 +129,28 @@ body {
 }
 .menuLink strong,
 .garageAction strong {
-  font-size: 15px !important;
   color: var(--text) !important;
 }
 .smallStatBox .label {
   color: #738089 !important;
 }
-.smallStatBox .value {
-  font-size: 22px !important;
-  font-weight: 900 !important;
-}
+
 .smallStatBox .hint {
   color: var(--muted) !important;
 }
-.input,
-select.input,
-textarea.input {
-  background: #fff !important;
-  color: var(--text) !important;
-  border: 1px solid #d6e0dd !important;
-  box-shadow: none !important;
-}
-.field label {
-  color: #52616b !important;
-  font-weight: 800 !important;
-}
+
 .navWrap {
   padding: 8px 10px calc(10px + env(safe-area-inset-bottom)) !important;
-  background: rgba(243, 246, 248, 0.94) !important;
-  border-top: 0 !important;
-  backdrop-filter: blur(10px) !important;
 }
-.nav {
-  max-width: 520px !important;
-  background: #fff !important;
-  border: 1px solid #dfe7e5 !important;
-  border-radius: 20px !important;
-  box-shadow: 0 8px 22px rgba(27, 45, 55, 0.09) !important;
-  padding: 7px !important;
-}
-.navBtn {
-  min-height: 54px !important;
-  padding: 8px 5px !important;
-  border-radius: 15px !important;
-  color: #72808a !important;
-  background: transparent !important;
-}
-.navBtn.active {
-  color: #116c59 !important;
-  background: #e9f5f1 !important;
-  border: 1px solid #bfe1d7 !important;
-}
-.navBtn .ico {
-  font-size: 19px !important;
-}
+
 .sheet {
-  width: min(100%, 520px) !important;
   max-height: 90vh !important;
-  padding: 14px !important;
-  background: #fff !important;
-  border: 1px solid #dfe7e5 !important;
-  border-radius: 24px 24px 0 0 !important;
-  box-shadow: 0 -10px 40px rgba(27, 45, 55, 0.1) !important;
 }
-.sheetHead {
-  margin-bottom: 12px !important;
-}
+
 .sheetHead h3 {
-  font-size: 19px !important;
-  font-weight: 900 !important;
   color: var(--text) !important;
 }
-.closeBtn {
-  width: 40px !important;
-  height: 40px !important;
-  border-radius: 13px !important;
-  background: #fff !important;
-  color: var(--text) !important;
-  border: 1px solid #d6e0dd !important;
-}
-#sheet .premiumHero {
-  background: #eef3f1 !important;
-  box-shadow: none !important;
-  border-radius: 20px !important;
-}
+
 #sheet .premiumHero img {
   background: transparent !important;
 }
@@ -331,38 +170,21 @@ textarea.input {
   color: #52636a !important;
   border: 1px solid #dce6e2 !important;
 }
-#sheet .premiumInfo,
 #sheet .premiumResult,
-#sheet .premiumMedia,
-#sheet .carSaleBottom {
-  background: #f7faf9 !important;
+#sheet .premiumMedia {
   border-color: #dfe8e4 !important;
-  box-shadow: none !important;
-  border-radius: 18px !important;
 }
-#sheet .premiumChecklist {
-  display: grid !important;
-  gap: 8px !important;
-}
-#sheet .premiumChecklist > * {
-  border-radius: 16px !important;
-}
-#sheet .carTasksAddWide,
-#sheet .carMediaToggle,
-#sheet .carSaleBottomBtn {
+
+#sheet .carTasksAddWide {
   background: #16866d !important;
   border-color: #16866d !important;
   color: #fff !important;
   box-shadow: none !important;
 }
-#sheet .carTasksAddWide:hover,
-#sheet .carMediaToggle:hover,
-#sheet .carSaleBottomBtn:hover {
+#sheet .carTasksAddWide:hover {
   background: #147b64 !important;
 }
-#sheet .carBottomActions {
-  gap: 8px !important;
-}
+
 #sheet .carEditInfoBottomBtn {
   background: transparent !important;
   background-image: none !important;
@@ -376,23 +198,14 @@ textarea.input {
   border: 1px solid #efb6ba !important;
   box-shadow: none !important;
 }
-.carListCard,
-.carCard,
-.garageLeadCard,
-.rewardCard,
-.achievement {
-  background: #fff !important;
+.carListCard {
   border-color: #dfe7e5 !important;
-  box-shadow: none !important;
-  border-radius: 20px !important;
 }
 .carListPhoto,
 .leadListPhoto {
   background: #edf3f1 !important;
 }
-.carListInfo,
-.carBody,
-.garageLeadBody {
+.carListInfo {
   color: var(--text) !important;
 }
 .carListFacts > div,
@@ -400,7 +213,6 @@ textarea.input {
   background: #f5f8f7 !important;
   border-color: #e2eae7 !important;
   box-shadow: none !important;
-  border-radius: 15px !important;
 }
 .premiumStat strong {
   color: var(--text) !important;
@@ -408,8 +220,6 @@ textarea.input {
 .historyItem,
 .financeRow {
   padding: 13px 14px !important;
-  border-radius: 18px !important;
-  box-shadow: none !important;
 }
 .histIcon {
   background: #edf5f2 !important;
@@ -424,12 +234,6 @@ html[data-theme="light"] body {
 body,
 .app,
 .panel,
-.menuIntro,
-.heroCard {
+.menuIntro {
   background-image: none !important;
-}
-@media (min-width: 900px) {
-  .app {
-    max-width: 520px !important;
-  }
 }

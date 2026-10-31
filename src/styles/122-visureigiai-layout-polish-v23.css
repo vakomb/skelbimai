@@ -1,5 +1,4 @@
 /* ===== PAGE TITLES: remove redundant large page names ===== */
-#view-garage .garageRefTitleRow h2,
 #view-accounting .accountingRefTitleRow .accountingRefTitle,
 #view-finance .financeMobileHead,
 #view-menu > .sectionHead:first-child,
@@ -12,7 +11,6 @@
 #view-garage-what .garageWhatHeadTitle {
   display: none !important;
 }
-#view-garage .garageRefTitleRow,
 #view-accounting .accountingRefTitleRow {
   min-height: 34px !important;
   margin-top: -5px !important;
@@ -38,81 +36,8 @@
   margin: 0 2px 8px !important;
   justify-content: flex-end !important;
 } /* ===== HOME: only a VERY small size increase ===== */
-.homeExactBrand {
-  margin-bottom: 16px !important;
-}
-.homeExactTodayHead {
-  height: 48px !important;
-  min-height: 48px !important;
-}
-.homeExactTodayHead strong {
-  font-size: 20.3px !important;
-}
-.homeExactCount {
-  min-width: 33px !important;
-  height: 30px !important;
-  font-size: 12.8px !important;
-}
-.homeExactTask {
-  height: 64px !important;
-  min-height: 64px !important;
-  grid-template-columns: 71px minmax(0, 1fr) auto !important;
-  gap: 7.5px !important;
-}
-.homeExactTaskPhoto {
-  width: 67px !important;
-  height: 49px !important;
-}
-.homeExactTaskCopy strong {
-  font-size: 14.2px !important;
-}
-.homeExactEntity {
-  height: 21.5px !important;
-  font-size: 10.8px !important;
-}
-.homeExactStatus {
-  min-width: 74px !important;
-  height: 33px !important;
-  font-size: 11.8px !important;
-}
-.homeExactMini {
-  height: 185px !important;
-}
-.homeExactMiniHead {
-  height: 47px !important;
-  min-height: 47px !important;
-}
-.homeExactMiniHead strong {
-  font-size: 19.2px !important;
-}
-.homeExactVariant {
-  height: 65px !important;
-  min-height: 65px !important;
-  grid-template-columns: 60px minmax(0, 1fr) 10px !important;
-}
-.homeExactVariantPhoto {
-  width: 57px !important;
-  height: 42px !important;
-}
-.homeExactVariantCopy strong {
-  font-size: 11.2px !important;
-}
-.homeExactVariantCopy b {
-  font-size: 14.3px !important;
-}
-.homeExactMetrics {
-  height: 130px !important;
-}
-.homeExactMetricTop {
-  font-size: 9.45px !important;
-}
-.homeExactMetricIcon {
-  width: 23px !important;
-  height: 23px !important;
-}
-.homeExactMetric strong {
-  font-size: 13.6px !important;
-} /* ===== CAR DETAIL: hero -> tasks immediately -> essentials -> more info ===== */
+
+/* ===== CAR DETAIL: hero -> tasks immediately -> essentials -> more info ===== */
 #sheet .premiumDetail {
   gap: 0 !important;
 }
@@ -240,67 +165,26 @@
 }
 #garageLeadRoot .garageVariantCard {
   min-height: 0 !important;
-  border-radius: 17px !important;
 }
 #garageLeadRoot .garageVariantMain {
   direction: ltr !important;
   display: grid !important;
-  grid-template-columns: 37% minmax(0, 63%) !important;
-  min-height: 140px !important;
-  max-height: 140px !important;
 }
 #garageLeadRoot .garageVariantPhoto {
   grid-column: 1 !important;
   order: 1 !important;
-  width: 100% !important;
-  height: 140px !important;
-  min-height: 140px !important;
-  max-height: 140px !important;
   border-radius: 0 !important;
 }
 #garageLeadRoot .garageVariantPhoto img,
 #garageLeadRoot .garageVariantPhoto .leadNoPhoto {
-  width: 100% !important;
-  height: 140px !important;
-  min-height: 140px !important;
-  max-height: 140px !important;
   object-fit: cover !important;
 }
 #garageLeadRoot .garageVariantInfo {
   grid-column: 2 !important;
   order: 2 !important;
-  min-width: 0 !important;
-  height: 140px !important;
-  padding: 9px 10px !important;
   gap: 5px !important;
 }
-#garageLeadRoot .garageVariantTitleRow .leadListTitle {
-  font-size: 15.5px !important;
-}
-#garageLeadRoot .garageVariantYear {
-  min-height: 23px !important;
-  padding: 0 7px !important;
-  font-size: 9.8px !important;
-}
-#garageLeadRoot .garageVariantRecommendation {
-  min-height: 31px !important;
-  padding: 5px 7px !important;
-  border-radius: 10px !important;
-}
-#garageLeadRoot .garageVariantRecommendation strong {
-  font-size: 10.8px !important;
-  line-height: 1.1 !important;
-}
-#garageLeadRoot .garageVariantChips {
-  gap: 4px !important;
-  flex-wrap: nowrap !important;
-  overflow: hidden !important;
-}
-#garageLeadRoot .garageVariantChips span {
-  min-height: 22px !important;
-  padding: 0 6px !important;
-  font-size: 9px !important;
-}
+
 #garageLeadRoot .garageVariantFacts {
   margin-top: auto !important;
   padding-top: 6px !important;
@@ -312,12 +196,8 @@
   margin-top: 4px !important;
   font-size: 11.3px !important;
 }
-#garageLeadRoot .garageVariantFooter {
-  min-height: 39px !important;
-  padding: 6px !important;
-}
-#garageLeadRoot .garageVariantCall,
-#garageLeadRoot .garageVariantOpen {
+
+#garageLeadRoot .garageVariantCall {
   min-height: 36px !important;
   height: 36px !important;
   font-size: 11.2px !important;
@@ -325,29 +205,4 @@
 }
 #garageLeadRoot .garageVariantCall {
   min-width: 96px !important;
-}
-#garageLeadRoot .garageVariantOpen span {
-  font-size: 17px !important;
-}
-@media (max-width: 390px) {
-  .homeExactTask {
-    grid-template-columns: 63px minmax(0, 1fr) auto !important;
-  }
-  .homeExactTaskPhoto {
-    width: 60px !important;
-    height: 44px !important;
-  }
-  #garageLeadRoot .garageVariantMain {
-    grid-template-columns: 36% minmax(0, 64%) !important;
-    min-height: 136px !important;
-    max-height: 136px !important;
-  }
-  #garageLeadRoot .garageVariantPhoto,
-  #garageLeadRoot .garageVariantPhoto img,
-  #garageLeadRoot .garageVariantPhoto .leadNoPhoto,
-  #garageLeadRoot .garageVariantInfo {
-    height: 136px !important;
-    min-height: 136px !important;
-    max-height: 136px !important;
-  }
 }

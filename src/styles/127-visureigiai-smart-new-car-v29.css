@@ -136,18 +136,11 @@
 #addCarPanel[data-add-mode="scan"] .sdkFields .field:first-child {
   grid-column: 1/-1 !important;
 }
-#addCarPanel[data-add-mode="scan"] #newVehicletaUntil,
-#addCarPanel[data-add-mode="scan"] #newVehicleinsuranceUntil,
 #addCarPanel[data-add-mode="scan"] #newVehicleaskingPrice,
-#addCarPanel[data-add-mode="scan"] #newVehiclesource,
-#addCarPanel[data-add-mode="scan"] #newVehiclelistingStatus,
-#addCarPanel[data-add-mode="scan"] #newVehiclelistingDate {
+#addCarPanel[data-add-mode="scan"] #newVehiclelistingStatus {
   display: none !important;
 }
-#addCarPanel[data-add-mode="scan"] #newVehicletaUntil.closest,
-#addCarPanel[data-add-mode="scan"] #newVehicleinsuranceUntil.closest {
-  display: none !important;
-} /* Hide the parent fields for scan-only simplicity. */
+/* Hide the parent fields for scan-only simplicity. */
 #addCarPanel[data-add-mode="scan"] .vehicleDetails .field:has(#newVehicletaUntil),
 #addCarPanel[data-add-mode="scan"] .vehicleDetails .field:has(#newVehicleinsuranceUntil),
 #addCarPanel[data-add-mode="scan"] .vehicleDetails .field:has(#newVehicleaskingPrice),

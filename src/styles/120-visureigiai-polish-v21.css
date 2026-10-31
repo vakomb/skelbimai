@@ -13,13 +13,9 @@ body:has(.view.active) .navWrap {
   backdrop-filter: blur(18px) saturate(150%) !important;
 }
 body:has(.view.active) .navWrap .nav {
-  max-width: 430px !important;
   min-height: 65px !important;
   padding: 2px 5px !important;
   margin: 0 auto !important;
-  display: grid !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  gap: 1px !important;
   border: 0 !important;
   border-radius: 0 !important;
   background: transparent !important;
@@ -27,7 +23,6 @@ body:has(.view.active) .navWrap .nav {
 }
 body:has(.view.active) .navWrap .nav .navBtn {
   position: relative !important;
-  min-width: 0 !important;
   min-height: 59px !important;
   padding: 5px 2px 8px !important;
   border: 0 !important;
@@ -92,8 +87,6 @@ body #showAddCarFormBtn,
 body #addCarBtn,
 body #addGarageLeadBtn,
 body #sellCarBtn,
-body .carSellBtn,
-body .carConfirmSellBtn,
 body .premiumPrimaryBtn,
 body .saleModalConfirm,
 body .carTasksAddWide,
@@ -120,8 +113,6 @@ body #showAddCarFormBtn *,
 body #addCarBtn *,
 body #addGarageLeadBtn *,
 body #sellCarBtn *,
-body .carSellBtn *,
-body .carConfirmSellBtn *,
 body .premiumPrimaryBtn *,
 body .saleModalConfirm *,
 body .carTasksAddWide *,
@@ -151,15 +142,11 @@ body #showAddGarageLeadBtn {
 }
 #sheet .premiumDetail {
   display: grid !important;
-  gap: 0 !important;
 }
 #sheet .premiumHero {
   width: 100% !important;
-  height: 188px !important;
-  min-height: 188px !important;
   margin: 0 !important;
   border: 0 !important;
-  border-radius: 17px !important;
   overflow: hidden !important;
   background: #f3f6f9 !important;
   box-shadow: none !important;
@@ -173,11 +160,9 @@ body #showAddGarageLeadBtn {
 #sheet .premiumDetailBody {
   padding: 10px 0 0 !important;
   display: grid !important;
-  gap: 9px !important;
 } /* Overview blocks */
 #sheet .vehicleSdkDisplay,
 #sheet .sheetRecommendation,
-#sheet .premiumInfo,
 #sheet .premiumResult,
 #sheet .premiumMedia,
 #sheet .vehicleDocuments,
@@ -210,7 +195,6 @@ body #showAddGarageLeadBtn {
   font-weight: 800 !important;
 }
 #sheet .vehicleStatusRow {
-  display: flex !important;
   flex-wrap: wrap !important;
   gap: 6px !important;
   margin: 0 !important;
@@ -311,7 +295,6 @@ body #showAddGarageLeadBtn {
   display: grid !important;
   gap: 6px !important;
 }
-#sheet .premiumChecklist .checklistRow,
 #sheet .premiumChecklist > * {
   border-radius: 13px !important;
 }
@@ -406,106 +389,10 @@ body #showAddGarageLeadBtn {
   background: #fff7f8 !important;
   color: #c42b3e !important;
 } /* 4) HOME — slightly smaller, same composition. */
-.homeExactBrand {
-  margin-bottom: 15px !important;
-}
-.homeExactTodayHead {
-  height: 46px !important;
-  min-height: 46px !important;
-}
-.homeExactTodayHead strong {
-  font-size: 19.5px !important;
-}
-.homeExactCount {
-  min-width: 32px !important;
-  height: 29px !important;
-  font-size: 12.5px !important;
-}
-.homeExactTask {
-  height: 62px !important;
-  min-height: 62px !important;
-  grid-template-columns: 69px minmax(0, 1fr) auto !important;
-  gap: 7px !important;
-}
-.homeExactTaskPhoto {
-  width: 65px !important;
-  height: 47px !important;
-}
-.homeExactTaskCopy strong {
-  font-size: 13.8px !important;
-}
-.homeExactEntity {
-  height: 21px !important;
-  font-size: 10.5px !important;
-}
-.homeExactStatus {
-  min-width: 72px !important;
-  height: 32px !important;
-  padding: 0 9px !important;
-  font-size: 11.5px !important;
-}
-.homeExactTwo {
-  gap: 8px !important;
-}
-.homeExactMini {
-  height: 180px !important;
-  padding: 0 10px 7px !important;
-}
-.homeExactMiniHead {
-  height: 46px !important;
-  min-height: 46px !important;
-}
-.homeExactMiniHead strong {
-  font-size: 18.5px !important;
-}
-.homeExactVariant {
-  height: 63px !important;
-  min-height: 63px !important;
-  grid-template-columns: 58px minmax(0, 1fr) 10px !important;
-}
-.homeExactVariantPhoto {
-  width: 55px !important;
-  height: 41px !important;
-}
-.homeExactVariantCopy strong {
-  font-size: 11px !important;
-}
-.homeExactVariantCopy b {
-  font-size: 14px !important;
-}
-.homeExactMetrics {
-  height: 127px !important;
-  gap: 5px !important;
-  padding-top: 6px !important;
-}
-.homeExactMetric {
-  padding: 5px 6px !important;
-  border-radius: 11px !important;
-}
-.homeExactMetricTop {
-  font-size: 9.2px !important;
-}
-.homeExactMetricIcon {
-  width: 22px !important;
-  height: 22px !important;
-  font-size: 12px !important;
-}
-.homeExactMetric strong {
-  font-size: 13.3px !important;
-} /* very small screen safety */
+
+/* very small screen safety */
 @media (max-width: 390px) {
   body:has(.view.active) .navWrap .nav .navBtn {
     font-size: 11px !important;
-  }
-  .homeExactTask {
-    grid-template-columns: 61px minmax(0, 1fr) auto !important;
-  }
-  .homeExactTaskPhoto {
-    width: 58px !important;
-    height: 43px !important;
-  }
-  .homeExactStatus {
-    min-width: 65px !important;
-    padding: 0 7px !important;
   }
 }

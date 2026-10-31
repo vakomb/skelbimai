@@ -1,12 +1,6 @@
 @media (max-width: 899px) {
-  .premiumResultGrid {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 7px !important;
-  }
   .premiumResultGrid > div {
     min-width: 0 !important;
-    padding: 9px 6px !important;
-    border-radius: 14px !important;
     text-align: center !important;
     overflow: hidden !important;
   }
@@ -29,13 +23,8 @@
     font-size: 17px !important;
   }
 }
-.soldCarCard .carPrice,
 .soldCarCard .soldPrice,
-.soldCarCard .profit,
-.soldCarCard .carMoney,
-.carSoldCard .carPrice,
-.carSoldCard .soldPrice,
-.carSoldCard .profit {
+.soldCarCard .profit {
   white-space: nowrap !important;
   word-break: normal !important;
 }

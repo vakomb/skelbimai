@@ -125,14 +125,10 @@
 }
 .garageUnifiedTask {
   display: grid;
-  grid-template-columns: 32px minmax(0, 1fr) auto;
   align-items: center;
   gap: 10px;
   width: 100%;
-  min-height: 66px;
-  padding: 10px 12px;
   border: 1px solid var(--line);
-  border-radius: 14px;
   background: var(--surface);
   color: var(--text);
   text-align: left;
@@ -147,11 +143,6 @@
 .garageUnifiedTaskMark {
   display: grid;
   place-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 10px;
-  background: #fff0f0;
-  color: #c12d3b;
   font-size: 14px;
   font-weight: 850;
 }
@@ -174,7 +165,6 @@
   color: var(--muted);
 }
 .garageTaskKindLabel {
-  display: inline-flex;
   align-items: center;
   width: max-content;
   max-width: 100%;
@@ -182,7 +172,6 @@
   border-radius: 7px;
   background: #edf3f8;
   color: #52657a;
-  font-size: 12px !important;
   line-height: 1.25;
   font-weight: 750;
 }
@@ -199,27 +188,7 @@
   background: #fee9e9;
   color: #b42332;
 }
-.garageUnifiedEmpty {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 15px 12px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: var(--surface);
-  color: var(--muted);
-  font-size: 13px;
-}
-.garageUnifiedEmpty > span {
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: #edf5f2;
-  color: #0f766e;
-  font-weight: 800;
-}
+
 .garageTaskKindLabel {
   display: inline-flex !important;
 }
@@ -235,21 +204,10 @@
 .garageCarTaskHead strong:after {
   content: none !important;
 }
-@keyframes garageTaskReveal {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
+
 @media (max-width: 380px) {
   .garageUnifiedTask {
-    grid-template-columns: 28px minmax(0, 1fr) auto;
     gap: 7px;
-    padding: 9px;
   }
   .garageUnifiedTaskCopy strong {
     font-size: 13px;

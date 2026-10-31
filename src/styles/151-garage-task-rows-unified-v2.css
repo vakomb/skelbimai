@@ -28,17 +28,14 @@
 #view-garage #garageTasksSection .garageUnifiedTask,
 #view-garage #garageTasksSection #garageAutoTasksRoot .listItem,
 #view-garage #garageTasksSection #garageCustomTasksRoot .otherTaskCard {
-  box-sizing: border-box !important;
   width: 100% !important;
   min-width: 0 !important;
   min-height: 74px !important;
   margin: 0 !important;
   padding: 12px !important;
   border: 1px solid #e3e9ef !important;
-  border-radius: 16px !important;
   background: #fff !important;
   color: #16263a !important;
-  box-shadow: 0 3px 10px rgba(18, 38, 61, 0.04) !important;
 } /* Vehicle task: keep its real checkbox and expense field, presented in the same three-column rhythm. */
 #view-garage #garageTasksSection #garageAutoTasksRoot .listItem {
   display: grid !important;
@@ -327,16 +324,6 @@
   margin-left: auto !important;
 }
 @media (max-width: 390px) {
-  #view-garage #garageTasksSection #garageAutoTasksRoot .listItem {
-    grid-template-columns: 38px minmax(0, 1fr) 78px !important;
-    gap: 8px !important;
-    padding: 10px !important;
-  }
-  #view-garage #garageTasksSection #garageAutoTasksRoot .listItem > label input[type="checkbox"] {
-    width: 38px !important;
-    height: 38px !important;
-    min-width: 38px !important;
-  }
   #view-garage #garageTasksSection #garageCustomTasksRoot .otherTaskCard {
     grid-template-columns: 38px minmax(0, 1fr) auto !important;
     gap: 8px !important;

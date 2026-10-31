@@ -1,5 +1,4 @@
 :root {
-  --bg: #f2f6f5 !important;
   --surface: #ffffff !important;
   --surface-2: #f4f8f7 !important;
   --surface-3: #eaf1ef !important;
@@ -14,22 +13,6 @@
   --warn: #b38318 !important;
 }
 @media (max-width: 899px) {
-  html,
-  body {
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow-x: hidden !important;
-    background: var(--bg) !important;
-  }
-  body {
-    font-size: 15px !important;
-  }
-  .app {
-    width: 100% !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 8px 8px calc(116px + env(safe-area-inset-bottom)) !important;
-  }
   .topbar {
     margin-left: -8px !important;
     margin-right: -8px !important;
@@ -38,35 +21,23 @@
     margin-bottom: 8px !important;
   }
   .panel,
-  .heroCard,
-  .dailyCard,
   .menuIntro,
   .menuLink,
   .taskGroup,
   .taskCard,
-  .carCard,
-  .rewardCard,
   .smallStatBox,
-  .zoneCard,
-  .achievement,
   .switch,
   .financeRow,
   .historyItem,
   .garageAction,
-  .garageCarTaskCard,
-  .garageLeadCard,
-  .skillCard {
+  .garageCarTaskCard {
     border: 1px solid var(--line) !important;
-    border-radius: 20px !important;
     box-shadow: 0 5px 18px rgba(31, 52, 59, 0.045) !important;
     background: var(--surface) !important;
     background-image: none !important;
   }
   .panel .panel,
-  .panel .heroCard,
-  .panel .dailyCard,
   .panel .taskCard,
-  .panel .miniStat,
   .panel .smallStatBox,
   .panel .financeRow,
   .panel .historyItem,
@@ -77,20 +48,7 @@
     border-color: transparent !important;
     box-shadow: none !important;
   }
-  .panel.pad {
-    padding: 12px !important;
-  }
-  .section {
-    margin-top: 11px !important;
-  }
-  .sectionHead {
-    margin: 0 2px 8px !important;
-  }
-  .sectionHead h2 {
-    font-size: 19px !important;
-    font-weight: 900 !important;
-    letter-spacing: -0.025em !important;
-  }
+
   .sectionHead span {
     padding: 0 !important;
     background: transparent !important;
@@ -98,86 +56,40 @@
     font-size: 11px !important;
     color: var(--muted) !important;
   }
-  .heroCard {
-    padding: 14px !important;
-    border-radius: 22px !important;
-  }
-  .miniStat,
+
   .smallStatBox {
     padding: 12px !important;
-    border-radius: 16px !important;
-    background: #f6f9f8 !important;
-    border: 1px solid #e4ece9 !important;
-    box-shadow: none !important;
   }
-  .miniStat .label,
   .smallStatBox .label {
     font-size: 11px !important;
   }
-  .miniStat .value,
-  .smallStatBox .value {
-    font-size: 22px !important;
-  }
+
   .btn,
   .btn.secondary,
   .btn.ghost,
   .smallBtn,
   .closeBtn {
-    min-height: 44px !important;
-    border-radius: 14px !important;
     font-size: 14px !important;
     font-family: inherit !important;
     font-weight: 800 !important;
-    box-shadow: none !important;
   }
-  .btn {
-    background: var(--accent) !important;
-    border: 1px solid var(--accent) !important;
-    color: #fff !important;
-  }
-  .btn.secondary {
-    background: #fff !important;
-    border: 1px solid #d6e2df !important;
-    color: var(--text) !important;
-  }
-  .btn.ghost {
-    background: transparent !important;
-    border: 1px solid #d6e2df !important;
-    color: var(--text) !important;
-  }
-  .btn.danger {
-    background: #fff !important;
-    color: var(--danger) !important;
-    border: 1px solid #efb8bc !important;
-  }
+
   .taskGroup {
-    border-radius: 20px !important;
     margin-bottom: 8px !important;
     overflow: hidden !important;
   }
-  .taskGroupHead {
-    padding: 14px 13px 12px !important;
-  }
-  .taskGroupHead h3 {
-    color: var(--text) !important;
-    font-size: 14px !important;
-  }
+
   .taskList {
     gap: 6px !important;
   }
   .taskCard {
     padding: 11px 10px !important;
     gap: 10px !important;
-    border-radius: 15px !important;
-    background: #f8faf9 !important;
   }
   .taskMain strong {
-    font-size: 16px !important;
     line-height: 1.25 !important;
   }
-  .taskMeta {
-    font-size: 11px !important;
-  }
+
   .check {
     width: 29px !important;
     height: 29px !important;
@@ -190,14 +102,11 @@
   }
   .garageCarTaskCard {
     padding: 11px !important;
-    border-radius: 18px !important;
   }
   .garageCarTaskHead {
     margin-bottom: 7px !important;
   }
-  .garageCarTaskHead strong {
-    font-size: 16px !important;
-  }
+
   .garageCarTaskCard .list {
     gap: 6px !important;
   }
@@ -224,71 +133,26 @@
   [class*="priority"] .taskCard {
     background: rgba(255, 248, 249, 0.98) !important;
   }
-  .menuLinks,
-  .garageMenuGrid {
-    gap: 8px !important;
-  }
+
   .menuLink,
   .garageAction {
-    min-height: 94px !important;
-    padding: 13px !important;
     border-radius: 18px !important;
   }
-  .menuLink strong,
-  .garageAction strong {
-    font-size: 16px !important;
-  }
+
   .garageAction .ico,
   .menuLink .ico {
-    width: 40px !important;
-    height: 40px !important;
     border-radius: 13px !important;
     background: #edf5f2 !important;
   }
-  .input,
-  select.input,
-  textarea.input {
-    width: 100% !important;
-    min-height: 46px !important;
-    font-size: 16px !important;
-    border-radius: 14px !important;
-    background: #fff !important;
-    border: 1px solid #d6e2df !important;
-    box-shadow: none !important;
-  }
-  .field label {
-    font-size: 12px !important;
-    font-weight: 800 !important;
-    color: #586870 !important;
-  }
+
   .sheet {
-    width: 100% !important;
-    max-width: none !important;
-    padding: 11px !important;
     max-height: 91vh !important;
-    border-radius: 22px 22px 0 0 !important;
   }
-  .sheetHead {
-    margin-bottom: 8px !important;
-  }
-  .sheetHead h3 {
-    font-size: 20px !important;
-  }
-  #sheet .premiumDetailBody {
-    padding-top: 9px !important;
-  }
+
   #sheet .premiumSectionHead h4 {
     font-size: 16px !important;
   }
-  #sheet .premiumChecklist {
-    gap: 6px !important;
-  }
-  #sheet .premiumMedia {
-    border-radius: 18px !important;
-    border: 1px solid var(--line) !important;
-    background: #f7faf9 !important;
-    box-shadow: none !important;
-  }
+
   #sheet .premiumMediaActions {
     display: flex !important;
     justify-content: center !important;
@@ -297,15 +161,9 @@
     max-width: 280px !important;
     width: 100% !important;
   }
-  #sheet .carBottomCostGrid {
-    gap: 7px !important;
-  }
+
   #sheet .carBottomCostGrid .premiumStat {
-    border: 0 !important;
     box-shadow: none !important;
-    background: #f6f9f8 !important;
-    border-radius: 14px !important;
-    padding: 11px !important;
     text-align: center !important;
   }
   #sheet .carBottomCostGrid .premiumStat span,
@@ -313,8 +171,7 @@
     width: 100% !important;
     text-align: center !important;
   }
-  #sheet .carTasksAddWide,
-  #sheet .carSaleBottomBtn {
+  #sheet .carTasksAddWide {
     background: var(--accent) !important;
     border-color: var(--accent) !important;
     color: #fff !important;
@@ -333,35 +190,10 @@
   }
   .navWrap {
     padding: 7px 6px calc(8px + env(safe-area-inset-bottom)) !important;
-    background: rgba(242, 246, 245, 0.96) !important;
-    border-top: 0 !important;
-    backdrop-filter: blur(8px) !important;
   }
-  .nav {
-    width: 100% !important;
-    max-width: none !important;
-    padding: 5px !important;
-    border-radius: 18px !important;
-    gap: 3px !important;
-    background: #fff !important;
-    border: 1px solid var(--line) !important;
-    box-shadow: 0 7px 20px rgba(31, 52, 59, 0.08) !important;
-  }
-  .navBtn {
-    min-height: 50px !important;
-    padding: 7px 3px !important;
-    border-radius: 13px !important;
-    font-size: 12px !important;
-  }
-  .navBtn.active {
-    background: #eaf5f1 !important;
-    color: #146d59 !important;
-    border: 1px solid #c7e5dc !important;
-  }
+
   .historyItem,
   .financeRow {
     padding: 12px !important;
-    border-radius: 16px !important;
-    box-shadow: none !important;
   }
 }

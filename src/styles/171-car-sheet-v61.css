@@ -42,51 +42,19 @@ html:not(#ae):not(#af) body:not(#ae):not(#af) .lcPlateV61 b {
 }
 
 /* ---------- Kortelės antraštė: ženklas kairėje, pavadinimas centre, ✕ dešinėje ---------- */
-html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV61 .premiumSheetHead {
-  grid-template-columns: minmax(96px, 1fr) minmax(0, max-content) minmax(96px, 1fr) !important;
-  gap: 8px !important;
-}
+
 html:not(#ae):not(#af)
   body:not(#ae):not(#af)
   #modalBackdrop
   #sheet.carSheetV61
   .premiumSheetHead
   .cdHeadSpacerV55 {
-  grid-column: 1 !important;
   justify-self: start !important;
-  display: flex !important;
-  align-items: center !important;
   min-width: 0 !important;
-}
-html:not(#ae):not(#af)
-  body:not(#ae):not(#af)
-  #modalBackdrop
-  #sheet.carSheetV61
-  .premiumSheetHead
-  .cdHeadSpacerV55
-  .lcPlateV61 {
-  height: 30px !important;
-}
-html:not(#ae):not(#af)
-  body:not(#ae):not(#af)
-  #modalBackdrop
-  #sheet.carSheetV61
-  .premiumSheetHead
-  .cdHeadSpacerV55
-  .lcPlateV61
-  b {
-  font-size: 15.5px !important;
 }
 
 /* ---------- Nuotraukos ---------- */
-html:not(#ae):not(#af)
-  body:not(#ae):not(#af)
-  #modalBackdrop
-  #sheet
-  .premiumThumbGrid.csPhotosCollapsedV61
-  > .premiumThumb:nth-child(n + 5) {
-  display: none !important;
-}
+
 html:not(#ae):not(#af)
   body:not(#ae):not(#af)
   #modalBackdrop
@@ -150,13 +118,9 @@ html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet #carDetailDo
   align-items: center !important;
   justify-content: space-between !important;
   gap: 10px !important;
-  margin: 0 0 12px !important;
   padding: 0 !important;
   list-style: none !important;
   cursor: default !important;
-  font-size: 17px !important;
-  font-weight: 800 !important;
-  color: var(--ds-ink) !important;
 }
 html:not(#ae):not(#af)
   body:not(#ae):not(#af)
@@ -519,35 +483,5 @@ html:not(#ae):not(#af)
   from {
     opacity: 0;
     transform: translateY(-4px);
-  }
-}
-@media (max-width: 400px) {
-  html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV61 .premiumSheetHead {
-    grid-template-columns: minmax(86px, 1fr) minmax(0, max-content) minmax(86px, 1fr) !important;
-    gap: 6px !important;
-  }
-  html:not(#ae):not(#af)
-    body:not(#ae):not(#af)
-    #modalBackdrop
-    #sheet.carSheetV61
-    .premiumSheetHead
-    .cdHeadSpacerV55
-    .lcPlateV61 {
-    height: 27px !important;
-  }
-  html:not(#ae):not(#af)
-    body:not(#ae):not(#af)
-    #modalBackdrop
-    #sheet.carSheetV61
-    .premiumSheetHead
-    .cdHeadSpacerV55
-    .lcPlateV61
-    b {
-    padding: 0 7px 0 6px !important;
-    font-size: 13.5px !important;
-    letter-spacing: 0.05em !important;
-  }
-  html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV61 .premiumSheetHead h3 {
-    font-size: 17px !important;
   }
 }

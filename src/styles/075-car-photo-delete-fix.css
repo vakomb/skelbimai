@@ -1,13 +1,4 @@
-#sheet .premiumThumb {
-  position: relative !important;
-  overflow: visible !important;
-}
 #sheet .premiumThumbDelete {
-  position: absolute !important;
-  top: 5px !important;
-  right: 5px !important;
-  z-index: 20 !important;
-  pointer-events: auto !important;
   width: 32px !important;
   height: 32px !important;
   min-width: 32px !important;

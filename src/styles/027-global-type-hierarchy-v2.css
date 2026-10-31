@@ -1,69 +1,3 @@
-body {
-  font-size: 17px !important;
-}
-.sectionHead h2 {
-  font-size: 21px !important;
-}
-.sectionHead span,
-.subtle {
-  font-size: 13px !important;
-}
-label,
-.field label {
-  font-size: 13px !important;
-}
-.btn {
-  font-size: 15px !important;
-  min-height: 50px !important;
-}
-.smallBtn {
-  font-size: 13px !important;
-  min-width: 40px !important;
-  min-height: 40px !important;
-}
-.badge,
-.statChip {
-  font-size: 12px !important;
-}
-.taskMain strong,
-.topicTaskMain strong {
-  font-size: 16px !important;
-}
-.taskMeta,
-.topicTaskMeta {
-  font-size: 12px !important;
-}
-.topicTaskHead strong {
-  font-size: 18px !important;
-}
-.personalTaskComposerHead strong {
-  font-size: 18px !important;
-}
-.personalTopicChip {
-  font-size: 13px !important;
-}
-.input,
-.select,
-.textarea {
-  font-size: 16px !important;
-  min-height: 52px !important;
-}
-.navBtn {
-  font-size: 12px !important;
-  min-height: 62px !important;
-}
-.navBtn .ico {
-  font-size: 23px !important;
-}
-.historyProHead h2 {
-  font-size: 22px !important;
-}
-.historyProHead p {
-  display: none !important;
-}
-.historyDateRow label span {
-  font-size: 12px !important;
-}
 .historyDateRow .input {
   font-size: 14px !important;
   min-height: 48px !important;
@@ -83,47 +17,12 @@ label,
 }
 .historyItem {
   min-height: 70px !important;
-  padding: 13px !important;
 }
-.historyItem strong {
-  font-size: 16px !important;
-}
-.historyItem span {
-  font-size: 13px !important;
-}
+
 .historyItem .histIcon {
   font-size: 22px !important;
 }
-.historyProMain strong {
-  font-size: 16px !important;
-}
-.historyProMain p {
-  font-size: 13px !important;
-}
-.carListTitle,
-.leadListTitle {
-  font-size: 19px !important;
-}
-.carListChip,
-.leadListChip {
-  font-size: 12px !important;
-}
-.carListFacts strong {
-  font-size: 14px !important;
-}
-.carListFacts small {
-  font-size: 11px !important;
-}
-.leadListPrice {
-  font-size: 14px !important;
-}
-.leadListBottom,
-.leadNoPhone {
-  font-size: 12px !important;
-}
-.garageAction strong {
-  font-size: 15px !important;
-}
+
 .garageMenuTitle strong {
   font-size: 19px !important;
 }

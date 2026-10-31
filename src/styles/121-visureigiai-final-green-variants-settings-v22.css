@@ -80,48 +80,23 @@ body .workTabs button.selected:active {
 } /* ===== Variant cards: same visual grammar as Garage active cars ===== */
 #garageLeadRoot {
   display: grid !important;
-  gap: 10px !important;
 }
 #garageLeadRoot .garageVariantCard {
   display: block !important;
-  width: 100% !important;
-  min-height: 0 !important;
   padding: 0 !important;
-  overflow: hidden !important;
   border: 1px solid #e5ebf1 !important;
-  border-radius: 18px !important;
   background: #fff !important;
   box-shadow: 0 7px 22px rgba(22, 42, 67, 0.05) !important;
   cursor: pointer !important;
 }
-#garageLeadRoot .garageVariantMain {
-  display: grid !important;
-  grid-template-columns: 42% minmax(0, 58%) !important;
-  min-height: 188px !important;
-}
+
 #garageLeadRoot .garageVariantPhoto {
-  width: 100% !important;
   min-width: 0 !important;
-  height: 100% !important;
-  min-height: 188px !important;
   margin: 0 !important;
   border: 0 !important;
-  border-radius: 0 !important;
-  background: #f3f6f9 !important;
-  overflow: hidden !important;
 }
-#garageLeadRoot .garageVariantPhoto img {
-  width: 100% !important;
-  height: 100% !important;
-  min-height: 188px !important;
-  object-fit: cover !important;
-  object-position: center !important;
-  display: block !important;
-}
+
 #garageLeadRoot .garageVariantPhoto .leadNoPhoto {
-  width: 100% !important;
-  height: 100% !important;
-  min-height: 188px !important;
   display: grid !important;
   place-items: center !important;
   background: #f3f6f9 !important;
@@ -129,84 +104,11 @@ body .workTabs button.selected:active {
   font-size: 25px !important;
 }
 #garageLeadRoot .garageVariantInfo {
-  min-width: 0 !important;
-  padding: 11px !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 7px !important;
 }
-#garageLeadRoot .garageVariantTitleRow {
-  min-width: 0 !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 7px !important;
-}
-#garageLeadRoot .garageVariantTitleRow .leadListTitle {
-  min-width: 0 !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
-  color: #0b182b !important;
-  font-size: 17px !important;
-  line-height: 1.05 !important;
-  font-weight: 900 !important;
-  letter-spacing: -0.035em !important;
-}
-#garageLeadRoot .garageVariantYear {
-  flex: 0 0 auto !important;
-  min-height: 25px !important;
-  padding: 0 8px !important;
-  border-radius: 999px !important;
-  background: #f2f5f8 !important;
-  color: #657489 !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  font-size: 10.5px !important;
-  font-weight: 760 !important;
-}
-#garageLeadRoot .garageVariantRecommendation {
-  min-height: 38px !important;
-  margin: 0 !important;
-  padding: 7px 9px !important;
-  border: 1px solid #f2d7dc !important;
-  border-radius: 11px !important;
-  background: #fff1f3 !important;
-  display: flex !important;
-  align-items: center !important;
-}
-#garageLeadRoot .garageVariantRecommendation > span,
-#garageLeadRoot .garageVariantRecommendation > b {
-  display: none !important;
-}
-#garageLeadRoot .garageVariantRecommendation strong {
-  color: #a91f32 !important;
-  font-size: 12px !important;
-  line-height: 1.18 !important;
-  font-weight: 800 !important;
-}
-#garageLeadRoot .garageVariantChips {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  gap: 5px !important;
-}
-#garageLeadRoot .garageVariantChips span {
-  min-height: 25px !important;
-  padding: 0 7px !important;
-  border: 1px solid #e3e9ef !important;
-  border-radius: 999px !important;
-  background: #f7f9fb !important;
-  color: #5c6b80 !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  font-size: 10px !important;
-  line-height: 1 !important;
-  font-weight: 700 !important;
-  white-space: nowrap !important;
-}
+
 #garageLeadRoot .garageVariantFacts {
-  margin-top: auto !important;
-  padding-top: 8px !important;
   border-top: 1px solid #e8edf2 !important;
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
@@ -228,7 +130,6 @@ body .workTabs button.selected:active {
   display: block !important;
   overflow: hidden !important;
   color: #748195 !important;
-  font-size: 9.5px !important;
   line-height: 1 !important;
   font-weight: 650 !important;
   text-overflow: ellipsis !important;
@@ -236,9 +137,7 @@ body .workTabs button.selected:active {
 }
 #garageLeadRoot .garageVariantFacts strong {
   display: block !important;
-  margin-top: 5px !important;
   color: #132238 !important;
-  font-size: 12.5px !important;
   line-height: 1 !important;
   font-weight: 900 !important;
   white-space: nowrap !important;
@@ -249,69 +148,17 @@ body .workTabs button.selected:active {
 #garageLeadRoot .garageVariantFacts strong.negativeText {
   color: #bd1e35 !important;
 }
-#garageLeadRoot .garageVariantFooter {
-  padding: 8px !important;
-  border-top: 1px solid #e8edf2 !important;
-  display: grid !important;
-  grid-template-columns: auto minmax(0, 1fr) !important;
-  gap: 7px !important;
-  align-items: center !important;
-  background: #fff !important;
-}
+
 #garageLeadRoot .garageVariantCall {
-  min-width: 102px !important;
-  min-height: 42px !important;
   padding: 0 11px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  font-size: 12px !important;
 }
-#garageLeadRoot .garageVariantNoPhone {
-  width: 0 !important;
-}
-#garageLeadRoot .garageVariantOpen {
-  width: 100% !important;
-  min-height: 42px !important;
-  margin: 0 !important;
-  padding: 0 13px !important;
-  border: 0 !important;
-  border-radius: 12px !important;
-  background: linear-gradient(110deg, #183552, #244765) !important;
-  color: #fff !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 7px !important;
-  font-size: 13px !important;
-  line-height: 1 !important;
-  font-weight: 780 !important;
-}
-#garageLeadRoot .garageVariantOpen span {
-  color: #fff !important;
-  font-size: 19px !important;
-  line-height: 1 !important;
-} /* If no phone, Open still fills the footer. */
-#garageLeadRoot .garageVariantNoPhone + .garageVariantOpen {
-  grid-column: 1/-1 !important;
-}
+
+/* If no phone, Open still fills the footer. */
+
 @media (max-width: 390px) {
-  #garageLeadRoot .garageVariantMain {
-    grid-template-columns: 40% minmax(0, 60%) !important;
-    min-height: 178px !important;
-  }
-  #garageLeadRoot .garageVariantPhoto,
-  #garageLeadRoot .garageVariantPhoto img,
-  #garageLeadRoot .garageVariantPhoto .leadNoPhoto {
-    min-height: 178px !important;
-  }
-  #garageLeadRoot .garageVariantInfo {
-    padding: 9px !important;
-    gap: 6px !important;
-  }
-  #garageLeadRoot .garageVariantFacts strong {
-    font-size: 11.5px !important;
-  }
   #view-settings .accountantSettingsForm {
     grid-template-columns: 1fr !important;
   }
