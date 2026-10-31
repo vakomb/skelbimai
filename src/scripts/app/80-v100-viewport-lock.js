@@ -11,9 +11,6 @@
 const VP_V100 = { timer: 0, until: 0 };
 const VP_META_V100 =
   "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, shrink-to-fit=no";
-function vpMetaV100() {
-  return window.aeViewportContentV102 ? window.aeViewportContentV102() : VP_META_V100;
-}
 
 function vpTypingV100() {
   const a = document.activeElement;
@@ -31,15 +28,12 @@ aeSetVhV91 = function () {
 };
 // Priartinimas liko (pvz. iOS atkūrė grįžus) – perrašome viewport žymą, tada iOS grąžina mastelį 1
 function vpResetZoomV100() {
-  // v102: mastelis telefone ne 1 (žr. scripts/000-viewport-v102.js), todėl tikriname, ar matoma sritis siauresnė
   const vv = window.visualViewport;
-  const lw = document.documentElement.clientWidth;
-  if (!vv || !lw || vv.width >= lw * 0.98) return;
+  if (!vv || Math.abs(vv.scale - 1) < 0.01) return;
   const m = document.querySelector('meta[name="viewport"]');
   if (!m) return;
-  const c = vpMetaV100();
-  m.setAttribute("content", c.replace(/maximum-scale=([\d.]+)/, (x, v) => "maximum-scale=" + (+v + 0.01).toFixed(4)));
-  requestAnimationFrame(() => m.setAttribute("content", c));
+  m.setAttribute("content", VP_META_V100.replace("maximum-scale=1", "maximum-scale=1.01"));
+  requestAnimationFrame(() => m.setAttribute("content", VP_META_V100));
 }
 // Po paleidimo / grįžimo / pasukimo kelis kartus pertikriname, kol iOS praneša galutinį dydį
 function vpSettleV100(ms = 1500) {
@@ -56,7 +50,7 @@ function vpSettleV100(ms = 1500) {
 }
 (() => {
   const m = document.querySelector('meta[name="viewport"]');
-  if (m && m.getAttribute("content") !== vpMetaV100()) m.setAttribute("content", vpMetaV100());
+  if (m && m.getAttribute("content") !== VP_META_V100) m.setAttribute("content", VP_META_V100);
   vpSettleV100(2000);
   window.addEventListener("load", () => vpSettleV100());
   window.addEventListener("pageshow", () => vpSettleV100());
@@ -69,11 +63,6 @@ function vpSettleV100(ms = 1500) {
   const stop = e => e.preventDefault();
   document.addEventListener("gesturestart", stop, { passive: false });
   document.addEventListener("gesturechange", stop, { passive: false });
-  document.addEventListener(
-    "touchmove",
-    e => {
-      if (e.touches.length > 1) e.preventDefault();
-    },
-    { passive: false }
-  );
+  // v104: jokio ne „passive“ touchmove klausytojo – jis priverstų naršyklę laukti JS kiekvieno slinkimo metu
+  // (strigimai). Dviejų pirštų priartinimą iOS sustabdo gesturestart / gesturechange.
 })();

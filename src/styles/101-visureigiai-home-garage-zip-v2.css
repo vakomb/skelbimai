@@ -5,34 +5,20 @@
 .homeDashHead,
 .garageWhatHead {
   display: flex;
-  align-items: center;
   justify-content: space-between;
   gap: 14px;
-  margin: 8px 2px 15px;
 }
-.homeDashHead h2,
-.garageWhatHead h2 {
-  margin: 0;
-  font-size: 31px !important;
-  line-height: 1;
-  letter-spacing: -0.045em;
-  font-weight: 950;
-}
+
 .homeDashDate,
 .garageWhatBack {
-  min-height: 40px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 14px;
-  border-radius: 999px;
   border: 1px solid var(--line);
   background: var(--surface);
   color: var(--text);
   font: inherit;
-  font-size: 13px;
   font-weight: 900;
-  box-shadow: var(--shadow-soft);
 }
 .homePriorityBoard {
   position: relative;
@@ -186,8 +172,6 @@
   color: #ff626d;
 }
 .homePriorityDone {
-  padding: 21px 18px;
-  border-radius: 28px;
   background: #080a0e;
   color: #fff;
   display: flex;
@@ -217,24 +201,16 @@
 }
 .homeTaskStacks {
   display: grid;
-  gap: 11px;
-  margin-top: 15px;
 }
 .homeTaskFold {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 23px;
-  box-shadow: var(--shadow-soft);
   overflow: hidden;
 }
 .homeTaskFold > summary {
   list-style: none;
-  min-height: 82px;
-  padding: 14px 15px;
   display: grid;
-  grid-template-columns: 48px minmax(0, 1fr) auto auto;
   align-items: center;
-  gap: 12px;
   cursor: pointer;
   user-select: none;
 }
@@ -242,34 +218,24 @@
   display: none;
 }
 .homeFoldIcon {
-  width: 48px;
-  height: 48px;
-  border-radius: 15px;
   display: grid;
   place-items: center;
   background: var(--surface-2);
-  font-size: 21px;
 }
 .homeFoldTitle strong {
   display: block;
-  font-size: 19px;
-  line-height: 1.15;
   letter-spacing: -0.02em;
 }
 .homeFoldCount {
-  min-width: 34px;
-  height: 34px;
   padding: 0 9px;
   border-radius: 999px;
   background: var(--surface-2);
   display: grid;
   place-items: center;
-  font-size: 13px;
   font-weight: 950;
   color: var(--text);
 }
 .homeFoldChevron {
-  font-size: 22px;
   color: var(--muted);
   transition: transform 0.18s ease;
 }
@@ -277,11 +243,9 @@
   transform: rotate(90deg);
 }
 .homeFoldBody {
-  padding: 0 12px 12px;
   border-top: 1px solid var(--line);
 }
 .homeCarBlock {
-  padding: 13px 2px 5px;
   border-bottom: 1px solid var(--line);
 }
 .homeCarBlock:last-child {
@@ -295,7 +259,6 @@
   padding: 1px 4px 9px;
 }
 .homeCarHead strong {
-  font-size: 17px;
   line-height: 1.2;
 }
 .homeCarHead span {
@@ -309,28 +272,22 @@
 }
 .homeFoldTask {
   width: 100%;
-  min-height: 58px;
   border: 0;
-  border-radius: 15px;
   background: var(--surface-2);
   color: var(--text);
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 10px;
-  padding: 11px 12px;
   text-align: left;
   font: inherit;
   cursor: pointer;
 }
 .homeFoldTask strong {
   display: block;
-  font-size: 16px;
-  line-height: 1.22;
   font-weight: 850;
 }
 .homeFoldDue {
-  font-size: 12px;
   font-weight: 900;
   color: var(--muted);
   white-space: nowrap;
@@ -341,12 +298,7 @@
 .homeFoldDue.late {
   color: #dc2626;
 }
-.homeFoldEmpty {
-  padding: 18px 7px 7px;
-  color: var(--muted);
-  font-size: 14px;
-  text-align: center;
-}
+
 html[data-theme="dark"] .homeTaskFold {
   background: #111827;
 }
@@ -355,29 +307,17 @@ html[data-theme="dark"] .homeFoldTask {
 }
 .garageWhatPage {
   display: grid;
-  gap: 12px;
 }
-.garageWhatHead {
-  align-items: center;
-}
+
 .garageWhatHeadTitle small {
-  display: block;
   margin-top: 5px;
   color: var(--muted);
-  font-size: 12px;
   font-weight: 750;
 }
 .garageWhatHero {
-  overflow: hidden;
-  border-radius: 30px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow);
   cursor: pointer;
 }
 .garageWhatHeroMedia {
-  height: 210px;
-  background: var(--surface-2);
   position: relative;
   overflow: hidden;
 }
@@ -391,7 +331,6 @@ html[data-theme="dark"] .homeFoldTask {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 42%, rgba(15, 23, 42, 0.64) 100%);
 }
 .garageWhatNoPhoto {
   width: 100%;
@@ -410,18 +349,11 @@ html[data-theme="dark"] .homeFoldTask {
 .garageWhatRank {
   position: absolute;
   z-index: 2;
-  left: 14px;
-  top: 14px;
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  padding: 7px 10px;
   border-radius: 999px;
-  background: rgba(15, 23, 42, 0.72);
-  color: #fff;
-  font-size: 10px;
   font-weight: 950;
-  backdrop-filter: blur(10px);
 }
 .garageWhatHeroEntity {
   position: absolute;
@@ -430,13 +362,10 @@ html[data-theme="dark"] .homeFoldTask {
   right: 15px;
   bottom: 14px;
   color: #fff;
-  font-size: 20px;
   font-weight: 950;
   letter-spacing: -0.025em;
 }
-.garageWhatHeroBody {
-  padding: 17px;
-}
+
 .garageWhatHeroBody span {
   font-size: 11px;
   text-transform: uppercase;
@@ -456,42 +385,24 @@ html[data-theme="dark"] .homeFoldTask {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  margin-top: 13px;
-  padding-top: 13px;
   border-top: 1px solid var(--line);
-  font-size: 12px;
-  color: var(--muted);
   font-weight: 850;
 }
-.garageWhatHeroBottom b {
-  color: var(--text);
-}
+
 .garageWhatList {
   display: grid;
-  gap: 10px;
 }
 .garageWhatRow {
   width: 100%;
-  border: 1px solid var(--line);
-  border-radius: 22px;
-  background: var(--surface);
   color: var(--text);
-  box-shadow: var(--shadow-soft);
   display: grid;
-  grid-template-columns: 76px minmax(0, 1fr) auto;
-  gap: 12px;
   align-items: center;
-  padding: 9px;
   text-align: left;
   font: inherit;
   cursor: pointer;
 }
 .garageWhatThumb {
-  width: 76px;
-  height: 72px;
-  border-radius: 16px;
   overflow: hidden;
-  background: var(--surface-2);
   display: grid;
   place-items: center;
   font-size: 22px;
@@ -507,21 +418,13 @@ html[data-theme="dark"] .homeFoldTask {
 }
 .garageWhatCopy b {
   display: block;
-  color: var(--muted);
-  font-size: 10px;
   margin-bottom: 3px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .garageWhatCopy strong {
   display: block;
-  font-size: 15px;
-  line-height: 1.2;
 }
 .garageWhatSide {
   align-self: center;
-  font-size: 17px;
   color: var(--muted);
   padding-right: 5px;
 }
@@ -555,28 +458,7 @@ html[data-theme="dark"] .homeFoldTask {
   color: var(--muted);
   font-size: 12px;
 }
-.garageWhatMenuBtn {
-  grid-column: 1/-1 !important;
-  min-height: 92px !important;
-  background: linear-gradient(150deg, #0f172a, #243b53) !important;
-  color: #fff !important;
-  border-color: transparent !important;
-}
-.garageWhatMenuBtn .ico {
-  background: rgba(255, 255, 255, 0.12) !important;
-}
-.garageWhatMenuBtn strong {
-  color: #fff !important;
-  font-size: 18px !important;
-}
-.garageWhatMenuArrow {
-  font-size: 24px;
-  color: #fff;
-  opacity: 0.9;
-}
-.garageWhatMenuBtn .left {
-  align-items: center !important;
-}
+
 .accountingZipBadge {
   display: inline-flex;
   align-items: center;
@@ -603,10 +485,6 @@ html[data-theme="dark"] .accountingZipBadge {
   color: #bbf7d0;
 }
 @media (max-width: 380px) {
-  .homeDashHead h2,
-  .garageWhatHead h2 {
-    font-size: 28px !important;
-  }
   .homePriorityBoard {
     padding: 15px;
   }
@@ -627,26 +505,5 @@ html[data-theme="dark"] .accountingZipBadge {
   }
   .homePriorityCopy strong {
     font-size: 16px;
-  }
-  .homeTaskFold > summary {
-    grid-template-columns: 44px minmax(0, 1fr) auto auto;
-    padding: 12px;
-  }
-  .homeFoldIcon {
-    width: 44px;
-    height: 44px;
-  }
-  .homeFoldTitle strong {
-    font-size: 18px;
-  }
-  .garageWhatHeroMedia {
-    height: 190px;
-  }
-  .garageWhatRow {
-    grid-template-columns: 66px minmax(0, 1fr) auto;
-  }
-  .garageWhatThumb {
-    width: 66px;
-    height: 64px;
   }
 }

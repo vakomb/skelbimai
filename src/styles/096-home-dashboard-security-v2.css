@@ -1,13 +1,5 @@
-html,
-body {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden !important;
-  overscroll-behavior-x: none;
-}
 body {
   -webkit-text-size-adjust: 100%;
-  touch-action: manipulation;
 }
 .app,
 .view,
@@ -18,34 +10,16 @@ body {
   min-width: 0;
   max-width: 100%;
 }
-input.input,
-textarea.input,
-select.input,
-input[type="date"],
-input[type="search"],
-input[type="number"],
-input[type="text"],
-input[type="password"],
-input[type="email"],
-input[type="tel"] {
-  font-size: 16px !important;
-  max-width: 100%;
-  min-width: 0;
-}
-textarea.input {
-  resize: vertical;
-}
+
 .securitySettingsHead {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 12px;
 }
 .securitySettingsHead > div {
   min-width: 0;
 }
 .securityEyebrow {
-  display: block;
   font-size: 10px;
   font-weight: 900;
   letter-spacing: 0.12em;
@@ -54,22 +28,14 @@ textarea.input {
 }
 .securitySettingsHead strong {
   display: block;
-  font-size: 17px;
-  line-height: 1.25;
 }
 .securitySettingsHead p,
 .securityFootnote {
-  font-size: 12px;
-  line-height: 1.55;
-  color: var(--muted);
   margin: 7px 0 0;
 }
 .securityStateBadge {
   flex: 0 0 auto;
   border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 6px 9px;
-  font-size: 10px;
   font-weight: 850;
   color: var(--muted);
   background: var(--surface-2);
@@ -82,8 +48,6 @@ textarea.input {
 .securitySettingsActions {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-top: 14px;
 }
 .securitySettingsActions .btn {
   width: 100%;
@@ -96,26 +60,13 @@ textarea.input {
   position: fixed;
   inset: 0;
   z-index: 200000;
-  background: linear-gradient(180deg, #eff6f4 0%, #f8fbfa 100%);
   display: grid;
   place-items: center;
-  padding: 24px 18px env(safe-area-inset-bottom);
 }
 .appLockCard {
-  width: min(100%, 390px);
-  background: #fff;
-  border: 1px solid #dce8e4;
-  border-radius: 28px;
-  padding: 26px 20px;
-  box-shadow: 0 30px 80px rgba(15, 65, 56, 0.15);
   text-align: center;
 }
 .appLockBrand {
-  width: 54px;
-  height: 54px;
-  border-radius: 17px;
-  background: #177b6d;
-  color: #fff;
   display: grid;
   place-items: center;
   margin: 0 auto 13px;
@@ -123,13 +74,9 @@ textarea.input {
   font-weight: 950;
 }
 .appLockEyebrow {
-  font-size: 10px;
   font-weight: 950;
-  letter-spacing: 0.14em;
-  color: #177b6d;
 }
 .appLockCard h2 {
-  font-size: 23px;
   letter-spacing: -0.03em;
   margin: 8px 0 7px;
 }
@@ -154,7 +101,6 @@ textarea.input {
   width: 100%;
   height: 58px;
   border: 1px solid #cfded9;
-  border-radius: 16px;
   background: #f9fbfa;
   color: #172033;
   font: inherit;
@@ -169,8 +115,6 @@ textarea.input {
   box-shadow: 0 0 0 4px rgba(23, 123, 109, 0.1);
 }
 .appLockButton {
-  width: 100%;
-  margin-top: 10px;
   min-height: 52px !important;
   background: #177b6d !important;
   border-color: #177b6d !important;

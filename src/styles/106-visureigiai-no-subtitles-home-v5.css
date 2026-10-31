@@ -3,9 +3,7 @@
 .financeMobileHead > div > span,
 .garageWhatHeadTitle > small,
 .menuLink > span:not(.ico),
-.garageAction .garageActionText > span,
 .vehicleRegData .regTitle small,
-.vehicleRegHint,
 .accountingSourceTitle > span,
 .accountingCleanAction small,
 .accountingSourceTile small,
@@ -13,38 +11,11 @@
 .ppSourceBtn small {
   display: none !important;
 } /* One button language: same scale as Garage. */
-#view-accounting .accountingCleanActions {
-  display: grid !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  gap: 10px !important;
-}
-#view-accounting .accountingCleanAction {
-  min-height: 96px !important;
-  padding: 14px !important;
-  border-radius: 20px !important;
-  grid-template-columns: 44px minmax(0, 1fr) auto !important;
-  gap: 11px !important;
-  background: var(--surface) !important;
-  border: 1px solid var(--line) !important;
-  box-shadow: var(--shadow-soft) !important;
-}
+
 #view-accounting .accountingCleanAction .ico {
-  width: 44px !important;
-  height: 44px !important;
-  border-radius: 14px !important;
-  background: var(--surface-2) !important;
   font-size: 19px !important;
 }
-#view-accounting .accountingCleanAction strong {
-  font-size: 16px !important;
-  line-height: 1.18 !important;
-  font-weight: 900 !important;
-}
-#view-accounting .accountingCleanAction > b {
-  position: static !important;
-  font-size: 21px !important;
-  color: var(--muted) !important;
-}
+
 #view-accounting .accountingCleanAction.active {
   background: #f3faf8 !important;
   border-color: #bcded7 !important;
@@ -63,35 +34,24 @@ html[data-theme="dark"] #view-accounting .accountingCleanAction.active {
 .accountingSourceGrid {
   display: grid !important;
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  gap: 10px !important;
 }
 .accountingSourceTile {
-  min-height: 92px !important;
-  padding: 14px !important;
-  border-radius: 20px !important;
   display: grid !important;
   grid-template-columns: 44px minmax(0, 1fr) auto !important;
   align-items: center !important;
   gap: 11px !important;
   text-align: left !important;
-  background: var(--surface) !important;
-  border: 1px solid var(--line) !important;
-  box-shadow: var(--shadow-soft) !important;
 }
 .accountingSourceTile:first-child {
   grid-column: 1/-1 !important;
 }
 .accountingSourceTile .ico {
-  width: 44px !important;
-  height: 44px !important;
-  border-radius: 14px !important;
   background: var(--surface-2) !important;
   display: grid !important;
   place-items: center !important;
   font-size: 19px !important;
 }
 .accountingSourceTile strong {
-  font-size: 16px !important;
   line-height: 1.18 !important;
   font-weight: 900 !important;
 }
@@ -244,13 +204,6 @@ html[data-theme="dark"] #view-home .homeTodayCount {
   align-items: center !important;
 }
 @media (max-width: 390px) {
-  #view-accounting .accountingCleanActions {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-  #view-accounting .accountingCleanAction {
-    min-height: 90px !important;
-    padding: 12px !important;
-  }
   .accountingSourceGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
