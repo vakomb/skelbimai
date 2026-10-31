@@ -452,3 +452,10 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
 - `src/styles/198-v91-sheets.css` (`<style id="v91">`): html/body ir `#modalBackdrop` aukštis = `--ae-vh`; `#sheet` max-height ≤ 94 % `--ae-vh`; lango apačioje `max(14px, safe-area) + 22px`; `.sheetHead` neprilimpa. Išskleidžiami skydeliai (Užduotys, Variantai, Buhalterijos, Meniu) – permatomi kaip „Pridėti automobilį“: antraštė ant fono (toje pačioje vietoje, 22 px), turinys – kortelės.
 - `196-v89-pages.css`: puslapio apačia `92px + safe-area` (v89 buvo be safe-area – iPhone apačia lįsdavo po meniu).
 - Paketas: juosta „Liko N · Išsaugoti visus paruoštus“ – sąrašo pabaigoje (nebeprilimpa ant kortelių), pasirodo / dingsta sklandžiai (`aeAnimHeightV87`); pašalinta kortelė išnyksta ir susiskleidžia kartu su tarpu.
+
+## v92 – vienodos skydelių antraštės
+
+- Išskleidžiami skydeliai vėl baltos kortelės su antrašte viduje (v91 „ant fono“ atšaukta). „Pridėti automobilį“ – taip pat kortelė, bet skiltys viduje be „kortelė kortelėje“ (atskirtos linija), todėl laukai platūs (`197-v90-unify.css`).
+- `src/styles/199-v92-heads.css` (`<style id="v92">`): vienodas „Uždaryti“ visuose skydeliuose; Garažo „Aktyvūs automobiliai“ – rami etiketė (`.activeHeadV92`, kaip Nustatymų skilčių pavadinimai).
+- `tools/test-panels.mjs` tikrina visą antraštės išvaizdą (šriftas, svoris, spalva, „Uždaryti“ fonas ir šriftas, linija, skydelio fonas, rėmelis, paraštės) – visi 11 skydelių turi sutapti.
+- Paaiškinimas „Galite pažymėti kelis liudijimus…“ pašalintas (71-v86-batch-add.js).

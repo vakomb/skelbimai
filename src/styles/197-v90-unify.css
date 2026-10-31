@@ -1,25 +1,8 @@
-/* v90: vientisa platforma – plati automobilio pridėjimo forma (kortelės per visą plotį, kaip Garaže ir
-   automobilio kortelėje), aiškesnės laukų etiketės visur (14 px), laikotarpio mygtukai be nukirpto teksto,
+/* v90/v92: vientisa platforma – plati automobilio pridėjimo forma, aiškesnės laukų etiketės visur (14 px), laikotarpio mygtukai be nukirpto teksto,
    rami kontaktų paieška. Tos pačios spalvos ir kortelių stilius kaip v89 plytelėse. */
 
-/* ---------- Pridėti automobilį: skydelis permatomas, skiltys – baltos kortelės per visą plotį ---------- */
-html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app #view-garage #addCarPanel {
-  padding: 4px 0 0 !important;
-  border-color: transparent !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-}
-html:not(#ae):not(#af):not(#ag):not(#ah)
-  body:not(#ae):not(#af)
-  .app
-  #view-garage
-  #addCarPanel
-  > .sectionHead {
-  /* antraštė toje pačioje vietoje kaip kitų skydelių (12 px = buvusi skydelio paraštė; rėmelis lieka permatomas) */
-  margin-left: 12px !important;
-  margin-right: 12px !important;
-}
+/* ---------- Pridėti automobilį (v92): balta kortelė su antrašte viduje kaip kiti skydeliai; skiltys viduje be
+   „kortelė kortelėje“ – atskirtos plona linija, todėl laukai platūs ---------- */
 html:not(#ae):not(#af):not(#ag):not(#ah)
   body:not(#ae):not(#af)
   .app
@@ -28,7 +11,7 @@ html:not(#ae):not(#af):not(#ag):not(#ah)
   #newVehicleform {
   display: flex !important;
   flex-direction: column !important;
-  gap: 12px !important;
+  gap: 0 !important;
 }
 html:not(#ae):not(#af):not(#ag):not(#ah)
   body:not(#ae):not(#af)
@@ -38,13 +21,30 @@ html:not(#ae):not(#af):not(#ag):not(#ah)
   #newVehicleform
   > :is(.regCardV50, .cfCardV51) {
   margin: 0 !important;
-  padding: 16px !important;
-  border: 1px solid #e3e5ea !important;
-  border-radius: 18px !important;
-  background: #fff !important;
-  box-shadow:
-    0 1px 2px rgba(15, 23, 42, 0.04),
-    0 6px 18px rgba(15, 23, 42, 0.06) !important;
+  padding: 16px 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  .app
+  #view-garage
+  #addCarPanel
+  #newVehicleform
+  > :is(.regCardV50, .cfCardV51):first-child {
+  padding-top: 2px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  .app
+  #view-garage
+  #addCarPanel
+  #newVehicleform
+  > :is(.regCardV50, .cfCardV51)
+  + :is(.regCardV50, .cfCardV51) {
+  border-top: 1px solid #eef1f5 !important;
 }
 html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app #view-garage #addCarPanel .regGridV50,
 html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app #view-garage #addCarPanel .cfGridV51 {
@@ -60,10 +60,6 @@ html:not(#ae):not(#af):not(#ag):not(#ah)
   > .regScanBtnV50 {
   min-height: 50px !important;
   font-size: 15.5px !important;
-}
-html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app #view-garage #addCarPanel .bvHintV86 {
-  margin: 10px 2px 2px !important;
-  font-size: 13.5px !important;
 }
 html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app #view-garage #addCarPanel #addCarBtn {
   height: 54px !important;

@@ -51,7 +51,22 @@ const head = () =>
       w: Math.round(r.width),
       cw: Math.round(cr.width),
       ch: Math.round(cr.height),
-      fs: getComputedStyle(vis[0]).fontSize
+      fs: getComputedStyle(vis[0]).fontSize,
+      // v92: visa antraštės ir skydelio išvaizda turi sutapti
+      tw: getComputedStyle(vis[0]).fontWeight,
+      tc: getComputedStyle(vis[0]).color,
+      tls: getComputedStyle(vis[0]).letterSpacing,
+      cbg: getComputedStyle(close).backgroundColor,
+      cfs: getComputedStyle(close).fontSize,
+      cfw: getComputedStyle(close).fontWeight,
+      cc: getComputedStyle(close).color,
+      bb: getComputedStyle(h).borderBottomWidth + " " + getComputedStyle(h).borderBottomColor,
+      tTop: Math.round(vis[0].getBoundingClientRect().top - r.top),
+      panel: (() => {
+        const pn = h.parentElement.closest(".panel, .garageDisclosurePanel, .garageInlinePanel, .accountingWorkspace, .menuDisclosure, #addCarPanel") || h.parentElement;
+        const pc = getComputedStyle(pn), pr = pn.getBoundingClientRect();
+        return `${Math.round(pr.left)}/${Math.round(pr.width)} ${pc.backgroundColor} r${pc.borderTopLeftRadius} b${pc.borderTopWidth} ${pc.borderTopColor} pt${pc.paddingTop} hTop${Math.round(r.top - pr.top)}`;
+      })()
     };
   }, HEAD);
 const ref = [];
@@ -88,9 +103,11 @@ for (const [title, seq] of CASES) {
   }
 }
 const same = k => ref.every(r => r[k] === ref[0][k]);
-if (process.env.DBG) console.log(ref.map(r => JSON.stringify(r)).join("\n"));
+if (process.env.DBG || !["h", "l", "w", "cw", "ch", "fs", "tw", "tc", "tls", "cbg", "cfs", "cfw", "cc", "bb", "tTop", "panel"].every(same))
+  for (const k of ["h", "l", "w", "cw", "ch", "fs", "tw", "tc", "tls", "cbg", "cfs", "cfw", "cc", "bb", "tTop", "panel"])
+    if (!same(k)) console.log("  skiriasi " + k + ": " + ref.map(r => r.parts[0] + "=" + r[k]).join(" | "));
 check(
-  ["h", "l", "w", "cw", "ch", "fs"].every(same),
+  ["h", "l", "w", "cw", "ch", "fs", "tw", "tc", "tls", "cbg", "cfs", "cfw", "cc", "bb", "tTop", "panel"].every(same),
   "visų antraščių matmenys vienodi " + JSON.stringify(ref[0])
 );
 check(!errors.length, "be JS klaidų " + errors.join("; "));

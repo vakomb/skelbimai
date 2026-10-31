@@ -737,12 +737,7 @@ function bvInstallEntryV86() {
   gal.multiple = true;
   const label = gal.closest(".regScanBtnV50");
   label?.querySelector("span") && (label.querySelector("span").textContent = "Iš galerijos");
-  const btns = gal.closest(".regScanBtnsV50");
-  if (btns && !btns.nextElementSibling?.classList.contains("bvHintV86"))
-    btns.insertAdjacentHTML(
-      "afterend",
-      `<p class="bvHintV86">Galite pažymėti kelis liudijimus – automobiliai bus pridėti vienu metu.</p>`
-    );
+  // v92: be paaiškinimo po mygtukais – galerijoje tiesiog galima pažymėti kelis liudijimus
   // Kelios nuotraukos → paketo režimas (prieš esamą vieno failo skenavimą)
   gal.addEventListener(
     "change",
