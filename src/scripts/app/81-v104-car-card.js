@@ -1,7 +1,7 @@
 // v104: automobilio kortelė – ankstesnis (v82) išdėstymas, patobulintas:
-//   pavadinimas (be valst. nr. ir dienų) → žemesnė nuotrauka (jei yra) → Užduotys → Duomenys (TA · Draudimas · SDK
-//   ir eilutės: valst. numeris, registracija, rida, variklis, kuras, liudijimas, VIN) → Pirkta · Išlaidos ·
-//   Savikaina → Nuotraukos → Dokumentai → Pasirengimas pardavimui → visi veiksmų mygtukai matomi (Parduoti,
+//   pavadinimas (be valst. nr. ir dienų) → žemesnė nuotrauka (jei yra) → Užduotys → Pirkta · Išlaidos · Savikaina →
+//   Duomenys (TA · Draudimas · SDK ir eilutės) → Nuotraukos → Dokumentai → Pasirengimas pardavimui (tik
+//   neparduotam) → visi veiksmų mygtukai matomi (Parduoti,
 //   PP sutartis, Sąskaita faktūra, Redaguoti, Ištrinti) – kaip anksčiau, be „⋯“ meniu.
 // Užduotys, Nuotraukos ir Dokumentai – visada atidaryti blokai (perkeliami esami v83 blokai su visais įvykiais;
 // data-cc-sec + is-open, todėl ccOpenSectionV83 tiesiog nuslenka iki jų). Stilius – styles/206-v104-app.css.
@@ -84,11 +84,18 @@ function ccLayoutV104(sheet) {
   const heroEmpty = sheet.querySelector(".premiumDetail > .ccHeroEmptyV83");
   if (heroEmpty && photos) heroEmpty.remove();
   if (tasks) body.prepend(tasks);
+  // v107: Pirkta · Išlaidos · Savikaina – iš karto po Užduotimis, virš Duomenų
   const nums = body.querySelector(":scope > [data-cc-nums]");
-  const after = nums || body.querySelector(":scope > [data-cc-data]");
+  const data = body.querySelector(":scope > [data-cc-data]");
+  if (nums && tasks) tasks.after(nums);
+  else if (nums) body.prepend(nums);
+  if (data && nums) nums.after(data);
+  const after = data || nums;
   if (after) after.after(...[photos, docs].filter(Boolean));
   const ready = body.querySelector(":scope > [data-cc-ready]");
-  if (ready) body.appendChild(ready);
+  // v107: parduotam automobiliui „Dokumentai buhalterei“ nerodoma – dokumentai buhalterijai keliauja automatiškai
+  if (ready && sheet.classList.contains("ccSoldV83")) ready.remove();
+  else if (ready) body.appendChild(ready);
 }
 
 // ---------- Veiksmai – visi mygtukai matomi, kortelės pabaigoje ----------
@@ -110,6 +117,7 @@ ccBuildBarV83 = function (sheet, car, sold) {
   if (pp) pp.textContent = "PP sutartis";
   if (inv) inv.textContent = "Sąskaita faktūra";
   if (edit) edit.textContent = "Redaguoti";
+  if (inv) inv.textContent = "Sąskaita";
   if (del) del.textContent = "Ištrinti";
   const rowOf = (cls, items) => {
     const list = items.filter(Boolean);
@@ -121,10 +129,11 @@ ccBuildBarV83 = function (sheet, car, sold) {
   };
   const known = new Set([sell, pp, inv, edit, del].filter(Boolean));
   const rest = [...bar.children].filter(n => !known.has(n));
+  // v106: Parduoti – per visą plotį; PP sutartis · Sąskaita faktūra · Redaguoti – vienoje eilutėje; Ištrinti – tekstu
+  const mid = [pp, inv, edit, ...rest].filter(Boolean);
   const rows = [
     rowOf("one sell", [sell]),
-    rowOf("two", [pp, inv]),
-    rowOf("one", [edit, ...rest]),
+    rowOf(mid.length >= 3 ? "three" : mid.length === 2 ? "two" : "one", mid),
     rowOf("one del", [del])
   ].filter(Boolean);
   rows.forEach(r => bar.appendChild(r));

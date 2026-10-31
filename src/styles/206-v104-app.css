@@ -326,7 +326,7 @@ html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
   display: flex !important;
   flex-direction: column !important;
   gap: 10px !important;
-  margin: 2px 0 calc(14px + env(safe-area-inset-bottom)) !important;
+  margin: 2px 0 0 !important;
   padding: 0 !important;
   border: 0 !important;
   background: transparent !important;
@@ -441,4 +441,27 @@ html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
     content-visibility: auto;
     contain-intrinsic-size: auto 154px;
   }
+}
+/* v106: PP sutartis · Sąskaita · Redaguoti – vienoje eilutėje (senas „grid-column: 1/-1“ Redaguoti mygtukui panaikinamas) */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccActsV104
+  > .ccActRowV104.three {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccActsV104
+  > .ccActRowV104.three
+  button {
+  grid-column: auto !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  padding: 0 6px !important;
+  font-size: 15px !important;
 }

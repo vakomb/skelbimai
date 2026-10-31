@@ -522,3 +522,10 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
   dešinėje); nuotraukos ir dokumentai – horizontali 92 px plytelių juosta, tušti – tik antraštė (`:has`).
   Pridėjimo / redagavimo forma: 50 px laukai, iOS jungikliai, Nuotraukos ir Dokumentai kaip kortelės blokai,
   dokumentų tipai – du stulpeliai.
+- **v106** (`styles/207-v105-blocks.css` perrašytas, `206-v104-app.css`, `81-v104`, `82-v105`): automobilio kortelė –
+  vienodi blokai (balta kortelė 18 px, plonas rėmelis, antraštė: pavadinimas 17 px, pilkas skaičius, mėlynas
+  tekstinis veiksmas „Pridėti“ / „Redaguoti“), be ikonėlių dėžučių ir spalvotų „piliulių“; veiksmai: Parduoti +
+  PP sutartis · Sąskaita · Redaguoti vienoje eilutėje + Ištrinti. Pridėjimo ir redagavimo forma – identiškos
+  (baltas paviršius, skiltys atskirtos linija, 48 px laukai, mažesni tarpai). Visi langai (`#sheet`) telefone turi
+  apačios tarpą `max(14px, safe-area) + 16px` – mygtukai nebepatenka po „home“ juosta (anksčiau `.ccV83` languose
+  – redagavimas, sutartis iš kortelės – tarpas buvo 0).
