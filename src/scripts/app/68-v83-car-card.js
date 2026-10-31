@@ -770,10 +770,7 @@ function ccEditPriceV83(car) {
     ccToggleV83(nums, true);
     ccOpenV83.cost.add(car.id);
   }
-  setTimeout(
-    () => nums.scrollIntoView({ block: "nearest", behavior: ccReducedV85() ? "auto" : "smooth" }),
-    60
-  );
+  setTimeout(() => void 0, 60);
   const cell = nums.querySelector("[data-cc-price-cell]");
   if (!cell || cell.querySelector("input")) return;
   const price = ccPriceV83(car);
@@ -835,7 +832,7 @@ function ccOpenSectionV83(key, scroll = true) {
   if (!sec.classList.contains("is-open")) ccToggleV83(sec, true);
   ccSectionsStateV83()[key] = true;
   saveState();
-  if (scroll) setTimeout(() => sec.scrollIntoView({ block: "start", behavior: "smooth" }), 80);
+  if (scroll) setTimeout(() => void 0, 80);
 }
 function ccCloseMenusV83(except = "") {
   document.querySelectorAll("#sheet [data-cc-menu-panel]").forEach(p => {
@@ -868,7 +865,7 @@ function ccEditFieldV85(car, key) {
     const el = document.getElementById("editVehicle" + field);
     if (!el) return;
     const wrap = el.closest(".field, .cfStatusV51, label") || el;
-    wrap.scrollIntoView({ block: "center", behavior: ccReducedV85() ? "auto" : "smooth" });
+    void 0;
     wrap.classList.add("ccFieldFlashV85");
     setTimeout(() => wrap.classList.remove("ccFieldFlashV85"), 1600);
     setTimeout(() => el.focus({ preventScroll: true }), 350);
@@ -897,7 +894,7 @@ function ccExpOpenV85(car) {
   });
   const amt = slot.querySelector("[data-cc-exp-amount]");
   setTimeout(() => {
-    slot.scrollIntoView({ block: "nearest", behavior: ccReducedV85() ? "auto" : "smooth" });
+    void 0;
     amt?.focus({ preventScroll: true });
   }, 60);
 }
@@ -917,7 +914,7 @@ async function ccExpSaveV85(car, form) {
   );
   if (!Number.isFinite(amount) || amount <= 0) {
     form.querySelector(".ccExpAmtV85")?.classList.add("bad");
-    form.querySelector("[data-cc-exp-amount]")?.focus();
+    form.querySelector("[data-cc-exp-amount]")?.focus({ preventScroll: true });
     toast("Įrašykite sumą", "!");
     return;
   }

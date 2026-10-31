@@ -369,7 +369,7 @@ function bvOpenItemV86(id, { scroll = true } = {}) {
     el.classList.add("is-open");
     el.querySelector(".bvHeadV86")?.setAttribute("aria-expanded", "true");
     bvAnimV86(el.querySelector(".bvBodyV86"), true);
-    if (scroll) setTimeout(() => el.scrollIntoView({ block: "start", behavior: "smooth" }), 240);
+    if (scroll) setTimeout(() => void 0, 240);
   }
 }
 function bvNextOpenV86(afterId) {
@@ -472,7 +472,7 @@ function bvStartV86(files, { append = false } = {}) {
   bvRenderListV86();
   bvPersistV86();
   bvRunQueueV86();
-  if (!append) setTimeout(() => bvRootV86()?.scrollIntoView({ block: "start", behavior: "smooth" }), 80);
+  if (!append) setTimeout(() => void 0, 80);
 }
 function bvFinishV86({ keepDraft = false } = {}) {
   bvV86.stop = true;
@@ -509,9 +509,6 @@ async function bvSaveItemV86(item, { quiet = false, rerender = true } = {}) {
   if (s.dup && !item.dupOk) {
     if (!quiet) {
       toast("Galimas dublikatas – patvirtinkite", "!");
-      bvRootV86()
-        ?.querySelector(`[data-bv-item="${item.id}"] [data-bv-warn]`)
-        ?.scrollIntoView({ block: "center", behavior: "smooth" });
     }
     return false;
   }
@@ -741,7 +738,7 @@ document.addEventListener("click", async e => {
   if (!(t instanceof Element)) return;
   if (t.closest("[data-bv-manual-entry]")) {
     const make = document.getElementById("newVehicleregMake");
-    make?.closest(".field")?.scrollIntoView({ block: "center", behavior: "smooth" });
+    void 0;
     setTimeout(() => make?.focus({ preventScroll: true }), 300);
     return;
   }
@@ -749,7 +746,7 @@ document.addEventListener("click", async e => {
     bvShowAddPanelV86();
     document.getElementById("bvResumeV86")?.remove();
     await bvResumeV86();
-    setTimeout(() => bvRootV86()?.scrollIntoView({ block: "start", behavior: "smooth" }), 120);
+    setTimeout(() => void 0, 120);
     return;
   }
   if (t.closest("[data-bv-discard]")) {
@@ -845,7 +842,7 @@ document.addEventListener("click", async e => {
       item.status = "ready";
       item.error = "";
       bvRefreshItemV86(item);
-      document.getElementById(item.prefix + "regMake")?.focus();
+      document.getElementById(item.prefix + "regMake")?.focus({ preventScroll: true });
     }
     return;
   }
@@ -909,7 +906,7 @@ document.addEventListener("click", async e => {
         .map(id => document.querySelector(`#activeCarGrid [data-open-car="${id}"]`))
         .filter(Boolean);
       cards.forEach(c => c.classList.add("bvNewV86"));
-      cards[0]?.scrollIntoView({ block: "center", behavior: "smooth" });
+      void 0;
       setTimeout(() => cards.forEach(c => c.classList.remove("bvNewV86")), 2600);
     }, 260);
   }

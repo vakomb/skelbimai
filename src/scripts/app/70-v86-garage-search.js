@@ -424,8 +424,7 @@ function gsBindV86(bar) {
   });
   input.addEventListener("focus", () => {
     // Telefone klaviatūra neuždengia rezultatų – juosta pakyla į ekrano viršų
-    if (matchMedia("(max-width: 767px)").matches)
-      setTimeout(() => bar.scrollIntoView({ block: "start", behavior: "smooth" }), 250);
+    if (matchMedia("(max-width: 767px)").matches) setTimeout(() => void 0, 250);
   });
   bar.addEventListener("click", e => {
     const t = e.target;
@@ -434,7 +433,7 @@ function gsBindV86(bar) {
       gsV86.q = "";
       gsSaveV86();
       gsApplyV86({ resetPage: true });
-      input.focus();
+      input.focus({ preventScroll: true });
       return;
     }
     if (t.closest("#gsSortBtnV86")) {
@@ -485,7 +484,7 @@ document.addEventListener("click", e => {
     if (!state.ui.soldCarsOpen) document.getElementById("toggleSoldCarsBtn")?.click();
     setTimeout(() => {
       gsApplyV86();
-      document.getElementById("soldCarsSection")?.scrollIntoView({ block: "start", behavior: "smooth" });
+      void 0;
     }, 120);
   }
 });
@@ -497,7 +496,7 @@ document.addEventListener("keydown", e => {
   if (!input || !input.offsetParent || document.getElementById("modalBackdrop")?.classList.contains("show"))
     return;
   e.preventDefault();
-  input.focus();
+  input.focus({ preventScroll: true });
 });
 
 const __renderV86 = render;

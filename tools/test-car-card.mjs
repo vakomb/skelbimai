@@ -169,7 +169,7 @@ for (const W of [430, 1280]) {
       h: Math.round(n.getBoundingClientRect().height)
     };
   });
-  check(nums.labels === "Pirkta|Išlaidos|Savikaina" && nums.h <= 76, "skaičiai: " + nums.labels + ", aukštis " + nums.h + " px");
+  check(nums.labels === "Pirkta|Išlaidos|Savikaina" && nums.h <= 84, "skaičiai: " + nums.labels + ", aukštis " + nums.h + " px");
 
   // Savikainos išskaidymas, kaina ir marža
   await p.click("#sheet [data-cc-cost]");

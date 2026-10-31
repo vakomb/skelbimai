@@ -1842,3 +1842,131 @@ html:not(#ae):not(#af):not(#ag):not(#ah)
     animation: none !important;
   }
 }
+
+/* ---------- v86b: dydžiai kaip iki atnaujinimų (didesnis šriftas, sąrašas per visą plotį) ---------- */
+#sheet.ccV83 .ccCardHeadV85 h4,
+#sheet.ccV83 .ccSecTitleV83,
+#sheet.ccV83 .ccRdyTopV83 strong {
+  font-size: 19px;
+}
+#sheet.ccV83 .ccSecToggleV83 {
+  min-height: 62px;
+}
+#sheet.ccV83 .ccSecSumV83,
+#sheet.ccV83 .ccRdyCountV83 {
+  font-size: 14.5px;
+}
+#sheet.ccV83 .ccStatV85 {
+  padding: 10px 9px;
+}
+#sheet.ccV83 .ccStatV85 small {
+  font-size: 13.5px;
+}
+#sheet.ccV83 .ccStatV85 b {
+  font-size: 15px;
+}
+#sheet.ccV83 .ccStatV85 em {
+  font-size: 12.5px;
+}
+/* Duomenų laukai – eilutės per visą plotį: pavadinimas kairėje, reikšmė dešinėje */
+#sheet.ccV83 .ccSpecsV85 {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+}
+#sheet.ccV83 .ccSpecV85,
+#sheet.ccV83 .ccSpecV85:last-child:nth-child(odd) {
+  grid-column: auto;
+  min-height: 50px;
+  padding: 8px 0;
+  border: 0;
+  border-bottom: 1px solid #eef1f5;
+  border-radius: 0;
+  background: transparent;
+}
+#sheet.ccV83 .ccSpecIcoV85 {
+  display: none;
+}
+#sheet.ccV83 .ccSpecTxtV85 {
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+#sheet.ccV83 .ccSpecTxtV85 small {
+  flex: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: #4b5a6c;
+}
+#sheet.ccV83 .ccSpecTxtV85 b {
+  font-size: 16px;
+  font-weight: 750;
+  text-align: right;
+}
+#sheet.ccV83 .ccVinV85 {
+  min-height: 52px;
+  padding: 8px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+#sheet.ccV83 .ccVinV85 > span:first-child {
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+#sheet.ccV83 .ccVinV85 small {
+  font-size: 16px;
+  font-weight: 500;
+  color: #4b5a6c;
+}
+#sheet.ccV83 .ccVinV85 b {
+  font-size: 15.5px;
+  font-weight: 750;
+  letter-spacing: 0.02em;
+}
+#sheet.ccV83 .ccCopyIcoV85 {
+  width: 34px;
+  height: 34px;
+  background: transparent;
+  box-shadow: none;
+}
+/* Skaičiai – kaip anksčiau: centruoti, didesni */
+#sheet.ccV83 .ccNumsRowV85 {
+  padding: 14px 10px 14px 12px;
+}
+#sheet.ccV83 .ccNumV85 {
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+}
+#sheet.ccV83 .ccNumV85 + .ccNumV85 {
+  padding-left: 0;
+}
+#sheet.ccV83 .ccNumV85 small {
+  font-size: 14px;
+}
+#sheet.ccV83 .ccNumV85 b {
+  font-size: 20px;
+  font-weight: 800;
+}
+#sheet.ccV83 .ccNumV85.total b {
+  color: #12233a;
+}
+#sheet.ccV83 .ccRowMainV83 strong,
+#sheet.ccV83 .ccCostRowV83 strong {
+  font-size: 16px;
+}
+#sheet.ccV83 .ccRowMainV83 small,
+#sheet.ccV83 .ccCostRowV83 small {
+  font-size: 13.5px;
+}
+#sheet.ccV83 .ccCostRowV83 b {
+  font-size: 16px;
+}
+#sheet.ccV83 .ccNextV83 b {
+  font-size: 16px;
+}
