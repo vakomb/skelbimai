@@ -445,3 +445,10 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
 
 - Greitis: `body:has(#view-…active)` (61 taisyklė) pakeista į `body[data-ae-view="view-…"]:not(#aeV90)` (tas pats specifiškumas); atributą sinchroniškai nustato `src/scripts/app/74-v90-view-attr.js`. Pašalinti priverstiniai išdėstymai: `openCar` (56-v73) nustato scrollTop prieš perpiešiant, `companyGo` (13) ir kortelės juostos paraštė (68 `ccBuildBarV83`) – kitame kadre. Kortelės atidarymo JS ~3 kartus greitesnis.
 - `src/styles/197-v90-unify.css` (`<style id="v90">`): „Pridėti automobilį“ – skydelis permatomas, skiltys – baltos kortelės per visą plotį (forma platesnė); laukų etiketės visur 14 px; TA/draudimo pasirinkimas 42 px / 15 px; statistikos laikotarpis 2 × 2; kontaktų paieška kaip Garažo.
+
+## v91 – langų aukštis, neprilimpančios antraštės, skydeliai ant fono
+
+- `src/scripts/app/75-v91-viewport.js`: `--ae-vh` = `innerHeight` (atnaujinama: resize, pasukimas, pageshow, grįžus į programą, paslėpus klaviatūrą); paslėpus klaviatūrą langas grąžinamas į 0 (slenka tik `<body>`). Anksčiau iPhone po klaviatūros / Safari juostos likdavo pasenę vh – apačia „nukirpta“, perkrovus vėl gerai.
+- `src/styles/198-v91-sheets.css` (`<style id="v91">`): html/body ir `#modalBackdrop` aukštis = `--ae-vh`; `#sheet` max-height ≤ 94 % `--ae-vh`; lango apačioje `max(14px, safe-area) + 22px`; `.sheetHead` neprilimpa. Išskleidžiami skydeliai (Užduotys, Variantai, Buhalterijos, Meniu) – permatomi kaip „Pridėti automobilį“: antraštė ant fono (toje pačioje vietoje, 22 px), turinys – kortelės.
+- `196-v89-pages.css`: puslapio apačia `92px + safe-area` (v89 buvo be safe-area – iPhone apačia lįsdavo po meniu).
+- Paketas: juosta „Liko N · Išsaugoti visus paruoštus“ – sąrašo pabaigoje (nebeprilimpa ant kortelių), pasirodo / dingsta sklandžiai (`aeAnimHeightV87`); pašalinta kortelė išnyksta ir susiskleidžia kartu su tarpu.

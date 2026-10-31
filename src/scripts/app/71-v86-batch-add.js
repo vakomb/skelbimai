@@ -224,7 +224,13 @@ function bvRefreshTopV86() {
   root.querySelector("[data-bv-left]").textContent = pending.length
     ? `Liko ${pending.length}${savedN ? ` · pridėta ${savedN}` : ""}`
     : `Pridėta ${savedN}`;
-  root.querySelector("[data-bv-foot]").hidden = !pending.length;
+  // v91: juosta – sąrašo pabaigoje (ne ant kortelių); pasirodo / dingsta sklandžiai
+  const foot = root.querySelector("[data-bv-foot]");
+  const showFoot = pending.length > 0;
+  if (foot.hidden === showFoot) {
+    if (foot.isConnected && foot.getBoundingClientRect && root.offsetParent) aeAnimHeightV87(foot, showFoot);
+    else foot.hidden = !showFoot;
+  }
   if (!pending.length && savedN) bvSummaryV86();
 }
 function bvWarnHTMLV86(item) {
@@ -824,15 +830,27 @@ document.addEventListener("click", async e => {
       if (!bvV86.items.some(i => i.status !== "removed")) bvFinishV86();
       else bvNextOpenV86(item.id);
     };
-    if (el?.animate && !matchMedia("(prefers-reduced-motion: reduce)").matches)
+    // v91: kortelė išnyksta ir sklandžiai susiskleidžia (kartu su tarpu), tik tada pašalinama – sąrašas nešokinėja
+    if (el?.animate && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const h = el.getBoundingClientRect().height;
+      el.style.overflow = "hidden";
+      el.style.pointerEvents = "none";
       el.animate(
         [
           { opacity: 1, transform: "none" },
-          { opacity: 0, transform: "translateX(-16px)" }
+          { opacity: 0, transform: "scale(0.98)" }
         ],
-        { duration: 200, easing: "ease" }
-      ).onfinish = go;
-    else go();
+        { duration: 180, easing: "ease", fill: "forwards" }
+      ).onfinish = () => {
+        el.animate(
+          [
+            { height: h + "px", marginBottom: "0px" },
+            { height: "0px", marginBottom: "-12px" }
+          ],
+          { duration: 280, easing: "cubic-bezier(.32,.72,0,1)", fill: "forwards" }
+        ).onfinish = go;
+      };
+    } else go();
     return;
   }
   const retry = t.closest("[data-bv-retry]");

@@ -1,0 +1,94 @@
+/* v91: langai ir skydeliai.
+   1) Langų (#sheet) aukštis – pagal tikrą matomą ekrano aukštį (--ae-vh, 75-v91-viewport.js), ne pasenusį vh.
+   2) Lango antraštė neprilimpa – slenka kartu su turiniu.
+   3) Lango apačioje – pakankamai vietos (telefono apvalūs kampai ir „home“ juosta nebenukerpa mygtuko).
+   4) Puslapio apačia – virš apatinio meniu ir „home“ juostos. */
+html,
+body {
+  height: var(--ae-vh, 100%) !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) #modalBackdrop {
+  top: 0 !important;
+  bottom: auto !important;
+  height: var(--ae-vh, 100dvh) !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) #modalBackdrop #sheet {
+  max-height: min(
+    calc(var(--ae-vh, 100dvh) * 0.94),
+    calc(var(--ae-vh, 100dvh) - env(safe-area-inset-top) - 12px)
+  ) !important;
+}
+@media (max-width: 767px) {
+  html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) #modalBackdrop #sheet:not(.ccV83) {
+    padding-bottom: calc(max(14px, env(safe-area-inset-bottom)) + 22px) !important;
+  }
+}
+@media (min-width: 768px) {
+  html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) #modalBackdrop #sheet {
+    height: var(--ae-vh, 100vh) !important;
+    max-height: var(--ae-vh, 100vh) !important;
+  }
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) #modalBackdrop #sheet > .sheetHead,
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .sheetHead.ctHeadV55,
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .sheetHead.cfHeadV51 {
+  position: relative !important;
+  top: auto !important;
+  z-index: auto !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* ---------- Išskleidžiami skydeliai – kaip „Pridėti automobilį“: antraštė ant fono, turinys – baltos kortelės ---------- */
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  .app
+  #view-garage
+  #garageTasksSection.garageDisclosurePanel,
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .garageInlinePanel.garageInlineOpen,
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .accountingWorkspace.show,
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app #menuInlineDisclosure.menuDisclosure {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  border-color: transparent !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  .app
+  #view-garage
+  #garageTasksSection.garageDisclosurePanel
+  > .sectionHead,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  .app
+  .garageInlinePanel.garageInlineOpen
+  > .sectionHead,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  .app
+  .garageInlinePanel.garageInlineOpen
+  .contactsHead,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  .app
+  .accountingWorkspace.show
+  .accountingWorkspaceHead,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  .app
+  #menuInlineDisclosure.menuDisclosure
+  .menuDisclosureHead {
+  margin-left: 12px !important;
+  margin-right: 12px !important;
+}

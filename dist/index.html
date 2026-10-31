@@ -54344,7 +54344,13 @@ function bvRefreshTopV86() {
   root.querySelector("[data-bv-left]").textContent = pending.length
     ? `Liko ${pending.length}${savedN ? ` · pridėta ${savedN}` : ""}`
     : `Pridėta ${savedN}`;
-  root.querySelector("[data-bv-foot]").hidden = !pending.length;
+  // v91: juosta – sąrašo pabaigoje (ne ant kortelių); pasirodo / dingsta sklandžiai
+  const foot = root.querySelector("[data-bv-foot]");
+  const showFoot = pending.length > 0;
+  if (foot.hidden === showFoot) {
+    if (foot.isConnected && foot.getBoundingClientRect && root.offsetParent) aeAnimHeightV87(foot, showFoot);
+    else foot.hidden = !showFoot;
+  }
   if (!pending.length && savedN) bvSummaryV86();
 }
 function bvWarnHTMLV86(item) {
@@ -54944,15 +54950,27 @@ document.addEventListener("click", async e => {
       if (!bvV86.items.some(i => i.status !== "removed")) bvFinishV86();
       else bvNextOpenV86(item.id);
     };
-    if (el?.animate && !matchMedia("(prefers-reduced-motion: reduce)").matches)
+    // v91: kortelė išnyksta ir sklandžiai susiskleidžia (kartu su tarpu), tik tada pašalinama – sąrašas nešokinėja
+    if (el?.animate && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const h = el.getBoundingClientRect().height;
+      el.style.overflow = "hidden";
+      el.style.pointerEvents = "none";
       el.animate(
         [
           { opacity: 1, transform: "none" },
-          { opacity: 0, transform: "translateX(-16px)" }
+          { opacity: 0, transform: "scale(0.98)" }
         ],
-        { duration: 200, easing: "ease" }
-      ).onfinish = go;
-    else go();
+        { duration: 180, easing: "ease", fill: "forwards" }
+      ).onfinish = () => {
+        el.animate(
+          [
+            { height: h + "px", marginBottom: "0px" },
+            { height: "0px", marginBottom: "-12px" }
+          ],
+          { duration: 280, easing: "cubic-bezier(.32,.72,0,1)", fill: "forwards" }
+        ).onfinish = go;
+      };
+    } else go();
     return;
   }
   const retry = t.closest("[data-bv-retry]");
@@ -55422,6 +55440,51 @@ function aeSyncViewAttrV90() {
   };
   if (document.body) start();
   else document.addEventListener("DOMContentLoaded", start, { once: true });
+})();
+
+// v91: tikslus ekrano aukštis telefone. iPhone (ypač programėlė pradžios ekrane) po klaviatūros ar Safari juostos
+// pasikeitimo palieka pasenusius vh/dvh – tada lango apačia (mygtukas „Sukurti sutartį“ ir pan.) atsiduria per žemai,
+// o perkrovus vėl viskas gerai. Čia --ae-vh = tikras matomas aukštis (innerHeight), atnaujinamas pasikeitus dydžiui,
+// pasukus, grįžus į programą ir paslėpus klaviatūrą; tada ir puslapis grąžinamas į vietą (slenka tik <body>).
+// Stilius – styles/198-v91-sheets.css.
+// Dalis bendro app IIFE: visi src/scripts/app/*.js failai sujungiami eilės tvarka į vieną scope (žr. ARCHITECTURE.md).
+
+function aeSetVhV91() {
+  const h = Math.round(window.innerHeight || document.documentElement.clientHeight || 0);
+  if (!h) return;
+  const v = h + "px";
+  const root = document.documentElement;
+  if (root.style.getPropertyValue("--ae-vh") !== v) root.style.setProperty("--ae-vh", v);
+}
+function aeResetPageScrollV91() {
+  // Slenka tik <body>; jei iOS po klaviatūros paliko pasislinkusį patį langą – grąžiname į 0
+  const se = document.scrollingElement;
+  if (window.scrollY && se && se !== document.body && se.scrollHeight <= window.innerHeight + 2)
+    window.scrollTo(0, 0);
+}
+(() => {
+  aeSetVhV91();
+  let raf = 0;
+  const schedule = () => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      raf = 0;
+      aeSetVhV91();
+    });
+  };
+  window.addEventListener("resize", schedule, { passive: true });
+  window.addEventListener("orientationchange", () => setTimeout(schedule, 250), { passive: true });
+  window.addEventListener("pageshow", schedule);
+  document.addEventListener("visibilitychange", () => !document.hidden && setTimeout(schedule, 60));
+  // Klaviatūra paslėpta (laukas prarado fokusą, o naujas laukas jo negavo)
+  document.addEventListener("focusout", () =>
+    setTimeout(() => {
+      const a = document.activeElement;
+      if (a && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)) return;
+      aeSetVhV91();
+      aeResetPageScrollV91();
+    }, 260)
+  );
 })();
 
 })();
@@ -84701,19 +84764,19 @@ html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .bvResumeV86 .bvGoV86 {
   gap: 8px;
 }
 #bvRootV86 .bvFootV86 {
-  position: sticky;
-  bottom: calc(76px + env(safe-area-inset-bottom));
-  z-index: 5;
+  /* v91: ne prilipusi – sąrašo pabaigoje, nebeuždengia automobilių kortelių */
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 10px 12px;
   border: 1px solid #e3e5ea;
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 10px 30px rgba(16, 24, 40, 0.12);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  background: #fff;
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 6px 18px rgba(15, 23, 42, 0.06);
 }
 #bvRootV86 .bvFootV86[hidden] {
   display: none;
@@ -84952,6 +85015,11 @@ html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #bvRootV86 .bvItemActsV86
 #bvRootV86 * {
   overflow-anchor: none;
 }
+/* v91: apatinė juosta – kaip kortelė sąrašo pabaigoje, aiškesnis tekstas */
+#view-garage #bvRootV86 .bvFootTxtV86 {
+  color: #4b5a6c;
+  font-size: 14px;
+}
 </style>
 <style id="v89">/* v89: Garažas, Buhalterija ir Meniu – vienodas viršus ir plytelės (73-v89-tile-icons.js).
    Vienodi: puslapio paraštės (antraštė nejuda perjungiant), Vadybininko mygtukas, tarpas iki plytelių (12 px),
@@ -84970,7 +85038,7 @@ html:not(#ae):not(#af):not(#ag)
   body:not(#ae):not(#af):has(#view-garage.active, #view-accounting.active, #view-menu.active)
   .app {
   padding-top: 16px !important;
-  padding-bottom: 92px !important;
+  padding-bottom: calc(92px + env(safe-area-inset-bottom)) !important;
 }
 html:not(#ae):not(#af):not(#ag):not(#ah)
   body:not(#ae):not(#af)
@@ -85440,6 +85508,101 @@ html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .cfSegV51 >
 html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) #modalBackdrop #sheet .cfSegV51 > button {
   min-height: 42px !important;
   font-size: 15px !important;
+}
+</style>
+<style id="v91">/* v91: langai ir skydeliai.
+   1) Langų (#sheet) aukštis – pagal tikrą matomą ekrano aukštį (--ae-vh, 75-v91-viewport.js), ne pasenusį vh.
+   2) Lango antraštė neprilimpa – slenka kartu su turiniu.
+   3) Lango apačioje – pakankamai vietos (telefono apvalūs kampai ir „home“ juosta nebenukerpa mygtuko).
+   4) Puslapio apačia – virš apatinio meniu ir „home“ juostos. */
+html,
+body {
+  height: var(--ae-vh, 100%) !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) #modalBackdrop {
+  top: 0 !important;
+  bottom: auto !important;
+  height: var(--ae-vh, 100dvh) !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) #modalBackdrop #sheet {
+  max-height: min(
+    calc(var(--ae-vh, 100dvh) * 0.94),
+    calc(var(--ae-vh, 100dvh) - env(safe-area-inset-top) - 12px)
+  ) !important;
+}
+@media (max-width: 767px) {
+  html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) #modalBackdrop #sheet:not(.ccV83) {
+    padding-bottom: calc(max(14px, env(safe-area-inset-bottom)) + 22px) !important;
+  }
+}
+@media (min-width: 768px) {
+  html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) #modalBackdrop #sheet {
+    height: var(--ae-vh, 100vh) !important;
+    max-height: var(--ae-vh, 100vh) !important;
+  }
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) #modalBackdrop #sheet > .sheetHead,
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .sheetHead.ctHeadV55,
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet
+  .sheetHead.cfHeadV51 {
+  position: relative !important;
+  top: auto !important;
+  z-index: auto !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* ---------- Išskleidžiami skydeliai – kaip „Pridėti automobilį“: antraštė ant fono, turinys – baltos kortelės ---------- */
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  .app
+  #view-garage
+  #garageTasksSection.garageDisclosurePanel,
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .garageInlinePanel.garageInlineOpen,
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app .accountingWorkspace.show,
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) .app #menuInlineDisclosure.menuDisclosure {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  border-color: transparent !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  .app
+  #view-garage
+  #garageTasksSection.garageDisclosurePanel
+  > .sectionHead,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  .app
+  .garageInlinePanel.garageInlineOpen
+  > .sectionHead,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  .app
+  .garageInlinePanel.garageInlineOpen
+  .contactsHead,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  .app
+  .accountingWorkspace.show
+  .accountingWorkspaceHead,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  .app
+  #menuInlineDisclosure.menuDisclosure
+  .menuDisclosureHead {
+  margin-left: 12px !important;
+  margin-right: 12px !important;
 }
 </style>
 <script id="ready-v77">// v77: visi stiliai ir skriptai perskaityti – rodome puslapį vienu kartu (be tarpinių, nesustilizuotų kadrų).
