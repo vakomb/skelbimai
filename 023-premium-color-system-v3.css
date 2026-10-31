@@ -1,5 +1,4 @@
 :root {
-  --bg: #f5f7fb !important;
   --surface: #ffffff !important;
   --surface-2: #f8fafc !important;
   --surface-3: #eef2f7 !important;
@@ -13,63 +12,20 @@
   --accent-2: #4254c7 !important;
   --accent-soft: #eef0ff !important;
   --accent-line: #d9dcff !important;
-  --teal: #258f91 !important;
-  --teal-soft: #e9f7f7 !important;
-  --teal-line: #cceceb !important;
   --success: #2c8b5c !important;
   --success-soft: #edf8f2 !important;
   --warn: #b78320 !important;
   --warn-soft: #fff7e7 !important;
   --danger: #c95661 !important;
   --danger-soft: #fff1f3 !important;
-  --info: #5364d8 !important;
-  --info-soft: #eef0ff !important;
-  --nav: #ffffff !important;
-  --navBorder: #dfe6ef !important;
 }
-html,
-body {
-  background: var(--bg) !important;
-  color: var(--text) !important;
-}
-body {
-  background-image: none !important;
-}
+
 .btn,
 .btn.primary,
 button[data-primary="true"] {
-  background: linear-gradient(180deg, var(--accent) 0%, var(--accent-2) 100%) !important;
-  border-color: var(--accent) !important;
   color: #fff !important;
-  box-shadow: 0 9px 20px rgba(83, 100, 216, 0.16) !important;
 }
-.btn:hover {
-  filter: brightness(1.02);
-}
-.btn.secondary {
-  background: #fff !important;
-  color: var(--text) !important;
-  border-color: var(--line) !important;
-  box-shadow: 0 5px 14px rgba(23, 34, 53, 0.045) !important;
-}
-.btn.ghost {
-  background: transparent !important;
-  color: var(--text) !important;
-  border-color: var(--line) !important;
-  box-shadow: none !important;
-}
-.btn.danger,
-.btn.danger:not(.ghost) {
-  background: var(--danger) !important;
-  border-color: var(--danger) !important;
-  box-shadow: 0 7px 16px rgba(201, 86, 97, 0.12) !important;
-}
-.ghostDanger {
-  background: #fff !important;
-  color: var(--danger) !important;
-  border-color: #f0c9cf !important;
-  box-shadow: none !important;
-}
+
 .input,
 .select,
 .textarea {
@@ -77,19 +33,7 @@ button[data-primary="true"] {
   color: var(--text) !important;
   border-color: var(--line) !important;
 }
-.input:focus,
-.select:focus,
-.textarea:focus {
-  border-color: var(--accent) !important;
-  box-shadow: 0 0 0 3px rgba(83, 100, 216, 0.1) !important;
-}
-.badge.info,
-.statChip.info,
-.tag.info {
-  background: var(--accent-soft) !important;
-  color: var(--accent-2) !important;
-  border-color: var(--accent-line) !important;
-}
+
 .badge.good,
 .tag.good {
   background: var(--success-soft) !important;
@@ -108,49 +52,14 @@ button[data-primary="true"] {
   color: var(--danger) !important;
   border-color: #f0c9cf !important;
 }
-.rewardCard .ico,
-.achievement .ico,
-.histIcon,
-.menuLink .ico,
-.garageAction .ico {
-  background: var(--accent-soft) !important;
-  color: var(--accent-2) !important;
-}
+
 .garageAction .ico {
   border-color: transparent !important;
 }
-.rewardCard .cost {
-  background: var(--warn-soft) !important;
-  border-color: #f3dfad !important;
-  color: #916b18 !important;
-}
-.bar,
-.miniBar,
-.carDetailProgress,
-.carListProgressTrack {
-  background: var(--surface-3) !important;
-  border-color: var(--line) !important;
-}
-.bar .fill,
-.miniBar .fill,
-.carDetailProgress span,
-.carListProgressTrack span {
-  background: linear-gradient(90deg, var(--accent) 0%, #6878e1 100%) !important;
-}
-.xpLine strong,
-.rewardPills .xp,
-.carListProgress,
-.carProgressPercent {
-  color: var(--accent-2) !important;
-}
+
 .panel,
-.heroCard,
-.dailyCard,
 .taskGroup,
 .taskCard,
-.carCard,
-.rewardCard,
-.achievement,
 .switch,
 .listItem,
 .financeRow,
@@ -158,52 +67,26 @@ button[data-primary="true"] {
 .garageAction,
 .menuLink,
 .garageCarTaskCard,
-.garageLeadCard,
-.garageMenuPanel,
-.carDetailHero,
-.carEditSection,
-.carPhotosSection,
-.photoManageBox {
+.carEditSection {
   background: var(--surface) !important;
   border-color: var(--line) !important;
   box-shadow: var(--shadow-soft) !important;
 }
 .taskCard,
 .listItem,
-.carMetricCard,
-.carInfoBox,
-.carSoldSummary,
-.garageLeadTag,
-.leadListChip {
+.garageLeadTag {
   background: var(--surface-2) !important;
 }
-.miniStat {
-  background: linear-gradient(180deg, #fbfcfe 0%, #f4f7fa 100%) !important;
-  border-color: var(--line) !important;
-  box-shadow: var(--shadow-soft) !important;
-}
+
 .leadListCard,
 .carListCard {
-  background: var(--surface) !important;
   border-color: var(--line) !important;
-  box-shadow: 0 9px 24px rgba(23, 34, 53, 0.055) !important;
 }
 .leadListPhoto,
 .carListPhoto {
-  background: var(--surface-3) !important;
   border-color: var(--line) !important;
 }
-.leadListChip,
-.carListChip {
-  background: var(--surface-2) !important;
-  color: var(--muted) !important;
-  border-color: var(--line) !important;
-}
-.leadCallBtn {
-  background: var(--accent) !important;
-  border-color: var(--accent) !important;
-  color: #fff !important;
-}
+
 .garageLeadTag.warn {
   background: var(--warn-soft) !important;
   border-color: #f3dfad !important;
@@ -219,79 +102,27 @@ button[data-primary="true"] {
   border-color: #f0c9cf !important;
   color: var(--danger) !important;
 }
-.carStatusPill {
-  background: rgba(83, 100, 216, 0.94) !important;
-}
-.carProgressPill {
-  background: rgba(24, 34, 53, 0.76) !important;
-}
-.carMetricProfit strong,
+
 .positiveText {
   color: var(--success) !important;
 }
 .negativeText {
   color: var(--danger) !important;
 }
-.carSellBtn,
-.carConfirmSellBtn {
-  background: var(--accent) !important;
-  border-color: var(--accent) !important;
-}
-.todayPriorityBox {
-  border-color: #efc5ca !important;
-  background: linear-gradient(180deg, #fffafb 0%, #fff4f5 100%) !important;
-  box-shadow: 0 10px 24px rgba(201, 86, 97, 0.055) !important;
-}
-.todayPriorityTitle strong {
-  color: #8f3d47 !important;
-}
-.todayPriorityHead > span,
-.todayTaskArrow {
-  color: var(--danger) !important;
-}
-.priorityDot {
-  background: #d45a66 !important;
-  box-shadow: 0 0 0 5px #fde6e9 !important;
-}
-.todayTaskKind {
-  background: #fdecee !important;
-  color: #9a4650 !important;
-}
-.navWrap {
-  background: rgba(245, 247, 251, 0.9) !important;
-  border-top: 0 !important;
-}
+
 .nav {
-  background: rgba(255, 255, 255, 0.98) !important;
   border-color: var(--line) !important;
-  box-shadow: 0 13px 34px rgba(23, 34, 53, 0.09) !important;
 }
-.navBtn {
-  color: #738198 !important;
-}
-.navBtn.active {
-  background: var(--accent-soft) !important;
-  border-color: var(--accent-line) !important;
-  color: var(--accent-2) !important;
-}
-.toggle.on {
-  background: var(--accent) !important;
-}
+
 .chev {
-  background: var(--surface-2) !important;
-  border-color: var(--line) !important;
   color: var(--muted) !important;
 }
-.heroCard,
-.dailyCard,
 .menuIntro,
 .sheet,
 .nav,
 .garageAction,
 .menuLink,
-.rewardCard,
 .taskCard,
-.carCard,
 .financeRow,
 .historyItem {
   backdrop-filter: none !important;
@@ -301,8 +132,6 @@ button[data-primary="true"] {
 .garageAction,
 .menuLink,
 .taskCard,
-.carCard,
-.rewardCard,
 .smallBtn,
 .closeBtn {
   transition:
@@ -316,14 +145,11 @@ button[data-primary="true"] {
 .garageAction:active,
 .menuLink:active,
 .taskCard:active,
-.carCard:active,
-.rewardCard:active,
 .smallBtn:active,
 .closeBtn:active {
   transform: scale(0.985) !important;
 }
 html[data-theme="dark"] {
-  --bg: #0f1522 !important;
   --surface: #151d2b !important;
   --surface-2: #1a2433 !important;
   --surface-3: #202b3c !important;
@@ -331,8 +157,6 @@ html[data-theme="dark"] {
   --muted: #aeb9c9 !important;
   --muted-2: #8290a5 !important;
   --line: #29364a !important;
-  --nav: #151d2b !important;
-  --navBorder: #29364a !important;
   --accent: #7180ea !important;
   --accent-2: #8794f0 !important;
   --accent-soft: #202947 !important;
@@ -343,9 +167,4 @@ html[data-theme="dark"] .btn.ghost {
   background: var(--surface-2) !important;
   color: var(--text) !important;
   border-color: var(--line) !important;
-}
-html[data-theme="dark"] .navBtn.active {
-  background: var(--accent-soft) !important;
-  border-color: var(--accent-line) !important;
-  color: var(--accent-2) !important;
 }

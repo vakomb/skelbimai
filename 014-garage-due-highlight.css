@@ -22,12 +22,3 @@
 .garageCarTaskCard .taskMeta {
   align-items: center !important;
 }
-.homePrioritySection {
-  margin: 12px 0 14px;
-}
-.homePriorityMount {
-  width: 100%;
-}
-.homePriorityMount .todayPriorityBox {
-  margin: 0 !important;
-}

@@ -1,19 +1,9 @@
-.garageCarTaskCard {
-  padding: 0 !important;
-  overflow: hidden !important;
-  border-radius: 20px !important;
-}
 .garageCarTaskHead {
-  padding: 14px 15px !important;
   margin: 0 !important;
-  background: var(--surface-2);
   border-bottom: 1px solid var(--line);
 }
-.garageCarTaskHead strong {
-  font-size: 16px !important;
-}
+
 .garageCarTaskCard .taskList {
-  padding: 8px 10px 11px !important;
   gap: 7px !important;
 }
 .garageCarTaskCard .taskCard {

@@ -51,10 +51,7 @@
 }
 .garageUnifiedSectionHead h3,
 .accountingRefSectionTitle,
-.accountingRefOpsHead h3,
-.menuSectionTitle,
-.financeSectionTitle,
-.contactsSectionTitle {
+.accountingRefOpsHead h3 {
   margin: 0 !important;
   font-size: 22px !important;
   line-height: 1.2 !important;
@@ -181,11 +178,7 @@
 #view-menu .menuLink:active {
   transform: scale(0.986) !important;
 }
-#view-accounting .accountingRefAction.active {
-  outline: 0 !important;
-  border-color: #cfdce8 !important;
-  background: #f6f9fc !important;
-} /* One card surface for task groups, accounting, menu, contacts, finance and history. */
+/* One card surface for task groups, accounting, menu, contacts, finance and history. */
 .panel,
 .taskGroup,
 .menuIntro,
@@ -195,7 +188,6 @@
 .accountingRefWait,
 .accountingRefOps,
 .financeMobileFold,
-.financeMobileCard,
 .homeProFold,
 .homeProToday,
 .homeProSection,
@@ -203,10 +195,8 @@
 .menuLink,
 .companyCustomer,
 .companyRow,
-.companyStat,
 .contactGroupCard,
 .garageCarTaskCard,
-.garageLeadCard,
 .carListCard,
 .leadListCard,
 .smallStatBox,
@@ -241,8 +231,6 @@
   font-family: inherit !important;
 }
 .accountingRefEmpty,
-.menuEmpty,
-.financeEmpty,
 .contactsEmpty {
   border: 1px dashed var(--component-line) !important;
   border-radius: 14px !important;
@@ -301,7 +289,6 @@ textarea.input {
   box-shadow: var(--shadow, 0 12px 38px rgba(15, 23, 42, 0.18)) !important;
 }
 .sheetHead,
-.sheetTitle,
 .sheet h2,
 .sheet h3 {
   font-family: inherit !important;
@@ -332,10 +319,7 @@ textarea.input {
   .financeMobileSectionHead h3,
   .garageUnifiedSectionHead h3,
   .accountingRefSectionTitle,
-  .accountingRefOpsHead h3,
-  .menuSectionTitle,
-  .financeSectionTitle,
-  .contactsSectionTitle {
+  .accountingRefOpsHead h3 {
     font-size: 21px !important;
   }
   #view-garage .garageRefTile,

@@ -1,6 +1,0 @@
-#activeCarGrid .carListProgress,
-#soldCarGrid .carListProgress,
-#activeCarGrid .carListProgressTrack,
-#soldCarGrid .carListProgressTrack {
-  display: none !important;
-}

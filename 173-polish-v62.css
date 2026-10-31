@@ -2,9 +2,6 @@
 
 /* ---------- Automobilio kortelės antraštė: numeris ir pavadinimas kairėje, ✕ dešinėje ---------- */
 html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV61 .premiumSheetHead {
-  display: flex !important;
-  align-items: center !important;
-  gap: 10px !important;
   min-height: 54px !important;
   margin: 0 0 12px !important;
   padding: 2px 0 12px !important;
@@ -16,17 +13,9 @@ html:not(#ae):not(#af)
   .premiumSheetHead
   .cdHeadSpacerV55 {
   flex: none !important;
-  display: flex !important;
   align-items: center !important;
 }
-html:not(#ae):not(#af)
-  body:not(#ae):not(#af)
-  #modalBackdrop
-  #sheet.carSheetV61
-  .premiumSheetHead
-  .cdHeadSpacerV55:empty {
-  display: none !important;
-}
+
 html:not(#ae):not(#af)
   body:not(#ae):not(#af)
   #modalBackdrop
@@ -35,14 +24,11 @@ html:not(#ae):not(#af)
   .premiumSheetTitle {
   flex: 1 1 auto !important;
   min-width: 0 !important;
-  text-align: left !important;
 }
 html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV61 .premiumSheetHead h3 {
-  font-size: 20px !important;
   line-height: 1.2 !important;
   font-weight: 800 !important;
   letter-spacing: -0.02em !important;
-  text-align: left !important;
 }
 html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV61 .premiumSheetHead .closeBtn {
   flex: none !important;
@@ -82,9 +68,6 @@ html:not(#ae):not(#af)
   letter-spacing: 0.07em !important;
 }
 @media (max-width: 400px) {
-  html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.carSheetV61 .premiumSheetHead h3 {
-    font-size: 18px !important;
-  }
   html:not(#ae):not(#af)
     body:not(#ae):not(#af)
     #modalBackdrop
@@ -189,22 +172,6 @@ html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage #addCarPanel {
     opacity: 0;
     transform: translateY(-6px);
   }
-}
-html:not(#ae):not(#af)
-  body:not(#ae):not(#af)
-  #view-garage
-  .tkExpenseFieldV62
-  input::-webkit-outer-spin-button,
-html:not(#ae):not(#af)
-  body:not(#ae):not(#af)
-  #view-garage
-  .tkExpenseFieldV62
-  input::-webkit-inner-spin-button {
-  -webkit-appearance: none !important;
-  margin: 0 !important;
-}
-html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .tkExpenseFieldV62 input {
-  -moz-appearance: textfield !important;
 }
 
 /* ---------- Varianto kortelė ---------- */
@@ -390,19 +357,7 @@ html:not(#ae):not(#af)
   strong.negativeText {
   color: var(--ds-bad) !important;
 }
-html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsCardV62 h4,
-html:not(#ae):not(#af)
-  body:not(#ae):not(#af)
-  #modalBackdrop
-  #sheet.leadSheetV62
-  .premiumMedia
-  .premiumSectionHead
-  h4 {
-  margin: 0 0 12px !important;
-  font-size: 17px !important;
-  font-weight: 800 !important;
-  color: var(--ds-ink) !important;
-}
+
 html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .lsGridV62 {
   display: grid !important;
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -463,15 +418,7 @@ html:not(#ae):not(#af)
   justify-content: space-between !important;
   margin: 0 !important;
 }
-html:not(#ae):not(#af)
-  body:not(#ae):not(#af)
-  #modalBackdrop
-  #sheet.leadSheetV62
-  .premiumMedia
-  .premiumSectionHead
-  h4 {
-  margin: 0 !important;
-}
+
 html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumMedia .premiumCount {
   min-width: 26px !important;
   height: 26px !important;
@@ -540,9 +487,6 @@ html:not(#ae):not(#af)
 }
 html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumMedia .premiumThumb {
   position: relative !important;
-  aspect-ratio: 1 !important;
-  border-radius: 12px !important;
-  overflow: hidden !important;
 }
 html:not(#ae):not(#af)
   body:not(#ae):not(#af)
@@ -576,12 +520,8 @@ html:not(#ae):not(#af)
   .premiumMedia
   .premiumThumbDelete {
   position: absolute !important;
-  top: 6px !important;
-  right: 6px !important;
   display: grid !important;
   place-items: center !important;
-  width: 26px !important;
-  height: 26px !important;
   min-width: 0 !important;
   min-height: 0 !important;
   padding: 0 !important;
@@ -589,7 +529,6 @@ html:not(#ae):not(#af)
   border-radius: 50% !important;
   background: rgba(15, 23, 35, 0.55) !important;
   color: #fff !important;
-  font-size: 16px !important;
   line-height: 1 !important;
   backdrop-filter: blur(6px) !important;
   box-shadow: none !important;

@@ -1,0 +1,50 @@
+/* v92: vienodos išskleidžiamų skydelių antraštės („Pavadinimas | Uždaryti“) visuose puslapiuose – tas pats šriftas,
+   dydis, spalva, „Uždaryti“ mygtukas; Garažo „Aktyvūs automobiliai“ – rami sekcijos etiketė su skaičiumi
+   (kaip Nustatymų „PASKYRA“, „SAUGA“). */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  :is(
+    .garageTaskClose,
+    .garageInlineClose,
+    .accountingWorkspaceClose,
+    .menuDisclosureClose,
+    #cancelAddCarBtn
+  ) {
+  min-height: 36px !important;
+  height: 36px !important;
+  padding: 0 15px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: #edf1f7 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  color: #2b3240 !important;
+  -webkit-text-fill-color: #2b3240 !important;
+  font-size: 14px !important;
+  font-weight: 650 !important;
+  letter-spacing: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  :is(
+    .garageTaskClose,
+    .garageInlineClose,
+    .accountingWorkspaceClose,
+    .menuDisclosureClose,
+    #cancelAddCarBtn
+  ):active {
+  background: #e3e8f0 !important;
+}
+
+/* Garažas: „Aktyvūs automobiliai“ */
+
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app
+  #view-garage
+  .sectionHead.activeHeadV92
+  > h2 {
+  -webkit-text-fill-color: #7a8799 !important;
+}

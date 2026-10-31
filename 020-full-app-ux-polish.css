@@ -1,336 +1,80 @@
 :root {
-  --brand: #0f766e;
-  --brand-strong: #0b5f59;
   --brand-soft: #e8f7f4;
-  --brand-line: #bfe7df;
   --focus: #1d7a73;
-  --bg2: #f4f7fb;
 }
-html,
+
 body {
-  background: var(--bg2) !important;
-  color: var(--text) !important;
-}
-body {
-  font-size: 16px !important;
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
 }
-.app {
-  max-width: 520px !important;
-  padding: 14px 12px calc(112px + env(safe-area-inset-bottom)) !important;
-}
-.btn {
-  min-height: 48px !important;
-  padding: 12px 16px !important;
-  border-radius: 14px !important;
-  font-size: 14px !important;
-  font-weight: 900 !important;
-  background: linear-gradient(180deg, var(--brand) 0%, var(--brand-strong) 100%) !important;
-  border-color: var(--brand) !important;
-  color: #fff !important;
-  box-shadow: 0 7px 16px rgba(15, 118, 110, 0.14) !important;
-}
-.btn.secondary,
-.btn.ghost {
-  background: #fff !important;
-  color: var(--text) !important;
-  border: 1px solid var(--line) !important;
-  box-shadow: none !important;
-}
-.btn.danger {
-  background: linear-gradient(180deg, #e0525e 0%, #c93644 100%) !important;
-  border-color: #c93644 !important;
-}
-.btn:active,
-.navBtn:active,
-.taskCard:active,
-.carCard:active,
-.zoneCard:active,
-.rewardCard:active,
-.smallBtn:active,
-.achievement:active,
-.garageAction:active,
-.menuLink:active {
-  transform: scale(0.985) !important;
-}
+
 .input,
 .select,
 .textarea {
-  min-height: 50px !important;
-  padding: 12px 14px !important;
-  border-radius: 13px !important;
-  font-size: 15px !important;
-  border-color: var(--line) !important;
-  background: #fff !important;
   box-shadow: none !important;
 }
 .input:focus,
 .select:focus,
 .textarea:focus {
   outline: none !important;
-  border-color: var(--brand) !important;
-  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1) !important;
 }
-.field label {
-  font-size: 12px !important;
-  font-weight: 850 !important;
-  color: var(--muted) !important;
-}
+
 .panel,
 .taskCard,
-.carCard,
-.rewardCard,
 .smallStatBox,
-.zoneCard,
-.achievement,
 .switch,
 .listItem,
 .financeRow,
 .historyItem,
 .garageAction,
 .menuLink,
-.garageCarTaskCard,
-.garageLeadCard {
+.garageCarTaskCard {
   border-color: var(--line) !important;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05) !important;
 }
-.panel {
-  border-radius: 20px !important;
-}
-.heroCard {
-  border-radius: 22px !important;
-  padding: 16px !important;
-}
-.xpLine strong {
-  font-size: 25px !important;
-}
-.miniStat {
-  padding: 14px !important;
-  border-radius: 18px !important;
-}
-.miniStat .value {
-  font-size: 26px !important;
-}
-.section {
-  margin-top: 16px !important;
-}
-.sectionHead {
-  margin: 0 2px 10px !important;
-}
-.sectionHead h2 {
-  font-size: 20px !important;
-  font-weight: 950 !important;
-}
+
 .taskGroup {
-  border-radius: 18px !important;
   overflow: hidden !important;
   margin-bottom: 10px !important;
-  background: #fff !important;
 }
-.taskGroupHead {
-  min-height: 58px !important;
-  padding: 14px 15px !important;
-  background: #fff !important;
-}
-.taskGroupHead h3 {
-  font-size: 16px !important;
-  letter-spacing: 0 !important;
-  text-transform: none !important;
-  color: var(--text) !important;
-}
-.taskGroupHead .sub {
-  display: none !important;
-}
-.taskCard {
-  min-height: 66px !important;
-  padding: 12px !important;
-  border-radius: 15px !important;
-  background: #f8fafc !important;
-}
-.taskMain strong {
-  font-size: 15px !important;
-}
-.taskMeta {
-  font-size: 11px !important;
-}
-.check {
-  width: 28px !important;
-  height: 28px !important;
-  border-radius: 10px !important;
-}
-.garageMenuPanel {
-  padding: 14px !important;
-  border-radius: 20px !important;
-}
-.garageMenuTitle strong {
-  font-size: 18px !important;
-}
-.garageMenuGrid {
-  gap: 10px !important;
-}
-.garageAction {
-  min-height: 92px !important;
-  padding: 13px !important;
-  border-radius: 18px !important;
-}
+
 .garageAction .ico {
-  background: var(--brand-soft) !important;
   border-radius: 12px !important;
 }
-.garageAction strong {
-  font-size: 14px !important;
-}
+
 .garageCarTaskCard {
-  border-radius: 18px !important;
   overflow: hidden !important;
 }
 .garageCarTaskHead {
   padding: 14px !important;
   background: #f8fafc !important;
 }
-.garageCarTaskHead strong {
-  font-size: 16px !important;
-}
-.garageLeadCard {
-  border-radius: 20px !important;
-}
-.garageLeadBody h4 {
-  font-size: 17px !important;
-}
-.garageLeadLine {
-  font-size: 13px !important;
-}
+
 .leadCallBtn {
   min-height: 44px !important;
   border-radius: 11px !important;
-  background: var(--brand) !important;
-  border-color: var(--brand) !important;
-  color: #fff !important;
   font-size: 12px !important;
 }
-.leadGalleryMain,
-.galleryMain {
-  border-radius: 18px !important;
-}
-.leadGalleryThumb,
+
 .galleryThumbs button {
   border-radius: 12px !important;
 }
-.menuIntro {
-  padding: 16px !important;
-  border-radius: 20px !important;
-}
-.menuLinks {
-  gap: 10px !important;
-}
-.menuLink {
-  min-height: 104px !important;
-  padding: 14px !important;
-  border-radius: 18px !important;
-}
-.menuLink .ico {
-  background: var(--brand-soft) !important;
-}
-.menuLink strong {
-  font-size: 15px !important;
-}
+
 .menuLink span {
   display: none !important;
 }
-.smallStatBox {
-  border-radius: 18px !important;
-  padding: 14px !important;
-}
-.smallStatBox .label {
-  font-size: 11px !important;
-}
-.smallStatBox .value {
-  font-size: 22px !important;
-}
-.financeRow strong {
-  font-size: 15px !important;
-}
-.financeRow span {
-  font-size: 12px !important;
-}
-.switch {
-  border-radius: 18px !important;
-  padding: 14px !important;
-}
-.switch strong {
-  font-size: 14px !important;
-}
-.switch .sub {
-  font-size: 12px !important;
-}
+
 .navWrap {
   pointer-events: auto !important;
   z-index: 99999 !important;
-  background: rgba(244, 247, 251, 0.9) !important;
   padding: 7px 8px calc(9px + env(safe-area-inset-bottom)) !important;
-  backdrop-filter: blur(18px) !important;
   -webkit-backdrop-filter: blur(18px) !important;
 }
 .nav {
   pointer-events: auto !important;
-  max-width: 520px !important;
-  padding: 6px !important;
-  gap: 3px !important;
-  border: 1px solid var(--line) !important;
-  border-radius: 20px !important;
-  box-shadow: 0 12px 34px rgba(15, 23, 42, 0.1) !important;
 }
 .navBtn {
   pointer-events: auto !important;
-  touch-action: manipulation !important;
-  min-height: 60px !important;
-  border-radius: 15px !important;
-  font-size: 11px !important;
-  font-weight: 900 !important;
-  color: #667892 !important;
 }
-.navBtn .ico {
-  font-size: 22px !important;
-}
-.navBtn.active {
-  background: var(--brand-soft) !important;
-  border-color: var(--brand-line) !important;
-  color: var(--brand) !important;
-}
+
 .modalBackdrop {
   z-index: 100000 !important;
-  background: rgba(15, 23, 42, 0.46) !important;
-}
-.sheet {
-  border-radius: 24px 24px 0 0 !important;
-  padding: 16px !important;
-}
-.sheetHead h3 {
-  font-size: 18px !important;
-}
-.closeBtn {
-  width: 42px !important;
-  height: 42px !important;
-  border-radius: 13px !important;
-}
-.emptyState {
-  padding: 15px !important;
-  font-size: 13px !important;
-  line-height: 1.45 !important;
-}
-@media (max-width: 370px) {
-  .app {
-    padding-left: 9px !important;
-    padding-right: 9px !important;
-  }
-  .navBtn {
-    font-size: 10px !important;
-  }
-  .navBtn .ico {
-    font-size: 20px !important;
-  }
-  .garageAction strong {
-    font-size: 12px !important;
-  }
 }

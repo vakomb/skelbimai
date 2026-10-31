@@ -1,0 +1,607 @@
+/* v104: dideli, aiškūs mygtukai Garaže, Buhalterijoje ir Meniu (kaip programėlėje) ir patogesnė automobilio
+   kortelė (81-v104-car-card.js). Remiamasi vakarykščiu (v99) dizainu – tos pačios spalvos, rėmeliai, šešėliai.
+   Plytelės: ikona viršuje, pavadinimas apačioje, 108 px, 17 px tekstas, be rodyklių – pavadinimas visada
+   telpa vienoje eilutėje. Vadybininkas 80 px. Sąskaita faktūra – plati eilutė 72 px. */
+
+/* ================= Garažas · Buhalterija · Meniu ================= */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  .garageRefWhat {
+  height: 80px !important;
+  min-height: 80px !important;
+  border-radius: 22px !important;
+  padding: 0 20px 0 15px !important;
+  gap: 15px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  .garageRefWhat
+  .garageRefWhatIcon {
+  width: 50px !important;
+  height: 50px !important;
+  min-width: 50px !important;
+  flex-basis: 50px !important;
+  border-radius: 15px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  .garageRefWhat
+  .garageRefWhatIcon
+  svg {
+  width: 27px !important;
+  height: 27px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  .garageRefWhat
+  strong {
+  font-size: 19px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.015em !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  :is(.garageRefTile, .accountingRefAction):not(.invoice) {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  grid-template-rows: auto minmax(0, 1fr) !important;
+  align-items: start !important;
+  justify-items: start !important;
+  gap: 0 !important;
+  height: 108px !important;
+  min-height: 108px !important;
+  padding: 14px 14px 13px !important;
+  border-radius: 20px !important;
+  text-align: left !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  :is(.garageRefTile, .accountingRefAction):not(.invoice)
+  > :is(.garageRefTileIcon, .ico) {
+  grid-row: 1 !important;
+  grid-column: 1 !important;
+  width: 46px !important;
+  height: 46px !important;
+  min-width: 46px !important;
+  flex: none !important;
+  border-radius: 14px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  :is(.garageRefTile, .accountingRefAction)
+  > :is(.garageRefTileIcon, .ico)
+  svg {
+  width: 26px !important;
+  height: 26px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  :is(.garageRefTile, .accountingRefAction):not(.invoice)
+  > strong {
+  grid-row: 2 !important;
+  grid-column: 1 !important;
+  align-self: end !important;
+  justify-self: stretch !important;
+  font-size: 17px !important;
+  font-weight: 650 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.015em !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  :is(.garageRefTile, .accountingRefAction):not(.invoice)
+  > :is(.garageRefTileArrow, .arrow) {
+  display: none !important;
+}
+/* Skaičiukai (Užduotys, Variantai) – viršuje dešinėje */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  .garageRefTile
+  > :is(.garageTaskBadgeSlot, .garageVariantBadgeSlot) {
+  position: absolute !important;
+  top: 14px !important;
+  right: 14px !important;
+  left: auto !important;
+  bottom: auto !important;
+  margin: 0 !important;
+  transform: none !important;
+}
+/* Sąskaita faktūra – plati eilutė */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  .accountingRefAction.invoice {
+  height: 72px !important;
+  min-height: 72px !important;
+  border-radius: 20px !important;
+  padding: 0 16px 0 14px !important;
+  gap: 14px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  .accountingRefAction.invoice
+  > .ico {
+  width: 46px !important;
+  height: 46px !important;
+  min-width: 46px !important;
+  flex: 0 0 46px !important;
+  border-radius: 14px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  .app:not(#aeV104)
+  :is(#view-garage, #view-accounting, #view-menu)
+  .accountingRefAction.invoice
+  > strong {
+  font-size: 17px !important;
+  font-weight: 650 !important;
+}
+
+/* ================= Automobilio kortelė (81-v104-car-card.js) =================
+   Ankstesnis išdėstymas: pavadinimas → nuotrauka → Užduotys → Duomenys → skaičiai → Nuotraukos → Dokumentai →
+   pasirengimas → mygtukai. Didesnis, aiškesnis tekstas, mažiau smulkių užrašų. */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccSubV83 {
+  display: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .premiumSheetTitle
+  h3 {
+  font-size: 21px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+}
+/* Žemesnė nuotrauka */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccHeroSlideV83 {
+  aspect-ratio: auto !important;
+  height: 196px !important;
+  max-height: 196px !important;
+}
+/* Atidaryti blokai: Užduotys, Nuotraukos, Dokumentai */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccOpenSecV104 {
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccOpenSecV104
+  > .ccOpenInV104 {
+  padding: 0 !important;
+  margin: 0 !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccOpenSecV104
+  .ccPaneCardV88 {
+  padding: 14px 16px 10px !important;
+  border: 1px solid #e3e5ea !important;
+  border-radius: 20px !important;
+  background: #fff !important;
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 6px 18px rgba(15, 23, 42, 0.05) !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccOpenSecV104
+  .ccPaneCardV88::before {
+  display: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccOpenSecV104
+  .ccPaneHeadV88 {
+  min-height: 30px !important;
+  margin: 0 0 8px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccPaneHeadV88
+  strong {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccPaneSumV88 {
+  font-size: 14px !important;
+}
+/* Pasirengimas – be smulkaus „Kitas žingsnis“ */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccNextV83
+  small {
+  display: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccNextV83
+  b {
+  font-size: 16px !important;
+  font-weight: 650 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccRdyTopV83
+  strong {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+}
+/* Duomenys */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccCardHeadV85
+  h4 {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccStatV85 {
+  padding: 11px 11px 10px !important;
+  border-radius: 14px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccStatV85
+  small {
+  font-size: 13px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccStatV85
+  b {
+  font-size: 16px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccStatV85
+  em {
+  font-size: 12.5px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  .ccSpecsV85 {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  :is(.ccSpecV85, .ccVinV85) {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  width: 100% !important;
+  min-height: 50px !important;
+  margin: 0 !important;
+  padding: 0 2px !important;
+  border: 0 !important;
+  border-top: 1px solid #eef1f5 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  .ccSpecsV85
+  > .ccSpecV85:first-child {
+  border-top: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  :is(.ccSpecV85, .ccVinV85):active {
+  background: #f6f8fb !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  .ccSpecTxtV85,
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  .ccVinV85
+  > span:first-child {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  min-width: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  :is(.ccSpecTxtV85, .ccVinV85 > span:first-child)
+  small {
+  flex: none !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  color: #5d6b7e !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  :is(.ccSpecTxtV85, .ccVinV85 > span:first-child)
+  b {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  font-size: 15.5px !important;
+  font-weight: 650 !important;
+  color: #12233a !important;
+  text-align: right !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  .ccVinV85:not(.empty)
+  > span:first-child
+  b {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace !important;
+  font-size: 14.5px !important;
+  letter-spacing: 0.02em !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  :is(.ccSpecV85, .ccVinV85).empty
+  b {
+  padding: 6px 14px !important;
+  border-radius: 999px !important;
+  background: #eef3fb !important;
+  color: #1f5aa6 !important;
+  font-family: inherit !important;
+  font-size: 14px !important;
+  font-weight: 650 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.2 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  .ccSpecTxtV85
+  b
+  .lcPlateV61,
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccDataV104
+  .ccSpecTxtV85
+  b
+  [class*="Plate"] {
+  vertical-align: middle;
+}
+/* Veiksmai – visi mygtukai matomi */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .carBottomActions.ccActsV104 {
+  position: static !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  margin: 2px 0 calc(14px + env(safe-area-inset-bottom)) !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccActsV104
+  > .ccActRowV104 {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 10px !important;
+  margin: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccActsV104
+  > .ccActRowV104.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccActsV104
+  .carSellBottom {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccActsV104
+  button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 52px !important;
+  min-height: 52px !important;
+  margin: 0 !important;
+  padding: 0 14px !important;
+  border: 1px solid #e3e5ea !important;
+  border-radius: 16px !important;
+  background: #fff !important;
+  color: #12233a !important;
+  -webkit-text-fill-color: #12233a !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
+  font-size: 16px !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.01em !important;
+  text-transform: none !important;
+  transition: transform 0.15s ease !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccActsV104
+  button:active {
+  transform: scale(0.98) !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccActsV104
+  #sellCarBtn {
+  border: 0 !important;
+  background: #1d8a56 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  box-shadow: 0 6px 16px rgba(29, 138, 86, 0.25) !important;
+  font-size: 17px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .ccActsV104
+  #deleteCarBtn {
+  height: 44px !important;
+  min-height: 44px !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #c0362c !important;
+  -webkit-text-fill-color: #c0362c !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+}
+/* Be smulkaus „Dokumentų dar nėra“ – mygtukas „Pridėti dokumentą“ pasako viską */
+html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai)
+  body:not(#ae):not(#af)
+  #modalBackdrop:not(#aeV104)
+  #sheet.ccV83
+  .csDocEmptyV61 {
+  display: none !important;
+}
+/* Greitesnis perjungimas į Garažą: už ekrano esančios automobilių kortelės nepiešiamos, kol iki jų nenuslenkama */
+@supports (content-visibility: auto) {
+  html:not(#ae):not(#af):not(#ag):not(#ah):not(#ai) body:not(#ae):not(#af) #activeCarGrid > .carListCard {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 154px;
+  }
+}

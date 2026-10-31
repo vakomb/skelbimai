@@ -332,7 +332,6 @@ html:not(#ae):not(#af)
   .premiumMedia
   > .premiumSectionHead {
   order: 0 !important;
-  margin: 0 0 10px !important;
 }
 html:not(#ae):not(#af)
   body:not(#ae):not(#af)
@@ -348,8 +347,6 @@ html:not(#ae):not(#af)
   > .premiumThumbGrid {
   order: 1 !important;
   display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  gap: 6px !important;
   margin: 0 !important;
 }
 html:not(#ae):not(#af)
@@ -359,9 +356,7 @@ html:not(#ae):not(#af)
   #carDetailPhotos
   .premiumThumb,
 html:not(#ae):not(#af) body:not(#ae):not(#af) #modalBackdrop #sheet.leadSheetV62 .premiumMedia .premiumThumb {
-  aspect-ratio: 4 / 3 !important;
   height: auto !important;
-  border-radius: 12px !important;
   overflow: hidden !important;
 }
 html:not(#ae):not(#af)
@@ -382,21 +377,7 @@ html:not(#ae):not(#af)
   height: 100% !important;
   object-fit: cover !important;
 }
-html:not(#ae):not(#af)
-  body:not(#ae):not(#af)
-  #modalBackdrop
-  #sheet.carSheetV55
-  #carDetailPhotos
-  > .csPhotoActionsV61,
-html:not(#ae):not(#af)
-  body:not(#ae):not(#af)
-  #modalBackdrop
-  #sheet.leadSheetV62
-  .premiumMedia
-  > .csPhotoActionsV61 {
-  order: 2 !important;
-  margin: 8px 0 0 !important;
-}
+
 html:not(#ae):not(#af)
   body:not(#ae):not(#af)
   #modalBackdrop
@@ -427,16 +408,10 @@ html:not(#ae):not(#af)
   #sheet.leadSheetV62
   .premiumMedia
   > .premiumUpload {
-  order: 3 !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   gap: 10px !important;
-  min-height: 54px !important;
-  margin: 10px 0 0 !important;
-  border: 0 !important;
-  border-radius: 15px !important;
-  background: #eef4fc !important;
   color: var(--ds-brand) !important;
   font-size: 16.5px !important;
 }
@@ -489,20 +464,7 @@ html:not(#ae):not(#af)
   font-size: 22px !important;
   font-weight: 700 !important;
 }
-html:not(#ae):not(#af)
-  body:not(#ae):not(#af)
-  #modalBackdrop
-  #sheet.carSheetV55
-  #carDetailPhotos
-  > .premiumUpload:active,
-html:not(#ae):not(#af)
-  body:not(#ae):not(#af)
-  #modalBackdrop
-  #sheet.leadSheetV62
-  .premiumMedia
-  > .premiumUpload:active {
-  background: #e2ecf9 !important;
-}
+
 html:not(#ae):not(#af)
   body:not(#ae):not(#af)
   #modalBackdrop
@@ -513,21 +475,6 @@ html:not(#ae):not(#af)
 }
 
 /* ---------- Mažos kortelės: pavadinimai kairėje, sumos centre ---------- */
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefFacts > div,
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantFacts > div,
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefFacts > div:first-child,
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantFacts > div:first-child {
-  align-items: stretch !important;
-  text-align: left !important;
-}
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefFacts small,
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantFacts small {
-  text-align: left !important;
-}
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .carListCard .garageRefFacts strong,
-html:not(#ae):not(#af) body:not(#ae):not(#af) .app .garageVariantCard .garageVariantFacts strong {
-  text-align: center !important;
-}
 
 /* ---------- Parduoti automobiliai – greitas, švelnus atidarymas ---------- */
 html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage #soldCarsPanel {
@@ -558,15 +505,9 @@ html:not(#ae):not(#af) body:not(#ae):not(#af) #view-garage .garageRefSoldToggle 
   html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap {
     padding: 3px 10px calc(6px + env(safe-area-inset-bottom)) !important;
     border: 0 !important;
-    background: transparent !important;
   }
   html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav {
-    height: 74px !important;
-    min-height: 74px !important;
-    padding: 6px 6px 4px !important;
     gap: 0 !important;
-    background: rgba(255, 255, 255, 0.96) !important;
-    box-shadow: 0 -1px 0 rgba(13, 25, 42, 0.07) !important;
   }
   html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn,
   html:not(#ae):not(#af) body:not(#ae):not(#af) .navWrap .nav .navBtn.active,
