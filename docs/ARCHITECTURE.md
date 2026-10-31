@@ -486,3 +486,10 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
 - `src/assets/brand-logo.png`: „Easier“ – vientisa mėlyna (#245ccc) vietoj gradiento.
 - `src/scripts/app/77-v97-garage-empty.js`: `emptyCarsHTMLV75` perrašyta – naujas tekstas, ikona be fono, be paaiškinimo po mygtuku; `#soldCarsSection` nerodomas, kol parduotų nėra; „Aktyvūs automobiliai“ etiketė nerodoma, kai aktyvių nėra.
 - `src/styles/202-v97-garage.css` (`<style id="v97">`): tuščios būsenos ikona 64 px be fono; „Parduoti automobiliai“ – 48 px, pilkas 14,5 px tekstas, skaičius be ženklelio.
+
+## v98 – programėlės įdiegimas (PWA)
+
+- Šaknyje: `manifest.webmanifest` (pavadinimas, `display: standalone`, spalvos, ikonos 192 / 512 / maskable 512), `sw.js` (minimalus, nieko nekešuoja – visada naujausia versija), `icon-192.png`, `icon-maskable-512.png`. `vercel.json` – `sw.js` ir manifestui `no-cache`.
+- `src/index.html`: `<link rel="manifest">`, `apple-mobile-web-app-status-bar-style`, `mobile-web-app-capable`.
+- `src/scripts/app/78-v98-install.js`: prisijungimo ekrane „Įdiegti programėlę“ (šalia „Ką moka AutoEasier“, `src/partials/login.html` → `.aeLoginLinksV98`). Chrome / Edge / Android – sisteminis langas (`beforeinstallprompt`); iPhone / iPad / Mac Safari / kitos – instrukcija su ikonomis (`#aeInstV98`). Įdiegtoje programėlėje mygtukas nerodomas. Service worker registruojamas tik per https.
+- `src/styles/203-v98-install.css` (`<style id="v98">`); prisijungimo logotipo „Easier“ – vientisai mėlynas.

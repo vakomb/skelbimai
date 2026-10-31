@@ -1,0 +1,21 @@
+{
+  "name": "AutoEasier",
+  "short_name": "AutoEasier",
+  "description": "Automobilių prekybos verslas telefone: garažas, užduotys, sutartys ir buhalterija.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone"],
+  "orientation": "any",
+  "lang": "lt",
+  "dir": "ltr",
+  "background_color": "#f3f7fa",
+  "theme_color": "#f3f7fa",
+  "categories": ["business", "productivity", "finance"],
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

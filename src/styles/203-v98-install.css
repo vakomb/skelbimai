@@ -1,0 +1,267 @@
+/* v98: „Įdiegti programėlę“ prisijungimo ekrane (78-v98-install.js) ir instrukcijos langas. */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .aeLoginLinksV98 {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  margin: 0 auto clamp(14px, 4vh, 40px);
+  padding: 0 12px;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .aeLoginLinksV98 #aeFtEntryV84 {
+  margin: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierLogin.aeRestoringV77 .aeLoginLinksV98 {
+  visibility: hidden;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #aeInstallBtnV98 {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  margin: 0;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: #174a8b;
+  font:
+    600 14.5px/1.2 Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  letter-spacing: -0.005em;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #aeInstallBtnV98[hidden] {
+  display: none;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #aeInstallBtnV98::before {
+  content: "";
+  position: absolute;
+  left: -2px;
+  top: 50%;
+  width: 1px;
+  height: 16px;
+  background: #d3dce7;
+  transform: translateY(-50%);
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #aeInstallBtnV98 svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #aeInstallBtnV98:active {
+  background: rgba(31, 90, 166, 0.08);
+}
+@media (hover: hover) and (pointer: fine) {
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #aeInstallBtnV98:hover {
+    background: rgba(31, 90, 166, 0.06);
+  }
+}
+/* Prisijungimo logotipas – vientisai mėlynas „Easier“, kaip antraštėje */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .autoEasierWordmark b {
+  color: #245ccc !important;
+  background: none !important;
+  -webkit-text-fill-color: #245ccc !important;
+}
+
+/* ---------- Instrukcijos langas ---------- */
+.aeInstV98[hidden] {
+  display: none;
+}
+.aeInstV98 {
+  position: fixed;
+  inset: 0;
+  z-index: 100030;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  color: #12233a;
+}
+.aeInstBackV98 {
+  position: absolute;
+  inset: 0;
+  background: rgba(13, 25, 42, 0.34);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: opacity 0.26s ease;
+}
+.aeInstCardV98 {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 460px;
+  max-height: calc(var(--ae-vh, 100dvh) - 24px);
+  overflow: auto;
+  padding: 26px 20px calc(max(14px, env(safe-area-inset-bottom)) + 16px);
+  border-radius: 28px 28px 0 0;
+  background: #fff;
+  box-shadow: 0 -18px 48px rgba(13, 28, 47, 0.18);
+  text-align: center;
+  transform: translateY(100%);
+  transition: transform 0.34s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.aeInstV98.show .aeInstBackV98 {
+  opacity: 1;
+}
+.aeInstV98.show .aeInstCardV98 {
+  transform: none;
+}
+@media (min-width: 640px) {
+  .aeInstV98 {
+    align-items: center;
+  }
+  .aeInstCardV98 {
+    padding-bottom: 22px;
+    border-radius: 28px;
+    box-shadow: 0 30px 80px rgba(13, 28, 47, 0.24);
+    transform: translateY(16px) scale(0.98);
+    opacity: 0;
+    transition:
+      transform 0.3s cubic-bezier(0.32, 0.72, 0, 1),
+      opacity 0.22s ease;
+  }
+  .aeInstV98.show .aeInstCardV98 {
+    opacity: 1;
+  }
+}
+.aeInstXV98 {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #f1f4f8;
+  color: #4b5a6c;
+  cursor: pointer;
+}
+.aeInstXV98 svg {
+  width: 16px;
+  height: 16px;
+}
+.aeInstIconV98 {
+  width: 72px;
+  height: 72px;
+  border-radius: 17px;
+  box-shadow: 0 10px 24px rgba(33, 73, 163, 0.28);
+}
+.aeInstCardV98 h2 {
+  margin: 14px 0 0;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.aeInstCardV98 > p {
+  max-width: 330px;
+  margin: 6px 0 0;
+  color: #66768a;
+  font-size: 14.5px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+.aeInstStepsV98 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+.aeInstStepsV98 li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 8px 14px 8px 8px;
+  border: 1px solid #e3e5ea;
+  border-radius: 16px;
+  background: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+.aeInstStepsV98 b {
+  font-weight: 700;
+}
+.aeInstNumV98 {
+  display: none;
+}
+.aeInstIcoV98 {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #eef3fa;
+  color: #1f5aa6;
+}
+.aeInstIcoV98 svg {
+  width: 22px;
+  height: 22px;
+}
+.aeInstOkV98 {
+  width: 100%;
+  height: 52px;
+  margin-top: 18px;
+  border: 0;
+  border-radius: 16px;
+  background: #284ca2;
+  color: #fff;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(40, 76, 162, 0.24);
+}
+.aeInstOkV98:active {
+  transform: scale(0.98);
+}
+@media (prefers-reduced-motion: reduce) {
+  .aeInstBackV98,
+  .aeInstCardV98 {
+    transition: none;
+  }
+}
+/* Viena eilutė: „Ką moka AutoEasier | Įdiegti programėlę“; siauruose ekranuose – vienas po kitu, be skirtuko */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .aeLoginLinksV98 #aeFtEntryV84,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #aeInstallBtnV98 {
+  padding: 0 10px !important;
+}
+@media (max-width: 419px) {
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .aeLoginLinksV98 {
+    flex-direction: column;
+    gap: 0;
+  }
+  html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #aeInstallBtnV98::before {
+    display: none;
+  }
+}
