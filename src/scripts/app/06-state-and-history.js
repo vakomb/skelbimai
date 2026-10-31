@@ -50,7 +50,8 @@ const defaultState = () => ({
     garageTaskGroups: { autos: false, custom: false },
     leadFilters: { query: "", due: "all", sort: "due" },
     menuSections: { shop: false, stats: false },
-    carSections: {}
+    carSections: {},
+    garageSort: "new"
   }
 });
 // v75: nuotraukų nuorodos į puslapį įterpiamos kaip <img src>; priimamos tik saugios formos (užkerta HTML įterpimą
@@ -189,7 +190,9 @@ function loadState() {
         carSections:
           parsed.ui?.carSections && typeof parsed.ui.carSections === "object"
             ? { ...parsed.ui.carSections }
-            : {}
+            : {},
+        // v86: Garažo aktyvių automobilių rikiavimas (new | days | price | cost | margin | az)
+        garageSort: typeof parsed.ui?.garageSort === "string" ? parsed.ui.garageSort : "new"
       }
     };
   } catch (e) {

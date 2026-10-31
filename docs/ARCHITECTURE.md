@@ -414,3 +414,10 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
   - Varianto kortelė (`openGarageLeadSheet`) – tas pats stilius (nuotraukų juosta, kortelės, 12 px tarpai).
 - Regitros įrankiai pašalinti: `app/63-v80-regitra.js` ir `styles/189-v80-regitra.css` palikti tušti (galima ištrinti), Meniu plytelės ir skyriai išimti (`partials/view-menu.html`, `147-…`), v84 vitrinoje – 8 funkcijos. `tools/test-regitra.mjs` tikrina, kad jų neliko.
 - Stilius – `styles/192-v83-car-card.css`. Testas – `tools/test-car-card.mjs`.
+
+## v86 – daug automobilių: momentinė paieška Garaže ir kelių automobilių pridėjimas
+
+- `app/70-v86-garage-search.js` + `styles/194-v86-garage-search.css`: paieškos juosta virš `#activeCarGrid` (prilimpanti). Indeksas kiekvienam automobiliui (markė, modelis, pavadinimas, valst. nr., VIN, metai, kuras, liudijimas; be diakritikų, valst. nr./VIN be tarpų), visi užklausos žodžiai turi atitikti, rikiuojama pagal tinkamumą. Rašant kortelės neperpiešiamos – slepiamos / rikiuojamos (CSS `order`), paryškinama `<mark>`. Filtrai (vėluoja, be nuotraukų, be kainos, TA/draudimas baigiasi, > 60 d.), rikiavimas `state.ui.garageSort`, rodoma po 30 (likę – slenkant), „rasti parduotuose“, Escape / Enter / „/“. Užklausa – `sessionStorage`. API: `window.AutoEasierGarageSearch`.
+- `app/71-v86-batch-add.js` + `styles/195-v86-batch-add.css`: „Iš galerijos“ – kelios nuotraukos (iki 30) → paketo režimas: eilinis skenavimas per `window.AutoEasierRegScan.scan`, progresas, Sustabdyti/Tęsti, Wake Lock; akordeono kortelės su `carFormHTMLV51` (prefiksai `bv0`, `bv1`…), „Daugiau duomenų“, „Išsaugoti ir toliau“, „Praleisti“, „Pašalinti“, „Išsaugoti visus paruoštus“, dublikatų įspėjimas, saugojimas kaip vieno automobilio. Juodraščiai – IndexedDB `aeBatchV86` (Garaže „Nebaigtas pridėjimas · Tęsti“).
+- Automobilio kortelė: `.premiumDetail` stulpelis `minmax(0, 1fr)` – siauruose telefonuose ir su ilgais pavadinimais niekas neišeina už ekrano.
+- Testai: `tools/test-garage-search.mjs` (500 automobilių), `tools/test-batch-add.mjs` (netikras skeneris).

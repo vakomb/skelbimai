@@ -26,6 +26,7 @@ Kalba su vartotoju: **lietuvių**. Programėlė skirta telefonui (iPhone 15 Pro 
 - Sutartys ir sąskaitos faktūros su parašais: `src/scripts/app/37-contract-v52.js` (sutartis), `65-v82-signpad.js` (parašo langas), `66-v82-docsign.js` (langas po sukūrimo, parašų užraktas), `67-v82-invoice.js` (sąskaita faktūra), žr. ARCHITECTURE v82.
 - Automobilio kortelė (v83): `src/scripts/app/68-v83-car-card.js`, `src/styles/192-v83-car-card.css`, žr. ARCHITECTURE v83.
 - Funkcijų vitrina prisijungimo ekrane (v84): `src/scripts/app/69-v84-features.js`, `src/styles/193-v84-features.css`, žr. ARCHITECTURE v84.
+- Garažo paieška ir kelių automobilių pridėjimas (v86): `src/scripts/app/70-v86-garage-search.js`, `71-v86-batch-add.js`, žr. ARCHITECTURE v86.
 - Admin skydelis (tik autoeasier@gmail.com): `src/scripts/182-admin-v72.js`, `supabase/functions/admin-action`, žr. ARCHITECTURE v72.
 - Detali architektūra: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 

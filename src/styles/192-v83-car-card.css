@@ -276,8 +276,7 @@ html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) #modalBackdrop #
 
 /* ---------- Skaičiai: Pirkta · Išlaidos · Savikaina ---------- */
 #sheet.ccV83 .ccNumsRowV85 {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) 20px;
+  display: flex;
   align-items: center;
   width: 100%;
   padding: 11px 12px 11px 14px;
@@ -295,9 +294,13 @@ html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) #modalBackdrop #
 }
 #sheet.ccV83 .ccNumV85 {
   display: flex;
+  flex: 1 1 0;
   flex-direction: column;
   gap: 2px;
   min-width: 0;
+}
+#sheet.ccV83 .ccNumsRowV85 > .ccChevV83 {
+  flex: none;
 }
 #sheet.ccV83 .ccNumV85 + .ccNumV85 {
   padding-left: 12px;
@@ -1771,6 +1774,54 @@ html:not(#ae):not(#af):not(#ag):not(#ah)
   font-size: 17px !important;
   font-weight: 750 !important;
   font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Plotis: niekas neišeina už ekrano ribų (siauri telefonai, ilgi pavadinimai) ---------- */
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) #modalBackdrop #sheet.ccV83 .premiumDetail,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccLeadV85
+  .premiumDetail {
+  grid-template-columns: minmax(0, 1fr) !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .premiumDetail
+  > *,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .premiumDetailBody
+  > *,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccAccInnerV83
+  > *,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccLeadV85
+  .premiumDetail
+  > *,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccLeadV85
+  .premiumDetailBody
+  > * {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+#sheet.ccV83 .ccCardV83 {
+  overflow-wrap: anywhere;
 }
 
 @media (min-width: 768px) {

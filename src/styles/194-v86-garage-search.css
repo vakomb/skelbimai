@@ -1,0 +1,307 @@
+/* v86: Garažo paieška, filtrai ir rikiavimas (70-v86-garage-search.js). Programėlės stilius: baltos kortelės,
+   #e3e5ea rėmelis, mėlyna #1f5aa6, tekstas #12233a / #66768a. */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsHideV86,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsBarV86[hidden],
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsBarV86 [hidden] {
+  display: none !important;
+}
+#view-garage .gsBarV86 {
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 -10px 12px;
+  padding: 8px 10px;
+  background: #f3f7fa;
+}
+#view-garage .gsFieldV86 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 48px;
+  padding: 0 6px 0 14px;
+  border: 1px solid #e3e5ea;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 6px 18px rgba(15, 23, 42, 0.05);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+#view-garage .gsFieldV86:focus-within {
+  border-color: #1f5aa6;
+  box-shadow:
+    0 0 0 3px rgba(31, 90, 166, 0.12),
+    0 6px 18px rgba(15, 23, 42, 0.05);
+}
+#view-garage .gsIcoV86 {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  color: #8592a3;
+}
+#view-garage .gsIcoV86 svg,
+#view-garage .gsClearV86 svg,
+#view-garage .gsSortBtnV86 svg {
+  width: 19px;
+  height: 19px;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage #gsInputV86 {
+  flex: 1 !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 46px !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #12233a !important;
+  font-size: 16px !important;
+  font-weight: 550 !important;
+  outline: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}
+#view-garage #gsInputV86::placeholder {
+  color: #8f9bab;
+  font-weight: 500;
+}
+#view-garage #gsInputV86::-webkit-search-cancel-button {
+  display: none;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsClearV86,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsSortBtnV86 {
+  display: grid !important;
+  flex: none !important;
+  place-items: center !important;
+  width: 36px !important;
+  height: 36px !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 11px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #66768a !important;
+  cursor: pointer !important;
+  -webkit-tap-highlight-color: transparent;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsSortBtnV86 {
+  background: #f3f6fa !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsSortBtnV86.on,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsSortBtnV86[aria-expanded="true"] {
+  background: #e7eef9 !important;
+  color: #1f5aa6 !important;
+}
+#view-garage .gsSortMenuV86 {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 8;
+  min-width: 210px;
+  padding: 6px;
+  border: 1px solid #e3e5ea;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 18px 44px rgba(16, 24, 40, 0.16);
+  opacity: 0;
+  transform: translateY(-4px) scale(0.98);
+  transform-origin: top right;
+  transition:
+    opacity 0.16s ease,
+    transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+#view-garage .gsSortMenuV86.show {
+  opacity: 1;
+  transform: none;
+}
+#view-garage .gsSortMenuV86 small {
+  display: block;
+  padding: 6px 10px 4px;
+  color: #8592a3;
+  font-size: 11.5px;
+  font-weight: 750;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsSortMenuV86 button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  height: 44px !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 10px !important;
+  border: 0 !important;
+  border-radius: 11px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #12233a !important;
+  font-size: 15px !important;
+  font-weight: 650 !important;
+  text-align: left !important;
+}
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  #view-garage
+  .gsSortMenuV86
+  button[aria-checked="true"] {
+  background: #f1f5fb !important;
+  color: #1f5aa6 !important;
+}
+#view-garage .gsSortMenuV86 button svg {
+  width: 17px;
+  height: 17px;
+}
+#view-garage .gsChipsV86 {
+  display: flex;
+  gap: 6px;
+  margin: 0 -2px;
+  padding: 0 2px 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+#view-garage .gsChipsV86::-webkit-scrollbar {
+  display: none;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsChipV86 {
+  display: inline-flex !important;
+  flex: none !important;
+  align-items: center !important;
+  gap: 6px !important;
+  height: 34px !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 8px 0 12px !important;
+  border: 1px solid #dfe5ed !important;
+  border-radius: 999px !important;
+  background: #fff !important;
+  box-shadow: none !important;
+  color: #3b4b60 !important;
+  font-size: 13.5px !important;
+  font-weight: 650 !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease !important;
+  -webkit-tap-highlight-color: transparent;
+}
+#view-garage .gsChipV86 b {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #eef2f7;
+  color: #4b5a6c;
+  font-size: 12px;
+  font-weight: 750;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsChipV86.on {
+  border-color: #1f5aa6 !important;
+  background: #1f5aa6 !important;
+  color: #fff !important;
+}
+#view-garage .gsChipV86.on b {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+#view-garage .gsMetaV86 {
+  padding: 0 4px;
+  color: #66768a;
+  font-size: 13px;
+  font-weight: 600;
+}
+#view-garage #activeCarGrid mark,
+#view-garage #soldCarGrid mark {
+  padding: 0 1px;
+  border-radius: 4px;
+  background: #dce8f8;
+  color: inherit;
+}
+/* Daug automobilių: už ekrano esančios kortelės nepiešiamos */
+#view-garage #activeCarGrid > .carListCard,
+#view-garage #soldCarGrid > .carListCard {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 140px;
+}
+#view-garage .gsEmptyV86 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 26px 18px;
+  border: 1px dashed #d3dce7;
+  border-radius: 18px;
+  background: #fff;
+  color: #12233a;
+  text-align: center;
+}
+#view-garage .gsEmptyIcoV86 {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: #eef4fb;
+  color: #1f5aa6;
+}
+#view-garage .gsEmptyIcoV86 svg {
+  width: 22px;
+  height: 22px;
+}
+#view-garage .gsEmptyV86 strong {
+  font-size: 15px;
+  font-weight: 750;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsLinkV86,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsMoreV86 {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 40px !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 16px !important;
+  border: 0 !important;
+  border-radius: 12px !important;
+  background: #edf2fa !important;
+  box-shadow: none !important;
+  color: #1f5aa6 !important;
+  font-size: 14px !important;
+  font-weight: 750 !important;
+  cursor: pointer !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsLinkV86.muted {
+  background: transparent !important;
+  color: #66768a !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsMoreV86 {
+  width: 100% !important;
+  height: 46px !important;
+  border: 1px dashed #c9d5e4 !important;
+  background: #fff !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  #view-garage .gsSortMenuV86,
+  #view-garage .gsFieldV86 {
+    transition: none !important;
+  }
+}
