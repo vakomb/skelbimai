@@ -201,7 +201,13 @@ for (const W of [430, 1280]) {
   r = await info(p);
   check((await p.inputValue("#gsInputV86")) === "" && r.shown === 30 && !r.meta, "Escape išvalo");
 
-  // Filtrai
+  // Filtrai (v87 – skydelyje po filtrų mygtuku)
+  check(!/:|markė/i.test(bar.ph || ""), "paieškos lauke be pavyzdžių: „" + bar.ph + "“");
+  const openPanel = async () => {
+    if ((await p.getAttribute("#gsSortBtnV86", "aria-expanded")) !== "true") await p.click("#gsSortBtnV86");
+    await p.waitForTimeout(380);
+  };
+  await openPanel();
   const chip = await p.evaluate(() => [...document.querySelectorAll("#gsChipsV86 [data-gs-filter]")].map(c => c.dataset.gsFilter + ":" + c.querySelector("b").textContent));
   check(chip.some(c => c.startsWith("late:")) && chip.some(c => c.startsWith("noprice:")) && chip.some(c => c.startsWith("nophoto:")), "filtrai su skaičiais: " + chip.join(", "));
   const late = Number(chip.find(c => c.startsWith("late:"))?.split(":")[1] || 0);
@@ -212,12 +218,13 @@ for (const W of [430, 1280]) {
   await type(p, "toyota");
   r = await info(p);
   check(r.titles.every(t => /^Toyota/.test(t)) && Number(r.meta.match(/Rasta (\d+)/)?.[1]) <= late, "filtras + paieška kartu: " + r.meta);
+  check(await p.evaluate(() => !!document.querySelector('#gsActiveV86 [data-gs-filter="late"]')), "aktyvus filtras rodomas žyma");
+  await p.screenshot({ path: path.join(out, `garage-search-panel-${W}.png`) });
   await p.click('#gsChipsV86 [data-gs-filter="late"]');
   await type(p, "");
 
   // Rikiavimas
-  await p.click("#gsSortBtnV86");
-  await p.waitForTimeout(200);
+  await openPanel();
   await p.click('#gsSortMenuV86 [data-gs-sort="az"]');
   await p.waitForTimeout(150);
   r = await info(p);

@@ -95,9 +95,10 @@ await openAdd();
 const entry = await p.evaluate(() => ({
   multiple: document.getElementById("newVehicleregGallery")?.multiple,
   camera: !!document.getElementById("newVehicleregCamera"),
-  manual: !!document.querySelector("#addCarPanel [data-bv-manual-entry]")
+  manual: !!document.querySelector("#addCarPanel [data-bv-manual-entry]"),
+  btns: document.querySelectorAll("#newVehicleregCard .regScanBtnsV50 > .regScanBtnV50").length
 }));
-check(entry.multiple && entry.camera && entry.manual, "trys būdai: Fotografuoti, Iš galerijos (kelios), Ranka " + JSON.stringify(entry));
+check(entry.multiple && entry.camera && !entry.manual && entry.btns === 2, "kaip anksčiau: Fotografuoti ir Iš galerijos (kelios), be „Ranka“ " + JSON.stringify(entry));
 
 // 1 failas – vieno automobilio forma (paketo režimas neįjungiamas)
 await p.setInputFiles("#newVehicleregGallery", [file("a.png")]);

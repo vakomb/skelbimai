@@ -1,5 +1,7 @@
 // v86: Garažo momentinė paieška, filtrai ir rikiavimas – patogu ir su šimtais automobilių.
-// Paieškos juosta – „Aktyvūs automobiliai“ skyriaus viršuje (prilimpanti). Rezultatai keičiasi rašant (≤ 1 kadras):
+// Paieškos juosta – „Aktyvūs automobiliai“ skyriaus viršuje (prilimpanti). v87: viena eilutė (laukas + filtrų
+// mygtukas su ženkleliu); filtrai ir rikiavimas – sklandžiai išsiskleidžiančiame skydelyje, aktyvūs filtrai –
+// žymos po lauku. Rezultatai keičiasi rašant (≤ 1 kadras):
 // kiekvienas automobilis turi paruoštą indeksą (markė, modelis, pavadinimas, valst. nr., VIN, metai, kuras,
 // liudijimas), užklausa skaidoma į žodžius (visi turi atitikti), be diakritikų ir tarpų valst. nr. / VIN.
 // Rašant sąrašas neperpiešiamas: esamos kortelės tik paslepiamos / parodomos ir perrikiuojamos (CSS order),
@@ -30,6 +32,8 @@ const GS_ICON_V86 = {
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>',
   x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"/></svg>',
   sort: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v16M3.5 16.5 7 20l3.5-3.5M17 20V4M13.5 7.5 17 4l3.5 3.5"/></svg>',
+  sliders:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>',
   check:
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>'
 };
@@ -154,15 +158,25 @@ function gsCompareV86(sort) {
 // ---------- Juosta ----------
 function gsBarHTMLV86() {
   return `<div class="gsBarV86" id="gsBarV86" role="search">
-    <div class="gsFieldV86">
-      <span class="gsIcoV86">${GS_ICON_V86.search}</span>
-      <input id="gsInputV86" type="search" enterkeyhint="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Ieškoti: markė, modelis, valst. nr., VIN" aria-label="Ieškoti automobilio">
-      <button type="button" class="gsClearV86" id="gsClearV86" aria-label="Išvalyti paiešką" hidden>${GS_ICON_V86.x}</button>
-      <button type="button" class="gsSortBtnV86" id="gsSortBtnV86" aria-haspopup="true" aria-expanded="false" aria-label="Rikiuoti">${GS_ICON_V86.sort}</button>
-      <div class="gsSortMenuV86" id="gsSortMenuV86" role="menu" hidden></div>
+    <div class="gsRowV86">
+      <div class="gsFieldV86">
+        <span class="gsIcoV86">${GS_ICON_V86.search}</span>
+        <input id="gsInputV86" type="search" enterkeyhint="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Ieškoti" aria-label="Ieškoti automobilio">
+        <button type="button" class="gsClearV86" id="gsClearV86" aria-label="Išvalyti paiešką" hidden>${GS_ICON_V86.x}</button>
+      </div>
+      <button type="button" class="gsToolV86" id="gsSortBtnV86" aria-controls="gsSortMenuV86" aria-expanded="false" aria-label="Filtrai ir rikiavimas">${GS_ICON_V86.sliders}<i class="gsBadgeV86" id="gsBadgeV86" hidden></i></button>
     </div>
-    <div class="gsChipsV86" id="gsChipsV86" role="group" aria-label="Filtrai"></div>
-    <div class="gsMetaV86" id="gsMetaV86" aria-live="polite"></div>
+    <div class="gsPanelV86" id="gsSortMenuV86" hidden>
+      <div class="gsPanelInV86">
+        <div class="gsGroupV86" id="gsFilterGroupV86"><small>Rodyti</small><div class="gsChipsV86" id="gsChipsV86" role="group" aria-label="Filtrai"></div></div>
+        <div class="gsGroupV86"><small>Rikiuoti</small><div class="gsChipsV86" id="gsSortsV86" role="radiogroup" aria-label="Rikiavimas"></div></div>
+        <div class="gsPanelFootV86"><button type="button" class="gsTextBtnV86" data-gs-clear-all>Atstatyti</button><button type="button" class="gsDoneV86" data-gs-done>Gerai</button></div>
+      </div>
+    </div>
+    <div class="gsInfoV86" id="gsInfoV86" hidden>
+      <div class="gsActiveV86" id="gsActiveV86"></div>
+      <div class="gsMetaV86" id="gsMetaV86" aria-live="polite"></div>
+    </div>
   </div>`;
 }
 function gsEnsureBarV86() {
@@ -183,8 +197,23 @@ function gsChipsHTMLV86(cars) {
     const n = cars.filter(GS_TEST_V86[key]).length;
     const on = gsV86.filters.has(key);
     if (!n && !on) return "";
-    return `<button type="button" class="gsChipV86${on ? " on" : ""}" data-gs-filter="${key}" aria-pressed="${on}">${escapeHTML(label)}<b>${n}</b></button>`;
+    return `<button type="button" class="gsChipV86${on ? " on" : ""}" data-gs-filter="${key}" aria-pressed="${on}">${on ? GS_ICON_V86.check : ""}<span>${escapeHTML(label)}</span><b>${n}</b></button>`;
   }).join("");
+}
+function gsSortsHTMLV86() {
+  const cur = gsSortKeyV86();
+  return GS_SORTS_V86.map(
+    ([k, l]) =>
+      `<button type="button" role="radio" aria-checked="${k === cur}" class="gsChipV86${k === cur ? " on" : ""}" data-gs-sort="${k}">${k === cur ? GS_ICON_V86.check : ""}<span>${escapeHTML(l)}</span></button>`
+  ).join("");
+}
+function gsActiveHTMLV86() {
+  return GS_FILTERS_V86.filter(([k]) => gsV86.filters.has(k))
+    .map(
+      ([k, l]) =>
+        `<button type="button" class="gsTagV86" data-gs-filter="${k}" aria-label="Pašalinti filtrą ${escapeHTML(l)}"><span>${escapeHTML(l)}</span>${GS_ICON_V86.x}</button>`
+    )
+    .join("");
 }
 
 // ---------- Pritaikymas ----------
@@ -261,7 +290,10 @@ function gsApplyV86({ resetPage = false } = {}) {
   const chips = bar.querySelector("#gsChipsV86");
   const chipsHTML = active.length > 3 ? gsChipsHTMLV86(active) : "";
   if (chips.innerHTML !== chipsHTML) chips.innerHTML = chipsHTML;
-  chips.hidden = !chipsHTML;
+  bar.querySelector("#gsFilterGroupV86").hidden = !chipsHTML;
+  const sorts = bar.querySelector("#gsSortsV86");
+  const sortsHTML = gsSortsHTMLV86();
+  if (sorts.innerHTML !== sortsHTML) sorts.innerHTML = sortsHTML;
   bar.hidden = active.length < 2 && !searching;
   const sort = gsSortKeyV86();
   const cmp = gsCompareV86(sort);
@@ -338,8 +370,18 @@ function gsApplyV86({ resetPage = false } = {}) {
     : "";
   if (meta.textContent !== metaText) meta.textContent = metaText;
   meta.hidden = !metaText;
+  const tags = bar.querySelector("#gsActiveV86");
+  const tagsHTML = gsActiveHTMLV86();
+  if (tags.innerHTML !== tagsHTML) tags.innerHTML = tagsHTML;
+  tags.hidden = !tagsHTML;
+  bar.querySelector("#gsInfoV86").hidden = !metaText && !tagsHTML;
   bar.querySelector("#gsClearV86").hidden = !gsV86.q;
-  bar.querySelector("#gsSortBtnV86")?.classList.toggle("on", sort !== "new");
+  bar.querySelector("#gsSortBtnV86")?.classList.toggle("on", sort !== "new" || gsV86.filters.size > 0);
+  const badge = bar.querySelector("#gsBadgeV86");
+  const nb = gsV86.filters.size + (sort !== "new" ? 1 : 0);
+  if (badge.textContent !== String(nb || "")) badge.textContent = nb ? String(nb) : "";
+  badge.hidden = !nb;
+  bar.querySelector("[data-gs-clear-all]").hidden = !nb;
   gsV86.lastCount = list.length;
   gsV86.lastIds = list.map(x => x.car.id);
   // Parduotų sąrašas – ta pati paieška, kai jis atidarytas
@@ -384,20 +426,10 @@ function gsSortMenuV86(open) {
   const menu = document.getElementById("gsSortMenuV86");
   const btn = document.getElementById("gsSortBtnV86");
   if (!menu || !btn) return;
-  if (open) {
-    const cur = gsSortKeyV86();
-    menu.innerHTML = `<small>Rikiuoti</small>${GS_SORTS_V86.map(
-      ([k, l]) =>
-        `<button type="button" role="menuitemradio" aria-checked="${k === cur}" data-gs-sort="${k}"><span>${escapeHTML(l)}</span>${k === cur ? GS_ICON_V86.check : ""}</button>`
-    ).join("")}`;
-    menu.hidden = false;
-    requestAnimationFrame(() => menu.classList.add("show"));
-  } else {
-    menu.classList.remove("show");
-    menu.hidden = true;
-  }
+  if (!!open === (btn.getAttribute("aria-expanded") === "true")) return;
   btn.setAttribute("aria-expanded", String(!!open));
-  btn.classList.toggle("on", gsSortKeyV86() !== "new");
+  menu.classList.toggle("show", !!open);
+  aeAnimHeightV87(menu, !!open);
 }
 function gsBindV86(bar) {
   const input = bar.querySelector("#gsInputV86");
@@ -407,6 +439,7 @@ function gsBindV86(bar) {
     gsScheduleV86({ resetPage: true });
   });
   input.addEventListener("keydown", e => {
+    if (e.key === "Escape" && !input.value) gsSortMenuV86(false);
     if (e.key === "Escape" && input.value) {
       e.preventDefault();
       e.stopPropagation();
@@ -422,10 +455,6 @@ function gsBindV86(bar) {
       } else input.blur();
     }
   });
-  input.addEventListener("focus", () => {
-    // Telefone klaviatūra neuždengia rezultatų – juosta pakyla į ekrano viršų
-    if (matchMedia("(max-width: 767px)").matches) setTimeout(() => void 0, 250);
-  });
   bar.addEventListener("click", e => {
     const t = e.target;
     if (t.closest("#gsClearV86")) {
@@ -437,7 +466,23 @@ function gsBindV86(bar) {
       return;
     }
     if (t.closest("#gsSortBtnV86")) {
-      gsSortMenuV86(document.getElementById("gsSortMenuV86").hidden);
+      gsSortMenuV86(document.getElementById("gsSortBtnV86").getAttribute("aria-expanded") !== "true");
+      return;
+    }
+    if (t.closest("[data-gs-done]")) {
+      gsSortMenuV86(false);
+      return;
+    }
+    if (t.closest("[data-gs-clear-all]")) {
+      gsV86.filters.clear();
+      state.ui = state.ui || {};
+      if (state.ui.garageSort && state.ui.garageSort !== "new") {
+        state.ui.garageSort = "new";
+        saveState();
+      }
+      gsSaveV86();
+      vibrate(6);
+      gsApplyV86({ resetPage: true });
       return;
     }
     const sortBtn = t.closest("[data-gs-sort]");
@@ -445,7 +490,6 @@ function gsBindV86(bar) {
       state.ui = state.ui || {};
       state.ui.garageSort = sortBtn.dataset.gsSort;
       saveState();
-      gsSortMenuV86(false);
       vibrate(6);
       gsApplyV86({ resetPage: true });
       return;
@@ -464,9 +508,9 @@ function gsBindV86(bar) {
 document.addEventListener("click", e => {
   const t = e.target;
   if (!(t instanceof Element)) return;
-  if (!t.closest("#gsSortMenuV86, #gsSortBtnV86")) {
-    const menu = document.getElementById("gsSortMenuV86");
-    if (menu && !menu.hidden) gsSortMenuV86(false);
+  if (t.isConnected && !t.closest("#gsBarV86")) {
+    if (document.getElementById("gsSortBtnV86")?.getAttribute("aria-expanded") === "true")
+      gsSortMenuV86(false);
   }
   if (t.closest("#activeCarGrid [data-gs-more]")) {
     gsV86.shown += GS_PAGE_V86;
@@ -484,7 +528,7 @@ document.addEventListener("click", e => {
     if (!state.ui.soldCarsOpen) document.getElementById("toggleSoldCarsBtn")?.click();
     setTimeout(() => {
       gsApplyV86();
-      void 0;
+      aeRevealV87(document.getElementById("soldCarsSection"), { anchor: "start", follow: 300 });
     }, 120);
   }
 });

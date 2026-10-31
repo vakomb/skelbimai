@@ -1,5 +1,5 @@
 // v86: kelių automobilių pridėjimas vienu metu. „Naujas automobilis“ formoje: „Fotografuoti“, „Iš galerijos“
-// (galima pažymėti iki 30 liudijimų) ir „Ranka“. Pasirinkus 1 liudijimą – veikia kaip anksčiau (vieno automobilio
+// (galima pažymėti iki 30 liudijimų); v87 – be „Ranka“ mygtuko (forma pildoma tiesiog žemiau). Pasirinkus 1 liudijimą – veikia kaip anksčiau (vieno automobilio
 // forma, 34-registration-ui.js). Pasirinkus 2 ir daugiau – paketo režimas:
 //   • skenavimas eilėje po vieną (window.AutoEasierRegScan.scan – testuose pakeičiamas), progresas „Nuskenuota 4 iš 12“,
 //     likęs laikas, „Sustabdyti / Tęsti“, ekranas neužmiega (Wake Lock); klaida viename nestabdo kitų;
@@ -369,7 +369,7 @@ function bvOpenItemV86(id, { scroll = true } = {}) {
     el.classList.add("is-open");
     el.querySelector(".bvHeadV86")?.setAttribute("aria-expanded", "true");
     bvAnimV86(el.querySelector(".bvBodyV86"), true);
-    if (scroll) setTimeout(() => void 0, 240);
+    if (scroll) aeRevealV87(el, { follow: 520 });
   }
 }
 function bvNextOpenV86(afterId) {
@@ -472,7 +472,7 @@ function bvStartV86(files, { append = false } = {}) {
   bvRenderListV86();
   bvPersistV86();
   bvRunQueueV86();
-  if (!append) setTimeout(() => void 0, 80);
+  if (!append) aeRevealV87(bvRootV86()?.querySelector(".bvTopV86"), { anchor: "start", delay: 60 });
 }
 function bvFinishV86({ keepDraft = false } = {}) {
   bvV86.stop = true;
@@ -700,7 +700,7 @@ function bvShowAddPanelV86() {
   if (getComputedStyle(panel).display === "none") panel.style.display = "block";
 }
 
-// ---------- Įėjimas: „Iš galerijos“ (kelios) ir „Ranka“ ----------
+// ---------- Įėjimas: „Iš galerijos“ (kelios) ----------
 function bvInstallEntryV86() {
   const gal = document.getElementById("newVehicleregGallery");
   if (!gal || gal.dataset.bvV86 === "1") return;
@@ -709,17 +709,11 @@ function bvInstallEntryV86() {
   const label = gal.closest(".regScanBtnV50");
   label?.querySelector("span") && (label.querySelector("span").textContent = "Iš galerijos");
   const btns = gal.closest(".regScanBtnsV50");
-  if (btns && !btns.querySelector("[data-bv-manual-entry]")) {
-    btns.classList.add("bvThreeV86");
-    btns.insertAdjacentHTML(
-      "beforeend",
-      `<button type="button" class="regScanBtnV50 bvManualBtnV86" data-bv-manual-entry>${BV_ICON_V86.pen}<span>Ranka</span></button>`
-    );
+  if (btns && !btns.nextElementSibling?.classList.contains("bvHintV86"))
     btns.insertAdjacentHTML(
       "afterend",
       `<p class="bvHintV86">Galite pažymėti kelis liudijimus – automobiliai bus pridėti vienu metu.</p>`
     );
-  }
   // Kelios nuotraukos → paketo režimas (prieš esamą vieno failo skenavimą)
   gal.addEventListener(
     "change",
@@ -736,17 +730,11 @@ function bvInstallEntryV86() {
 document.addEventListener("click", async e => {
   const t = e.target;
   if (!(t instanceof Element)) return;
-  if (t.closest("[data-bv-manual-entry]")) {
-    const make = document.getElementById("newVehicleregMake");
-    void 0;
-    setTimeout(() => make?.focus({ preventScroll: true }), 300);
-    return;
-  }
   if (t.closest("[data-bv-resume]")) {
     bvShowAddPanelV86();
     document.getElementById("bvResumeV86")?.remove();
     await bvResumeV86();
-    setTimeout(() => void 0, 120);
+    aeRevealV87(bvRootV86()?.querySelector(".bvTopV86"), { anchor: "start", delay: 80 });
     return;
   }
   if (t.closest("[data-bv-discard]")) {
@@ -906,7 +894,7 @@ document.addEventListener("click", async e => {
         .map(id => document.querySelector(`#activeCarGrid [data-open-car="${id}"]`))
         .filter(Boolean);
       cards.forEach(c => c.classList.add("bvNewV86"));
-      void 0;
+      aeRevealV87(cards[0], { pad: 20 });
       setTimeout(() => cards.forEach(c => c.classList.remove("bvNewV86")), 2600);
     }, 260);
   }

@@ -770,8 +770,8 @@ function ccEditPriceV83(car) {
     ccToggleV83(nums, true);
     ccOpenV83.cost.add(car.id);
   }
-  setTimeout(() => void 0, 60);
   const cell = nums.querySelector("[data-cc-price-cell]");
+  aeRevealV87(cell || nums, { pad: 16 });
   if (!cell || cell.querySelector("input")) return;
   const price = ccPriceV83(car);
   cell.innerHTML = `<small>Kaina</small><label class="ccPriceEditV83"><input type="text" inputmode="numeric" autocomplete="off" aria-label="Kaina, €" value="${price || ""}" placeholder="0"><i>€</i></label>`;
@@ -832,7 +832,7 @@ function ccOpenSectionV83(key, scroll = true) {
   if (!sec.classList.contains("is-open")) ccToggleV83(sec, true);
   ccSectionsStateV83()[key] = true;
   saveState();
-  if (scroll) setTimeout(() => void 0, 80);
+  if (scroll) aeRevealV87(sec);
 }
 function ccCloseMenusV83(except = "") {
   document.querySelectorAll("#sheet [data-cc-menu-panel]").forEach(p => {
@@ -865,7 +865,7 @@ function ccEditFieldV85(car, key) {
     const el = document.getElementById("editVehicle" + field);
     if (!el) return;
     const wrap = el.closest(".field, .cfStatusV51, label") || el;
-    void 0;
+    aeRevealV87(wrap, { pad: 24, follow: 200 });
     wrap.classList.add("ccFieldFlashV85");
     setTimeout(() => wrap.classList.remove("ccFieldFlashV85"), 1600);
     setTimeout(() => el.focus({ preventScroll: true }), 350);
@@ -893,10 +893,8 @@ function ccExpOpenV85(car) {
     slot.innerHTML = ccExpFormHTMLV85(car);
   });
   const amt = slot.querySelector("[data-cc-exp-amount]");
-  setTimeout(() => {
-    void 0;
-    amt?.focus({ preventScroll: true });
-  }, 60);
+  aeRevealV87(slot, { pad: 16 });
+  setTimeout(() => amt?.focus({ preventScroll: true }), 60);
 }
 function ccExpCloseV85() {
   const nums = document.querySelector("#sheet [data-cc-nums]");
@@ -1036,6 +1034,7 @@ document.addEventListener("click", e => {
     ccToggleV83(sec, open);
     ccSectionsStateV83()[key] = open;
     saveState();
+    if (open) aeRevealV87(sec);
     return;
   }
   if (t.closest("[data-cc-ready-toggle]")) {
@@ -1044,6 +1043,7 @@ document.addEventListener("click", e => {
     ccToggleV83(sec, open);
     if (open) ccOpenV83.ready.add(car.id);
     else ccOpenV83.ready.delete(car.id);
+    if (open) aeRevealV87(sec);
     return;
   }
   const cost = t.closest("[data-cc-cost]");
@@ -1053,6 +1053,7 @@ document.addEventListener("click", e => {
     ccToggleV83(sec, open);
     if (open) ccOpenV83.cost.add(car.id);
     else ccOpenV83.cost.delete(car.id);
+    if (open) aeRevealV87(sec);
     return;
   }
   if (t.closest("[data-cc-exp-open]")) return ccExpOpenV85(car);
@@ -1099,6 +1100,7 @@ document.addEventListener("click", e => {
       if (box) box.hidden = false;
       if (!sec.classList.contains("is-open")) ccToggleV83(sec, true);
       ccOpenV83.ready.add(car.id);
+      aeRevealV87(box || sec);
       return;
     }
     if (a) ccRunActionV83(a, car, act);

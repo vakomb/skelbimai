@@ -422,3 +422,10 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
 - Automobilio kortelė: `.premiumDetail` stulpelis `minmax(0, 1fr)` – siauruose telefonuose ir su ilgais pavadinimais niekas neišeina už ekrano.
 - Testai: `tools/test-garage-search.mjs` (500 automobilių), `tools/test-batch-add.mjs` (netikras skeneris).
 - v86b: automobilio kortelėje šriftai ir skaičiai – kaip iki atnaujinimų (Duomenys – eilutės per visą plotį); pašalintas automatinis slinkimas (paspaudus laukelį, paiešką, skiltį ar išsaugojus – puslapis pats nebeslenka).
+
+## v87 – slinkimas tik kur reikia, minimalistinė Garažo paieška, platesnis paketo blokas
+
+- `src/scripts/app/72-v87-smooth-reveal.js`: `aeRevealV87(el, {pad, follow, anchor, delay})` – sklandžiai parodo elementą tik jei jis ne visas matomas; seka išsiskleidžiantį bloką (rAF, laiku grįstas švelninimas), paiso prilipusių juostų (`.navWrap`, `.ccBarV83`, `.bvFootV86`, `.gsBarV86`), nutraukiamas palietus / ratuku. `aeAnimHeightV87(el, open)` – bendras aukščio išskleidimas (`[hidden]`).
+- Kur slenkama: automobilio kortelėje atidarius bloką (Užduotys, Nuotraukos, Dokumentai, Pasirengimas, Pirkta·Išlaidos·Savikaina), „Pridėti išlaidą“ forma, kainos redagavimas, lauko redagavimas; pakete – pradžia, kitas automobilis, „Tęsti“, „Į Garažą“ (pirma nauja kortelė); paieškoje – „rasti parduotuose“. Paieškos lauko paspaudimas / rašymas niekada neslenka.
+- Garažo paieška (`70-v86-garage-search.js`, `194-v86-garage-search.css`): viena eilutė – laukas („Ieškoti“, be pavyzdžių) + filtrų mygtukas `#gsSortBtnV86` su ženkleliu; skydelis `#gsSortMenuV86` (Rodyti: filtrai `#gsChipsV86`, Rikiuoti: `#gsSortsV86`, Atstatyti / Gerai); aktyvūs filtrai – žymos `#gsActiveV86`, rezultatų skaičius `#gsMetaV86`.
+- Pridėjimas: be „Ranka“ mygtuko (kaip anksčiau – Fotografuoti / Iš galerijos, galerijoje galima žymėti kelis). Paketo režime skydelis permatomas – kortelės per visą plotį, būsenos juostelė kairėje, didesnė miniatiūra, eilės numerio ženklelis, 48 px laukai ir mygtukai.

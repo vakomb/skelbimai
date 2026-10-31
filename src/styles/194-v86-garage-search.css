@@ -1,5 +1,6 @@
-/* v86: Garažo paieška, filtrai ir rikiavimas (70-v86-garage-search.js). Programėlės stilius: baltos kortelės,
-   #e3e5ea rėmelis, mėlyna #1f5aa6, tekstas #12233a / #66768a. */
+/* v86/v87: Garažo paieška, filtrai ir rikiavimas (70-v86-garage-search.js). Programėlės stilius: baltos kortelės,
+   #e3e5ea rėmelis, mėlyna #1f5aa6, tekstas #12233a / #66768a. v87 – viena rami eilutė: laukas + filtrų mygtukas,
+   skydelis išsiskleidžia sklandžiai, aktyvūs filtrai – žymos. */
 html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsHideV86,
 html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsBarV86[hidden],
 html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsBarV86 [hidden] {
@@ -11,53 +12,58 @@ html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsBarV86 [h
   z-index: 6;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin: 0 -10px 12px;
-  padding: 8px 10px;
+  gap: 0;
+  margin: -2px -10px 10px;
+  padding: 6px 10px 6px;
   background: #f3f7fa;
+}
+#view-garage .gsRowV86 {
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 #view-garage .gsFieldV86 {
   position: relative;
   display: flex;
+  flex: 1;
+  min-width: 0;
   align-items: center;
-  gap: 6px;
-  height: 48px;
-  padding: 0 6px 0 14px;
+  gap: 8px;
+  height: 44px;
+  padding: 0 4px 0 13px;
   border: 1px solid #e3e5ea;
-  border-radius: 15px;
+  border-radius: 13px;
   background: #fff;
-  box-shadow:
-    0 1px 2px rgba(15, 23, 42, 0.04),
-    0 6px 18px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
   transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
 }
 #view-garage .gsFieldV86:focus-within {
-  border-color: #1f5aa6;
-  box-shadow:
-    0 0 0 3px rgba(31, 90, 166, 0.12),
-    0 6px 18px rgba(15, 23, 42, 0.05);
+  border-color: #9db7da;
+  box-shadow: 0 0 0 3px rgba(31, 90, 166, 0.1);
 }
 #view-garage .gsIcoV86 {
   display: grid;
   flex: none;
   place-items: center;
-  width: 20px;
-  height: 20px;
-  color: #8592a3;
+  width: 18px;
+  height: 18px;
+  color: #98a3b3;
+  transition: color 0.18s ease;
 }
-#view-garage .gsIcoV86 svg,
-#view-garage .gsClearV86 svg,
-#view-garage .gsSortBtnV86 svg {
-  width: 19px;
-  height: 19px;
+#view-garage .gsFieldV86:focus-within .gsIcoV86 {
+  color: #1f5aa6;
+}
+#view-garage .gsIcoV86 svg {
+  width: 18px;
+  height: 18px;
 }
 html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage #gsInputV86 {
   flex: 1 !important;
   width: 100% !important;
   min-width: 0 !important;
-  height: 46px !important;
+  height: 42px !important;
   min-height: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -67,116 +73,132 @@ html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage #gsInputV86 
   box-shadow: none !important;
   color: #12233a !important;
   font-size: 16px !important;
-  font-weight: 550 !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.005em !important;
   outline: none !important;
   -webkit-appearance: none !important;
   appearance: none !important;
 }
 #view-garage #gsInputV86::placeholder {
-  color: #8f9bab;
+  color: #9aa5b4;
   font-weight: 500;
 }
-#view-garage #gsInputV86::-webkit-search-cancel-button {
+#view-garage #gsInputV86::-webkit-search-cancel-button,
+#view-garage #gsInputV86::-webkit-search-decoration {
   display: none;
+  -webkit-appearance: none;
 }
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsClearV86,
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsSortBtnV86 {
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsClearV86 {
   display: grid !important;
   flex: none !important;
   place-items: center !important;
-  width: 36px !important;
-  height: 36px !important;
+  width: 34px !important;
+  height: 34px !important;
   min-height: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
   border: 0 !important;
-  border-radius: 11px !important;
+  border-radius: 10px !important;
   background: transparent !important;
   box-shadow: none !important;
-  color: #66768a !important;
+  color: #8592a3 !important;
   cursor: pointer !important;
   -webkit-tap-highlight-color: transparent;
 }
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsSortBtnV86 {
-  background: #f3f6fa !important;
+#view-garage .gsClearV86 svg {
+  width: 14px;
+  height: 14px;
+  padding: 3px;
+  box-sizing: content-box;
+  border-radius: 50%;
+  background: #e9edf2;
+  color: #5b6b80;
 }
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsSortBtnV86.on,
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsSortBtnV86[aria-expanded="true"] {
-  background: #e7eef9 !important;
-  color: #1f5aa6 !important;
-}
-#view-garage .gsSortMenuV86 {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  z-index: 8;
-  min-width: 210px;
-  padding: 6px;
-  border: 1px solid #e3e5ea;
-  border-radius: 16px;
-  background: #fff;
-  box-shadow: 0 18px 44px rgba(16, 24, 40, 0.16);
-  opacity: 0;
-  transform: translateY(-4px) scale(0.98);
-  transform-origin: top right;
-  transition:
-    opacity 0.16s ease,
-    transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-#view-garage .gsSortMenuV86.show {
-  opacity: 1;
-  transform: none;
-}
-#view-garage .gsSortMenuV86 small {
-  display: block;
-  padding: 6px 10px 4px;
-  color: #8592a3;
-  font-size: 11.5px;
-  font-weight: 750;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsSortMenuV86 button {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  width: 100% !important;
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsToolV86 {
+  position: relative !important;
+  display: grid !important;
+  flex: none !important;
+  place-items: center !important;
+  width: 44px !important;
   height: 44px !important;
   min-height: 0 !important;
   margin: 0 !important;
-  padding: 0 10px !important;
-  border: 0 !important;
-  border-radius: 11px !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  color: #12233a !important;
-  font-size: 15px !important;
-  font-weight: 650 !important;
-  text-align: left !important;
+  padding: 0 !important;
+  border: 1px solid #e3e5ea !important;
+  border-radius: 13px !important;
+  background: #fff !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03) !important;
+  color: #4b5a6c !important;
+  cursor: pointer !important;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.12s ease !important;
+  -webkit-tap-highlight-color: transparent;
 }
-html:not(#ae):not(#af):not(#ag)
-  body:not(#ae):not(#af)
-  #view-garage
-  .gsSortMenuV86
-  button[aria-checked="true"] {
-  background: #f1f5fb !important;
+#view-garage .gsToolV86:active {
+  transform: scale(0.96);
+}
+#view-garage .gsToolV86 svg {
+  width: 19px;
+  height: 19px;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsToolV86.on,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsToolV86[aria-expanded="true"] {
+  border-color: #c8d7ec !important;
+  background: #eef4fc !important;
   color: #1f5aa6 !important;
 }
-#view-garage .gsSortMenuV86 button svg {
-  width: 17px;
-  height: 17px;
+#view-garage .gsBadgeV86 {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  display: grid;
+  place-items: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border: 2px solid #f3f7fa;
+  border-radius: 999px;
+  background: #1f5aa6;
+  color: #fff;
+  font-size: 10.5px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+/* Skydelis */
+#view-garage .gsPanelV86 {
+  margin-top: 8px;
+}
+#view-garage .gsPanelInV86 {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 14px 14px 10px;
+  border: 1px solid #e3e5ea;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+#view-garage .gsGroupV86 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+#view-garage .gsGroupV86 > small {
+  color: #8592a3;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
 }
 #view-garage .gsChipsV86 {
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
-  margin: 0 -2px;
-  padding: 0 2px 2px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-}
-#view-garage .gsChipsV86::-webkit-scrollbar {
-  display: none;
 }
 html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsChipV86 {
   display: inline-flex !important;
@@ -186,48 +208,136 @@ html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsChipV86 {
   height: 34px !important;
   min-height: 0 !important;
   margin: 0 !important;
-  padding: 0 8px 0 12px !important;
-  border: 1px solid #dfe5ed !important;
-  border-radius: 999px !important;
-  background: #fff !important;
+  padding: 0 11px !important;
+  border: 1px solid transparent !important;
+  border-radius: 10px !important;
+  background: #f2f5f9 !important;
   box-shadow: none !important;
-  color: #3b4b60 !important;
+  color: #33445a !important;
   font-size: 13.5px !important;
-  font-weight: 650 !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.005em !important;
   white-space: nowrap !important;
   cursor: pointer !important;
   transition:
-    background-color 0.18s ease,
-    border-color 0.18s ease,
-    color 0.18s ease !important;
+    background-color 0.16s ease,
+    border-color 0.16s ease,
+    color 0.16s ease,
+    transform 0.12s ease !important;
   -webkit-tap-highlight-color: transparent;
 }
+#view-garage .gsChipV86:active {
+  transform: scale(0.97);
+}
 #view-garage .gsChipV86 b {
-  display: inline-grid;
-  place-items: center;
-  min-width: 20px;
-  height: 20px;
-  padding: 0 6px;
-  border-radius: 999px;
-  background: #eef2f7;
-  color: #4b5a6c;
-  font-size: 12px;
-  font-weight: 750;
+  color: #8592a3;
+  font-size: 12.5px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+#view-garage .gsChipV86 svg {
+  width: 14px;
+  height: 14px;
+  margin-left: -2px;
 }
 html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsChipV86.on {
-  border-color: #1f5aa6 !important;
-  background: #1f5aa6 !important;
-  color: #fff !important;
+  border-color: #b9cdea !important;
+  background: #eaf1fb !important;
+  color: #1f5aa6 !important;
 }
 #view-garage .gsChipV86.on b {
-  background: rgba(255, 255, 255, 0.22);
-  color: #fff;
+  color: #5d82b8;
+}
+#view-garage .gsPanelFootV86 {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
+  margin: 0 -4px;
+  padding-top: 8px;
+  border-top: 1px solid #eef1f5;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsTextBtnV86,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsDoneV86 {
+  height: 36px !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 12px !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #66768a !important;
+  font-size: 14px !important;
+  font-weight: 650 !important;
+  cursor: pointer !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsTextBtnV86 {
+  margin-right: auto !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsDoneV86 {
+  color: #1f5aa6 !important;
+  font-weight: 750 !important;
+}
+/* Aktyvūs filtrai ir rezultatų skaičius */
+#view-garage .gsInfoV86 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 28px;
+  margin-top: 8px;
+}
+#view-garage .gsActiveV86 {
+  display: flex;
+  flex: 1;
+  gap: 6px;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+#view-garage .gsActiveV86::-webkit-scrollbar {
+  display: none;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsTagV86 {
+  display: inline-flex !important;
+  flex: none !important;
+  align-items: center !important;
+  gap: 5px !important;
+  height: 28px !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 7px 0 10px !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: #eaf1fb !important;
+  box-shadow: none !important;
+  color: #1f5aa6 !important;
+  font-size: 12.5px !important;
+  font-weight: 650 !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+  animation: gsTagInV87 0.2s ease both;
+}
+#view-garage .gsTagV86 svg {
+  width: 12px;
+  height: 12px;
+  opacity: 0.75;
+}
+@keyframes gsTagInV87 {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
 }
 #view-garage .gsMetaV86 {
+  flex: none;
+  margin-left: auto;
   padding: 0 4px;
-  color: #66768a;
-  font-size: 13px;
+  color: #7a8799;
+  font-size: 12.5px;
   font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 #view-garage #activeCarGrid mark,
 #view-garage #soldCarGrid mark {
@@ -300,7 +410,9 @@ html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage .gsMoreV86 {
   background: #fff !important;
 }
 @media (prefers-reduced-motion: reduce) {
-  #view-garage .gsSortMenuV86,
+  #view-garage .gsChipV86,
+  #view-garage .gsToolV86,
+  #view-garage .gsTagV86,
   #view-garage .gsFieldV86 {
     transition: none !important;
   }

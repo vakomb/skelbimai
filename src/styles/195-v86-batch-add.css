@@ -10,20 +10,12 @@ html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .bvShutV86 {
   overflow: hidden !important;
   visibility: hidden !important;
 }
-.bvThreeV86 {
-  grid-template-columns: 1.25fr 1fr 0.8fr !important;
-}
 .bvHintV86 {
   margin: 8px 2px 0;
   color: #66768a;
   font-size: 12.5px;
   font-weight: 550;
   line-height: 1.4;
-}
-html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) .bvManualBtnV86 {
-  display: flex !important;
-  font: inherit !important;
-  cursor: pointer !important;
 }
 #bvRootV86 {
   display: flex;
@@ -536,5 +528,161 @@ html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #bvRootV86 .bvSaveAllV86:
   #view-garage #activeCarGrid > .bvNewV86 {
     animation: none !important;
     transition: none !important;
+  }
+}
+
+/* ---------- v87: platesnis, aiškesnis paketo blokas ---------- */
+/* Paketo režime pridėjimo skydelis tampa „permatomas“ – automobilių kortelės per visą plotį, kaip Garaže */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage #addCarPanel.bvModeV86 {
+  padding: 4px 0 0 !important;
+  border-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #view-garage #addCarPanel.bvModeV86 > .sectionHead {
+  margin: 0 0 12px !important;
+  padding: 0 4px 12px !important;
+}
+#bvRootV86 {
+  gap: 12px;
+}
+#bvRootV86 .bvTopV86 {
+  gap: 14px;
+  padding: 16px;
+}
+#bvRootV86 .bvTopHeadV86 strong {
+  font-size: 18px;
+}
+#bvRootV86 .bvProgTxtV86 b {
+  font-size: 16px;
+}
+#bvRootV86 .bvBarV86 {
+  height: 8px;
+  border-radius: 8px;
+}
+#bvRootV86 .bvMoreBtnV86 {
+  height: 46px;
+  border-radius: 14px;
+  font-size: 14.5px;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease;
+}
+#bvRootV86 .bvMoreBtnV86:active {
+  background: #eef3fa;
+}
+#bvRootV86 .bvListV86 {
+  gap: 12px;
+}
+/* Kortelė: kairėje būsenos juostelė, didesnė miniatiūra, aiškus eilės numeris */
+#bvRootV86 .bvItemV86 {
+  position: relative;
+  border-radius: 20px;
+}
+#bvRootV86 .bvItemV86::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  bottom: 14px;
+  left: 0;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: #d5dde8;
+  transition: background-color 0.25s ease;
+}
+#bvRootV86 .bvItemV86.is-ready::before,
+#bvRootV86 .bvItemV86.is-saved::before {
+  background: #1f9d5f;
+}
+#bvRootV86 .bvItemV86.is-missing::before {
+  background: #e3a33a;
+}
+#bvRootV86 .bvItemV86.is-error::before {
+  background: #d9483b;
+}
+#bvRootV86 .bvItemV86.is-scan::before {
+  background: #1f5aa6;
+}
+#bvRootV86 .bvItemV86.is-open {
+  border-color: #bcd0ea;
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 14px 34px rgba(31, 90, 166, 0.12);
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #bvRootV86 .bvHeadV86 {
+  gap: 14px !important;
+  min-height: 84px !important;
+  padding: 14px 14px 14px 16px !important;
+}
+#bvRootV86 .bvThumbV86 {
+  width: 68px;
+  height: 52px;
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.06);
+}
+#bvRootV86 .bvHeadTxtV86 {
+  gap: 6px;
+}
+#bvRootV86 .bvHeadTxtV86 strong {
+  font-size: 16.5px;
+  letter-spacing: -0.01em;
+}
+#bvRootV86 .bvHeadTxtV86 .lcPlateV61 {
+  transform: scale(0.88);
+  margin-right: -6px;
+}
+#bvRootV86 .bvIdxV86 {
+  display: inline-grid;
+  place-items: center;
+  min-width: 40px;
+  height: 26px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: #f1f4f8;
+  color: #5b6b80;
+  font-size: 12.5px;
+}
+#bvRootV86 .bvItemV86.is-open .bvIdxV86 {
+  background: #e7eef9;
+  color: #1f5aa6;
+}
+#bvRootV86 .bvInnerV86 {
+  gap: 12px;
+  padding: 2px 14px 16px;
+}
+/* Vidinė forma – be papildomo „dėžutė dėžutėje“ efekto */
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #bvRootV86 .bvInnerV86 .regCardV50 {
+  margin: 0 !important;
+  padding: 14px !important;
+  border: 0 !important;
+  border-radius: 16px !important;
+  background: #f6f8fb !important;
+  box-shadow: none !important;
+}
+html:not(#ae):not(#af):not(#ag)
+  body:not(#ae):not(#af)
+  #bvRootV86
+  .bvInnerV86
+  input:not([type="file"]):not([type="checkbox"]):not([type="radio"]),
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #bvRootV86 .bvInnerV86 select {
+  min-height: 48px !important;
+  font-size: 16px !important;
+}
+#bvRootV86 .bvItemActsV86 {
+  gap: 10px;
+  margin-top: 4px;
+}
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #bvRootV86 .bvItemActsV86 .bvGoV86,
+html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #bvRootV86 .bvItemActsV86 .bvGhostV86 {
+  height: 48px !important;
+  border-radius: 14px !important;
+}
+#view-garage #bvRootV86 .bvFootV86 {
+  padding: 10px 10px 10px 16px;
+  border-radius: 20px;
+}
+@media (min-width: 768px) {
+  #bvRootV86 .bvInnerV86 {
+    padding: 4px 20px 20px;
   }
 }
