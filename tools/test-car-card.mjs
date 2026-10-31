@@ -167,6 +167,14 @@ for (const W of [430, 1280]) {
   });
   check(data.first && !data.acc, "v104: viršuje Užduotys, po jų „Duomenys“ (ne išskleidžiamas)");
   check(data.stats === "TA|Draudimas|SDK" && data.specs === 6 && !!data.vin, "Duomenys: TA, draudimas, SDK, 6 laukai (su valst. nr.), VIN " + JSON.stringify(data));
+  // v105: matoma pusė duomenų, „Rodyti viską“ išskleidžia likusius (VIN, variklis, kuras, liudijimas)
+  check(await p.evaluate(() => document.querySelector("#sheet .ccMoreV105")?.hidden === true), "Duomenys: likusieji paslėpti");
+  await p.click("#sheet [data-cc-data-more]");
+  await wait(p, 450);
+  check(
+    await p.evaluate(() => !document.querySelector("#sheet .ccMoreV105").hidden && document.querySelector("#sheet [data-cc-data-more]").getAttribute("aria-expanded") === "true"),
+    "„Rodyti viską“ išskleidžia likusius"
+  );
   await p.click("#sheet [data-cc-copy]");
   await wait(p, 250);
   check(await p.evaluate(() => document.querySelector("#sheet [data-cc-copy]").classList.contains("is-copied")), "VIN kopijuojamas (pažymima varnele)");

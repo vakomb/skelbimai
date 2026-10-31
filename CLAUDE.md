@@ -30,7 +30,7 @@ Kalba su vartotoju: **lietuvių**. Programėlė skirta telefonui (iPhone 15 Pro 
 - Sklandus slinkimas tik ten, kur reikia (v87): `src/scripts/app/72-v87-smooth-reveal.js` (`aeRevealV87`).
 - Plytelių ikonos ir vienodas Garažo / Buhalterijos / Meniu viršus (v89): `src/scripts/app/73-v89-tile-icons.js`, `src/styles/196-v89-pages.css`.
 - Buhalterijos ataskaitos ir ZIP (v93): `src/scripts/app/76-v93-reports.js`, `src/styles/200-v93-reports.css`, testas `tools/test-reports.mjs`.
-- Dideli Garažo / Buhalterijos / Meniu mygtukai ir automobilio kortelės išdėstymas (v104): `src/styles/206-v104-app.css`, `src/scripts/app/81-v104-car-card.js` (Užduotys viršuje, atidaryti blokai, visi veiksmų mygtukai matomi). CSS valymas – `tools/css-clean.py`, patikra – `tools/style-diff.mjs`.
+- Automobilio kortelės išdėstymas (v104): `src/styles/206-v104-app.css`, `src/scripts/app/81-v104-car-card.js` (Užduotys viršuje, atidaryti blokai, visi veiksmų mygtukai matomi); blokai, „Duomenys“ su „Rodyti viską“ ir pridėjimo forma (v105): `src/scripts/app/82-v105-car-blocks.js`, `src/styles/207-v105-blocks.css`. CSS valymas – `tools/css-clean.py`, patikra – `tools/style-diff.mjs`.
 - Admin skydelis (tik autoeasier@gmail.com): `src/scripts/182-admin-v72.js`, `supabase/functions/admin-action`, žr. ARCHITECTURE v72.
 - Detali architektūra: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 

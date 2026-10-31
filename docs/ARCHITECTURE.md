@@ -515,3 +515,10 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
   skydeliai perkeliami į visada atidarytus blokus (`ccOpenSecV104`, `.ccAccInnerV83` viduje), `ccBuildBarV83`
   perrašyta. v100 pašalintas ne „passive“ `touchmove` klausytojas (slinkimo strigimai); `content-visibility: auto`
   Garažo kortelėms.
+- **v105** (`app/82-v105-car-blocks.js`, `styles/207-v105-blocks.css`): Garažo / Buhalterijos / Meniu mygtukai –
+  vėl kaip v95 (v104 didelės plytelės pašalintos). Kortelės „Duomenys“: matoma pusė (TA · Draudimas · SDK, valst. nr.,
+  registracija, rida), „Rodyti viską“ (`data-cc-data-more`, `ccDataOpenV105`) sklandžiai išskleidžia likusius.
+  Užduotys · Nuotraukos · Dokumentai – vienodi blokai (`ccBlkV105`: ikona, pavadinimas, skaičius, „Pridėti“
+  dešinėje); nuotraukos ir dokumentai – horizontali 92 px plytelių juosta, tušti – tik antraštė (`:has`).
+  Pridėjimo / redagavimo forma: 50 px laukai, iOS jungikliai, Nuotraukos ir Dokumentai kaip kortelės blokai,
+  dokumentų tipai – du stulpeliai.
