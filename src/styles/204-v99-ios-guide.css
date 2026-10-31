@@ -1,0 +1,386 @@
+/* v99: iPhone / iPad įdiegimo gidas (79-v99-ios-guide.js). */
+.aeIosV99[hidden] {
+  display: none;
+}
+.aeIosV99 {
+  position: fixed;
+  inset: 0;
+  z-index: 100030;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 0 calc(max(10px, env(safe-area-inset-bottom)) + 74px);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  color: #12233a;
+}
+.aeIosV99.top {
+  align-items: flex-start;
+  padding: calc(env(safe-area-inset-top) + 74px) 0 0;
+}
+.aeIosBackV99 {
+  position: absolute;
+  inset: 0;
+  background: rgba(13, 25, 42, 0.42);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: opacity 0.26s ease;
+}
+.aeIosCardV99 {
+  position: relative;
+  box-sizing: border-box;
+  width: calc(100% - 24px);
+  max-width: 420px;
+  padding: 22px 18px 16px;
+  border-radius: 26px;
+  background: #fff;
+  box-shadow: 0 24px 60px rgba(13, 28, 47, 0.28);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(18px) scale(0.98);
+  transition:
+    opacity 0.24s ease,
+    transform 0.34s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.aeIosV99.show .aeIosBackV99 {
+  opacity: 1;
+}
+.aeIosV99.show .aeIosCardV99 {
+  opacity: 1;
+  transform: none;
+}
+.aeIosCardV99 h2 {
+  margin: 2px 0 0;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.aeIosCardV99 > p {
+  margin: 6px auto 0;
+  max-width: 300px;
+  color: #66768a;
+  font-size: 14px;
+  line-height: 1.4;
+}
+/* Animuotas „Bendrinti“ meniu pavyzdys */
+.aeIosDemoV99 {
+  display: flex;
+  justify-content: center;
+  margin: 14px 0 4px;
+}
+.aeIosPhoneV99 {
+  position: relative;
+  width: 230px;
+  height: 196px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #dfe7f3, #c9d6ea);
+}
+.aeIosSheetV99 {
+  position: absolute;
+  inset: 14px 10px 0;
+  border-radius: 14px 14px 0 0;
+  background: #f2f3f7;
+  box-shadow: 0 -6px 18px rgba(13, 28, 47, 0.12);
+  animation: aeIosSheetV99 7s infinite cubic-bezier(0.32, 0.72, 0, 1);
+}
+.aeIosSheetHeadV99 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 10px;
+  text-align: left;
+}
+.aeIosSheetHeadV99 img,
+.aeIosConfirmV99 img {
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+}
+.aeIosSheetHeadV99 b {
+  display: block;
+  font-size: 11.5px;
+}
+.aeIosSheetHeadV99 small {
+  display: block;
+  color: #8592a3;
+  font-size: 9.5px;
+}
+.aeIosListWrapV99 {
+  height: 132px;
+  overflow: hidden;
+  margin: 0 8px;
+  border-radius: 10px;
+  background: #fff;
+}
+.aeIosListV99 {
+  animation: aeIosScrollV99 7s infinite cubic-bezier(0.45, 0, 0.2, 1);
+}
+.aeIosRowV99 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 33px;
+  padding: 0 10px;
+  border-bottom: 1px solid #eef0f4;
+  font-size: 11.5px;
+  text-align: left;
+}
+.aeIosRowV99 i {
+  display: grid;
+  width: 18px;
+  height: 18px;
+  color: #12233a;
+}
+.aeIosRowV99 i svg {
+  width: 18px;
+  height: 18px;
+}
+.aeIosRowV99.target {
+  animation: aeIosTargetV99 7s infinite;
+  font-weight: 700;
+}
+.aeIosConfirmV99 {
+  position: absolute;
+  inset: 14px 10px auto;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 6px 8px;
+  padding: 10px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(13, 28, 47, 0.16);
+  font-size: 11.5px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: aeIosConfirmV99 7s infinite cubic-bezier(0.32, 0.72, 0, 1);
+}
+.aeIosConfirmV99 span {
+  color: #1f6fe5;
+  text-align: left;
+}
+.aeIosConfirmV99 b {
+  grid-column: 3;
+  color: #1f6fe5;
+  font-weight: 700;
+  animation: aeIosAddV99 7s infinite;
+  border-radius: 6px;
+  padding: 2px 4px;
+}
+.aeIosConfirmV99 img {
+  grid-column: 1;
+  grid-row: 2;
+}
+.aeIosConfirmV99 em {
+  grid-column: 2 / 4;
+  grid-row: 2;
+  font-style: normal;
+  font-weight: 600;
+  text-align: left;
+}
+.aeIosTapV99 {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(31, 90, 166, 0.35);
+  box-shadow: 0 0 0 6px rgba(31, 90, 166, 0.15);
+  opacity: 0;
+  animation: aeIosTapV99 7s infinite;
+}
+@keyframes aeIosSheetV99 {
+  0%,
+  62% {
+    transform: none;
+    opacity: 1;
+  }
+  68%,
+  100% {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+}
+@keyframes aeIosScrollV99 {
+  0%,
+  14% {
+    transform: translateY(0);
+  }
+  40%,
+  100% {
+    transform: translateY(-99px);
+  }
+}
+@keyframes aeIosTargetV99 {
+  0%,
+  44% {
+    background: #fff;
+  }
+  48%,
+  62% {
+    background: #e4ecfa;
+  }
+  100% {
+    background: #fff;
+  }
+}
+@keyframes aeIosConfirmV99 {
+  0%,
+  64% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  70%,
+  96% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+@keyframes aeIosAddV99 {
+  0%,
+  80% {
+    background: transparent;
+  }
+  84%,
+  92% {
+    background: #e4ecfa;
+  }
+  100% {
+    background: transparent;
+  }
+}
+@keyframes aeIosTapV99 {
+  0%,
+  44% {
+    opacity: 0;
+    left: 120px;
+    top: 120px;
+    transform: scale(0.6);
+  }
+  48% {
+    opacity: 1;
+    left: 140px;
+    top: 136px;
+    transform: scale(1);
+  }
+  56% {
+    opacity: 0;
+    left: 140px;
+    top: 136px;
+    transform: scale(1.3);
+  }
+  80% {
+    opacity: 0;
+    left: 188px;
+    top: 18px;
+    transform: scale(0.6);
+  }
+  84% {
+    opacity: 1;
+    left: 188px;
+    top: 18px;
+    transform: scale(1);
+  }
+  92%,
+  100% {
+    opacity: 0;
+    left: 188px;
+    top: 18px;
+    transform: scale(1.3);
+  }
+}
+.aeIosStepsV99 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+.aeIosStepsV99 li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 54px;
+  padding: 7px 12px 7px 7px;
+  border: 1px solid #e3e5ea;
+  border-radius: 16px;
+  font-size: 14.5px;
+  line-height: 1.35;
+}
+/* Rodyklė į Safari „Bendrinti“ mygtuką */
+.aeIosArrowV99 {
+  position: absolute;
+  left: 50%;
+  bottom: calc(max(4px, env(safe-area-inset-bottom)) + 6px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: #fff;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s ease 0.15s;
+  pointer-events: none;
+}
+.aeIosV99.show .aeIosArrowV99 {
+  opacity: 1;
+}
+.aeIosArrowV99 svg {
+  width: 40px;
+  height: 40px;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
+  animation: aeIosBounceV99 1.1s ease-in-out infinite;
+}
+.aeIosPillV99 {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #245ccc;
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 700;
+  box-shadow: 0 6px 16px rgba(36, 92, 204, 0.4);
+}
+@keyframes aeIosBounceV99 {
+  50% {
+    transform: translateY(8px);
+  }
+}
+.aeIosV99.top .aeIosArrowV99 {
+  top: calc(env(safe-area-inset-top) + 4px);
+  right: 16px;
+  bottom: auto;
+  left: auto;
+  flex-direction: column-reverse;
+  transform: none;
+}
+.aeIosV99.top .aeIosArrowV99 svg {
+  transform: rotate(180deg);
+  animation: aeIosBounceUpV99 1.1s ease-in-out infinite;
+}
+@keyframes aeIosBounceUpV99 {
+  0%,
+  100% {
+    transform: rotate(180deg) translateY(0);
+  }
+  50% {
+    transform: rotate(180deg) translateY(8px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aeIosV99 *,
+  .aeIosV99 *::before {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

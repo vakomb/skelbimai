@@ -493,3 +493,7 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
 - `src/index.html`: `<link rel="manifest">`, `apple-mobile-web-app-status-bar-style`, `mobile-web-app-capable`.
 - `src/scripts/app/78-v98-install.js`: prisijungimo ekrane „Įdiegti programėlę“ (šalia „Ką moka AutoEasier“, `src/partials/login.html` → `.aeLoginLinksV98`). Chrome / Edge / Android – sisteminis langas (`beforeinstallprompt`); iPhone / iPad / Mac Safari / kitos – instrukcija su ikonomis (`#aeInstV98`). Įdiegtoje programėlėje mygtukas nerodomas. Service worker registruojamas tik per https.
 - `src/styles/203-v98-install.css` (`<style id="v98">`); prisijungimo logotipo „Easier“ – vientisai mėlynas.
+
+## v99 – iPhone / iPad įdiegimo gidas
+
+- `src/scripts/app/79-v99-ios-guide.js` + `src/styles/204-v99-ios-guide.css` (`<style id="v99">`): iPhone / iPad paspaudus „Įdiegti programėlę“ – animuota rodyklė į Safari „Bendrinti“ (iPhone apačioje, iPad ir Chrome iOS – viršuje dešinėje) ir animuotas „Bendrinti“ meniu pavyzdys (nuslenka iki „Įtraukti į pradžios ekraną“, parodo „Įtraukti“). Apple neleidžia puslapiui pačiam atidaryti šio meniu ar pridėti ikonos.
