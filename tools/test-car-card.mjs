@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// v83 automobilio kortelės testas (430 ir 1280 px): dienos garaže, pasirengimo juosta ir sąrašas,
+// v83/v85 automobilio kortelės testas (430 ir 1280 px): dienos garaže, „Duomenys“, pasirengimo juosta ir sąrašas,
+// išlaidos pridėjimas vietoje (kortelė neuždaroma), sklandus skilčių išskleidimas,
 // kainos redagavimas su marža, savikainos išskaidymas, akordeonai (atmintis state.ui.carSections),
 // juostos meniu „Dokumentai“ ir „⋯“, parduoto automobilio „Dokumentai buhalterei“, „?“ prie Užduočių.
 // Naudojimas: node tools/test-car-card.mjs   (nuotraukos – .verify/car-card-*.png)
@@ -88,8 +89,7 @@ const readyInfo = p =>
       count: r?.querySelector(".ccRdyCountV83")?.textContent.replace(/\s+/g, " ").trim(),
       now: bar?.getAttribute("aria-valuenow"),
       max: bar?.getAttribute("aria-valuemax"),
-      segs: bar?.children.length,
-      segsDone: bar ? [...bar.children].filter(s => /done|all/.test(s.className)).length : 0,
+      fill: bar ? Math.round(parseFloat(bar.querySelector("i")?.style.getPropertyValue("--p") || "0") * 100) : 0,
       next: r?.querySelector(".ccNextV83")?.textContent.replace(/\s+/g, " ").trim(),
       rows: [...(r?.querySelectorAll("[data-cc-row]") || [])].map(x => x.dataset.ccRow + ":" + x.className)
     };
@@ -118,8 +118,8 @@ for (const W of [430, 1280]) {
 
   // Pasirengimas
   let r = await readyInfo(p);
-  check(r.count === "3 iš 7 paruošta" && r.now === "3" && r.max === "7", "pasirengimas 3 iš 7 " + JSON.stringify(r.count));
-  check(r.segs === 7 && r.segsDone === 3, `segmentai ${r.segsDone}/${r.segs}`);
+  check(r.count === "3 iš 7" && r.now === "3" && r.max === "7", "pasirengimas 3 iš 7 " + JSON.stringify(r.count));
+  check(r.fill === 43, `ištisinė juosta užpildyta ${r.fill} %`);
   check(/draudim/i.test(r.next || ""), "kitas žingsnis – draudimas: " + r.next);
   await p.click("#sheet [data-cc-ready-toggle]");
   await wait(p);
@@ -139,11 +139,48 @@ for (const W of [430, 1280]) {
     await docInput.setInputFiles({ name: "pirkimo-sutartis.pdf", mimeType: "application/pdf", buffer: Buffer.from("%PDF-1.4\n%%EOF\n") });
     await wait(p, 900);
     r = await readyInfo(p);
-    check(r.count === "4 iš 7 paruošta" && r.segsDone === 4, "įkėlus sutartį – 4 iš 7 " + r.count);
+    check(r.count === "4 iš 7" && r.now === "4" && r.fill === 57, "įkėlus sutartį – 4 iš 7, juosta " + r.fill + " %");
     check(r.rows.some(x => /^purchase:.*done/.test(x)), "sutarties eilutė atlikta");
   }
 
-  // Kaina ir marža
+  // Duomenys – visada atidaryti, pačiame viršuje po nuotrauka
+  const data = await p.evaluate(() => {
+    const d = document.querySelector("#sheet [data-cc-data]");
+    const body = document.querySelector("#sheet .premiumDetailBody");
+    return {
+      first: body?.firstElementChild === d,
+      stats: [...(d?.querySelectorAll(".ccStatV85 small") || [])].map(x => x.textContent).join("|"),
+      specs: d?.querySelectorAll(".ccSpecV85").length,
+      vin: d?.querySelector("[data-cc-copy]")?.dataset.ccCopy,
+      acc: !!document.querySelector('#sheet [data-cc-sec="data"]')
+    };
+  });
+  check(data.first && !data.acc, "„Duomenys“ – pirmas blokas, ne išskleidžiamas");
+  check(data.stats === "TA|Draudimas|SDK" && data.specs === 5 && !!data.vin, "Duomenys: TA, draudimas, SDK, 5 laukai, VIN " + JSON.stringify(data));
+  await p.click("#sheet [data-cc-copy]");
+  await wait(p, 250);
+  check(await p.evaluate(() => document.querySelector("#sheet [data-cc-copy]").classList.contains("is-copied")), "VIN kopijuojamas (pažymima varnele)");
+
+  // Skaičiai: Pirkta · Išlaidos · Savikaina
+  const nums = await p.evaluate(() => {
+    const n = document.querySelector("#sheet [data-cc-nums]");
+    return {
+      labels: [...n.querySelectorAll(".ccNumV85 small")].map(x => x.textContent).join("|"),
+      h: Math.round(n.getBoundingClientRect().height)
+    };
+  });
+  check(nums.labels === "Pirkta|Išlaidos|Savikaina" && nums.h <= 76, "skaičiai: " + nums.labels + ", aukštis " + nums.h + " px");
+
+  // Savikainos išskaidymas, kaina ir marža
+  await p.click("#sheet [data-cc-cost]");
+  await wait(p, 500);
+  const cost = await p.evaluate(() => ({
+    exp: document.querySelector("#sheet [data-cc-cost]")?.getAttribute("aria-expanded"),
+    rows: document.querySelectorAll("#sheet [data-cc-cost-body] .ccCostRowV83").length,
+    add: !!document.querySelector("#sheet [data-cc-cost-body] [data-cc-exp-open]"),
+    h: Math.round(document.querySelector("#sheet [data-cc-nums] .ccAccBodyV83").getBoundingClientRect().height)
+  }));
+  check(cost.exp === "true" && cost.rows >= 1 && cost.add && cost.h > 100, "savikainos išskaidymas išsiskleidžia " + JSON.stringify(cost));
   const before = await p.evaluate(() => document.querySelector("#sheet [data-cc-margin]")?.textContent.trim());
   await p.click("#sheet [data-cc-price]");
   await wait(p, 200);
@@ -161,30 +198,56 @@ for (const W of [430, 1280]) {
     check((await savedCar(p, "car-demo-1"))?.askingPrice == 6900, "kaina išsaugota į askingPrice");
   }
 
-  // Savikainos išskaidymas
-  await p.click("#sheet [data-cc-cost]");
-  await wait(p);
-  const cost = await p.evaluate(() => ({
-    exp: document.querySelector("#sheet [data-cc-cost]")?.getAttribute("aria-expanded"),
-    rows: document.querySelectorAll("#sheet [data-cc-cost-body] .ccCostRowV83").length,
-    add: !!document.querySelector('#sheet [data-cc-cost-body] [data-cc-act="add-expense"]')
-  }));
-  check(cost.exp === "true" && cost.rows >= 1 && cost.add, "savikainos išskaidymas " + JSON.stringify(cost));
+  // Išlaida pridedama vietoje – kortelė lieka atidaryta
+  const spentBefore = await p.evaluate(() => document.querySelectorAll("#sheet .ccNumV85 b")[1]?.textContent.replace(/\D/g, ""));
+  await p.click("#sheet [data-cc-exp-open]");
+  await wait(p, 450);
+  await p.fill("#sheet [data-cc-exp-amount]", "120");
+  await p.click('#sheet [data-cc-exp-cat="Detalės"]');
+  await p.click('#sheet [data-cc-exp-form] button[type="submit"]');
+  await wait(p, 900);
+  const exp = await p.evaluate(
+    ([k, id]) => {
+      const s = document.getElementById("sheet");
+      const tx = (JSON.parse(localStorage.getItem(k)).finances?.transactions || []).find(t => t.carId === id && t.category === "Detalės");
+      return {
+        open: document.getElementById("modalBackdrop")?.classList.contains("show") && s.dataset.carV63 === id,
+        spent: document.querySelectorAll("#sheet .ccNumV85 b")[1]?.textContent.replace(/\D/g, ""),
+        row: !!s.querySelector(".ccCostRowV83.ccFlashV85"),
+        form: !!s.querySelector("[data-cc-exp-form]"),
+        tx: tx ? tx.amount + "/" + tx.source : null
+      };
+    },
+    [KEY, "car-demo-1"]
+  );
+  check(exp.open && !exp.form, "pridėjus išlaidą kortelė lieka atidaryta");
+  check(+exp.spent === +spentBefore + 120 && exp.row, `išlaidos atsinaujina vietoje: ${spentBefore} → ${exp.spent} €`);
+  check(exp.tx === "120/accounting", "išlaida įrašyta su automobiliu (Buhalterija): " + exp.tx);
 
   // Akordeonai
   const tasksOpen = await p.evaluate(() => document.querySelector('#sheet [data-cc-sec="tasks"]')?.classList.contains("is-open"));
   check(tasksOpen, "Užduotys atidarytos (yra vėluojančių)");
   check(!!(await p.$('#sheet [data-cc-sec="tasks"] .ccSecHeadV83 .ccHelpSlotV83 .aeHelpBtnV81, #sheet [data-cc-sec="tasks"] .ccSecHeadV83 [data-help]')), "„?“ prie Užduočių");
-  await p.click('#sheet [data-cc-sec-toggle="data"]');
-  await wait(p, 400);
-  const dataSec = await p.evaluate(() => ({
-    open: document.querySelector('#sheet [data-cc-sec="data"]')?.classList.contains("is-open"),
-    exp: document.querySelector('#sheet [data-cc-sec-toggle="data"]')?.getAttribute("aria-expanded"),
-    specs: !!document.querySelector('#sheet [data-cc-sec-body="data"] .cdSpecsV60')
-  }));
-  check(dataSec.open && dataSec.exp === "true" && dataSec.specs, "Duomenys atsidaro, juose specifikacijos");
+  await p.click('#sheet [data-cc-sec-toggle="photos"]');
+  await wait(p, 120);
+  const mid = await p.evaluate(() => {
+    const b = document.querySelector('#sheet [data-cc-sec="photos"] .ccAccBodyV83');
+    return { h: b.getBoundingClientRect().height, anim: b.getAnimations().length };
+  });
+  await wait(p, 450);
+  const docsSec = await p.evaluate(() => {
+    const b = document.querySelector('#sheet [data-cc-sec="photos"] .ccAccBodyV83');
+    return {
+      open: document.querySelector('#sheet [data-cc-sec="photos"]')?.classList.contains("is-open"),
+      exp: document.querySelector('#sheet [data-cc-sec-toggle="photos"]')?.getAttribute("aria-expanded"),
+      h: Math.round(b.getBoundingClientRect().height),
+      vis: getComputedStyle(b).visibility
+    };
+  });
+  check(mid.anim >= 1 && mid.h < docsSec.h, `skiltis išsiskleidžia sklandžiai (animacija: ${Math.round(mid.h)} → ${docsSec.h} px)`);
+  check(docsSec.open && docsSec.exp === "true" && docsSec.vis === "visible", "Nuotraukos atsidaro");
   await p.waitForTimeout(300);
-  check((await p.evaluate(k => JSON.parse(localStorage.getItem(k)).ui?.carSections?.data, KEY)) === true, "akordeono būsena išsaugota state.ui.carSections");
+  check((await p.evaluate(k => JSON.parse(localStorage.getItem(k)).ui?.carSections?.photos, KEY)) === true, "akordeono būsena išsaugota state.ui.carSections");
 
   // Juostos meniu
   const bar = await p.evaluate(() => {
@@ -240,8 +303,8 @@ for (const W of [430, 1280]) {
   });
   await openCar(p, "car-demo-1");
   check(
-    await p.evaluate(() => document.querySelector('#sheet [data-cc-sec="data"]')?.classList.contains("is-open")),
-    "po perkrovimo Duomenys lieka atidaryti"
+    await p.evaluate(() => document.querySelector('#sheet [data-cc-sec="photos"]')?.classList.contains("is-open")),
+    "po perkrovimo Nuotraukos lieka atidarytos"
   );
   await closeCar(p);
 
@@ -249,12 +312,12 @@ for (const W of [430, 1280]) {
   await openCar(p, "car-demo-2");
   const sold = await p.evaluate(() => ({
     days: document.querySelector("#sheet .ccDaysV83")?.textContent.trim(),
-    labels: [...document.querySelectorAll("#sheet [data-cc-nums] .ccNumV83 > span")].map(s => s.textContent.trim()),
+    labels: [...document.querySelectorAll("#sheet [data-cc-nums] .ccNumV85 small")].map(s => s.textContent.trim()),
     send: !!document.querySelector("#sheet [data-cc-send-slot] .accountingCarActions, #sheet [data-cc-send-slot] button"),
     sendTxt: document.querySelector("#sheet [data-cc-send-slot]")?.textContent.replace(/\s+/g, " ").trim()
   }));
   check(sold.days === "Parduota per 22 d.", "parduotas: " + sold.days);
-  check(sold.labels.join("|") === "Savikaina|Parduota|Marža", "skaičiai: " + sold.labels.join(" · "));
+  check(sold.labels.join("|") === "Pirkta|Išlaidos|Savikaina", "skaičiai: " + sold.labels.join(" · "));
   const rs = await readyInfo(p);
   check(/Dokumentai buhalterei/.test(rs.title || "") && /^0 iš 4/.test(rs.count || ""), `buhalterei: ${rs.title} ${rs.count}`);
   if (!/Teikti buhalterei/.test(sold.sendTxt || "")) {
@@ -278,10 +341,10 @@ for (const W of [430, 1280]) {
   await p.click("#sheet [data-cc-ready-toggle]");
   await wait(p);
   const r = await readyInfo(p);
-  check(r.count === "2 iš 7 paruošta" && r.segsDone === 2, "pasibaigusi TA – 2 iš 7 " + r.count);
+  check(r.count === "2 iš 7" && r.now === "2", "pasibaigusi TA – 2 iš 7 " + r.count);
   const bad = await p.evaluate(() => {
     const row = document.querySelector('#sheet [data-cc-row="ta"]');
-    return { cls: row?.className, pill: row?.querySelector(".ccPillV83")?.className, seg: !!document.querySelector('#sheet [role="progressbar"] .bad, #sheet [role="progressbar"] [class*="bad"]') };
+    return { cls: row?.className, pill: row?.querySelector(".ccPillV83")?.className, seg: !!document.querySelector('#sheet .ccStatV85.bad[data-cc-edit="ta"]') };
   });
   check(/bad/.test(bad.cls + bad.pill) && bad.seg, "pasibaigusi TA pažymėta raudonai " + JSON.stringify(bad));
   await p.context().close();

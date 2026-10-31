@@ -403,3 +403,14 @@ Tas pats su CSS: 148 blokai, daug `!important`. Vėlesnis blokas laimi, todėl e
 - `src/scripts/app/69-v84-features.js`: telefone langas iš apačios (88 %, nutempiamas žemyn, „Atgal“ uždaro detalę, po to langą), kompiuteryje – centruotas langas dviem stulpeliais (sąrašas | detalė), planšetėje detalė vienu stulpeliu. 9 funkcijos (`FT_LIST_V84`), kiekviena su nauda, gyvu CSS/SVG maketu (`FT_MOCK_V84`: `data-on/off/hot/cls/num`, „pirštas“ taikosi į `data-t`), 3–4 žingsniais (automatinis grojimas 3,2 s, pauzė palietus, braukimas, rodyklės), „Seniau / Su AutoEasier“, 3 ženkleliais ir „Kita funkcija“. CTA spaudžia esamą `#autoEasierSubscription` (v70 prenumeratos langas). DOM kuriamas tik atidarius. API: `window.AutoEasierFeatures.open(id?) / close() / list`.
 - Stilius: `src/styles/193-v84-features.css` (prefiksas su `#aeFtV84`; globalus `small { font-size … !important }` perrašomas `!important`). Mažiau judesio – be automatinio grojimo ir slinkimo.
 - Testas: `tools/test-features.mjs` (430 / 1280 px, reduced-motion). `verify-browser` žingsnis `features`.
+
+## v85 – automobilio kortelė: sklandumas, „Duomenys“, išlaida vietoje; Regitros patikros pašalintos
+
+- `app/68-v83-car-card.js` (tas pats failas):
+  - **„Duomenys“** (`ccDataHTMLV85`) – visada atidaryti, pirmas blokas po nuotrauka: TA / Draudimas / SDK plytelės, pirmoji registracija, rida, variklis, kuras, liudijimas, VIN su kopijavimu. Paspaudus – redagavimo forma, paryškinamas tas laukas; uždarius ar išsaugojus grįžtama į kortelę.
+  - **Skaičiai** – viena eilutė „Pirkta · Išlaidos · Savikaina“. Išskleidus: savikainos sudėtis, kaina (keičiama vietoje) ir marža, **„Pridėti išlaidą“ forma tiesiai kortelėje** (suma, kategorija, data, čekis, pastaba). Įrašas – kaip Buhalterijoje (`source: "accounting"`, `carId`), kortelė neuždaroma ir atsinaujina vietoje.
+  - **Pasirengimas** – viena ištisinė progreso juosta, nuotraukoms užtenka bent vienos.
+  - **Išskleidimas** – Web Animations API (`ccAnimBodyV85`, `ccMorphV85`): aukštis + turinio išryškėjimas, uždarytas blokas `ccShutV85`. Perpiešus tą pačią kortelę slinkties vieta išlieka.
+  - Varianto kortelė (`openGarageLeadSheet`) – tas pats stilius (nuotraukų juosta, kortelės, 12 px tarpai).
+- Regitros įrankiai pašalinti: `app/63-v80-regitra.js` ir `styles/189-v80-regitra.css` palikti tušti (galima ištrinti), Meniu plytelės ir skyriai išimti (`partials/view-menu.html`, `147-…`), v84 vitrinoje – 8 funkcijos. `tools/test-regitra.mjs` tikrina, kad jų neliko.
+- Stilius – `styles/192-v83-car-card.css`. Testas – `tools/test-car-card.mjs`.

@@ -200,35 +200,6 @@ const FT_MOCK_V84 = {
     </div>
     <div class="fmToastV84" data-on="3">${ftSvgV84("check")}Prisegta prie automobilio</div>`;
   },
-  regitra: () => `<div class="fmLayerV84">
-      <div class="fmTitleV84">Regitros įrankiai</div>
-      <div class="fmTileBigV84" data-t="ins">${ftSvgV84("shield")}<span><b>Draudimo patikra</b><small>Pagal valst. numerį</small></span></div>
-      <div class="fmTileBigV84">${ftSvgV84("search")}<span><b>SDK paieška</b><small>Pagal VIN</small></span></div>
-    </div>
-    <div class="fmLayerV84" data-on="1" data-off="2">
-      <div class="fmTitleV84">Draudimo patikra</div>
-      <div class="fmCarRowV84">${ftThumbV84(0)}<span><b>Toyota RAV4</b><small>KLM 482</small></span></div>
-      <em class="fmPillV84 good fmPillBigV84">${ftSvgV84("check")}Numeris nukopijuotas</em>
-      <div class="fmOpenV84"><span class="fmDotsV84"><i></i><i></i><i></i></span>Atidaroma oficiali Regitros paieška</div>
-    </div>
-    <div class="fmLayerV84" data-on="2" data-off="3">
-      <div class="fmTitleV84">Draudimo patikra</div>
-      <div class="fmCarRowV84">${ftThumbV84(0)}<span><b>Toyota RAV4</b><small>KLM 482</small></span></div>
-      <div class="fmCardV84 fmAskV84"><b>Koks patikros rezultatas?</b>
-        <div class="fmTwoV84"><span class="fmBtnV84 sm" data-t="ok">Galioja</span><span class="fmBtnV84 sm ghost">Negalioja</span></div>
-        <div class="fmFieldV84 filled"><span>Galioja iki</span><b>2027-03-14</b></div>
-      </div>
-    </div>
-    <div class="fmLayerV84" data-on="3">
-      <div class="fmTitleV84">Toyota RAV4</div>
-      <div class="fmSubRowV84"><span class="fmPlateV84">KLM 482</span></div>
-      <div class="fmCardV84 fmListV84">
-        <div class="fmRowV84"><span>TA</span><em class="fmPillV84 good">Galioja</em></div>
-        <div class="fmRowV84 fmFlashV84"><span>Draudimas</span><em class="fmPillV84 good">iki 2027-03-14</em></div>
-        <div class="fmRowV84"><span>SDK</span><em class="fmPillV84 good">Pateiktas</em></div>
-      </div>
-    </div>
-    <div class="fmToastV84" data-on="3">${ftSvgV84("check")}Įrašyta į kortelę</div>`,
   buhalterija: () => `<div class="fmLayerV84">
       <div class="fmTitleV84">Buhalterija</div>
       <div class="fmCardV84">
@@ -385,27 +356,6 @@ const FT_LIST_V84 = [
       "Dokumentas prisegtas prie automobilio"
     ],
     taps: ["pp", null, "place"]
-  },
-  {
-    id: "regitra",
-    ico: "shield",
-    title: "Regitros patikros",
-    sub: "Rezultatas iš karto kortelėje",
-    head: "Patikrinote Regitroje – rezultatas jau kortelėje",
-    how: "Programa paruošia duomenis ir atidaro oficialią Regitros paiešką, o rezultatą įrašote vienu paspaudimu.",
-    old: "Perrašinėjate numerius, rezultatus laikote galvoje.",
-    now: "Numeris nukopijuotas, rezultatas – automobilio kortelėje.",
-    chips: [
-      ["shield", "Oficiali paieška"],
-      ["scan", "Be perrašinėjimo"],
-      ["check", "Įrašoma į kortelę"]
-    ],
-    steps: [
-      "Spaudžiate „Draudimo patikra“ – numeris nukopijuotas",
-      "Patikrinate oficialioje Regitros paieškoje",
-      "Pažymite rezultatą – jis kortelėje"
-    ],
-    taps: ["ins", null, "ok"]
   },
   {
     id: "buhalterija",

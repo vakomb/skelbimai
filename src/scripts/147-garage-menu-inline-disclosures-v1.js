@@ -8,10 +8,7 @@
     { key: "customers", title: "Kontaktai", id: "view-customers" },
     { key: "history", title: "Veiksmų istorija", id: "menu-history" },
     { key: "garage-stats", title: "Pardavimų statistika", id: "view-garage-stats" },
-    { key: "settings", title: "Nustatymai", id: "view-settings" },
-    // v80: Regitros įrankiai (63-v80-regitra.js)
-    { key: "sdk", title: "SDK paieška", id: "menu-tool-sdk" },
-    { key: "insurance", title: "Draudimo patikra", id: "menu-tool-ins" }
+    { key: "settings", title: "Nustatymai", id: "view-settings" }
   ];
   const records = new Map();
   definitions.forEach(item => {

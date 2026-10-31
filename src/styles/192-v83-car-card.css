@@ -1,4 +1,4 @@
-/* v83: automobilio kortelė (68-v83-car-card.js). Paskutinis kortelės sluoksnis: balti blokai ant #f3f7fa,
+/* v83 → v85: automobilio kortelė (68-v83-car-card.js). Paskutinis kortelės sluoksnis: balti blokai ant #f3f7fa,
    tekstas #12233a / #66768a, mėlyna #1f5aa6, žalia #1f9d5f, raudona tik vėlavimui ir pasibaigusiems terminams. */
 
 html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet.ccV83 .ccHiddenV83 {
@@ -186,49 +186,46 @@ html:not(#ae):not(#af):not(#ag):not(#ah)
 }
 #sheet.ccV83 .is-open > button .ccChevV83,
 #sheet.ccV83 .is-open > .ccSecHeadV83 .ccChevV83,
-#sheet.ccV83 .ccNumsV83.is-open .ccCostBtnV83 .ccChevV83 {
+#sheet.ccV83 .ccNumsV83.is-open .ccNumsRowV85 .ccChevV83 {
   transform: rotate(180deg);
 }
+/* Išskleidimas: aukštis animuojamas Web Animations API (68-v83-car-card.js, ccAnimBodyV85) */
 #sheet.ccV83 .ccAccBodyV83 {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-#sheet.ccV83 .is-open > .ccAccBodyV83 {
-  grid-template-rows: 1fr;
-}
-#sheet.ccV83 .ccAccInnerV83 {
-  min-height: 0;
   overflow: hidden;
-  opacity: 0;
-  transition: opacity 0.18s ease;
 }
-#sheet.ccV83 :not(.is-open) > .ccAccBodyV83 > .ccAccInnerV83 {
-  content-visibility: auto;
+#sheet.ccV83 .ccAccBodyV83.ccShutV85 {
+  height: 0;
   visibility: hidden;
 }
-#sheet.ccV83 .is-open > .ccAccBodyV83 > .ccAccInnerV83 {
-  opacity: 1;
+#sheet.ccV83 .ccAccInnerV83 {
+  will-change: auto;
 }
-#sheet.ccV83.ccInstantV83 .ccAccBodyV83,
-#sheet.ccV83.ccInstantV83 .ccAccInnerV83,
-#sheet.ccV83.ccInstantV83 .ccChevV83 {
+#sheet.ccV83.ccInstantV83 .ccChevV83,
+#sheet.ccV83.ccInstantV83 .ccProgV85 i {
   transition: none !important;
 }
 #sheet.ccV83 button.ccSecToggleV83,
 #sheet.ccV83 button.ccRdyHeadV83,
-#sheet.ccV83 button.ccNumV83,
+#sheet.ccV83 .ccNumsRowV85,
 #sheet.ccV83 .ccPillV83,
 #sheet.ccV83 .ccBarBtnV83,
-#sheet.ccV83 .ccHeroEmptyV83 {
+#sheet.ccV83 .ccHeroEmptyV83,
+#sheet.ccV83 .ccStatV85,
+#sheet.ccV83 .ccSpecV85,
+#sheet.ccV83 .ccVinV85,
+#sheet.ccV83 .ccAddExpV85,
+#sheet.ccV83 .ccEditLinkV85 {
   -webkit-tap-highlight-color: transparent;
 }
 #sheet.ccV83 button.ccSecToggleV83:active,
 #sheet.ccV83 button.ccRdyHeadV83:active,
-#sheet.ccV83 button.ccNumV83:active,
 #sheet.ccV83 .ccPillV83:active,
 #sheet.ccV83 .ccBarBtnV83:active,
-#sheet.ccV83 .ccHeroEmptyV83:active {
+#sheet.ccV83 .ccHeroEmptyV83:active,
+#sheet.ccV83 .ccStatV85:active,
+#sheet.ccV83 .ccSpecV85:active,
+#sheet.ccV83 .ccVinV85:active,
+#sheet.ccV83 .ccAddExpV85:active {
   transform: scale(0.98);
 }
 #sheet.ccV83 .ccCardV83 :focus-visible,
@@ -237,67 +234,125 @@ html:not(#ae):not(#af):not(#ag):not(#ah)
   outline-offset: 2px;
 }
 
-/* ---------- Pagrindiniai skaičiai ---------- */
-#sheet.ccV83 .ccNumsGridV83 {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+/* ---------- Tarpai tarp blokų – kaip visoje programėlėje (12 px) ---------- */
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .premiumDetailBody {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
 }
-#sheet.ccV83 .ccNumV83 {
-  display: flex;
-  flex-direction: column;
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .premiumDetailBody
+  > .ccCardV83 {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .premiumDetailBody
+  > .ccDataV85 {
+  padding: 12px 14px 14px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .premiumDetailBody
+  > .ccRdyV83 {
+  padding: 0 0 2px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) #modalBackdrop #sheet.ccV83 .ccHeroV83,
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) #modalBackdrop #sheet.ccV83 .ccHeroEmptyV83 {
+  margin: 0 0 12px !important;
+}
+
+/* ---------- Skaičiai: Pirkta · Išlaidos · Savikaina ---------- */
+#sheet.ccV83 .ccNumsRowV85 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) 20px;
   align-items: center;
-  justify-content: center;
-  gap: 4px;
-  min-width: 0;
-  min-height: 76px;
-  padding: 12px 6px;
+  width: 100%;
+  padding: 11px 12px 11px 14px;
   border: 0;
+  border-radius: 18px;
   background: transparent;
   color: #12233a;
   font: inherit;
-  text-align: center;
-  transition: transform 0.15s ease;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
-#sheet.ccV83 .ccNumV83 + .ccNumV83 {
+#sheet.ccV83 .ccNumsRowV85:active {
+  background: #f7f9fc;
+}
+#sheet.ccV83 .ccNumV85 {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+#sheet.ccV83 .ccNumV85 + .ccNumV85 {
+  padding-left: 12px;
   box-shadow: inset 1px 0 0 #eef1f5;
 }
-#sheet.ccV83 .ccNumV83 > span {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
+#sheet.ccV83 .ccNumV85 small,
+#sheet.ccV83 .ccFootItemV85 small {
   color: #66768a;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
 }
-#sheet.ccV83 .ccNumV83 > span .ccChevV83 {
-  width: 16px;
-  height: 16px;
-}
-#sheet.ccV83 .ccNumV83 > span .ccChevV83 svg {
-  width: 15px;
-  height: 15px;
-}
-#sheet.ccV83 .ccNumV83 b {
-  max-width: 100%;
+#sheet.ccV83 .ccNumV85 b {
   overflow: hidden;
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  font-size: 17px;
+  font-weight: 750;
+  letter-spacing: -0.015em;
   white-space: nowrap;
   text-overflow: ellipsis;
   font-variant-numeric: tabular-nums;
 }
-#sheet.ccV83 .ccNumV83 b.pos {
+#sheet.ccV83 .ccNumV85.total b {
+  color: #1f5aa6;
+  font-weight: 800;
+}
+#sheet.ccV83 .ccNumsFootV85 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 46px;
+  margin: 2px 14px 0;
+  padding: 6px 12px;
+  border-radius: 12px;
+  background: #f7f9fc;
+}
+#sheet.ccV83 .ccFootItemV85 {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+}
+#sheet.ccV83 .ccFootItemV85 b {
+  font-size: 14.5px;
+  font-weight: 750;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+#sheet.ccV83 .ccFootItemV85 b.pos {
   color: #1d8a52;
 }
-#sheet.ccV83 .ccNumV83 b.neg {
+#sheet.ccV83 .ccFootItemV85 b.neg {
   color: #c0362c;
 }
-#sheet.ccV83 .ccNumV83 b.none {
+#sheet.ccV83 .ccFootItemV85 b.none {
   color: #a0abb9;
-}
-#sheet.ccV83 button.ccCostBtnV83 {
-  cursor: pointer;
 }
 #sheet.ccV83 .ccPriceBtnV83,
 #sheet.ccV83 .ccSetPriceV83 {
@@ -309,14 +364,32 @@ html:not(#ae):not(#af):not(#ag):not(#ah)
   font: inherit;
   cursor: pointer;
 }
+#sheet.ccV83 .ccPriceBtnV83 {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 30px;
+  margin: 0 -6px;
+  padding: 0 6px;
+  border-radius: 9px;
+  transition: background-color 0.2s ease;
+}
+#sheet.ccV83 .ccPriceBtnV83:active {
+  background: #f1f5fa;
+}
 #sheet.ccV83 .ccPriceBtnV83 b {
-  display: block;
-  border-bottom: 1.5px dashed #c3cedb;
+  font-size: 14.5px;
+  font-weight: 750;
+}
+#sheet.ccV83 .ccPriceBtnV83 svg {
+  width: 14px;
+  height: 14px;
+  color: #8592a3;
 }
 #sheet.ccV83 .ccSetPriceV83 {
-  height: 32px;
+  height: 30px;
   padding: 0 10px;
-  border-radius: 10px;
+  border-radius: 9px;
   background: #edf2fa;
   color: #284ca2;
   font-size: 13.5px;
@@ -328,7 +401,7 @@ html:not(#ae):not(#af):not(#ag):not(#ah)
   align-items: center;
   gap: 3px;
   max-width: 100%;
-  height: 34px;
+  height: 32px;
   padding: 0 8px;
   border: 1.5px solid #1f5aa6;
   border-radius: 10px;
@@ -338,7 +411,7 @@ html:not(#ae):not(#af):not(#ag):not(#ah)
 html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet.ccV83 .ccPriceEditV83 input {
   width: 74px !important;
   min-width: 0 !important;
-  height: 30px !important;
+  height: 28px !important;
   min-height: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -347,7 +420,7 @@ html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet.ccV
   background: transparent !important;
   box-shadow: none !important;
   color: #12233a !important;
-  font-size: 18px !important;
+  font-size: 15px !important;
   font-weight: 800 !important;
   text-align: right !important;
   outline: none !important;
@@ -360,8 +433,20 @@ html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet.ccV
 }
 #sheet.ccV83 .ccCostListV83 {
   margin: 0 14px;
-  padding-top: 4px;
+  padding-top: 2px;
   border-top: 1px solid #eef1f5;
+}
+#sheet.ccV83 .ccCostRowV83.ccFlashV85 {
+  animation: ccFlashV85 1.6s ease 0.15s;
+}
+@keyframes ccFlashV85 {
+  0%,
+  35% {
+    background: #edf3fb;
+    box-shadow:
+      -14px 0 0 #edf3fb,
+      14px 0 0 #edf3fb;
+  }
 }
 #sheet.ccV83 .ccCostRowV83 {
   display: flex;
@@ -406,21 +491,275 @@ html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet.ccV
   font-size: 15.5px;
   font-weight: 800;
 }
-#sheet.ccV83 .ccLinkV83 {
-  display: block;
-  width: calc(100% - 28px);
-  margin: 2px 14px 12px;
-  padding: 10px 0;
-  border: 0;
-  border-radius: 12px;
-  background: #f4f7fb;
-  color: #284ca2;
+#sheet.ccV83 .ccExpSlotV85 {
+  padding: 4px 14px 14px;
+}
+#sheet.ccV83 .ccAddExpV85 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  height: 44px;
+  border: 1px dashed #c9d5e4;
+  border-radius: 13px;
+  background: #f7f9fc;
+  color: #1f5aa6;
   font: inherit;
   font-size: 14.5px;
   font-weight: 750;
   cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    background-color 0.2s ease;
+}
+#sheet.ccV83 .ccAddExpV85 svg {
+  width: 17px;
+  height: 17px;
+}
+#sheet.ccV83 .ccExpFormV85 {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid #e3e5ea;
+  border-radius: 16px;
+  background: #f7f9fc;
+}
+#sheet.ccV83 .ccExpHeadV85 {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+#sheet.ccV83 .ccExpHeadV85 strong {
+  font-size: 15.5px;
+  font-weight: 800;
+}
+#sheet.ccV83 .ccExpHeadV85 small {
+  overflow: hidden;
+  color: #66768a;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#sheet.ccV83 .ccExpAmtV85 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 56px;
+  padding: 0 16px;
+  border: 1.5px solid #d6dee8;
+  border-radius: 14px;
+  background: #fff;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+#sheet.ccV83 .ccExpAmtV85:focus-within {
+  border-color: #1f5aa6;
+  box-shadow: 0 0 0 3px rgba(31, 90, 166, 0.12);
+}
+#sheet.ccV83 .ccExpAmtV85.bad {
+  border-color: #c0362c;
+  box-shadow: 0 0 0 3px rgba(192, 54, 44, 0.1);
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccExpAmtV85
+  input {
+  flex: 1 !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 52px !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #12233a !important;
+  font-size: 24px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  outline: none !important;
+}
+#sheet.ccV83 .ccExpAmtV85 i {
+  color: #66768a;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 750;
+}
+#sheet.ccV83 .ccExpCatsV85 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccExpCatsV85
+  button {
+  height: 34px !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 12px !important;
+  border: 1px solid #d6dee8 !important;
+  border-radius: 999px !important;
+  background: #fff !important;
+  box-shadow: none !important;
+  color: #3b4b60 !important;
+  -webkit-text-fill-color: #3b4b60 !important;
+  font-size: 13.5px !important;
+  font-weight: 650 !important;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccExpCatsV85
+  button.on {
+  border-color: #1f5aa6 !important;
+  background: #1f5aa6 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+#sheet.ccV83 .ccExpRowV85 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+#sheet.ccV83 .ccExpFieldV85 {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  padding: 6px 12px;
+  border: 1px solid #d6dee8;
+  border-radius: 12px;
+  background: #fff;
+}
+#sheet.ccV83 .ccExpFieldV85 small {
+  color: #66768a;
+  font-size: 11.5px;
+  font-weight: 650;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccExpFieldV85
+  input {
+  width: 100% !important;
+  height: 24px !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #12233a !important;
+  font-size: 15px !important;
+  font-weight: 650 !important;
+  outline: none !important;
+}
+#sheet.ccV83 .ccExpFileV85 {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 150px;
+  padding: 0 14px;
+  border: 1px dashed #c9d5e4;
+  border-radius: 12px;
+  background: #fff;
+  color: #1f5aa6;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+#sheet.ccV83 .ccExpFileV85.on {
+  border-style: solid;
+  border-color: #1f9d5f;
+  color: #1d8a52;
+}
+#sheet.ccV83 .ccExpFileV85 span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#sheet.ccV83 .ccExpFileV85 svg {
+  width: 17px;
+  height: 17px;
+  flex: none;
+}
+#sheet.ccV83 .ccExpFileV85 input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+#sheet.ccV83 .ccExpActsV85 {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 8px;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccExpActsV85
+  button {
+  height: 46px !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  border-radius: 13px !important;
+  font-size: 15px !important;
+  font-weight: 750 !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccExpActsV85
+  .ghost {
+  border: 1px solid #d6dee8 !important;
+  background: #fff !important;
+  color: #3b4b60 !important;
+  -webkit-text-fill-color: #3b4b60 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccExpActsV85
+  .go {
+  border: 0 !important;
+  background: linear-gradient(180deg, #1f5aa6, #174a8b) !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccV83
+  .ccExpActsV85
+  .go:disabled {
+  opacity: 0.6 !important;
 }
 
+/* ---------- Pasirengimas ---------- */
 /* ---------- Pasirengimas ---------- */
 #sheet.ccV83 .ccRdyV83 {
   padding: 0 0 2px;
@@ -477,63 +816,33 @@ html:not(#ae):not(#af):not(#ag) body:not(#ae):not(#af) #modalBackdrop #sheet.ccV
   width: 14px;
   height: 14px;
 }
-#sheet.ccV83 .ccSegsV83 {
-  display: flex;
-  gap: 4px;
-}
-#sheet.ccV83 .ccSegsV83 i {
-  flex: 1;
+/* Viena ištisinė progreso juosta */
+#sheet.ccV83 .ccProgV85 {
+  position: relative;
+  display: block;
   height: 6px;
-  border-radius: 3px;
+  overflow: hidden;
+  border-radius: 6px;
   background: #e9eef5;
+}
+#sheet.ccV83 .ccProgV85 i {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #2a67b8, #1f5aa6);
+  transform: scaleX(var(--p, 0));
   transform-origin: left center;
-  animation: ccSegInV83 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-#sheet.ccV83 .ccSegsV83 i:nth-child(2) {
-  animation-delay: 40ms;
-}
-#sheet.ccV83 .ccSegsV83 i:nth-child(3) {
-  animation-delay: 80ms;
-}
-#sheet.ccV83 .ccSegsV83 i:nth-child(4) {
-  animation-delay: 120ms;
-}
-#sheet.ccV83 .ccSegsV83 i:nth-child(5) {
-  animation-delay: 160ms;
-}
-#sheet.ccV83 .ccSegsV83 i:nth-child(6) {
-  animation-delay: 200ms;
-}
-#sheet.ccV83 .ccSegsV83 i:nth-child(n + 7) {
-  animation-delay: 240ms;
-}
-#sheet.ccV83 .ccSegsV83 i.done {
-  background: #1f5aa6;
-}
-#sheet.ccV83 .ccSegsV83 i.all {
+#sheet.ccV83 .ccProgV85.all i {
   background: #1f9d5f;
-}
-#sheet.ccV83 .ccSegsV83 i.bad {
-  background: #d14b41;
-}
-@keyframes ccSegInV83 {
-  from {
-    opacity: 0;
-    transform: scaleX(0.3);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-#sheet.ccV83.ccInstantV83 .ccSegsV83 i {
-  animation: none;
 }
 #sheet.ccV83 .ccNextV83 {
   display: flex;
   align-items: center;
   gap: 10px;
   margin: 0 12px 12px;
+  border: 1px solid #edf1f6;
   padding: 10px 10px 10px 12px;
   border-radius: 14px;
   background: #f5f8fc;
@@ -774,9 +1083,6 @@ html:not(#ae):not(#af):not(#ag)
   align-items: center;
 }
 #sheet.ccV83 .ccSecV83 .ccAccInnerV83 {
-  padding: 0;
-}
-#sheet.ccV83 .ccSecV83.is-open .ccAccInnerV83 {
   padding: 0 14px 6px;
 }
 /* Perkelti esami blokai skilčių viduje – be savo rėmelių ir antraščių */
@@ -1044,19 +1350,444 @@ html:not(#ae):not(#af):not(#ag):not(#ah)
   -webkit-text-fill-color: #c0362c !important;
 }
 
+/* ---------- Duomenys (visada atidaryti) ---------- */
+#sheet.ccV83 .ccDataV85 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 14px 14px;
+}
+#sheet.ccV83 .ccCardHeadV85 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 32px;
+}
+#sheet.ccV83 .ccCardHeadV85 h4 {
+  margin: 0;
+  color: #12233a;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.012em;
+}
+#sheet.ccV83 .ccEditLinkV85 {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 32px;
+  margin-right: -6px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #1f5aa6;
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+#sheet.ccV83 .ccEditLinkV85:active {
+  background: #edf2fa;
+}
+#sheet.ccV83 .ccEditLinkV85 svg {
+  width: 15px;
+  height: 15px;
+}
+#sheet.ccV83 .ccStatsV85 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+#sheet.ccV83 .ccStatV85 {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding: 9px 10px;
+  border: 1px solid #edf1f6;
+  border-radius: 13px;
+  background: #f7f9fc;
+  color: #12233a;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    background-color 0.2s ease;
+}
+#sheet.ccV83 .ccStatV85 small {
+  color: #66768a;
+  font-size: 12px;
+  font-weight: 650;
+}
+#sheet.ccV83 .ccStatV85 b {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+  font-size: 14.5px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+#sheet.ccV83 .ccStatV85 b i {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #a0abb9;
+}
+#sheet.ccV83 .ccStatV85 em {
+  overflow: hidden;
+  color: #66768a;
+  font-size: 11.5px;
+  font-style: normal;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#sheet.ccV83 .ccStatV85.good b i {
+  background: #1f9d5f;
+  box-shadow: 0 0 0 3px rgba(31, 157, 95, 0.14);
+}
+#sheet.ccV83 .ccStatV85.warn b i {
+  background: #d9911a;
+  box-shadow: 0 0 0 3px rgba(217, 145, 26, 0.16);
+}
+#sheet.ccV83 .ccStatV85.warn b {
+  color: #8f6210;
+}
+#sheet.ccV83 .ccStatV85.bad {
+  border-color: #f6d4d0;
+  background: #fdf3f2;
+}
+#sheet.ccV83 .ccStatV85.bad b {
+  color: #c0362c;
+}
+#sheet.ccV83 .ccStatV85.bad b i {
+  background: #c0362c;
+  box-shadow: 0 0 0 3px rgba(192, 54, 44, 0.14);
+}
+#sheet.ccV83 .ccStatV85.neutral b {
+  color: #66768a;
+}
+#sheet.ccV83 .ccSpecsV85 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+#sheet.ccV83 .ccSpecV85 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  min-height: 56px;
+  padding: 8px 10px;
+  border: 1px solid #edf1f6;
+  border-radius: 13px;
+  background: #fff;
+  color: #12233a;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    border-color 0.2s ease;
+}
+#sheet.ccV83 .ccSpecV85:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+#sheet.ccV83 .ccSpecIcoV85 {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #eef4fb;
+  color: #1f5aa6;
+}
+#sheet.ccV83 .ccSpecIcoV85 svg {
+  width: 19px;
+  height: 19px;
+}
+#sheet.ccV83 .ccSpecTxtV85 {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+#sheet.ccV83 .ccSpecTxtV85 small {
+  color: #66768a;
+  font-size: 12px;
+  font-weight: 600;
+}
+#sheet.ccV83 .ccSpecTxtV85 b {
+  overflow: hidden;
+  font-size: 14.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#sheet.ccV83 .ccSpecV85.empty .ccSpecTxtV85 b,
+#sheet.ccV83 .ccVinV85.empty b {
+  color: #1f5aa6;
+  font-family: inherit;
+  font-weight: 650;
+  letter-spacing: 0;
+}
+#sheet.ccV83 .ccSpecV85.empty .ccSpecIcoV85 {
+  background: #f3f5f8;
+  color: #9aa7b6;
+}
+#sheet.ccV83 .ccVinV85 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  min-height: 52px;
+  padding: 8px 8px 8px 12px;
+  border: 1px solid #edf1f6;
+  border-radius: 13px;
+  background: #f7f9fc;
+  color: #12233a;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+#sheet.ccV83 .ccVinV85 > span:first-child {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+#sheet.ccV83 .ccVinV85 small {
+  color: #66768a;
+  font-size: 12px;
+  font-weight: 650;
+}
+#sheet.ccV83 .ccVinV85 b {
+  overflow: hidden;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 14.5px;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#sheet.ccV83 .ccCopyIcoV85 {
+  position: relative;
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px #e3e8ef;
+  color: #1f5aa6;
+}
+#sheet.ccV83 .ccCopyIcoV85 svg {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  transition:
+    opacity 0.2s ease,
+    transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+#sheet.ccV83 .ccCopyIcoV85 svg + svg {
+  color: #1d8a52;
+  opacity: 0;
+  transform: scale(0.6);
+}
+#sheet.ccV83 .ccVinV85.is-copied .ccCopyIcoV85 svg:first-child {
+  opacity: 0;
+  transform: scale(0.6);
+}
+#sheet.ccV83 .ccVinV85.is-copied .ccCopyIcoV85 svg + svg {
+  opacity: 1;
+  transform: none;
+}
+#sheet.ccV83 .ccNotesV85 {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 13px;
+  background: #f7f9fc;
+  color: #3b4b60;
+  font-size: 14px;
+  line-height: 1.45;
+  white-space: pre-line;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+#sheet.ccV83 .ccNotesV85 small {
+  display: block;
+  margin-bottom: 2px;
+  color: #66768a;
+  font-size: 12px;
+  font-weight: 650;
+}
+/* Redagavimo formoje paryškinamas laukas, į kurį atėjote iš kortelės */
+#sheet .ccFieldFlashV85 {
+  border-radius: 14px;
+  animation: ccFieldFlashV85 1.6s ease;
+}
+@keyframes ccFieldFlashV85 {
+  0%,
+  45% {
+    background: #edf3fb;
+    box-shadow: 0 0 0 6px #edf3fb;
+  }
+}
+
+/* ---------- Varianto kortelė – tas pats stilius ---------- */
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccLeadV85
+  .premiumSheetTitle {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) #modalBackdrop #sheet.ccLeadV85 .ccSubV83 {
+  display: flex !important;
+  justify-content: center;
+}
+#sheet.ccLeadV85 .ccMetaV85 {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 11px;
+  border-radius: 999px;
+  background: #eef2f7;
+  color: #4b5a6c;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+#sheet.ccLeadV85 .ccHiddenV83 {
+  display: none !important;
+}
+#sheet.ccLeadV85 .ccHeroV83 {
+  position: relative;
+  margin: 0 0 12px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #e9eef4;
+  box-shadow:
+    0 1px 2px rgba(16, 24, 40, 0.04),
+    0 6px 18px rgba(16, 24, 40, 0.06);
+}
+#sheet.ccLeadV85 .ccHeroTrackV83 {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+#sheet.ccLeadV85 .ccHeroTrackV83::-webkit-scrollbar {
+  display: none;
+}
+#sheet.ccLeadV85 .ccHeroSlideV83 {
+  flex: 0 0 100%;
+  aspect-ratio: 16 / 10;
+  max-height: 280px;
+  padding: 0;
+  border: 0;
+  background: #e9eef4;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+#sheet.ccLeadV85 .ccHeroSlideV83 img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+#sheet.ccLeadV85 .ccHeroCountV83 {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(12, 22, 36, 0.58);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccLeadV85
+  .premiumDetailBody {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccLeadV85
+  .premiumDetailBody
+  > :is(.lsSumV62, .lsCardV62, .premiumMedia) {
+  margin: 0 !important;
+  border: 1px solid #e3e5ea !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  box-shadow:
+    0 1px 2px rgba(16, 24, 40, 0.04),
+    0 6px 18px rgba(16, 24, 40, 0.05) !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccLeadV85
+  .lsCardV62
+  > h4,
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccLeadV85
+  .premiumMedia
+  .premiumSectionHead
+  h4 {
+  color: #12233a !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.012em !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah) body:not(#ae):not(#af) #modalBackdrop #sheet.ccLeadV85 .lsPricesV62 {
+  border-top: 1px solid #eef1f5 !important;
+}
+html:not(#ae):not(#af):not(#ag):not(#ah)
+  body:not(#ae):not(#af)
+  #modalBackdrop
+  #sheet.ccLeadV85
+  .lsPricesV62
+  strong {
+  font-size: 17px !important;
+  font-weight: 750 !important;
+  font-variant-numeric: tabular-nums;
+}
+
 @media (min-width: 768px) {
-  #sheet.ccV83 .ccHeroSlideV83 {
+  #sheet.ccV83 .ccHeroSlideV83,
+  #sheet.ccLeadV85 .ccHeroSlideV83 {
     max-height: 320px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  #sheet.ccV83 .ccAccBodyV83,
-  #sheet.ccV83 .ccAccInnerV83,
   #sheet.ccV83 .ccChevV83,
-  #sheet.ccV83 .ccMenuV83 {
+  #sheet.ccV83 .ccMenuV83,
+  #sheet.ccV83 .ccProgV85 i,
+  #sheet.ccV83 .ccCopyIcoV85 svg {
     transition: none !important;
   }
-  #sheet.ccV83 .ccSegsV83 i {
+  #sheet.ccV83 .ccFlashV85,
+  #sheet .ccFieldFlashV85 {
     animation: none !important;
   }
 }
